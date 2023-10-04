@@ -232,7 +232,10 @@ public class Robot extends FrcRobotBase
         //
         // Create and initialize RobotDrive subsystem.
         //
-        robotDrive = new SwerveDrive(this);
+        if (!RobotParams.Preferences.allowCommandBased)
+        {
+            robotDrive = new SwerveDrive(this);
+        }
         //
         // Create and initialize other subsystems.
         //
@@ -304,7 +307,10 @@ public class Robot extends FrcRobotBase
         //
         // Start subsystems.
         //
-        robotDrive.startMode(runMode, prevMode);
+        if (robotDrive != null)
+        {
+            robotDrive.startMode(runMode, prevMode);
+        }
         ledIndicator.reset();
     }   //robotStartMode
 
@@ -321,7 +327,10 @@ public class Robot extends FrcRobotBase
         //
         // Stop subsystems.
         //
-        robotDrive.stopMode(runMode, nextMode);
+        if (robotDrive != null)
+        {
+            robotDrive.stopMode(runMode, nextMode);
+        }
         ledIndicator.reset();
         //
         // Performance status report.

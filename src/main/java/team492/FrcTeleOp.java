@@ -240,7 +240,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         {
             case FrcXboxController.BUTTON_A:
                 // Toggle between field or robot oriented driving.
-                if (pressed)
+                if (robot.robotDrive != null && pressed)
                 {
                     if (robot.robotDrive.driveBase.getDriveOrientation() != DriveOrientation.FIELD)
                     {
@@ -276,9 +276,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.RIGHT_BUMPER:
-                // Inverted drive only makes sense for robot oriented driving.
-                if (robot.robotDrive.driveBase.getDriveOrientation() == DriveOrientation.ROBOT)
+                if (robot.robotDrive != null &&
+                    robot.robotDrive.driveBase.getDriveOrientation() == DriveOrientation.ROBOT)
                 {
+                    // Inverted drive only makes sense for robot oriented driving.
                     robot.robotDrive.driveBase.setDriveOrientation(
                         pressed? DriveOrientation.INVERTED: DriveOrientation.ROBOT, false);
                 }
@@ -379,7 +380,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         {
             case FrcJoystick.SIDEWINDER_TRIGGER:
                 // Toggle between field or robot oriented driving.
-                if (pressed)
+                if (robot.robotDrive != null && pressed)
                 {
                     if (robot.robotDrive.driveBase.getDriveOrientation() != DriveOrientation.FIELD)
                     {
@@ -394,7 +395,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
             case FrcJoystick.LOGITECH_BUTTON3:
                 // Inverted drive only makes sense for robot oriented driving.
-                if (robot.robotDrive.driveBase.getDriveOrientation() == DriveOrientation.ROBOT)
+                if (robot.robotDrive != null &&
+                    robot.robotDrive.driveBase.getDriveOrientation() == DriveOrientation.ROBOT)
                 {
                     robot.robotDrive.driveBase.setDriveOrientation(
                         pressed? DriveOrientation.INVERTED: DriveOrientation.ROBOT, false);

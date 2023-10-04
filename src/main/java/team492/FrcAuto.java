@@ -300,27 +300,36 @@ public class FrcAuto implements TrcRobot.RobotMode
                 break;
 
             case PP_DRIVE:
-                autoCommand = new CmdPurePursuitDrive(
-                    robot.robotDrive.driveBase, robot.robotDrive.xPosPidCoeff, robot.robotDrive.yPosPidCoeff,
-                    robot.robotDrive.turnPidCoeff, robot.robotDrive.velPidCoeff);
-                ((CmdPurePursuitDrive) autoCommand).start(
-                    0.0, robot.robotDrive.driveBase.getFieldPosition(), false,
-                    RobotParams.TEAM_FOLDER_PATH + "/" + autoChoices.getPathFile(), false);
+                if (robot.robotDrive != null)
+                {
+                    autoCommand = new CmdPurePursuitDrive(
+                        robot.robotDrive.driveBase, robot.robotDrive.xPosPidCoeff, robot.robotDrive.yPosPidCoeff,
+                        robot.robotDrive.turnPidCoeff, robot.robotDrive.velPidCoeff);
+                    ((CmdPurePursuitDrive) autoCommand).start(
+                        0.0, robot.robotDrive.driveBase.getFieldPosition(), false,
+                        RobotParams.TEAM_FOLDER_PATH + "/" + autoChoices.getPathFile(), false);
+                }
                 break;
 
             case PID_DRIVE:
-                autoCommand = new CmdPidDrive(
-                    robot.robotDrive.driveBase, robot.robotDrive.pidDrive, autoChoices.getStartDelay(),
-                    autoChoices.getDrivePower(), null,
-                    new TrcPose2D(autoChoices.getXDriveDistance()*12.0,
-                                  autoChoices.getYDriveDistance()*12.0,
-                                  autoChoices.getTurnAngle()));
+                if (robot.robotDrive != null)
+                {
+                    autoCommand = new CmdPidDrive(
+                        robot.robotDrive.driveBase, robot.robotDrive.pidDrive, autoChoices.getStartDelay(),
+                        autoChoices.getDrivePower(), null,
+                        new TrcPose2D(autoChoices.getXDriveDistance()*12.0,
+                                      autoChoices.getYDriveDistance()*12.0,
+                                      autoChoices.getTurnAngle()));
+                }
                 break;
 
             case TIMED_DRIVE:
-                autoCommand = new CmdTimedDrive(
-                    robot.robotDrive.driveBase, autoChoices.getStartDelay(), autoChoices.getDriveTime(), 0.0,
-                    autoChoices.getDrivePower(), 0.0);
+                if (robot.robotDrive != null)
+                {
+                    autoCommand = new CmdTimedDrive(
+                        robot.robotDrive.driveBase, autoChoices.getStartDelay(), autoChoices.getDriveTime(), 0.0,
+                        autoChoices.getDrivePower(), 0.0);
+                }
                 break;
 
             default:
