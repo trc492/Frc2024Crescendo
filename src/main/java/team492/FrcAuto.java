@@ -33,7 +33,9 @@ import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcChoiceMenu;
 import TrcFrcLib.frclib.FrcMatchInfo;
 import TrcFrcLib.frclib.FrcUserChoices;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class implements the code to run in Autonomous Mode.
@@ -50,6 +52,7 @@ public class FrcAuto implements TrcRobot.RobotMode
     //
     public static enum AutoStrategy
     {
+        COMMAND_BASED_AUTO,
         PP_DRIVE,
         PID_DRIVE,
         TIMED_DRIVE,
@@ -113,6 +116,10 @@ public class FrcAuto implements TrcRobot.RobotMode
             allianceMenu.addChoice("Red", DriverStation.Alliance.Red);
             allianceMenu.addChoice("Blue", DriverStation.Alliance.Blue, true, true);
 
+            if (RobotParams.Preferences.allowCommandBased)
+            {
+                autoStrategyMenu.addChoice("Command Based Auto", AutoStrategy.COMMAND_BASED_AUTO);
+            }
             autoStrategyMenu.addChoice("Pure Pursuit Drive", AutoStrategy.PP_DRIVE);
             autoStrategyMenu.addChoice("PID Drive", AutoStrategy.PID_DRIVE);
             autoStrategyMenu.addChoice("Timed Drive", AutoStrategy.TIMED_DRIVE);
@@ -282,6 +289,16 @@ public class FrcAuto implements TrcRobot.RobotMode
         //
         switch (autoChoices.getStrategy())
         {
+            case COMMAND_BASED_AUTO:
+                robot.m_autonomousCommand = robot.m_robotContainer.getAutonomousCommand();
+                // schedule the autonomous command (example)
+                if (robot.m_autonomousCommand != null)
+                {
+                    robot.m_autonomousCommand.schedule();
+                }
+                robot.m_robotContainer.s_Swerve.resetOdometry(Robot.new_pose);
+                break;
+
             case PP_DRIVE:
                 autoCommand = new CmdPurePursuitDrive(
                     robot.robotDrive.driveBase, robot.robotDrive.xPosPidCoeff, robot.robotDrive.yPosPidCoeff,
@@ -350,6 +367,17 @@ public class FrcAuto implements TrcRobot.RobotMode
             // Run the autonomous command.
             //
             autoCommand.cmdPeriodic(elapsedTime);
+        }
+
+        if (RobotParams.Preferences.allowCommandBased)
+        {
+            robot.dashboard.displayPrintf(
+                1, "RawGryo: yaw=%s", robot.ahrs != null? robot.ahrs.getYaw(): "Unavailable");
+            Pose2d robotPose = robot.m_robotContainer.s_Swerve.getPose();
+            robot.dashboard.displayPrintf(
+                2, "SwervePose: x=%f, y=%f", robotPose.getX(), robotPose.getY());
+            Command command = robot.m_robotContainer.s_Swerve.getCurrentCommand();
+            robot.dashboard.displayPrintf(3, "Command: %s", command != null? command.getName(): "Unavailable");
         }
 
         if (slowPeriodicLoop)

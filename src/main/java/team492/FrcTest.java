@@ -28,6 +28,7 @@ import TrcCommonLib.command.CmdDriveMotorsTest;
 import TrcCommonLib.command.CmdPidDrive;
 import TrcCommonLib.command.CmdTimedDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
 import TrcFrcLib.frclib.FrcChoiceMenu;
@@ -226,6 +227,11 @@ public class FrcTest extends FrcTeleOp
     @Override
     public void startMode(RunMode prevMode, RunMode nextMode)
     {
+        if (RobotParams.Preferences.allowCommandBased)
+        {
+            // Cancels all running commands at the start of test mode.
+            CommandScheduler.getInstance().cancelAll();
+        }
         //
         // Call TeleOp startMode.
         //

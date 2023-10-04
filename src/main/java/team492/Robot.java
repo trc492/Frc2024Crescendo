@@ -23,6 +23,9 @@
 package team492;
 
 import java.util.Locale;
+
+import com.kauailabs.navx.frc.AHRS;
+
 import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcOpenCvDetector;
 import TrcCommonLib.trclib.TrcPidController;
@@ -46,12 +49,16 @@ import TrcFrcLib.frclib.FrcRobotBattery;
 import TrcFrcLib.frclib.FrcXboxController;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
 import team492.robot.CTREConfigs;
+import team492.robot.RobotContainer;
 import team492.subsystems.LEDIndicator;
 import team492.vision.LimeLightVision;
 import team492.vision.OpenCvVision;
@@ -72,7 +79,14 @@ public class Robot extends FrcRobotBase
     public final TrcDbgTrace globalTracer = TrcDbgTrace.getGlobalTracer();
     private double nextDashboardUpdateTime = TrcTimer.getModeElapsedTime();
     private boolean traceLogOpened = false;
+    //
+    // Command Based objects.
+    //
     public static CTREConfigs ctreConfigs;
+    public static Pose2d new_pose = new Pose2d();
+    public RobotContainer m_robotContainer;
+    public Command m_autonomousCommand;
+    public AHRS ahrs =new AHRS(SPI.Port.kMXP);
     //
     // Inputs.
     //
@@ -131,6 +145,9 @@ public class Robot extends FrcRobotBase
         if (RobotParams.Preferences.allowCommandBased)
         {
             ctreConfigs = new CTREConfigs();
+            // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+            // autonomous chooser on the dashboard.
+            m_robotContainer = new RobotContainer();
         }
         //
         // Create and initialize global objects.

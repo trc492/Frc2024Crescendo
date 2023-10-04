@@ -27,6 +27,7 @@ import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcXboxController;
+import edu.wpi.first.math.geometry.Pose2d;
 
 /**
  * This class implements the code to run in TeleOp Mode.
@@ -80,6 +81,19 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         {
             robot.robotDrive.driveBase.setDriveOrientation(DriveOrientation.FIELD, true);
         }
+
+        if (RobotParams.Preferences.allowCommandBased)
+        {
+            // This makes sure that the autonomous stops running when
+            // teleop starts running. If you want the autonomous to
+            // continue until interrupted by another command, remove
+            // this line or comment it out.
+            if (robot.m_autonomousCommand != null)
+            {
+                robot.m_autonomousCommand.cancel();
+            }
+            robot.m_robotContainer.s_Swerve.resetOdometry(Robot.new_pose);
+        }
     }   //startMode
 
     /**
@@ -114,6 +128,15 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     @Override
     public void periodic(double elapsedTime, boolean slowPeriodicLoop)
     {
+        if (RobotParams.Preferences.allowCommandBased)
+        {
+            robot.dashboard.displayPrintf(
+                1, "RawGryo: yaw=%s", robot.ahrs != null? robot.ahrs.getYaw(): "Unavailable");
+            Pose2d robotPose = robot.m_robotContainer.s_Swerve.getPose();
+            robot.dashboard.displayPrintf(
+                2, "SwervePose: x=%f, y=%f", robotPose.getX(), robotPose.getY());
+        }
+
         if (slowPeriodicLoop)
         {
             if (controlsEnabled)

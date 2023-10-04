@@ -52,7 +52,7 @@ public class RobotContainer {
 
     /* Subsystems */
     
-    final Swerve s_Swerve = new Swerve();
+    public final Swerve s_Swerve = new Swerve();
 
 
     SendableChooser<Command> chooser = new SendableChooser<>();
@@ -79,9 +79,7 @@ public class RobotContainer {
 
         Shuffleboard.getTab("Autonomous").add(chooser);
 
-        
-        //TODO: fix this.
-        s_Swerve.resetOdometry(null);//pose);
+        s_Swerve.resetOdometry(Robot.new_pose);
 
         //Shuffleboard.getTab("Autonomous").addString("Current Command: ", this::getCommandName);
 
