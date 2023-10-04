@@ -51,6 +51,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
+import team492.robot.CTREConfigs;
 import team492.subsystems.LEDIndicator;
 import team492.vision.LimeLightVision;
 import team492.vision.OpenCvVision;
@@ -71,6 +72,7 @@ public class Robot extends FrcRobotBase
     public final TrcDbgTrace globalTracer = TrcDbgTrace.getGlobalTracer();
     private double nextDashboardUpdateTime = TrcTimer.getModeElapsedTime();
     private boolean traceLogOpened = false;
+    public static CTREConfigs ctreConfigs;
     //
     // Inputs.
     //
@@ -126,6 +128,10 @@ public class Robot extends FrcRobotBase
     @Override
     public void robotInit()
     {
+        if (RobotParams.Preferences.allowCommandBased)
+        {
+            ctreConfigs = new CTREConfigs();
+        }
         //
         // Create and initialize global objects.
         //
