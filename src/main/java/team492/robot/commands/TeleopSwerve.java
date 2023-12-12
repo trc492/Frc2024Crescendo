@@ -35,6 +35,11 @@ public class TeleopSwerve extends CommandBase {
         double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
         double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
 
+        // SmartDashboard.putNumber("Translation Val", translationVal);
+        // SmartDashboard.putNumber("Strafe Val", strafeVal);
+        // SmartDashboard.putNumber("Rotation Val", rotationVal);
+        // SmartDashboard.putNumber("Time Stamp: ", TrcTimer.getModeElapsedTime());
+
         /* Drive */
         s_Swerve.drive(
             new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed), 

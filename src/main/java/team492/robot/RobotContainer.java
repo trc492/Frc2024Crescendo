@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import team492.Robot;
+import team492.robot.autos.exampleAuto;
 import team492.robot.commands.TeleopSwerve;
 import team492.robot.subsystems.Swerve;
 
@@ -75,7 +76,7 @@ public class RobotContainer {
         // Configure the button bindings
         configureButtonBindings();
 
-        chooser.addOption("Auto_Path", followTrajectoryCommand("Auto_Path", true));
+        chooser.addOption("Auto_Path", followTrajectoryCommand("New_Path", true));
 
         Shuffleboard.getTab("Autonomous").add(chooser);
 
@@ -153,7 +154,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
 
-        return chooser.getSelected();
-        //return new exampleAuto(s_Swerve);
+        //return followTrajectoryCommand("New_Path", true);
+        return new exampleAuto(s_Swerve);
     }
 }

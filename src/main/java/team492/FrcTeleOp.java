@@ -28,6 +28,7 @@ import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcXboxController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class implements the code to run in TeleOp Mode.
@@ -93,6 +94,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 robot.m_autonomousCommand.cancel();
             }
             robot.m_robotContainer.s_Swerve.resetOdometry(Robot.new_pose);
+            //robot.m_robotContainer.s_Swerve.resetModulesToAbsolute();
         }
     }   //startMode
 
@@ -135,6 +137,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
             Pose2d robotPose = robot.m_robotContainer.s_Swerve.getPose();
             robot.dashboard.displayPrintf(
                 2, "SwervePose: x=%f, y=%f", robotPose.getX(), robotPose.getY());
+            Command command = robot.m_robotContainer.s_Swerve.getCurrentCommand();
+            robot.dashboard.displayPrintf(3, "Command: %s", command != null? command.getName(): "Unavailable");
         }
 
         if (slowPeriodicLoop)

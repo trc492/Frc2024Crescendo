@@ -28,8 +28,8 @@ public final class Constants {
 
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(23.5); // Done, set value
-        public static final double wheelBase = Units.inchesToMeters(27.75); // Done, Set value
+        public static final double trackWidth = Units.inchesToMeters(23.25); // Done, set value
+        public static final double wheelBase = Units.inchesToMeters(23.25); // Done, Set value
         public static final double wheelCircumference = 12.56; // Done Set value
 
 
@@ -48,8 +48,8 @@ public final class Constants {
         // Most of these should be presets found in the COTS module
 
         /* Module Gear Ratios */
-        public static final double driveGearRatio = (6.55/1.0); // Done Set value
-        public static final double angleGearRatio = (10.29/1.0); // Done Set value
+        public static final double driveGearRatio = (9.63/1.0); // Done Set value
+        public static final double angleGearRatio = (15.43/1.0); // Done Set value
 
 
 
@@ -87,7 +87,7 @@ public final class Constants {
 
 
         /* Angle Motor PID Values */
-        public static final double angleKP = 0.3; // Done, set value
+        public static final double angleKP = 0.3; // Done, set value //.3
         public static final double angleKI = 0.0; // Done, set value
         public static final double angleKD = 0.0; // Done, set value
         public static final double angleKF = 0.0; // Done, set value
@@ -95,16 +95,16 @@ public final class Constants {
 
 
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.0; 
+        public static final double driveKP = 0.008;
         public static final double driveKI = 0.0; // Leave rest at 0.0
-        public static final double driveKD = 0.6;
-        public static final double driveKF = 0.91; 
+        public static final double driveKD = 0.0; //.6
+        public static final double driveKF = 0.0; //.91
 
         /* Drive Motor Characterization Values -
          * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
-        public static final double driveKS = (0.23 / 12); //TODO: This must be tuned to specific robot // 0.23
-        public static final double driveKV = (1.4 / 12); // 0.05
-        public static final double driveKA = (0.3/ 12); // 0.01
+        public static final double driveKS = (0.25242 / 12); //TODO: This must be tuned to specific robot // 0.23
+        public static final double driveKV = (3.9982 / 12); // 1.476
+        public static final double driveKA = (0.43183/ 12); // 0.3 //.85
 
 
 
@@ -125,6 +125,9 @@ public final class Constants {
         public static final NeutralMode driveNeutralMode = NeutralMode.Brake;
 
 
+        public static boolean resetEncoder = false;
+
+
 
 
         /* Module Specific Constants */
@@ -136,8 +139,8 @@ public final class Constants {
             public static final int angleMotorID = 13; // 13, from CANID_LEFTFRONT_STEER
 
             
-            public static final int canCoderID = 7;  // 7
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(349.37); 
+            public static final int canCoderID = 23;  // 7
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0); // 352.59
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -152,8 +155,8 @@ public final class Constants {
             public static final int angleMotorID = 14; // 14 from CANID_LEFTFRONT_STEER
 
 
-            public static final int canCoderID = 8;  // 8
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(210.06); 
+            public static final int canCoderID = 24;  // 8
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0); //30.71
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -167,9 +170,9 @@ public final class Constants {
 
             public static final int angleMotorID = 15; //15, from CANID_LEFTFRONT_STEER
 
-            public static final int canCoderID = 9;  // 9
+            public static final int canCoderID = 21;  // 9
 
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(75.94); 
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0);  //50.49
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -181,9 +184,9 @@ public final class Constants {
 
             public static final int angleMotorID = 16; // 16, from CANID_LEFTFRONT_STEER
 
-            public static final int canCoderID = 10;  //10
+            public static final int canCoderID = 22;  //10
 
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(233.61); 
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0); //265.47
 
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -194,14 +197,14 @@ public final class Constants {
     
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
-        public static final double kMaxSpeedMetersPerSecond = 4;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 4;
+        public static final double kMaxSpeedMetersPerSecond = 4.0;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 4.0;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
         
-        public static final double kPXController = 0.0000002;
-        public static final double kPYController = 0.0000002;
-        public static final double  kPThetaController = 0.000001;
+        public static final double kPXController = 0.0;//0.00149
+        public static final double kPYController = 0.0;
+        public static final double  kPThetaController = 0.0;
     
         /* Constraint for the motion profilied robot angle controller */
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =

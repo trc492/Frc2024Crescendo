@@ -33,6 +33,7 @@ import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.sensors.SensorTimeBase;
+import com.reduxrobotics.canand.CanandEventLoop;
 
 import TrcCommonLib.trclib.TrcWatchdogMgr;
 import TrcCommonLib.trclib.TrcDbgTrace;
@@ -49,6 +50,7 @@ import TrcCommonLib.trclib.TrcWatchdogMgr.Watchdog;
 import TrcFrcLib.frclib.FrcAnalogEncoder;
 import TrcFrcLib.frclib.FrcCANCoder;
 import TrcFrcLib.frclib.FrcCANFalcon;
+import TrcFrcLib.frclib.FrcCanandcoder;
 import TrcFrcLib.frclib.FrcPdp;
 import team492.Robot;
 import team492.RobotParams;
@@ -74,7 +76,10 @@ public class SwerveDrive extends RobotDrive
     private final String[] steerEncoderNames = {
         RobotParams.LFSTEER_ENCODER_NAME, RobotParams.RFSTEER_ENCODER_NAME,
         RobotParams.LBSTEER_ENCODER_NAME, RobotParams.RBSTEER_ENCODER_NAME};
-    private final int[] steerEncoderIds = {
+    private final int[] steerEncoderCanIds = {
+        RobotParams.AIN_LFSTEER_ENCODER, RobotParams.AIN_RFSTEER_ENCODER,
+        RobotParams.AIN_LBSTEER_ENCODER, RobotParams.AIN_RBSTEER_ENCODER};
+    private final int[] steerEncoderAIds = {
         RobotParams.AIN_LFSTEER_ENCODER, RobotParams.AIN_RFSTEER_ENCODER,
         RobotParams.AIN_LBSTEER_ENCODER, RobotParams.AIN_RBSTEER_ENCODER};
     private final boolean[] steerEncoderInverted = {
@@ -113,7 +118,8 @@ public class SwerveDrive extends RobotDrive
 
         driveMotors = createMotors(MotorType.CAN_FALCON, false, driveMotorNames, driveMotorIds, driveMotorInverted);
         steerEncoders = createSteerEncoders(
-            steerEncoderNames, steerEncoderIds, steerEncoderInverted, readSteeringCalibrationData());
+            steerEncoderNames, RobotParams.Preferences.useSteeringAnalogEncoder? steerEncoderAIds: steerEncoderCanIds,
+            steerEncoderInverted, readSteeringCalibrationData());
         steerMotors = createMotors(MotorType.CAN_FALCON, false, steerMotorNames, steerMotorIds, steerMotorInverted);
         swerveModules = createSwerveModules(swerveModuleNames, driveMotors, steerMotors, steerEncoders);
         driveBase = new TrcSwerveDriveBase(
@@ -284,9 +290,24 @@ public class SwerveDrive extends RobotDrive
                 encoders[i] = analogEncoder;
             }
         }
+        else if (RobotParams.Preferences.useSteeringCanandcoder)
+        {
+            CanandEventLoop.getInstance();
+            encoders = new FrcCanandcoder[names.length];
+            for (int i = 0; i < names.length; i++)
+            {
+                FrcCanandcoder canandcoder = new FrcCanandcoder(names[i], encoderIds[i]);
+                canandcoder.resetFactoryDefaults(false);
+                // Configure the sensor direction to match the steering motor direction.
+                canandcoder.setInverted(inverted[i]);
+                // Canandcoder is already normalized to the range of 0 to 1.0 for a revolution (revolution per count).
+                canandcoder.setScaleAndOffset(1.0, steerZeros[i]);
+                encoders[i] = canandcoder;
+            }
+        }
         else
         {
-            throw new IllegalArgumentException("Must enable either useCANCoder or useAnalogEncoder.");
+            throw new IllegalArgumentException("Must enable either useCANCoder, useAnalogEncoder or useCanandcoder.");
         }
 
         return encoders;

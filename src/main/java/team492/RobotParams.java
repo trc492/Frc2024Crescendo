@@ -65,7 +65,8 @@ public class RobotParams
         public static final boolean useGyroAssist               = false;
         public static final boolean useAntiTipping              = false;
         public static final boolean useSteeringCANCoder         = false;
-        public static final boolean useSteeringAnalogEncoder    = true;
+        public static final boolean useSteeringAnalogEncoder    = false;
+        public static final boolean useSteeringCanandcoder      = true;
         
         // Subsystems
         public static final boolean useSubsystems               = true;
@@ -155,8 +156,8 @@ public class RobotParams
     // Applicable only for Swerve Drive.
     public static final int CANID_LFSTEER_ENCODER               = 23;
     public static final int CANID_RFSTEER_ENCODER               = 24;
-    public static final int CANID_LBSTEER_ENCODER               = 25;
-    public static final int CANID_RBSTEER_ENCODER               = 26;
+    public static final int CANID_LBSTEER_ENCODER               = 21;//25;
+    public static final int CANID_RBSTEER_ENCODER               = 22;//26;
 
     public static final int CANID_PCM                           = 30;
     public static final int CANID_PDP                           = 31;
@@ -320,8 +321,8 @@ public class RobotParams
     public static final double MECANUM_Y_KF                     = 0.0;
     public static final double MECANUM_Y_TOLERANCE              = 2.0;
 
-    public static final double SWERVE_INCHES_PER_COUNT          = 9.072106867127145344367826764411e-4;
-    public static final double SWERVE_KP                        = 0.02;
+    // public static final double SWERVE_INCHES_PER_COUNT          = 9.072106867127145344367826764411e-4;
+    public static final double SWERVE_KP                        = 0.008;
     public static final double SWERVE_KI                        = 0.0;
     public static final double SWERVE_KD                        = 0.0;
     public static final double SWERVE_KF                        = 0.0;
@@ -378,7 +379,14 @@ public class RobotParams
     public static final double CANCODER_CPR                     = 4096.0;
     public static final double FALCON_CPR                       = 2048.0;
     public static final double FALCON_MAX_RPM                   = 6380.0;
-    public static final double STEER_GEAR_RATIO                 = (24.0/12.0) * (72.0/14.0);
+
+    public static final double SWERVE_DRIVE_GEAR_RATIO          = 9.63;
+    public static final double SWERVE_MOTOR_CPR                 = FALCON_CPR * SWERVE_DRIVE_GEAR_RATIO;
+    public static final double SWERVE_WHEEL_CIRCUMFERENCE       = 12.56;
+    public static final double SWERVE_INCHES_PER_COUNT          = SWERVE_WHEEL_CIRCUMFERENCE / SWERVE_MOTOR_CPR;
+
+    // public static final double STEER_GEAR_RATIO                 = (24.0/12.0) * (72.0/14.0);
+    public static final double STEER_GEAR_RATIO                 = 15.43;
     public static final double STEER_MOTOR_CPR                  = FALCON_CPR * STEER_GEAR_RATIO;
     public static final double STEER_DEGREES_PER_COUNT          = 360.0 / STEER_MOTOR_CPR;
     // ((theoretical max rpm * speed loss constant / gear ratio) / 60 sec/min) * 360 deg/rev
@@ -389,14 +397,14 @@ public class RobotParams
 
     // Zeroes are normalized offsets which are in the unit of percentage revolution (0.0 to 1.0).
     // This is a backup if file is not found: LF, RF, LB, RB.
-    public static final double[] STEER_ZEROS                    = new double[] {0.493703, 0.278641, 0.409850, 0.443877};
+    public static final double[] STEER_ZEROS                    = new double[] {0.0, 0.0, 0.0, 0.0};
 
     public static final double STEER_MAX_VEL_COUNT_PER_100MS    = (STEER_MAX_VEL / STEER_DEGREES_PER_COUNT) / 10.0;
     // public static final TrcPidController.PidCoefficients magicSteerCoeff =
     //     new TrcPidController.PidCoefficients(2.0, 0.01, 0.0, 1023.0 / STEER_MAX_VEL_COUNT_PER_100MS, 5.0 / STEER_DEGREES_PER_COUNT);
-    public static final double STEER_KP                         = 1.1;
+    public static final double STEER_KP                         = 0.3;
     public static final double STEER_KI                         = 0.0;
-    public static final double STEER_KD                         = 14.0;
+    public static final double STEER_KD                         = 0.0;
     // kF set to Motion Magic recommendation.
     public static final double STEER_KF                         = 0.0;//1023.0 / STEER_MAX_VEL_COUNT_PER_100MS;
     // iZone set to within 5 steering degrees.
