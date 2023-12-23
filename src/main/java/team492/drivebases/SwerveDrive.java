@@ -121,11 +121,6 @@ public class SwerveDrive extends RobotDrive
             steerEncoderNames, RobotParams.Preferences.useSteeringAnalogEncoder? steerEncoderAIds: steerEncoderCanIds,
             steerEncoderInverted, readSteeringCalibrationData());
         steerMotors = createMotors(MotorType.CAN_FALCON, false, steerMotorNames, steerMotorIds, steerMotorInverted);
-        for (TrcMotor motor: steerMotors)
-        {
-            motor.setPositionSensorScaleAndOffset(RobotParams.STEER_DEGREES_PER_COUNT, 0.0);
-            motor.setPositionPidCoefficients(RobotParams.steerCoeffs);
-        }
         swerveModules = createSwerveModules(swerveModuleNames, driveMotors, steerMotors, steerEncoders);
         driveBase = new TrcSwerveDriveBase(
             swerveModules[INDEX_LEFT_FRONT], swerveModules[INDEX_LEFT_BACK],
@@ -352,7 +347,8 @@ public class SwerveDrive extends RobotDrive
                     names[i], "Steer encoder out-of-sync (expected=%f, actual=%f)", encoderPos, motorEncoderPos);
             }
             // steerMotors[i].setControlMode(TalonFXControlMode.MotionMagic);
-
+            steerMotors[i].setPositionSensorScaleAndOffset(RobotParams.STEER_DEGREES_PER_COUNT, 0.0);
+            steerMotors[i].setPositionPidCoefficients(RobotParams.steerCoeffs);
             // We have already synchronized the Falcon internal encoder with the zero adjusted absolute encoder, so
             // Falcon servo does not need to compensate for zero position.
             modules[i] = new TrcSwerveModule(names[i], driveMotors[i], steerMotors[i]);
