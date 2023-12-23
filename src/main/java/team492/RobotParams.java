@@ -58,7 +58,7 @@ public class RobotParams
         public static final boolean useStreamCamera             = false;
         // Robot
         public static final boolean noRobot                     = false;
-        public static final boolean allowCommandBased           = true;
+        public static final boolean allowCommandBased           = false;
         // Drive Base
         public static final boolean useExternalOdometry         = false;
         public static final boolean useVelocityControl          = false;
@@ -78,7 +78,7 @@ public class RobotParams
 
         public static final boolean showPowerConsumption        = false;
 
-        public static final boolean showDriveBase               = false;
+        public static final boolean showDriveBase               = true;
         public static final boolean showPurePursuitDrive        = false;
         public static final boolean showPidDrive                = false;
 
@@ -275,9 +275,9 @@ public class RobotParams
     public static final String LBDRIVE_MOTOR_NAME               = "lbDriveMotor";
     public static final String RBDRIVE_MOTOR_NAME               = "rbDriveMotor";
     public static final boolean LFDRIVE_MOTOR_INVERTED          = true;
-    public static final boolean RFDRIVE_MOTOR_INVERTED          = false;
+    public static final boolean RFDRIVE_MOTOR_INVERTED          = true;
     public static final boolean LBDRIVE_MOTOR_INVERTED          = true;
-    public static final boolean RBDRIVE_MOTOR_INVERTED          = false;
+    public static final boolean RBDRIVE_MOTOR_INVERTED          = true;
     public static final String LFSTEER_ENCODER_NAME             = "lfSteerEncoder";
     public static final String RFSTEER_ENCODER_NAME             = "rfSteerEncoder";
     public static final String LBSTEER_ENCODER_NAME             = "lbSteerEncoder";

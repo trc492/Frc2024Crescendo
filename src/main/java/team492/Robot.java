@@ -368,6 +368,7 @@ public class Robot extends FrcRobotBase
         if (currTime >= nextDashboardUpdateTime)
         {
             nextDashboardUpdateTime = currTime + RobotParams.DASHBOARD_UPDATE_INTERVAL;
+            int lineNum = 8;
 
             if (RobotParams.Preferences.showPowerConsumption)
             {
@@ -413,14 +414,25 @@ public class Robot extends FrcRobotBase
                                             robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK].getPosition(): 0.0;
 
                     dashboard.displayPrintf(
-                        8, "DriveBase: lf=%.0f, rf=%.0f, lb=%.0f, rb=%.0f, avg=%.0f",
+                        lineNum++, "DriveEnc: lf=%.0f, rf=%.0f, lb=%.0f, rb=%.0f, avg=%.0f",
                         lfDriveEnc, rfDriveEnc, lbDriveEnc, rbDriveEnc,
                         (lfDriveEnc + rfDriveEnc + lbDriveEnc + rbDriveEnc) / 4.0);
-                    dashboard.displayPrintf(9, "DriveBase: pose=%s", robotPose);
+
+                    if (robotDrive instanceof SwerveDrive)
+                    {
+                        SwerveDrive swerveDrive = (SwerveDrive) robotDrive;
+
+                        dashboard.displayPrintf(
+                            lineNum++, "SteerAngle: lf=%.1f, rf=%.1f, lb=%.1f, rb=%.1f",
+                            swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_FRONT].getSteerAngle(),
+                            swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_FRONT].getSteerAngle(),
+                            swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_BACK].getSteerAngle(),
+                            swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_BACK].getSteerAngle());
+                    }
+                    dashboard.displayPrintf(lineNum++, "DriveBase: pose=%s", robotPose);
 
                     if (RobotParams.Preferences.showPidDrive)
                     {
-                        int lineNum = 10;
                         TrcPidController xPidCtrl = robotDrive.pidDrive.getXPidCtrl();
                         if (xPidCtrl != null)
                         {
@@ -436,8 +448,6 @@ public class Robot extends FrcRobotBase
 
             if (RobotParams.Preferences.showVision)
             {
-                int lineNum = 8;
-
                 if (limeLightVision != null)
                 {
                     FrcLimeLightVision.DetectedObject object = limeLightVision.getDetectedObject();

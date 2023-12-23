@@ -77,8 +77,8 @@ public class SwerveDrive extends RobotDrive
         RobotParams.LFSTEER_ENCODER_NAME, RobotParams.RFSTEER_ENCODER_NAME,
         RobotParams.LBSTEER_ENCODER_NAME, RobotParams.RBSTEER_ENCODER_NAME};
     private final int[] steerEncoderCanIds = {
-        RobotParams.AIN_LFSTEER_ENCODER, RobotParams.AIN_RFSTEER_ENCODER,
-        RobotParams.AIN_LBSTEER_ENCODER, RobotParams.AIN_RBSTEER_ENCODER};
+        RobotParams.CANID_LFSTEER_ENCODER, RobotParams.CANID_RFSTEER_ENCODER,
+        RobotParams.CANID_LBSTEER_ENCODER, RobotParams.CANID_RBSTEER_ENCODER};
     private final int[] steerEncoderAIds = {
         RobotParams.AIN_LFSTEER_ENCODER, RobotParams.AIN_RFSTEER_ENCODER,
         RobotParams.AIN_LBSTEER_ENCODER, RobotParams.AIN_RBSTEER_ENCODER};
@@ -121,6 +121,11 @@ public class SwerveDrive extends RobotDrive
             steerEncoderNames, RobotParams.Preferences.useSteeringAnalogEncoder? steerEncoderAIds: steerEncoderCanIds,
             steerEncoderInverted, readSteeringCalibrationData());
         steerMotors = createMotors(MotorType.CAN_FALCON, false, steerMotorNames, steerMotorIds, steerMotorInverted);
+        for (TrcMotor motor: steerMotors)
+        {
+            motor.setPositionSensorScaleAndOffset(RobotParams.STEER_DEGREES_PER_COUNT, 0.0);
+            motor.setPositionPidCoefficients(RobotParams.steerCoeffs);
+        }
         swerveModules = createSwerveModules(swerveModuleNames, driveMotors, steerMotors, steerEncoders);
         driveBase = new TrcSwerveDriveBase(
             swerveModules[INDEX_LEFT_FRONT], swerveModules[INDEX_LEFT_BACK],
@@ -331,15 +336,20 @@ public class SwerveDrive extends RobotDrive
         for (int i = 0; i < names.length; i++)
         {
             // getPosition returns a value in the range of 0 to 1.0 of one revolution.
-            double encoderPos = steerEncoders[i].getPosition();
-
-            encoderPos *= RobotParams.STEER_MOTOR_CPR;
+            double absEncoderPos = steerEncoders[i].getPosition();
+            double encoderPos = absEncoderPos * RobotParams.STEER_MOTOR_CPR;
             ErrorCode errCode = ((FrcCANFalcon) steerMotors[i]).motor.setSelectedSensorPosition(encoderPos, 0, 30);
             if (errCode != ErrorCode.OK)
             {
                 robot.globalTracer.traceWarn(
                     funcName, "%s: Falcon.setSelectedSensorPosition failed (code=%s, pos=%.0f).",
                     names[i], errCode, encoderPos);
+            }
+            double motorEncoderPos = ((FrcCANFalcon) steerMotors[i]).motor.getSelectedSensorPosition();
+            if (Math.abs(encoderPos - motorEncoderPos) > 1.0)
+            {
+                TrcDbgTrace.globalTraceWarn(
+                    names[i], "Steer encoder out-of-sync (expected=%f, actual=%f)", encoderPos, motorEncoderPos);
             }
             // steerMotors[i].setControlMode(TalonFXControlMode.MotionMagic);
 

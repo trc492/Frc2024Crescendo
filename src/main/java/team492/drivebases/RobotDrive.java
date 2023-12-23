@@ -126,7 +126,7 @@ public class RobotDrive
     {
         if (runMode != RunMode.DISABLED_MODE)
         {
-            driveBase.setOdometryEnabled(true, true);
+            // driveBase.setOdometryEnabled(true, true);
             // Disable ramp rate control in autonomous.
             double rampTime = runMode == RunMode.AUTO_MODE? 0.0: RobotParams.DRIVE_RAMP_RATE;
             for (int i = 0; i < driveMotors.length; i++)
