@@ -55,7 +55,7 @@ public final class Constants {
 
         /* Motor Inverts */
         public static final boolean angleMotorInvert = true; // Done, set
-        public static final boolean driveMotorInvert = false; // Done, set
+        public static final boolean driveMotorInvert = true; // Done, set
 
 
 
@@ -95,7 +95,7 @@ public final class Constants {
 
 
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.008;
+        public static final double driveKP = 0.003;
         public static final double driveKI = 0.0; // Leave rest at 0.0
         public static final double driveKD = 0.0; //.6
         public static final double driveKF = 0.0; //.91
