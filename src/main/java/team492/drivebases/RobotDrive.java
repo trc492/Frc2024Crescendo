@@ -52,7 +52,7 @@ import team492.RobotParams;
  */
 public class RobotDrive
 {
-    private static final boolean debugEnabled = false;
+    private static final String moduleName = RobotDrive.class.getSimpleName();
     public static final int INDEX_LEFT_FRONT = 0;
     public static final int INDEX_RIGHT_FRONT = 1;
     public static final int INDEX_LEFT_BACK = 2;
@@ -61,9 +61,9 @@ public class RobotDrive
 
     public enum MotorType
     {
-        CAN_FALCON,
-        CAN_TALON,
-        CAN_SPARKMAX
+        CanFalcon,
+        CanTalon,
+        CanSparkMax
     }   //enum MotorType
 
     /**
@@ -71,9 +71,9 @@ public class RobotDrive
      */
     public enum DriveMode
     {
-        TANK_MODE,
-        HOLONOMIC_MODE,
-        ARCADE_MODE
+        TankMode,
+        HolonomicMode,
+        ArcadeMode
     }   //enum DriveMode
 
     //
@@ -144,7 +144,7 @@ public class RobotDrive
 
                 if (RobotParams.Preferences.useGyroAssist)
                 {
-                    driveBase.enableGyroAssist(RobotParams.ROBOT_MAX_TURN_RATE, RobotParams.GYRO_ASSIST_TURN_GAIN);
+                    driveBase.setGyroAssistEnabled(pidDrive.getTurnPidCtrl());
                 }
             }
         }
@@ -217,15 +217,15 @@ public class RobotDrive
         {
             switch (motorType)
             {
-                case CAN_FALCON:
+                case CanFalcon:
                     motors[i] = new FrcCANFalcon(names[i], motorCanIds[i]);
                     break;
 
-                case CAN_TALON:
+                case CanTalon:
                     motors[i] = new FrcCANTalon(names[i], motorCanIds[i]);
                     break;
 
-                case CAN_SPARKMAX:
+                case CanSparkMax:
                     motors[i] = new FrcCANSparkMax(names[i], motorCanIds[i], brushless);
                     break;
             }
@@ -252,12 +252,11 @@ public class RobotDrive
     public double[] getDriveInputs(
         DriveMode driveMode, boolean doExp, double drivePowerScale, double turnPowerScale)
     {
-        final String funcName = "getDriveInputs";
         double x = 0.0, y = 0.0, rot = 0.0;
 
         switch (driveMode)
         {
-            case HOLONOMIC_MODE:
+            case HolonomicMode:
                 if (RobotParams.Preferences.useDriverXboxController)
                 {
                     x = robot.driverController.getRightXWithDeadband(doExp);
@@ -270,14 +269,10 @@ public class RobotDrive
                     y = robot.leftDriveStick.getYWithDeadband(doExp);
                     rot = robot.leftDriveStick.getTwistWithDeadband(doExp);
                 }
-
-                if (debugEnabled)
-                {
-                    robot.globalTracer.traceInfo(funcName, "%s:x=%.1f,y=%.1f,rot=%.1f", driveMode, x, y, rot);
-                }
+                robot.globalTracer.traceDebug(moduleName, driveMode + ":x=" + x + ",y=" + y + ",rot=" + rot);
                 break;
 
-            case ARCADE_MODE:
+            case ArcadeMode:
                 if (RobotParams.Preferences.useDriverXboxController)
                 {
                     x = robot.driverController.getLeftXWithDeadband(doExp);
@@ -297,14 +292,10 @@ public class RobotDrive
                         rot = robot.rightDriveStick.getXWithDeadband(doExp);
                     }
                 }
-
-                if (debugEnabled)
-                {
-                    robot.globalTracer.traceInfo(funcName, "%s:x=%.1f,y=%.1f,rot=%.1f", driveMode, x, y, rot);
-                }
+                robot.globalTracer.traceDebug(moduleName, driveMode + ":x=" + x + ",y=" + y + ",rot=" + rot);
                 break;
 
-            case TANK_MODE:
+            case TankMode:
                 double leftPower, rightPower;
                 if (RobotParams.Preferences.useDriverXboxController)
                 {
@@ -319,11 +310,7 @@ public class RobotDrive
                 x = 0.0;
                 y = (leftPower + rightPower)/2.0;
                 rot = (leftPower - rightPower)/2.0;
-
-                if (debugEnabled)
-                {
-                    robot.globalTracer.traceInfo(funcName, "%s:left=%.1f,right=%.1f", driveMode, leftPower, rightPower);
-                }
+                robot.globalTracer.traceDebug(moduleName, driveMode + ":left=" + leftPower + ",right=" + rightPower);
                 break;
         }
 
@@ -359,16 +346,14 @@ public class RobotDrive
      */
     public void saveFieldZeroCompassHeading()
     {
-        final String funcName = "saveFieldZeroCompassHeading";
-
         try (PrintStream out = new PrintStream(
                 new FileOutputStream(RobotParams.TEAM_FOLDER_PATH + "/" + FIELD_ZERO_HEADING_FILE)))
         {
             double fieldZeroHeading = ((FrcAHRSGyro) gyro).ahrs.getCompassHeading();
 
-            out.printf("%f\n", fieldZeroHeading);
+            out.println(fieldZeroHeading);
             out.close();
-            robot.globalTracer.traceInfo(funcName, "FieldZeroCompassHeading = %f", fieldZeroHeading);
+            robot.globalTracer.traceInfo(moduleName, "FieldZeroCompassHeading=" + fieldZeroHeading);
         }
         catch (FileNotFoundException e)
         {
@@ -383,15 +368,13 @@ public class RobotDrive
      */
     private Double getFieldZeroCompassHeading()
     {
-        final String funcName = "getFieldZeroCompassHeading";
-
         try (Scanner in = new Scanner(new FileReader(RobotParams.TEAM_FOLDER_PATH + "/" + FIELD_ZERO_HEADING_FILE)))
         {
             return in.nextDouble();
         }
         catch (Exception e)
         {
-            robot.globalTracer.traceWarn(funcName, "FieldZeroHeading file not found.");
+            robot.globalTracer.traceWarn(moduleName, "FieldZeroHeading file not found.");
             return null;
         }
     }   //getFieldZeroHeading

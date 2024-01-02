@@ -26,6 +26,7 @@ import TrcCommonLib.trclib.TrcMecanumDriveBase;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPidDrive;
 import TrcCommonLib.trclib.TrcPurePursuitDrive;
+import TrcCommonLib.trclib.TrcDbgTrace.MsgLevel;
 import TrcFrcLib.frclib.FrcPdp;
 import team492.Robot;
 import team492.RobotParams;
@@ -36,9 +37,6 @@ import team492.RobotParams;
  */
 public class MecanumDrive extends RobotDrive
 {
-    private static final boolean logPoseEvents = false;
-    private static final boolean tracePidInfo = false;
-
     private final String[] driveMotorNames = {
         RobotParams.LFDRIVE_MOTOR_NAME, RobotParams.RFDRIVE_MOTOR_NAME,
         RobotParams.LBDRIVE_MOTOR_NAME, RobotParams.RBDRIVE_MOTOR_NAME};
@@ -58,35 +56,11 @@ public class MecanumDrive extends RobotDrive
     {
         super(robot);
 
-        driveMotors = createMotors(MotorType.CAN_FALCON, false, driveMotorNames, driveMotorIds, driveMotorInverted);
+        driveMotors = createMotors(MotorType.CanFalcon, false, driveMotorNames, driveMotorIds, driveMotorInverted);
         driveBase = new TrcMecanumDriveBase(
             driveMotors[INDEX_LEFT_FRONT], driveMotors[INDEX_LEFT_BACK],
             driveMotors[INDEX_RIGHT_FRONT], driveMotors[INDEX_RIGHT_BACK], gyro);
         driveBase.setOdometryScales(RobotParams.MECANUM_X_INCHES_PER_COUNT, RobotParams.MECANUM_Y_INCHES_PER_COUNT);
-
-        // if (RobotParams.Preferences.useExternalOdometry)
-        // {
-        //     //
-        //     // Create the external odometry device that uses the right back encoder port as the X odometry and
-        //     // the left and right front encoder ports as the Y1 and Y2 odometry. Gyro will serve as the angle
-        //     // odometry.
-        //     //
-        //     TrcDriveBaseOdometry driveBaseOdometry = new TrcDriveBaseOdometry(
-        //         new TrcDriveBaseOdometry.AxisSensor(rbDriveMotor, RobotParams.X_ODOMETRY_WHEEL_OFFSET),
-        //         new TrcDriveBaseOdometry.AxisSensor[] {
-        //             new TrcDriveBaseOdometry.AxisSensor(lfDriveMotor, RobotParams.Y_LEFT_ODOMETRY_WHEEL_OFFSET),
-        //             new TrcDriveBaseOdometry.AxisSensor(rfDriveMotor, RobotParams.Y_RIGHT_ODOMETRY_WHEEL_OFFSET)},
-        //         gyro);
-        //     //
-        //     // Set the drive base to use the external odometry device overriding the built-in one.
-        //     //
-        //     driveBase.setDriveBaseOdometry(driveBaseOdometry);
-        //     driveBase.setOdometryScales(RobotParams.ODWHEEL_X_INCHES_PER_COUNT, RobotParams.ODWHEEL_Y_INCHES_PER_COUNT);
-        // }
-        // else
-        // {
-        //     driveBase.setOdometryScales(RobotParams.MECANUM_X_INCHES_PER_COUNT, RobotParams.MECANUM_Y_INCHES_PER_COUNT);
-        // }
 
         if (robot.pdp != null)
         {
@@ -96,7 +70,6 @@ public class MecanumDrive extends RobotDrive
                 new FrcPdp.Channel(RobotParams.PDP_CHANNEL_RFDRIVE_MOTOR, driveMotorNames[INDEX_RIGHT_FRONT]),
                 new FrcPdp.Channel(RobotParams.PDP_CHANNEL_RBDRIVE_MOTOR, driveMotorNames[INDEX_RIGHT_BACK]));
         }
-
         //
         // Create and initialize PID controllers.
         //
@@ -130,16 +103,19 @@ public class MecanumDrive extends RobotDrive
 
         // AbsoluteTargetMode eliminates cumulative errors on multi-segment runs because drive base is keeping track
         // of the absolute target position.
+        pidDrive.setStallDetectionEnabled(true);
         pidDrive.setAbsoluteTargetModeEnabled(true);
-        pidDrive.setMsgTracer(robot.globalTracer, logPoseEvents, tracePidInfo);
+        pidDrive.setTraceLevel(MsgLevel.INFO, false, false, false);
 
         purePursuitDrive = new TrcPurePursuitDrive(
-            "purePursuitDrive", driveBase, RobotParams.PPD_FOLLOWING_DISTANCE, RobotParams.PPD_POS_TOLERANCE,
-            RobotParams.PPD_TURN_TOLERANCE, xPosPidCoeff, yPosPidCoeff, turnPidCoeff, velPidCoeff);
+            "purePursuitDrive", driveBase,
+            RobotParams.PPD_FOLLOWING_DISTANCE, RobotParams.PPD_POS_TOLERANCE, RobotParams.PPD_TURN_TOLERANCE,
+            xPosPidCoeff, yPosPidCoeff, turnPidCoeff, velPidCoeff);
+        purePursuitDrive.setStallDetectionEnabled(true);
         purePursuitDrive.setMoveOutputLimit(RobotParams.PPD_MOVE_DEF_OUTPUT_LIMIT);
         purePursuitDrive.setRotOutputLimit(RobotParams.PPD_ROT_DEF_OUTPUT_LIMIT);
         purePursuitDrive.setFastModeEnabled(true);
-        purePursuitDrive.setMsgTracer(robot.globalTracer, logPoseEvents, tracePidInfo);
+        purePursuitDrive.setTraceLevel(MsgLevel.INFO, false, false, false);
     }   //MecanumDrive
 
 }   //class MecanumDrive

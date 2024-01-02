@@ -23,7 +23,6 @@
 package team492.autotasks;
 
 import TrcCommonLib.trclib.TrcAutoTask;
-import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcOwnershipMgr;
 import TrcCommonLib.trclib.TrcRobot;
@@ -35,7 +34,7 @@ import team492.Robot;
  */
 public class TaskAuto extends TrcAutoTask<TaskAuto.State>
 {
-    private static final String moduleName = "TaskAuto";
+    private static final String moduleName = TaskAuto.class.getSimpleName();
 
     public enum State
     {
@@ -52,24 +51,20 @@ public class TaskAuto extends TrcAutoTask<TaskAuto.State>
 
     private final String ownerName;
     private final Robot robot;
-    private final TrcDbgTrace msgTracer;
 
     private String currOwner = null;
-    private String driveOwner = null;
 
     /**
      * Constructor: Create an instance of the object.
      *
      * @param ownerName specifies the owner name to take subsystem ownership, can be null if no ownership required.
      * @param robot specifies the robot object that contains all the necessary subsystems.
-     * @param msgTracer specifies the tracer to use to log events, can be null if not provided.
      */
-    public TaskAuto(String ownerName, Robot robot, TrcDbgTrace msgTracer)
+    public TaskAuto(String ownerName, Robot robot)
     {
-        super(moduleName, ownerName, TrcTaskMgr.TaskType.POST_PERIODIC_TASK, msgTracer);
+        super(moduleName, ownerName, TrcTaskMgr.TaskType.POST_PERIODIC_TASK);
         this.ownerName = ownerName;
         this.robot = robot;
-        this.msgTracer = msgTracer;
     }   //TaskAuto
 
     /**
@@ -79,13 +74,7 @@ public class TaskAuto extends TrcAutoTask<TaskAuto.State>
      */
     public void autoAssist(TrcEvent completionEvent)
     {
-        final String funcName = "autoAssist";
-
-        if (msgTracer != null)
-        {
-            msgTracer.traceInfo(funcName, "%s: event=%s", moduleName, completionEvent);
-        }
-
+        tracer.traceInfo(moduleName, "event=" + completionEvent);
         startAutoTask(State.START, new TaskParams(), completionEvent);
     }   //autoAssist
 
@@ -94,13 +83,7 @@ public class TaskAuto extends TrcAutoTask<TaskAuto.State>
      */
     public void autoAssistCancel()
     {
-        final String funcName = "autoAssistCancel";
-
-        if (msgTracer != null)
-        {
-            msgTracer.traceInfo(funcName, "%s: Canceling auto-assist.", moduleName);
-        }
-
+        tracer.traceInfo(moduleName, "Canceling auto-assist.");
         stopAutoTask(false);
     }   //autoAssistCancel
 
@@ -118,27 +101,21 @@ public class TaskAuto extends TrcAutoTask<TaskAuto.State>
     @Override
     protected boolean acquireSubsystemsOwnership()
     {
-        final String funcName = "acquireSubsystemsOwnership";
-        boolean success = ownerName == null;
-        // Don't acquire drive base ownership globally. Acquire it only if we need to drive.
-        // For example, we only need to drive if we are using vision to approach the target.
+        boolean success = ownerName == null ||
+                          (robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName));
+
         if (success)
         {
             currOwner = ownerName;
-            if (msgTracer != null)
-            {
-                msgTracer.traceInfo(funcName, "%s: Successfully acquired subsystem ownerships.", moduleName);
-            }
+            tracer.traceInfo(moduleName, "Successfully acquired subsystem ownerships.");
         }
         else
         {
-            if (msgTracer != null)
-            {
-                TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
-                msgTracer.traceInfo(
-                    funcName, "%s: Failed to acquire subsystem ownership (currOwner=%s, robotDrive=%s).",
-                    moduleName, currOwner, ownershipMgr.getOwner(robot.robotDrive.driveBase));
-            }
+            TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
+            tracer.traceWarn(
+                moduleName,
+                "Failed to acquire subsystem ownership (currOwner=" + currOwner +
+                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
             releaseSubsystemsOwnership();
         }
 
@@ -152,25 +129,14 @@ public class TaskAuto extends TrcAutoTask<TaskAuto.State>
     @Override
     protected void releaseSubsystemsOwnership()
     {
-        final String funcName = "releaseSubsystemsOwnership";
-
         if (ownerName != null)
         {
-            if (msgTracer != null)
-            {
-                TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
-                msgTracer.traceInfo(
-                    funcName, "%s: Releasing subsystem ownership (currOwner=%s, robotDrive=%s).",
-                    moduleName, currOwner, ownershipMgr.getOwner(robot.robotDrive.driveBase));
-            }
-
-            if (driveOwner != null)
-            {
-                robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
-                driveOwner = null;
-            }
-
-            // robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
+            TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
+            tracer.traceInfo(
+                moduleName,
+                "Releasing subsystem ownership (currOwner=" + currOwner +
+                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
+            robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
             currOwner = null;
         }
     }   //releaseSubsystemsOwnership
@@ -181,17 +147,8 @@ public class TaskAuto extends TrcAutoTask<TaskAuto.State>
     @Override
     protected void stopSubsystems()
     {
-        final String funcName = "stopSubsystems";
-
-        if (msgTracer != null)
-        {
-            msgTracer.traceInfo(funcName, "%s: Stopping subsystems.", moduleName);
-        }
-
-        if (driveOwner != null)
-        {
-            robot.robotDrive.cancel(driveOwner);
-        }
+        tracer.traceInfo(moduleName, "Stopping subsystems.");
+        robot.robotDrive.cancel(currOwner);
     }   //stopSubsystems
 
     /**
@@ -208,7 +165,7 @@ public class TaskAuto extends TrcAutoTask<TaskAuto.State>
     protected void runTaskState(
         Object params, State state, TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
     {
-        // TaskParams taskParams = (TaskParams) params;
+        TaskParams taskParams = (TaskParams) params;
 
         switch (state)
         {

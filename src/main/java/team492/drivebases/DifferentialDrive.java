@@ -26,6 +26,7 @@ import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPidDrive;
 import TrcCommonLib.trclib.TrcPurePursuitDrive;
 import TrcCommonLib.trclib.TrcSimpleDriveBase;
+import TrcCommonLib.trclib.TrcDbgTrace.MsgLevel;
 import TrcFrcLib.frclib.FrcPdp;
 import team492.Robot;
 import team492.RobotParams;
@@ -34,12 +35,8 @@ import team492.RobotParams;
  * This class creates the RobotDrive subsystem that consists of wheel motors and related objects for driving the
  * robot.
  */
-public class WestCoastDrive extends RobotDrive
+public class DifferentialDrive extends RobotDrive
 {
-    private static final boolean logPoseEvents = false;
-    private static final boolean tracePidInfo = false;
-
-
     private final String[] driveMotorNames = {
         RobotParams.LFDRIVE_MOTOR_NAME, RobotParams.RFDRIVE_MOTOR_NAME};
     private final int[] driveMotorIds = {
@@ -52,35 +49,13 @@ public class WestCoastDrive extends RobotDrive
      *
      * @param robot specifies the robot object.
      */
-    public WestCoastDrive(Robot robot)
+    public DifferentialDrive(Robot robot)
     {
         super(robot);
 
-        driveMotors = createMotors(MotorType.CAN_SPARKMAX, true, driveMotorNames, driveMotorIds, driveMotorInverted);
+        driveMotors = createMotors(MotorType.CanSparkMax, true, driveMotorNames, driveMotorIds, driveMotorInverted);
         driveBase = new TrcSimpleDriveBase(driveMotors[INDEX_LEFT_FRONT], driveMotors[INDEX_RIGHT_FRONT], gyro);
         driveBase.setOdometryScales(RobotParams.WCD_INCHES_PER_COUNT);
-
-        // if (RobotParams.Preferences.useExternalOdometry)
-        // {
-        //     //
-        //     // Create the external odometry device that uses the left and right front encoder ports as the Y1 and Y2
-        //     // odometry. Gyro will serve as the angle odometry.
-        //     //
-        //     TrcDriveBaseOdometry driveBaseOdometry = new TrcDriveBaseOdometry(
-        //         new TrcDriveBaseOdometry.AxisSensor[] {
-        //         new TrcDriveBaseOdometry.AxisSensor(lfDriveMotor, RobotParams.Y_LEFT_ODOMETRY_WHEEL_OFFSET),
-        //         new TrcDriveBaseOdometry.AxisSensor(rfDriveMotor, RobotParams.Y_RIGHT_ODOMETRY_WHEEL_OFFSET)},
-        //         gyro);
-        //     //
-        //     // Set the drive base to use the external odometry device overriding the built-in one.
-        //     //
-        //     driveBase.setDriveBaseOdometry(driveBaseOdometry);
-        //     driveBase.setOdometryScales(RobotParams.ODWHEEL_Y_INCHES_PER_COUNT);
-        // }
-        // else
-        // {
-        //     driveBase.setOdometryScales(RobotParams.WCD_INCHES_PER_COUNT);
-        // }
 
         if (robot.pdp != null)
         {
@@ -116,16 +91,18 @@ public class WestCoastDrive extends RobotDrive
 
         // AbsoluteTargetMode eliminates cumulative errors on multi-segment runs because drive base is keeping track
         // of the absolute target position.
+        pidDrive.setStallDetectionEnabled(true);
         pidDrive.setAbsoluteTargetModeEnabled(true);
-        pidDrive.setMsgTracer(robot.globalTracer, logPoseEvents, tracePidInfo);
+        pidDrive.setTraceLevel(MsgLevel.INFO, false, false, false);
 
         purePursuitDrive = new TrcPurePursuitDrive(
             "purePursuitDrive", driveBase, RobotParams.PPD_FOLLOWING_DISTANCE, RobotParams.PPD_POS_TOLERANCE,
             RobotParams.PPD_TURN_TOLERANCE, xPosPidCoeff, yPosPidCoeff, turnPidCoeff, velPidCoeff);
+        purePursuitDrive.setStallDetectionEnabled(true);
         purePursuitDrive.setMoveOutputLimit(RobotParams.PPD_MOVE_DEF_OUTPUT_LIMIT);
         purePursuitDrive.setRotOutputLimit(RobotParams.PPD_ROT_DEF_OUTPUT_LIMIT);
         purePursuitDrive.setFastModeEnabled(true);
-        purePursuitDrive.setMsgTracer(robot.globalTracer, logPoseEvents, tracePidInfo);
-    }   //WestCoastDrive
+        purePursuitDrive.setTraceLevel(MsgLevel.INFO, false, false, false);
+    }   //DifferentialDrive
 
-}   //class WestCoastDrive
+}   //class DifferentialDrive

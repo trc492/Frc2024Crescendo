@@ -27,13 +27,14 @@ import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcStateMachine;
 import TrcCommonLib.trclib.TrcTimer;
 import team492.Robot;
+import team492.FrcAuto.AutoChoices;
 
 /**
  * This class implements an autonomous strategy.
  */
 public class CmdAuto implements TrcRobot.RobotCommand
 {
-    private static final String moduleName = "CmdAuto";
+    private static final String moduleName = CmdAuto.class.getSimpleName();
 
     private enum State
     {
@@ -42,7 +43,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
     }   //enum State
 
     private final Robot robot;
-    private final double startDelay;
+    private final AutoChoices autoChoices;
     private final TrcTimer timer;
     private final TrcEvent event;
     private final TrcStateMachine<State> sm;
@@ -51,12 +52,12 @@ public class CmdAuto implements TrcRobot.RobotCommand
      * Constructor: Create an instance of the object.
      *
      * @param robot specifies the robot object for providing access to various global objects.
-     * @param startDelay specifies the start delay in seconds.
+     * @param autoChoices specifies the autoChoices object.
      */
-    public CmdAuto(Robot robot, double startDelay)
+    public CmdAuto(Robot robot, AutoChoices autoChoices)
     {
         this.robot = robot;
-        this.startDelay = startDelay;
+        this.autoChoices = autoChoices;
 
         timer = new TrcTimer(moduleName);
         event = new TrcEvent(moduleName);
@@ -102,15 +103,16 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
         if (state == null)
         {
-            robot.dashboard.displayPrintf(8, "State: disabled or waiting (nextState=%s)...", sm.getNextState());
+            robot.dashboard.displayPrintf(8, "State: disabled or waiting (nextState=" + sm.getNextState() + ")...");
         }
         else
         {
-            robot.dashboard.displayPrintf(8, "State: %s", state);
+            robot.dashboard.displayPrintf(8, "State: " + state);
 
             switch (state)
             {
                 case START:
+                    double startDelay = autoChoices.getStartDelay();
                     if (startDelay > 0.0)
                     {
                         timer.set(startDelay, event);

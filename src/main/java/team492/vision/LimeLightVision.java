@@ -22,16 +22,15 @@
 
 package team492.vision;
 
-import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcFrcLib.frclib.FrcLimeLightVision;
 import TrcFrcLib.frclib.FrcRemoteVisionProcessor;
 import team492.RobotParams;
 
 public class LimeLightVision extends FrcLimeLightVision
 {
-    public LimeLightVision(String instanceName, TrcDbgTrace tracer)
+    public LimeLightVision(String instanceName)
     {
-        super(instanceName, tracer);
+        super(instanceName);
         selectPipeline(0);
         setDepthApproximator(
             "ty",

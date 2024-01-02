@@ -26,7 +26,6 @@ import java.util.Comparator;
 
 import org.opencv.imgproc.Imgproc;
 
-import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcHomographyMapper;
 import TrcCommonLib.trclib.TrcOpenCvColorBlobPipeline;
 import TrcCommonLib.trclib.TrcOpenCvDetector;
@@ -78,7 +77,6 @@ public class OpenCvVision extends FrcOpenCvDetector
 
     }   //enum ObjectType
 
-    private final TrcDbgTrace tracer;
     private final TrcOpenCvPipeline<DetectedObject<?>> aprilTagPipeline;
     private final TrcOpenCvPipeline<DetectedObject<?>> redBlobPipeline;
     private final TrcOpenCvPipeline<DetectedObject<?>> blueBlobPipeline;
@@ -93,16 +91,13 @@ public class OpenCvVision extends FrcOpenCvDetector
      * @param worldRect specifies the world rectangle for Homography Mapper, can be null if not provided.
      * @param cvSink specifies the object to capture the video frames.
      * @param cvSource specifies the object to stream video output.
-     * @param tracer specifies the tracer for trace info, null if none provided.
      */
     public OpenCvVision(
         String instanceName, int numImageBuffers, TrcHomographyMapper.Rectangle cameraRect,
-        TrcHomographyMapper.Rectangle worldRect, CvSink cvSink, CvSource cvSource, TrcDbgTrace tracer)
+        TrcHomographyMapper.Rectangle worldRect, CvSink cvSink, CvSource cvSource)
     {
-        super(instanceName, numImageBuffers, cameraRect, worldRect, cvSink, cvSource,
-              tracer);
+        super(instanceName, numImageBuffers, cameraRect, worldRect, cvSink, cvSource);
 
-        this.tracer = tracer;
         TrcOpenCvColorBlobPipeline.FilterContourParams redBlobFilterContourParams =
             new TrcOpenCvColorBlobPipeline.FilterContourParams()
                 .setMinArea(10000.0)
@@ -125,12 +120,11 @@ public class OpenCvVision extends FrcOpenCvDetector
         aprilTagPipeline = new FrcOpenCvAprilTagPipeline(
             "tag16h5", null, new AprilTagPoseEstimator.Config(
                 RobotParams.APRILTAG_SIZE, RobotParams.WEBCAM_FX, RobotParams.WEBCAM_FY, RobotParams.WEBCAM_CX,
-                RobotParams.WEBCAM_CY),
-            tracer);
+                RobotParams.WEBCAM_CY));
         redBlobPipeline = new TrcOpenCvColorBlobPipeline(
-            "redBlobPipeline", colorConversion, redBlobColorThresholds, redBlobFilterContourParams, tracer);
+            "redBlobPipeline", colorConversion, redBlobColorThresholds, redBlobFilterContourParams, true);
         blueBlobPipeline = new TrcOpenCvColorBlobPipeline(
-            "blueBlobPipeline", colorConversion, blueBlobColorThresholds, blueBlobFilterContourParams, tracer);
+            "blueBlobPipeline", colorConversion, blueBlobColorThresholds, blueBlobFilterContourParams, true);
     }   //OpenCvVision
 
     /**
@@ -138,11 +132,7 @@ public class OpenCvVision extends FrcOpenCvDetector
      */
     private void updatePipeline()
     {
-        if (tracer != null)
-        {
-            tracer.traceInfo("updatePipeline", "objType=%s", objectType);
-        }
-
+        tracer.traceDebug(instanceName, "objType=" + objectType);
         switch (objectType)
         {
             case APRILTAG:

@@ -34,6 +34,7 @@ import TrcFrcLib.frclib.FrcChoiceMenu;
 import TrcFrcLib.frclib.FrcMatchInfo;
 import TrcFrcLib.frclib.FrcUserChoices;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class implements the code to run in Autonomous Mode.
@@ -50,6 +51,7 @@ public class FrcAuto implements TrcRobot.RobotMode
     //
     public static enum AutoStrategy
     {
+        HYBRID_MODE_AUTO,
         PP_DRIVE,
         PID_DRIVE,
         TIMED_DRIVE,
@@ -113,9 +115,16 @@ public class FrcAuto implements TrcRobot.RobotMode
             allianceMenu.addChoice("Red", DriverStation.Alliance.Red);
             allianceMenu.addChoice("Blue", DriverStation.Alliance.Blue, true, true);
 
-            autoStrategyMenu.addChoice("Pure Pursuit Drive", AutoStrategy.PP_DRIVE);
-            autoStrategyMenu.addChoice("PID Drive", AutoStrategy.PID_DRIVE);
-            autoStrategyMenu.addChoice("Timed Drive", AutoStrategy.TIMED_DRIVE);
+            if (RobotParams.Preferences.hybridMode)
+            {
+                autoStrategyMenu.addChoice("Hybrid-mode Auto", AutoStrategy.HYBRID_MODE_AUTO);
+            }
+            else
+            {
+                autoStrategyMenu.addChoice("Pure Pursuit Drive", AutoStrategy.PP_DRIVE);
+                autoStrategyMenu.addChoice("PID Drive", AutoStrategy.PID_DRIVE);
+                autoStrategyMenu.addChoice("Timed Drive", AutoStrategy.TIMED_DRIVE);
+            }
             autoStrategyMenu.addChoice("Do Nothing", AutoStrategy.DO_NOTHING, true, true);
 
             autoStartPosMenu.addChoice("Start Position 1", AutoStartPos.POS_1, true, false);
@@ -282,28 +291,46 @@ public class FrcAuto implements TrcRobot.RobotMode
         //
         switch (autoChoices.getStrategy())
         {
+            case HYBRID_MODE_AUTO:
+                robot.m_autonomousCommand = robot.m_robotContainer.getAutonomousCommand();
+                // schedule the autonomous command (example)
+                if (robot.m_autonomousCommand != null)
+                {
+                    robot.m_autonomousCommand.schedule();
+                }
+                break;
+
             case PP_DRIVE:
-                autoCommand = new CmdPurePursuitDrive(
-                    robot.robotDrive.driveBase, robot.robotDrive.xPosPidCoeff, robot.robotDrive.yPosPidCoeff,
-                    robot.robotDrive.turnPidCoeff, robot.robotDrive.velPidCoeff);
-                ((CmdPurePursuitDrive) autoCommand).start(
-                    0.0, robot.robotDrive.driveBase.getFieldPosition(), false,
-                    RobotParams.TEAM_FOLDER_PATH + "/" + autoChoices.getPathFile(), false);
+                if (robot.robotDrive != null)
+                {
+                    autoCommand = new CmdPurePursuitDrive(
+                        robot.robotDrive.driveBase, robot.robotDrive.xPosPidCoeff, robot.robotDrive.yPosPidCoeff,
+                        robot.robotDrive.turnPidCoeff, robot.robotDrive.velPidCoeff);
+                    ((CmdPurePursuitDrive) autoCommand).start(
+                        0.0, robot.robotDrive.driveBase.getFieldPosition(), false,
+                        RobotParams.TEAM_FOLDER_PATH + "/" + autoChoices.getPathFile(), false);
+                }
                 break;
 
             case PID_DRIVE:
-                autoCommand = new CmdPidDrive(
-                    robot.robotDrive.driveBase, robot.robotDrive.pidDrive, autoChoices.getStartDelay(),
-                    autoChoices.getDrivePower(), null,
-                    new TrcPose2D(autoChoices.getXDriveDistance()*12.0,
-                                  autoChoices.getYDriveDistance()*12.0,
-                                  autoChoices.getTurnAngle()));
+                if (robot.robotDrive != null)
+                {
+                    autoCommand = new CmdPidDrive(
+                        robot.robotDrive.driveBase, robot.robotDrive.pidDrive, autoChoices.getStartDelay(),
+                        autoChoices.getDrivePower(), null,
+                        new TrcPose2D(autoChoices.getXDriveDistance()*12.0,
+                                      autoChoices.getYDriveDistance()*12.0,
+                                      autoChoices.getTurnAngle()));
+                }
                 break;
 
             case TIMED_DRIVE:
-                autoCommand = new CmdTimedDrive(
-                    robot.robotDrive.driveBase, autoChoices.getStartDelay(), autoChoices.getDriveTime(), 0.0,
-                    autoChoices.getDrivePower(), 0.0);
+                if (robot.robotDrive != null)
+                {
+                    autoCommand = new CmdTimedDrive(
+                        robot.robotDrive.driveBase, autoChoices.getStartDelay(), autoChoices.getDriveTime(), 0.0,
+                        autoChoices.getDrivePower(), 0.0);
+                }
                 break;
 
             default:
@@ -350,6 +377,11 @@ public class FrcAuto implements TrcRobot.RobotMode
             // Run the autonomous command.
             //
             autoCommand.cmdPeriodic(elapsedTime);
+        }
+
+        if (RobotParams.Preferences.hybridMode)
+        {
+            Command command = robot.m_robotContainer.s_Swerve.getCurrentCommand();
         }
 
         if (slowPeriodicLoop)

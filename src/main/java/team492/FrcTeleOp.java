@@ -27,6 +27,7 @@ import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcXboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class implements the code to run in TeleOp Mode.
@@ -80,6 +81,18 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         {
             robot.robotDrive.driveBase.setDriveOrientation(DriveOrientation.FIELD, true);
         }
+
+        if (RobotParams.Preferences.hybridMode)
+        {
+            // This makes sure that the autonomous stops running when
+            // teleop starts running. If you want the autonomous to
+            // continue until interrupted by another command, remove
+            // this line or comment it out.
+            if (robot.m_autonomousCommand != null)
+            {
+                robot.m_autonomousCommand.cancel();
+            }
+        }
     }   //startMode
 
     /**
@@ -114,6 +127,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     @Override
     public void periodic(double elapsedTime, boolean slowPeriodicLoop)
     {
+        if (RobotParams.Preferences.hybridMode)
+        {
+            Command command = robot.m_robotContainer.s_Swerve.getCurrentCommand();
+        }
+
         if (slowPeriodicLoop)
         {
             if (controlsEnabled)
@@ -217,7 +235,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         {
             case FrcXboxController.BUTTON_A:
                 // Toggle between field or robot oriented driving.
-                if (pressed)
+                if (robot.robotDrive != null && pressed)
                 {
                     if (robot.robotDrive.driveBase.getDriveOrientation() != DriveOrientation.FIELD)
                     {
@@ -253,9 +271,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.RIGHT_BUMPER:
-                // Inverted drive only makes sense for robot oriented driving.
-                if (robot.robotDrive.driveBase.getDriveOrientation() == DriveOrientation.ROBOT)
+                if (robot.robotDrive != null &&
+                    robot.robotDrive.driveBase.getDriveOrientation() == DriveOrientation.ROBOT)
                 {
+                    // Inverted drive only makes sense for robot oriented driving.
                     robot.robotDrive.driveBase.setDriveOrientation(
                         pressed? DriveOrientation.INVERTED: DriveOrientation.ROBOT, false);
                 }
@@ -356,7 +375,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         {
             case FrcJoystick.SIDEWINDER_TRIGGER:
                 // Toggle between field or robot oriented driving.
-                if (pressed)
+                if (robot.robotDrive != null && pressed)
                 {
                     if (robot.robotDrive.driveBase.getDriveOrientation() != DriveOrientation.FIELD)
                     {
@@ -371,7 +390,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
             case FrcJoystick.LOGITECH_BUTTON3:
                 // Inverted drive only makes sense for robot oriented driving.
-                if (robot.robotDrive.driveBase.getDriveOrientation() == DriveOrientation.ROBOT)
+                if (robot.robotDrive != null &&
+                    robot.robotDrive.driveBase.getDriveOrientation() == DriveOrientation.ROBOT)
                 {
                     robot.robotDrive.driveBase.setDriveOrientation(
                         pressed? DriveOrientation.INVERTED: DriveOrientation.ROBOT, false);

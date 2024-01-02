@@ -30,7 +30,6 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcFrcLib.frclib.FrcPhotonVision;
@@ -45,10 +44,6 @@ import team492.subsystems.LEDIndicator;
  */
 public class PhotonVision extends FrcPhotonVision
 {
-    private static final String moduleName = "PhotonVision";
-    private static final TrcDbgTrace globalTracer = TrcDbgTrace.getGlobalTracer();
-    private static final boolean debugEnabled = false;
-
     public enum PipelineType
     {
         APRILTAG(0);
@@ -87,11 +82,10 @@ public class PhotonVision extends FrcPhotonVision
      *
      * @param cameraName specifies the photon vision camera name.
      * @param ledIndicator specifies the LEDIndicator object, can be null if none provided.
-     * @param tracer specifies the tracer for trace info, null if none provided.
      */
-    public PhotonVision(String cameraName, LEDIndicator ledIndicator, TrcDbgTrace tracer)
+    public PhotonVision(String cameraName, LEDIndicator ledIndicator)
     {
-        super(cameraName, RobotParams.CAMERA_HEIGHT, RobotParams.CAMERA_PITCH, tracer);
+        super(cameraName, RobotParams.CAMERA_HEIGHT, RobotParams.CAMERA_PITCH);
         this.ledIndicator = ledIndicator;
 
         double startTime = TrcTimer.getModeElapsedTime();
@@ -108,12 +102,7 @@ public class PhotonVision extends FrcPhotonVision
         }
         double endTime = TrcTimer.getModeElapsedTime();
 
-        if (debugEnabled)
-        {
-            globalTracer.traceInfo(
-                moduleName, "[%.3f] Loading AprilTag field layout took %.3f sec.", endTime, endTime - startTime);
-        }
-
+        tracer.traceDebug(instanceName, "Loading AprilTag field layout took " + (endTime - startTime) + " sec.");
         setPipeline(PipelineType.APRILTAG);
     }   //PhotonVision
 
@@ -155,7 +144,6 @@ public class PhotonVision extends FrcPhotonVision
      */
     public TrcPose2D getRobotFieldPosition(DetectedObject detectedObj)
     {
-        final String funcName = "getRobotFieldPosition";
         TrcPose2D robotPose = null;
         int aprilTagId = detectedObj.target.getFiducialId();
         // aprilTagPose is the absolute field position of the AprilTag.
@@ -169,13 +157,11 @@ public class PhotonVision extends FrcPhotonVision
             Pose3d robotPose3d = camPose3d.transformBy(RobotParams.CAMERA_TRANSFORM3D.inverse());
             // robotPose is the absolute field position of the robot adjusted to the robot coordinate system.
             robotPose = DetectedObject.pose3dToTrcPose2D(robotPose3d);
-
-            if (debugEnabled)
-            {
-                globalTracer.traceInfo(
-                    funcName, "[%d] camPose3d=%s, robotPose3d=%s, RobotPose=%s",
-                    aprilTagId, camPose3d, robotPose3d, robotPose);
-            }
+            tracer.traceDebug(
+                instanceName,
+                "[" + aprilTagId + "] camPose3d=" + camPose3d +
+                ", robotPose3d=" + robotPose3d +
+                ", RobotPose=" + robotPose);
         }
 
         return robotPose;
