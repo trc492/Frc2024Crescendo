@@ -412,30 +412,30 @@ public class FrcTest extends FrcTeleOp
                     double velocity = TrcUtil.magnitude(velPose.x, velPose.y);
                     double acceleration = 0.0;
                     double turnRate = robot.robotDrive.driveBase.getTurnRate();
-    
+
                     if (prevTime != 0.0)
                     {
                         acceleration = (velocity - prevVelocity)/(currTime - prevTime);
                     }
-    
+
                     if (velocity > maxDriveVelocity)
                     {
                         maxDriveVelocity = velocity;
                     }
-    
+
                     if (acceleration > maxDriveAcceleration)
                     {
                         maxDriveAcceleration = acceleration;
                     }
-    
+
                     if (turnRate > maxTurnRate)
                     {
                         maxTurnRate = turnRate;
                     }
-    
+
                     prevTime = currTime;
                     prevVelocity = velocity;
-    
+
                     robot.dashboard.displayPrintf(9, "Drive Vel: (%.1f/%.1f)", velocity, maxDriveVelocity);
                     robot.dashboard.displayPrintf(10, "Drive Accel: (%.1f/%.1f)", acceleration, maxDriveAcceleration);
                     robot.dashboard.displayPrintf(11, "Turn Rate: (%.1f/%.1f)", turnRate, maxTurnRate);
