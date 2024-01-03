@@ -190,14 +190,17 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     {
         controlsEnabled = enabled;
 
-        if (RobotParams.Preferences.useDriverXboxController)
+        if (!RobotParams.Preferences.hybridMode)
         {
-            robot.driverController.setButtonHandler(enabled? this::driverControllerButtonEvent: null);
-        }
-        else
-        {
-            robot.leftDriveStick.setButtonHandler(enabled? this::leftDriveStickButtonEvent: null);
-            robot.rightDriveStick.setButtonHandler(enabled? this::rightDriveStickButtonEvent: null);
+            if (RobotParams.Preferences.useDriverXboxController)
+            {
+                robot.driverController.setButtonHandler(enabled? this::driverControllerButtonEvent: null);
+            }
+            else
+            {
+                robot.leftDriveStick.setButtonHandler(enabled? this::leftDriveStickButtonEvent: null);
+                robot.rightDriveStick.setButtonHandler(enabled? this::rightDriveStickButtonEvent: null);
+            }
         }
 
         robot.operatorStick.setButtonHandler(enabled? this::operatorStickButtonEvent: null);
