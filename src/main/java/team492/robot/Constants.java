@@ -1,6 +1,8 @@
 package team492.robot;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -39,21 +41,20 @@ public final class Constants {
         /* Motor Inverts */
         // Our code allows motors to be inverted individually, their code assumes all motors must be the same.
         // Steer motors should all be the same but drive motors could be different depending on how we zero align them.
-        public static final boolean angleMotorInvert = true;
-        public static final boolean driveMotorInvert = true;
-
+        public static final InvertedValue angleMotorInvert = InvertedValue.Clockwise_Positive;
+        public static final InvertedValue driveMotorInvert = InvertedValue.Clockwise_Positive;
         /* Angle Encoder Invert */
-        public static final boolean angleEncoderInvert = false;
+        public static final SensorDirectionValue cancoderInvert = SensorDirectionValue.CounterClockwise_Positive;
 
         /* Swerve Current Limiting */
-        public static final int angleContinuousCurrentLimit = 25;
-        public static final int anglePeakCurrentLimit = 40;
-        public static final double anglePeakCurrentDuration = 0.1;
+        public static final int angleCurrentLimit = 25;
+        public static final int angleCurrentThreshold = 40;
+        public static final double angleCurrentThresholdTime = 0.1;
         public static final boolean angleEnableCurrentLimit = true;
 
-        public static final int driveContinuousCurrentLimit = 35;
-        public static final int drivePeakCurrentLimit = 60;
-        public static final double drivePeakCurrentDuration = 0.1;
+        public static final int driveCurrentLimit = 35;
+        public static final int driveCurrentThreshold = 60;
+        public static final double driveCurrentThresholdTime = 0.1;
         public static final boolean driveEnableCurrentLimit = true;
 
         /* These values are used by the drive falcon to ramp in open loop and closed loop driving.
@@ -65,7 +66,6 @@ public final class Constants {
         public static final double angleKP = RobotParams.SWERVE_STEER_KP;
         public static final double angleKI = RobotParams.SWERVE_STEER_KI;
         public static final double angleKD = RobotParams.SWERVE_STEER_KD;
-        public static final double angleKF = RobotParams.SWERVE_STEER_KF;
 
         /* Drive Motor PID Values */
         public static final double driveKP = RobotParams.SWERVE_DRIVE_KP;
@@ -73,8 +73,7 @@ public final class Constants {
         public static final double driveKD = RobotParams.SWERVE_DRIVE_KD; //.6
         public static final double driveKF = RobotParams.SWERVE_DRIVE_KF; //.91
 
-        /* Drive Motor Characterization Values -
-         * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
+        /* Drive Motor Characterization Values From SYSID */
         public static final double driveKS = (0.25242 / 12); //TODO: This must be tuned to specific robot // 0.23
         public static final double driveKV = (3.9982 / 12); // 1.476
         public static final double driveKA = (0.43183/ 12); // 0.3 //.85
@@ -87,8 +86,8 @@ public final class Constants {
         public static final double maxAngularVelocity = Units.degreesToRadians(RobotParams.ROBOT_MAX_TURN_RATE);
 
         /* Neutral Modes */
-        public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
-        public static final NeutralMode driveNeutralMode = NeutralMode.Brake;
+        public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
+        public static final NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
 
         /* Module Specific Constants */
         /* Left Front Module - Module 0 */

@@ -76,9 +76,8 @@ public class DifferentialDrive extends RobotDrive
 
         pidDrive = new TrcPidDrive(
             "pidDrive", driveBase,
-            null,
-            new TrcPidController.PidParameters(yPosPidCoeff, RobotParams.WCD_TOLERANCE, driveBase::getYPosition),
-            new TrcPidController.PidParameters(turnPidCoeff, RobotParams.GYRO_TURN_TOLERANCE, driveBase::getHeading));
+            yPosPidCoeff, RobotParams.WCD_TOLERANCE, driveBase::getYPosition,
+            turnPidCoeff, RobotParams.GYRO_TURN_TOLERANCE, driveBase::getHeading);
 
         TrcPidController yPidCtrl = pidDrive.getYPidCtrl();
         yPidCtrl.setOutputLimit(RobotParams.DRIVE_MAX_YPID_POWER);

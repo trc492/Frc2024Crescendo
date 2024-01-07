@@ -22,7 +22,7 @@
 
 package team492.vision;
 
-import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
@@ -93,10 +93,10 @@ public class PhotonVision extends FrcPhotonVision
         {
             aprilTagFieldLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
             poseEstimator = new PhotonPoseEstimator(
-                aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP, this, RobotParams.CAMERA_TRANSFORM3D);
+                aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_RIO, this, RobotParams.CAMERA_TRANSFORM3D);
             poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         }
-        catch (IOException e)
+        catch (UncheckedIOException e)
         {
             throw new RuntimeException("Failed to load AprilTag field layout info.");
         }

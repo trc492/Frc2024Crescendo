@@ -84,9 +84,9 @@ public class MecanumDrive extends RobotDrive
 
         pidDrive = new TrcPidDrive(
             "pidDrive", driveBase,
-            new TrcPidController.PidParameters(xPosPidCoeff, RobotParams.MECANUM_X_TOLERANCE, driveBase::getXPosition),
-            new TrcPidController.PidParameters(yPosPidCoeff, RobotParams.MECANUM_Y_TOLERANCE, driveBase::getYPosition),
-            new TrcPidController.PidParameters(turnPidCoeff, RobotParams.GYRO_TURN_TOLERANCE, driveBase::getHeading));
+            xPosPidCoeff, RobotParams.MECANUM_X_TOLERANCE, driveBase::getXPosition,
+            yPosPidCoeff, RobotParams.MECANUM_Y_TOLERANCE, driveBase::getYPosition,
+            turnPidCoeff, RobotParams.GYRO_TURN_TOLERANCE, driveBase::getHeading);
 
         TrcPidController xPidCtrl = pidDrive.getXPidCtrl();
         xPidCtrl.setOutputLimit(RobotParams.DRIVE_MAX_XPID_POWER);
