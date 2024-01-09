@@ -18,8 +18,8 @@ public final class Constants {
     public static final class Swerve {
         public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
 
-        // public static final COTSFalconSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
-        //     COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
+        // public static final COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
+        //     COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
 
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(RobotParams.ROBOT_WHEELBASE_WIDTH);
@@ -41,8 +41,8 @@ public final class Constants {
         /* Motor Inverts */
         // Our code allows motors to be inverted individually, their code assumes all motors must be the same.
         // Steer motors should all be the same but drive motors could be different depending on how we zero align them.
-        public static final InvertedValue angleMotorInvert = InvertedValue.Clockwise_Positive;
         public static final InvertedValue driveMotorInvert = InvertedValue.Clockwise_Positive;
+        public static final InvertedValue angleMotorInvert = InvertedValue.Clockwise_Positive;
         /* Angle Encoder Invert */
         public static final SensorDirectionValue cancoderInvert = SensorDirectionValue.CounterClockwise_Positive;
 
@@ -81,7 +81,6 @@ public final class Constants {
         /* Swerve Profiling Values */
         /** Meters per Second */
         public static final double maxSpeed = Units.inchesToMeters(RobotParams.ROBOT_MAX_VELOCITY);
-
         /** Radians per Second */
         public static final double maxAngularVelocity = Units.degreesToRadians(RobotParams.ROBOT_MAX_TURN_RATE);
 
@@ -139,7 +138,7 @@ public final class Constants {
 
         public static final double kPXController = 0.0;//0.00149
         public static final double kPYController = 0.0;
-        public static final double  kPThetaController = 0.0;
+        public static final double kPThetaController = 0.0;
 
         /* Constraint for the motion profilied robot angle controller */
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
