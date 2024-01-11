@@ -60,9 +60,9 @@ public final class Constants {
         public static final double closedLoopRamp = 0.0;
 
         /* Angle Motor PID Values */
-        public static final double angleKP = RobotParams.SWERVE_STEER_KP;
-        public static final double angleKI = RobotParams.SWERVE_STEER_KI;
-        public static final double angleKD = RobotParams.SWERVE_STEER_KD;
+        public static final double angleKP = 100.0;
+        public static final double angleKI = 0.0;
+        public static final double angleKD = 0.0;
 
         /* Drive Motor PID Values */
         public static final double driveKP = RobotParams.SWERVE_DRIVE_KP;
