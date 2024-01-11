@@ -55,7 +55,7 @@ public class DifferentialDrive extends RobotDrive
 
         driveMotors = createMotors(MotorType.CanSparkMax, true, driveMotorNames, driveMotorIds, driveMotorInverted);
         driveBase = new TrcSimpleDriveBase(driveMotors[INDEX_LEFT_FRONT], driveMotors[INDEX_RIGHT_FRONT], gyro);
-        driveBase.setOdometryScales(RobotParams.WCD_INCHES_PER_ENCODER_UNIT);
+        driveBase.setOdometryScales(RobotParams.WCD_INCHES_PER_COUNT);
 
         if (robot.pdp != null)
         {

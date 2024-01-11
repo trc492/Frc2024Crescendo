@@ -60,8 +60,7 @@ public class MecanumDrive extends RobotDrive
         driveBase = new TrcMecanumDriveBase(
             driveMotors[INDEX_LEFT_FRONT], driveMotors[INDEX_LEFT_BACK],
             driveMotors[INDEX_RIGHT_FRONT], driveMotors[INDEX_RIGHT_BACK], gyro);
-        driveBase.setOdometryScales(
-            RobotParams.MECANUM_X_INCHES_PER_ENCODER_UNIT, RobotParams.MECANUM_Y_INCHES_PER_ENCODER_UNIT);
+        driveBase.setOdometryScales(RobotParams.MECANUM_X_INCHES_PER_COUNT, RobotParams.MECANUM_Y_INCHES_PER_COUNT);
 
         if (robot.pdp != null)
         {
