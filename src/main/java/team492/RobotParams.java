@@ -403,7 +403,7 @@ public class RobotParams
 
     // public static final TrcPidController.PidCoefficients magicSteerCoeff =
     //     new TrcPidController.PidCoefficients(2.0, 0.01, 0.0, 1023.0 / STEER_MAX_VEL_COUNT_PER_100MS, 5.0 / STEER_DEGREES_PER_COUNT);
-    public static final double SWERVE_STEER_KP                  = 0.3;
+    public static final double SWERVE_STEER_KP                  = 0.6;
     public static final double SWERVE_STEER_KI                  = 0.0;
     public static final double SWERVE_STEER_KD                  = 0.0;
     // kF set to Motion Magic recommendation.

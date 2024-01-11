@@ -421,11 +421,15 @@ public class Robot extends FrcRobotBase
                         SwerveDrive swerveDrive = (SwerveDrive) robotDrive;
 
                         dashboard.displayPrintf(
-                            lineNum++, "SteerAngle: lf=%.1f, rf=%.1f, lb=%.1f, rb=%.1f",
+                            lineNum++, "SteerAngle: lf=%.1f/%.1f, rf=%.1f/%.1f, lb=%.1f/%.1f, rb=%.1f/%.1f",
                             swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_FRONT].getSteerAngle(),
+                            swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_FRONT].steerMotor.getMotorPosition(),
                             swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_FRONT].getSteerAngle(),
+                            swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_FRONT].steerMotor.getMotorPosition(),
                             swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_BACK].getSteerAngle(),
-                            swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_BACK].getSteerAngle());
+                            swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_BACK].steerMotor.getMotorPosition(),
+                            swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_BACK].getSteerAngle(),
+                            swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_BACK].steerMotor.getMotorPosition());
                     }
                     dashboard.displayPrintf(lineNum++, "DriveBase: pose=%s", robotPose);
 

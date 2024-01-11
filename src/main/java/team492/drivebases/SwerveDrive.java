@@ -301,24 +301,24 @@ public class SwerveDrive extends RobotDrive
 
         for (int i = 0; i < names.length; i++)
         {
-            steerMotors[i].setPositionSensorScaleAndOffset(360.0, 0.0);
+            steerMotors[i].setBrakeModeEnabled(false);
+            steerMotors[i].setPositionSensorScaleAndOffset(RobotParams.SWERVE_STEER_DEGREES_PER_ENCODER_UNIT, 0.0);
             steerMotors[i].setPositionPidCoefficients(RobotParams.steerCoeffs);
             // getPosition returns a value in the range of 0 to 1.0 of one revolution.
-            double absEncoderPos = steerEncoders[i].getScaledPosition();
-            // double encoderPos = absEncoderPos * RobotParams.SWERVE_STEER_MOTOR_CPR;
-            StatusCode statusCode = ((FrcCANFalcon) steerMotors[i]).motor.setPosition(absEncoderPos);
+            double motorEncoderPos = steerEncoders[i].getScaledPosition() * RobotParams.SWERVE_STEER_GEAR_RATIO;
+            StatusCode statusCode = ((FrcCANFalcon) steerMotors[i]).motor.setPosition(motorEncoderPos);
             if (statusCode != StatusCode.OK)
             {
                 robot.globalTracer.traceWarn(
-                    moduleName, names[i] + ": Falcon.setPosition failed (code=" + statusCode + ", pos=" + absEncoderPos +
-                    ").");
+                    moduleName, names[i] + ": Falcon.setPosition failed (code=" + statusCode +
+                    ", pos=" + motorEncoderPos + ").");
             }
-            double motorEncoderPos = ((FrcCANFalcon) steerMotors[i]).motor.getPosition().getValueAsDouble();
-            if (Math.abs(absEncoderPos - motorEncoderPos) > 1.0)
+            double actualEncoderPos = ((FrcCANFalcon) steerMotors[i]).motor.getPosition().getValueAsDouble();
+            if (Math.abs(motorEncoderPos - actualEncoderPos) > 0.001)
             {
                 robot.globalTracer.traceWarn(
                     names[i],
-                    "Steer encoder out-of-sync (expected=" + absEncoderPos + ", actual=" + motorEncoderPos + ")");
+                    "Steer encoder out-of-sync (expected=" + motorEncoderPos + ", actual=" + actualEncoderPos + ")");
             }
             // We have already synchronized the Falcon internal encoder with the zero adjusted absolute encoder, so
             // Falcon servo does not need to compensate for zero position.
