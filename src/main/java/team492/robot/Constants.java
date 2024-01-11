@@ -2,7 +2,6 @@ package team492.robot;
 
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -43,8 +42,6 @@ public final class Constants {
         // Steer motors should all be the same but drive motors could be different depending on how we zero align them.
         public static final InvertedValue driveMotorInvert = InvertedValue.Clockwise_Positive;
         public static final InvertedValue angleMotorInvert = InvertedValue.Clockwise_Positive;
-        /* Angle Encoder Invert */
-        public static final SensorDirectionValue cancoderInvert = SensorDirectionValue.CounterClockwise_Positive;
 
         /* Swerve Current Limiting */
         public static final int angleCurrentLimit = 25;

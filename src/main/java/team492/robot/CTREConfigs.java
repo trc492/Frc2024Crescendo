@@ -1,12 +1,10 @@
 package team492.robot;
 
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 public final class CTREConfigs {
     public TalonFXConfiguration swerveAngleFXConfig = new TalonFXConfiguration();
     public TalonFXConfiguration swerveDriveFXConfig = new TalonFXConfiguration();
-    // public CANCoderConfiguration swerveCanCoderConfig = new CANCoderConfiguration();
 
     public CTREConfigs(){
         /** Swerve Angle Motor Configurations */
@@ -18,10 +16,6 @@ public final class CTREConfigs {
         swerveAngleFXConfig.Feedback.SensorToMechanismRatio = Constants.Swerve.angleGearRatio;
         swerveAngleFXConfig.ClosedLoopGeneral.ContinuousWrap = true;
 
-        MotorOutputConfigs angleMotorOutput = swerveAngleFXConfig.MotorOutput;
-        angleMotorOutput.Inverted = Constants.Swerve.angleMotorInvert;
-        angleMotorOutput.NeutralMode = Constants.Swerve.angleNeutralMode;
-        
         /* Current Limiting */
         swerveAngleFXConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.Swerve.angleEnableCurrentLimit;
         swerveAngleFXConfig.CurrentLimits.SupplyCurrentLimit = Constants.Swerve.angleCurrentLimit;
@@ -52,17 +46,11 @@ public final class CTREConfigs {
         swerveDriveFXConfig.Slot0.kI = Constants.Swerve.driveKI;
         swerveDriveFXConfig.Slot0.kD = Constants.Swerve.driveKD;
 
-        var driveSlot0 = swerveDriveFXConfig.Slot0;
-        driveSlot0.kP = Constants.Swerve.driveKP;
-        driveSlot0.kI = Constants.Swerve.driveKI;
-        driveSlot0.kD = Constants.Swerve.driveKD;
-
         /* Open and Closed Loop Ramping */
         swerveDriveFXConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = Constants.Swerve.openLoopRamp;
         swerveDriveFXConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = Constants.Swerve.openLoopRamp;
 
         swerveDriveFXConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = Constants.Swerve.closedLoopRamp;
         swerveDriveFXConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.Swerve.closedLoopRamp;
-        
     }
 }

@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import team492.Robot;
+import team492.RobotParams;
 import team492.robot.lib.math.Conversions;
 import team492.robot.lib.util.SwerveModuleConstants;
 
@@ -74,7 +75,7 @@ public class SwerveModule {
     }
 
     public void resetToAbsolute(){
-        double absolutePosition = angleEncoder.getAbsPosition() - angleOffset.getRotations();
+        double absolutePosition = (angleEncoder.getAbsPosition() - angleOffset.getRotations()) * RobotParams.SWERVE_STEER_GEAR_RATIO;
         mAngleMotor.setPosition(absolutePosition);
     }
 
