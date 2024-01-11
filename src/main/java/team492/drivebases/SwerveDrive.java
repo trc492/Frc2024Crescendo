@@ -123,7 +123,7 @@ public class SwerveDrive extends RobotDrive
             swerveModules[INDEX_RIGHT_FRONT], swerveModules[INDEX_RIGHT_BACK], gyro,
             RobotParams.ROBOT_WHEELBASE_WIDTH, RobotParams.ROBOT_WHEELBASE_LENGTH);
         driveBase.setOdometryScales(
-            RobotParams.SWERVE_DRIVE_INCHES_PER_COUNT, RobotParams.SWERVE_DRIVE_INCHES_PER_COUNT);
+            RobotParams.SWERVE_DRIVE_INCHES_PER_ENCODER_UNIT, RobotParams.SWERVE_DRIVE_INCHES_PER_ENCODER_UNIT);
 
         if (RobotParams.Preferences.useAntiTipping)
         {
@@ -301,26 +301,25 @@ public class SwerveDrive extends RobotDrive
 
         for (int i = 0; i < names.length; i++)
         {
+            steerMotors[i].setBrakeModeEnabled(false);
+            steerMotors[i].setPositionSensorScaleAndOffset(RobotParams.SWERVE_STEER_DEGREES_PER_ENCODER_UNIT, 0.0);
+            steerMotors[i].setPositionPidCoefficients(RobotParams.steerCoeffs);
             // getPosition returns a value in the range of 0 to 1.0 of one revolution.
-            double absEncoderPos = steerEncoders[i].getScaledPosition();
-            double encoderPos = absEncoderPos * RobotParams.SWERVE_STEER_MOTOR_CPR;
-            StatusCode statusCode = ((FrcCANFalcon) steerMotors[i]).motor.getConfigurator().setPosition(absEncoderPos);
+            double motorEncoderPos = steerEncoders[i].getScaledPosition() * RobotParams.SWERVE_STEER_GEAR_RATIO;
+            StatusCode statusCode = ((FrcCANFalcon) steerMotors[i]).motor.setPosition(motorEncoderPos);
             if (statusCode != StatusCode.OK)
             {
                 robot.globalTracer.traceWarn(
-                    moduleName, names[i] + ": Falcon.setPosition failed (code=" + statusCode + ", pos=" + encoderPos +
-                    ").");
+                    moduleName, names[i] + ": Falcon.setPosition failed (code=" + statusCode +
+                    ", pos=" + motorEncoderPos + ").");
             }
-            double motorEncoderPos = ((FrcCANFalcon) steerMotors[i]).motor.getPosition().getValueAsDouble();
-            if (Math.abs(encoderPos - motorEncoderPos) > 1.0)
+            double actualEncoderPos = ((FrcCANFalcon) steerMotors[i]).motor.getPosition().getValueAsDouble();
+            if (Math.abs(motorEncoderPos - actualEncoderPos) > 0.001)
             {
                 robot.globalTracer.traceWarn(
                     names[i],
-                    "Steer encoder out-of-sync (expected=" + encoderPos + ", actual=" + motorEncoderPos + ")");
+                    "Steer encoder out-of-sync (expected=" + motorEncoderPos + ", actual=" + actualEncoderPos + ")");
             }
-            // steerMotors[i].setControlMode(TalonFXControlMode.MotionMagic);
-            steerMotors[i].setPositionSensorScaleAndOffset(RobotParams.SWERVE_STEER_DEGREES_PER_COUNT, 0.0);
-            steerMotors[i].setPositionPidCoefficients(RobotParams.steerCoeffs);
             // We have already synchronized the Falcon internal encoder with the zero adjusted absolute encoder, so
             // Falcon servo does not need to compensate for zero position.
             modules[i] = new TrcSwerveModule(names[i], driveMotors[i], steerMotors[i]);
@@ -345,14 +344,14 @@ public class SwerveDrive extends RobotDrive
         // if (lbSteerAbsEnc > 90.0) lbSteerAbsEnc = 180.0 - lbSteerAbsEnc;
         double rbSteerAbsEnc = steerEncoders[INDEX_RIGHT_BACK].getScaledPosition()*360.0;
         // if (rbSteerAbsEnc > 90.0) rbSteerAbsEnc = 180.0 - rbSteerAbsEnc;
-        double lfSteerEnc = (steerMotors[INDEX_LEFT_FRONT].getMotorPosition() % RobotParams.SWERVE_STEER_MOTOR_CPR) /
-                            RobotParams.SWERVE_STEER_MOTOR_CPR * 360.0;
-        double rfSteerEnc = (steerMotors[INDEX_RIGHT_FRONT].getMotorPosition() % RobotParams.SWERVE_STEER_MOTOR_CPR) /
-                            RobotParams.SWERVE_STEER_MOTOR_CPR * 360.0;
-        double lbSteerEnc = (steerMotors[INDEX_LEFT_BACK].getMotorPosition() % RobotParams.SWERVE_STEER_MOTOR_CPR) /
-                            RobotParams.SWERVE_STEER_MOTOR_CPR * 360.0;
-        double rbSteerEnc = (steerMotors[INDEX_RIGHT_BACK].getMotorPosition() % RobotParams.SWERVE_STEER_MOTOR_CPR) /
-                            RobotParams.SWERVE_STEER_MOTOR_CPR * 360.0;
+        double lfSteerEnc =
+            (360.0 * steerMotors[INDEX_LEFT_FRONT].getMotorPosition() / RobotParams.SWERVE_STEER_GEAR_RATIO) % 360.0;
+        double rfSteerEnc =
+            (360.0 * steerMotors[INDEX_RIGHT_FRONT].getMotorPosition() / RobotParams.SWERVE_STEER_GEAR_RATIO) % 360.0;
+        double lbSteerEnc =
+            (360.0 * steerMotors[INDEX_LEFT_BACK].getMotorPosition() / RobotParams.SWERVE_STEER_GEAR_RATIO) % 360.0;
+        double rbSteerEnc =
+            (360.0 * steerMotors[INDEX_RIGHT_BACK].getMotorPosition() / RobotParams.SWERVE_STEER_GEAR_RATIO) % 360.0;
 
         robot.dashboard.displayPrintf(
             lineNum, "SteerEnc: lf=%6.1f/%6.1f, rf=%6.1f/%6.1f, lb=%6.1f/%6.1f, rb=%6.1f/%6.1f",

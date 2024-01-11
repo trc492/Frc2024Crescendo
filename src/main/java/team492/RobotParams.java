@@ -118,7 +118,7 @@ public class RobotParams
     //
     // Robot starting positions.
     //
-    public static final double STARTPOS_BLUE_Y                  = ROBOT_LENGTH/2.0;
+    public static final double STARTPOS_BLUE_Y                  = ROBOT_LENGTH / 2.0;
     public static final double STARTPOS_RED_Y                   = FIELD_LENGTH - STARTPOS_BLUE_Y;
     public static final double STARTPOS_1_X                     = -42.19;
     public static final double STARTPOS_2_X                     = -108.19;
@@ -308,28 +308,28 @@ public class RobotParams
     public static final String RBSWERVE_MODULE_NAME             = "rbWheel";
     public static final DriveMode ROBOT_DRIVE_MODE              = DriveMode.ArcadeMode;
     // West Coast Drive Base (not used);
-    public static final double WCD_INCHES_PER_COUNT             = 2.2421;
+    public static final double WCD_INCHES_PER_ENCODER_UNIT      = 2.2421;
     public static final double WCD_KP                           = 0.011;
     public static final double WCD_KI                           = 0.0;
     public static final double WCD_KD                           = 0.0013;
     public static final double WCD_KF                           = 0.0;
     public static final double WCD_TOLERANCE                    = 2.0;
     // Mecanum Drive Base (not used).
-    public static final double MECANUM_X_INCHES_PER_COUNT       = 2.2421;
+    public static final double MECANUM_X_INCHES_PER_ENCODER_UNIT= 2.2421;
     public static final double MECANUM_X_KP                     = 0.011;
     public static final double MECANUM_X_KI                     = 0.0;
     public static final double MECANUM_X_KD                     = 0.0013;
     public static final double MECANUM_X_KF                     = 0.0;
     public static final double MECANUM_X_TOLERANCE              = 2.0;
 
-    public static final double MECANUM_Y_INCHES_PER_COUNT       = 2.2421;
+    public static final double MECANUM_Y_INCHES_PER_ENCODER_UNIT= 2.2421;
     public static final double MECANUM_Y_KP                     = 0.011;
     public static final double MECANUM_Y_KI                     = 0.0;
     public static final double MECANUM_Y_KD                     = 0.0013;
     public static final double MECANUM_Y_KF                     = 0.0;
     public static final double MECANUM_Y_TOLERANCE              = 2.0;
 
-    // public static final double SWERVE_DRIVE_INCHES_PER_COUNT          = 9.072106867127145344367826764411e-4;
+    // public static final double SWERVE_DRIVE_INCHES_PER_ENCODER_UNIT= 9.072106867127145344367826764411e-4;
     public static final double SWERVE_DRIVE_KP                  = 0.003;
     public static final double SWERVE_DRIVE_KI                  = 0.0;
     public static final double SWERVE_DRIVE_KD                  = 0.0;
@@ -375,9 +375,9 @@ public class RobotParams
     public static final double DRIVE_MAX_YPID_POWER             = 0.6;
     public static final double DRIVE_MAX_TURNPID_POWER          = 1.0;
 
-    public static final double DRIVE_MAX_XPID_RAMP_RATE         = 0.5;
-    public static final double DRIVE_MAX_YPID_RAMP_RATE         = 0.5;
-    public static final double DRIVE_MAX_TURNPID_RAMP_RATE      = 1.0;
+    public static final double DRIVE_MAX_XPID_RAMP_RATE         = 0.5;  // percentPower per sec
+    public static final double DRIVE_MAX_YPID_RAMP_RATE         = 0.5;  // percentPower per sec
+    public static final double DRIVE_MAX_TURNPID_RAMP_RATE      = 1.0;  // percentPower per sec
 
     public static final double DRIVE_RAMP_RATE                  = 0.25;
 
@@ -387,28 +387,23 @@ public class RobotParams
     public static final double FALCON_MAX_RPM                   = 6380.0;
 
     public static final double SWERVE_DRIVE_GEAR_RATIO          = 9.63;
-    public static final double SWERVE_DRIVE_MOTOR_CPR           = FALCON_CPR * SWERVE_DRIVE_GEAR_RATIO;
     public static final double SWERVE_DRIVE_WHEEL_CIRCUMFERENCE = 12.56;
-    public static final double SWERVE_DRIVE_INCHES_PER_COUNT    = SWERVE_DRIVE_WHEEL_CIRCUMFERENCE / SWERVE_DRIVE_MOTOR_CPR;
+    public static final double SWERVE_DRIVE_INCHES_PER_ENCODER_UNIT =
+        SWERVE_DRIVE_WHEEL_CIRCUMFERENCE / SWERVE_DRIVE_GEAR_RATIO;
 
     // public static final double STEER_GEAR_RATIO                 = (24.0/12.0) * (72.0/14.0);
     public static final double SWERVE_STEER_GEAR_RATIO          = 15.43;
-    public static final double SWERVE_STEER_MOTOR_CPR           = FALCON_CPR * SWERVE_STEER_GEAR_RATIO;
-    public static final double SWERVE_STEER_DEGREES_PER_COUNT   = 360.0 / SWERVE_STEER_MOTOR_CPR;
+    public static final double SWERVE_STEER_DEGREES_PER_ENCODER_UNIT = 360.0 / SWERVE_STEER_GEAR_RATIO;
     // ((theoretical max rpm * speed loss constant / gear ratio) / 60 sec/min) * 360 deg/rev
     public static final double SWERVE_STEER_MAX_VEL             = (FALCON_MAX_RPM*0.81/SWERVE_STEER_GEAR_RATIO/60.0)*360.0;
-
-    public static final double SWERVE_STEER_MAX_REQ_VEL         = 1000.0;   // deg/sec. max commanded velocity, not necessarily max vel
-    public static final double SWERVE_STEER_MAX_ACCEL           = 5000.0;   // deg/sec^2
 
     // Zeroes are normalized offsets which are in the unit of percentage revolution (0.0 to 1.0).
     // This is a backup if file is not found: LF, RF, LB, RB.
     public static final double[] SWERVE_STEER_ZEROS             = new double[] {0.0, 0.0, 0.0, 0.0};
 
-    public static final double SWERVE_STEER_MAX_VEL_COUNT_PER_100MS= (SWERVE_STEER_MAX_VEL / SWERVE_STEER_DEGREES_PER_COUNT) / 10.0;
     // public static final TrcPidController.PidCoefficients magicSteerCoeff =
     //     new TrcPidController.PidCoefficients(2.0, 0.01, 0.0, 1023.0 / STEER_MAX_VEL_COUNT_PER_100MS, 5.0 / STEER_DEGREES_PER_COUNT);
-    public static final double SWERVE_STEER_KP                  = 0.3;
+    public static final double SWERVE_STEER_KP                  = 0.6;
     public static final double SWERVE_STEER_KI                  = 0.0;
     public static final double SWERVE_STEER_KD                  = 0.0;
     // kF set to Motion Magic recommendation.
