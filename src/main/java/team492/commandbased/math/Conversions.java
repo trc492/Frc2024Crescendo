@@ -1,4 +1,4 @@
-package team492.robot.lib.math;
+package team492.commandbased.math;
 
 public class Conversions {
 

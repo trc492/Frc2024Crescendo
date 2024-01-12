@@ -58,8 +58,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import team492.Robot;
 import team492.RobotParams;
-import team492.robot.Constants;
-import team492.robot.lib.math.Conversions;
+import team492.commandbased.math.Conversions;
 
 /**
  * This class creates the RobotDrive subsystem that consists of wheel motors and related objects for driving the
@@ -128,7 +127,7 @@ public class SwerveDrive extends RobotDrive
             steerEncoderInverted, readSteeringCalibrationData());
         steerMotors = createMotors(MotorType.CanFalcon, false, steerMotorNames, steerMotorIds, steerMotorInverted);
         swerveModules = createSwerveModules(swerveModuleNames, driveMotors, steerMotors, steerEncoders);
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
+        swerveOdometry = new SwerveDriveOdometry(RobotParams.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
 
         driveBase = new TrcSwerveDriveBase(
             swerveModules[INDEX_LEFT_FRONT], swerveModules[INDEX_LEFT_BACK],
@@ -323,7 +322,7 @@ public class SwerveDrive extends RobotDrive
 
     private void setModuleStates(SwerveModuleState[] desiredStates, boolean isOpenLoop)
     {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, RobotParams.Swerve.maxSpeed);
         for (int i = 0; i < desiredStates.length; i++)
         {
             // Set steer angle.
@@ -333,12 +332,12 @@ public class SwerveDrive extends RobotDrive
             // Set drive wheel speed.
             if (isOpenLoop)
             {
-                driveMotors[i].setMotorPower(desiredStates[i].speedMetersPerSecond / Constants.Swerve.maxSpeed);
+                driveMotors[i].setMotorPower(desiredStates[i].speedMetersPerSecond / RobotParams.Swerve.maxSpeed);
             }
             else
             {
                 driveMotors[i].setMotorVelocity(
-                    Conversions.MPSToRPS(desiredStates[i].speedMetersPerSecond, Constants.Swerve.wheelCircumference));
+                    Conversions.MPSToRPS(desiredStates[i].speedMetersPerSecond, RobotParams.Swerve.wheelCircumference));
             }
         }
     }
@@ -367,7 +366,7 @@ public class SwerveDrive extends RobotDrive
         for (int i = 0; i < positions.length; i++)
         {
             positions[i] = new SwerveModulePosition(
-                Conversions.rotationsToMeters(driveMotors[i].getMotorPosition(), Constants.Swerve.wheelCircumference),
+                Conversions.rotationsToMeters(driveMotors[i].getMotorPosition(), RobotParams.Swerve.wheelCircumference),
                 Rotation2d.fromRotations(steerMotors[i].getMotorPosition()));
         }
 
@@ -404,7 +403,8 @@ public class SwerveDrive extends RobotDrive
     public Rotation2d getGyroYaw()
     {
         double gyroYaw = ((FrcAHRSGyro) gyro).ahrs.getYaw();
-        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyroYaw) : Rotation2d.fromDegrees(gyroYaw);
+        return (RobotParams.Swerve.invertGyro) ?
+            Rotation2d.fromDegrees(360 - gyroYaw) : Rotation2d.fromDegrees(gyroYaw);
     }
 
     @Override

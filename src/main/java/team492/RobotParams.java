@@ -28,7 +28,11 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcUtil;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import team492.drivebases.RobotDrive.DriveMode;
 
 /**
@@ -418,6 +422,48 @@ public class RobotParams
     public static final double PPD_TURN_TOLERANCE               = 2.0;
     public static final double PPD_MOVE_DEF_OUTPUT_LIMIT        = 0.5;
     public static final double PPD_ROT_DEF_OUTPUT_LIMIT         = 0.5;
+
+    //
+    // Command-based constatns.
+    //
+
+    public static final class Swerve
+    {
+        public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
+        // Drivetrain Constants
+        public static final double trackWidth = Units.inchesToMeters(RobotParams.ROBOT_WHEELBASE_WIDTH);
+        public static final double wheelBase = Units.inchesToMeters(RobotParams.ROBOT_WHEELBASE_LENGTH);
+        public static final double wheelCircumference = RobotParams.SWERVE_DRIVE_WHEEL_CIRCUMFERENCE;
+        // Swerve Kinematics
+        // No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve
+        public static final SwerveDriveKinematics swerveKinematics  = new SwerveDriveKinematics(
+            new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
+            new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
+            new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
+            new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+        // Meters per Second
+        public static final double maxSpeed = Units.inchesToMeters(RobotParams.ROBOT_MAX_VELOCITY);
+        // Radians per Second
+        public static final double maxAngularVelocity = Units.degreesToRadians(RobotParams.ROBOT_MAX_TURN_RATE);
+    }
+
+    public static final class AutoConstants
+    { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
+        public static final double kMaxSpeedMetersPerSecond = 4.0;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 4.0;
+        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
+        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
+
+        public static final double kPXController = 0.0;//0.00149
+        public static final double kPYController = 0.0;
+        public static final double kPThetaController = 0.0;
+
+        /* Constraint for the motion profilied robot angle controller */
+        public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
+            new TrapezoidProfile.Constraints(
+                kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    }
+
     //
     // Other subsystems.
     //
