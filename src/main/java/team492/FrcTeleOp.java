@@ -27,7 +27,6 @@ import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcXboxController;
-import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class implements the code to run in TeleOp Mode.
