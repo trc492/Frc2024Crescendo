@@ -379,11 +379,6 @@ public class FrcAuto implements TrcRobot.RobotMode
             autoCommand.cmdPeriodic(elapsedTime);
         }
 
-        if (RobotParams.Preferences.hybridMode)
-        {
-            Command command = robot.m_robotContainer.s_Swerve.getCurrentCommand();
-        }
-
         if (slowPeriodicLoop)
         {
             //

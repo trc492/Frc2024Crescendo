@@ -314,7 +314,7 @@ public class SwerveDrive extends RobotDrive
                     ", pos=" + motorEncoderPos + ").");
             }
             double actualEncoderPos = ((FrcCANFalcon) steerMotors[i]).motor.getPosition().getValueAsDouble();
-            if (Math.abs(motorEncoderPos - actualEncoderPos) > 0.001)
+            if (Math.abs(motorEncoderPos - actualEncoderPos) > 0.01)
             {
                 robot.globalTracer.traceWarn(
                     names[i],

@@ -6,6 +6,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.reduxrobotics.sensors.canandcoder.Canandcoder;
 
+import TrcCommonLib.trclib.TrcDbgTrace;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -75,8 +76,15 @@ public class SwerveModule {
     }
 
     public void resetToAbsolute(){
-        double absolutePosition = (angleEncoder.getAbsPosition() - angleOffset.getRotations()) * RobotParams.SWERVE_STEER_GEAR_RATIO;
-        mAngleMotor.setPosition(absolutePosition);
+        double motorEncoderPos = (angleEncoder.getAbsPosition() - angleOffset.getRotations()) * RobotParams.SWERVE_STEER_GEAR_RATIO;
+        mAngleMotor.setPosition(motorEncoderPos);
+        double actualEncoderPos = mAngleMotor.getPosition().getValueAsDouble();
+        if (Math.abs(motorEncoderPos - actualEncoderPos) > 0.01)
+        {
+            TrcDbgTrace.globalTraceWarn(
+                "SwerveMod" + moduleNumber,
+                "Steer encoder out-of-sync (expected=" + motorEncoderPos + ", actual=" + actualEncoderPos + ")");
+        }
     }
 
     public SwerveModuleState getState(){

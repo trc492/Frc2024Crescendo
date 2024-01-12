@@ -127,11 +127,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     @Override
     public void periodic(double elapsedTime, boolean slowPeriodicLoop)
     {
-        if (RobotParams.Preferences.hybridMode)
-        {
-            Command command = robot.m_robotContainer.s_Swerve.getCurrentCommand();
-        }
-
         if (slowPeriodicLoop)
         {
             if (controlsEnabled)
