@@ -43,6 +43,7 @@ import TrcFrcLib.frclib.FrcCANSparkMax;
 import TrcFrcLib.frclib.FrcCANTalon;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team492.FrcAuto;
 import team492.Robot;
 import team492.RobotParams;
@@ -50,7 +51,7 @@ import team492.RobotParams;
 /**
  * This class is intended to be extended by subclasses implementing different robot drive bases.
  */
-public class RobotDrive
+public class RobotDrive extends SubsystemBase
 {
     private static final String moduleName = RobotDrive.class.getSimpleName();
     public static final int INDEX_LEFT_FRONT = 0;
@@ -112,6 +113,7 @@ public class RobotDrive
      */
     public RobotDrive(Robot robot)
     {
+        super();
         this.robot = robot;
         gyro = RobotParams.Preferences.useNavX ? new FrcAHRSGyro("NavX", SPI.Port.kMXP) : null;
     }   //RobotDrive

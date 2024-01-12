@@ -110,8 +110,8 @@ public class FrcTest extends FrcTeleOp
             //
             testMenu.addChoice("Sensors Test", Test.SENSORS_TEST, true, false);
             testMenu.addChoice("Subsystems Test", Test.SUBSYSTEMS_TEST);
-            if (!RobotParams.Preferences.hybridMode)
-            {
+            // if (!RobotParams.Preferences.hybridMode)
+            // {
                 testMenu.addChoice("Swerve Calibration", Test.SWERVE_CALIBRATION);
                 testMenu.addChoice("Drive Speed Test", Test.DRIVE_SPEED_TEST);
                 testMenu.addChoice("Drive Motors Test", Test.DRIVE_MOTORS_TEST);
@@ -122,7 +122,7 @@ public class FrcTest extends FrcTeleOp
                 testMenu.addChoice("Tune X PID", Test.TUNE_X_PID);
                 testMenu.addChoice("Tune Y PID", Test.TUNE_Y_PID);
                 testMenu.addChoice("Tune Turn PID", Test.TUNE_TURN_PID);
-            }
+            // }
             testMenu.addChoice("Live Window", Test.LIVE_WINDOW, false, true);
             //
             // Initialize dashboard with default choice values.

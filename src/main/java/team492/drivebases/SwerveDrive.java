@@ -44,13 +44,22 @@ import TrcCommonLib.trclib.TrcSwerveModule;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcCommonLib.trclib.TrcWatchdogMgr.Watchdog;
+import TrcFrcLib.frclib.FrcAHRSGyro;
 import TrcFrcLib.frclib.FrcAnalogEncoder;
 import TrcFrcLib.frclib.FrcCANCoder;
 import TrcFrcLib.frclib.FrcCANFalcon;
 import TrcFrcLib.frclib.FrcCanandcoder;
 import TrcFrcLib.frclib.FrcPdp;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import team492.Robot;
 import team492.RobotParams;
+import team492.robot.Constants;
+import team492.robot.lib.math.Conversions;
 
 /**
  * This class creates the RobotDrive subsystem that consists of wheel motors and related objects for driving the
@@ -99,6 +108,7 @@ public class SwerveDrive extends RobotDrive
     public final TrcEncoder[] steerEncoders;
     public final TrcMotor[] steerMotors;
     public final TrcSwerveModule[] swerveModules;
+    public final SwerveDriveOdometry swerveOdometry;
     public int steerZeroCalibrationCount = 0;
     private String antiDefenseOwner = null;
     private boolean steerEncodersSynced = false;
@@ -118,6 +128,8 @@ public class SwerveDrive extends RobotDrive
             steerEncoderInverted, readSteeringCalibrationData());
         steerMotors = createMotors(MotorType.CanFalcon, false, steerMotorNames, steerMotorIds, steerMotorInverted);
         swerveModules = createSwerveModules(swerveModuleNames, driveMotors, steerMotors, steerEncoders);
+        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
+
         driveBase = new TrcSwerveDriveBase(
             swerveModules[INDEX_LEFT_FRONT], swerveModules[INDEX_LEFT_BACK],
             swerveModules[INDEX_RIGHT_FRONT], swerveModules[INDEX_RIGHT_BACK], gyro,
@@ -135,29 +147,6 @@ public class SwerveDrive extends RobotDrive
                     RobotParams.Y_TIPPING_KP, RobotParams.Y_TIPPING_KI, RobotParams.Y_TIPPING_KD),
                     RobotParams.Y_TIPPING_TOLERANCE, this::getGyroPitch);
         }
-        // if (RobotParams.Preferences.useExternalOdometry)
-        // {
-        //     //
-        //     // Create the external odometry device that uses the right back encoder port as the X odometry and
-        //     // the left and right front encoder ports as the Y1 and Y2 odometry. Gyro will serve as the angle
-        //     // odometry.
-        //     //
-        //     TrcDriveBaseOdometry driveBaseOdometry = new TrcDriveBaseOdometry(
-        //         new TrcDriveBaseOdometry.AxisSensor(rbDriveMotor, RobotParams.X_ODOMETRY_WHEEL_OFFSET),
-        //         new TrcDriveBaseOdometry.AxisSensor[] {
-        //             new TrcDriveBaseOdometry.AxisSensor(lfDriveMotor, RobotParams.Y_LEFT_ODOMETRY_WHEEL_OFFSET),
-        //             new TrcDriveBaseOdometry.AxisSensor(rfDriveMotor, RobotParams.Y_RIGHT_ODOMETRY_WHEEL_OFFSET)},
-        //         gyro);
-        //     //
-        //     // Set the drive base to use the external odometry device overriding the built-in one.
-        //     //
-        //     driveBase.setDriveBaseOdometry(driveBaseOdometry);
-        //     driveBase.setOdometryScales(RobotParams.ODWHEEL_X_INCHES_PER_COUNT, RobotParams.ODWHEEL_Y_INCHES_PER_COUNT);
-        // }
-        // else
-        // {
-        //     driveBase.setOdometryScales(RobotParams.SWERVE_INCHES_PER_COUNT);
-        // }
 
         if (robot.pdp != null)
         {
@@ -327,6 +316,102 @@ public class SwerveDrive extends RobotDrive
 
         return modules;
     }   //createSwerveModules
+
+    //
+    // Command-based required methods.
+    //
+
+    private void setModuleStates(SwerveModuleState[] desiredStates, boolean isOpenLoop)
+    {
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
+        for (int i = 0; i < desiredStates.length; i++)
+        {
+            // Set steer angle.
+            desiredStates[i] = SwerveModuleState.optimize(
+                desiredStates[i], Rotation2d.fromRotations(steerMotors[i].getMotorPosition()));
+            steerMotors[i].setMotorPosition(desiredStates[i].angle.getRotations(), null);
+            // Set drive wheel speed.
+            if (isOpenLoop)
+            {
+                driveMotors[i].setMotorPower(desiredStates[i].speedMetersPerSecond / Constants.Swerve.maxSpeed);
+            }
+            else
+            {
+                driveMotors[i].setMotorVelocity(
+                    Conversions.MPSToRPS(desiredStates[i].speedMetersPerSecond, Constants.Swerve.wheelCircumference));
+            }
+        }
+    }
+
+    public void setModuleStates(SwerveModuleState[] desiredStates)
+    {
+        setModuleStates(desiredStates, false);
+    }
+
+    // public SwerveModuleState[] getModuleStates()
+    // {
+    //     SwerveModuleState[] states = new SwerveModuleState[4];
+
+    //     for ()
+    //     {
+    //         states[mod.moduleNumber] = mod.getState();
+    //     }
+
+    //     return states;
+    // }
+
+    public SwerveModulePosition[] getModulePositions()
+    {
+        SwerveModulePosition[] positions = new SwerveModulePosition[4];
+
+        for (int i = 0; i < positions.length; i++)
+        {
+            positions[i] = new SwerveModulePosition(
+                Conversions.rotationsToMeters(driveMotors[i].getMotorPosition(), Constants.Swerve.wheelCircumference),
+                Rotation2d.fromRotations(steerMotors[i].getMotorPosition()));
+        }
+
+        return positions;
+    }
+
+    public Pose2d getPose()
+    {
+        return swerveOdometry.getPoseMeters();
+    }   //getPose
+
+    public void setPose(Pose2d pose)
+    {
+        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), pose);
+    }
+
+    public Rotation2d getHeading()
+    {
+        return getPose().getRotation();
+    }
+
+    public void setHeading(Rotation2d heading)
+    {
+        swerveOdometry.resetPosition(
+            getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), heading));
+    }
+
+    public void zeroHeading()
+    {
+        swerveOdometry.resetPosition(
+            getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
+    }
+
+    public Rotation2d getGyroYaw()
+    {
+        double gyroYaw = ((FrcAHRSGyro) gyro).ahrs.getYaw();
+        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyroYaw) : Rotation2d.fromDegrees(gyroYaw);
+    }
+
+    @Override
+    public void periodic()
+    {
+        swerveOdometry.update(getGyroYaw(), getModulePositions());
+    }
 
     /**
      * This method displays the steering absolute encoder and internal motor encoder values on the dashboard for

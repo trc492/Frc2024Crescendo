@@ -52,8 +52,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
-import team492.robot.CTREConfigs;
-import team492.robot.RobotContainer;
 import team492.subsystems.LEDIndicator;
 import team492.vision.LimeLightVision;
 import team492.vision.OpenCvVision;
@@ -77,8 +75,8 @@ public class Robot extends FrcRobotBase
     //
     // Hybrid mode objects.
     //
-    public static CTREConfigs ctreConfigs;
-    public RobotContainer m_robotContainer;
+    // public static CTREConfigs ctreConfigs;
+    // public RobotContainer m_robotContainer;
     public Command m_autonomousCommand;
     //
     // Inputs.
@@ -135,13 +133,13 @@ public class Robot extends FrcRobotBase
     @Override
     public void robotInit()
     {
-        if (RobotParams.Preferences.hybridMode)
-        {
-            ctreConfigs = new CTREConfigs();
-            // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-            // autonomous chooser on the dashboard.
-            m_robotContainer = new RobotContainer();
-        }
+        // if (RobotParams.Preferences.hybridMode)
+        // {
+        //     ctreConfigs = new CTREConfigs();
+        //     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+        //     // autonomous chooser on the dashboard.
+        //     m_robotContainer = new RobotContainer();
+        // }
         //
         // Create and initialize global objects.
         //
@@ -150,8 +148,8 @@ public class Robot extends FrcRobotBase
         // Create and initialize inputs.
         //
         // Give driver control to command-based if Hybrid Mode is ON.
-        if (!RobotParams.Preferences.hybridMode)
-        {
+        // if (!RobotParams.Preferences.hybridMode)
+        // {
             if (RobotParams.Preferences.useDriverXboxController)
             {
                 driverController = new FrcXboxController("DriverController", RobotParams.XBOX_DRIVER_CONTROLLER);
@@ -165,7 +163,7 @@ public class Robot extends FrcRobotBase
                 rightDriveStick = new FrcJoystick("DriverRightStick", RobotParams.JSPORT_DRIVER_RIGHTSTICK);
                 rightDriveStick.setYInverted(true);
             }
-        }
+        // }
 
         operatorStick = new FrcJoystick("operatorStick", RobotParams.JSPORT_OPERATORSTICK);
         operatorStick.setYInverted(false);
@@ -229,10 +227,10 @@ public class Robot extends FrcRobotBase
         //
         // Create and initialize RobotDrive subsystem.
         //
-        if (!RobotParams.Preferences.hybridMode)
-        {
+        // if (!RobotParams.Preferences.hybridMode)
+        // {
             robotDrive = new SwerveDrive(this);
-        }
+        // }
         //
         // Create and initialize other subsystems.
         //

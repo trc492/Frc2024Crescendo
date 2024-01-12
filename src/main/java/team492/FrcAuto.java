@@ -34,6 +34,7 @@ import TrcFrcLib.frclib.FrcChoiceMenu;
 import TrcFrcLib.frclib.FrcMatchInfo;
 import TrcFrcLib.frclib.FrcUserChoices;
 import edu.wpi.first.wpilibj.DriverStation;
+import team492.robot.autos.exampleAuto;
 
 /**
  * This class implements the code to run in Autonomous Mode.
@@ -291,7 +292,7 @@ public class FrcAuto implements TrcRobot.RobotMode
         switch (autoChoices.getStrategy())
         {
             case HYBRID_MODE_AUTO:
-                robot.m_autonomousCommand = robot.m_robotContainer.getAutonomousCommand();
+                robot.m_autonomousCommand = new exampleAuto(robot.robotDrive);
                 // schedule the autonomous command (example)
                 if (robot.m_autonomousCommand != null)
                 {
