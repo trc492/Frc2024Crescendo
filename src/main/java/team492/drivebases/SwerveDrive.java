@@ -58,7 +58,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import team492.Robot;
 import team492.RobotParams;
-import team492.commandbased.math.Conversions;
 
 /**
  * This class creates the RobotDrive subsystem that consists of wheel motors and related objects for driving the
@@ -326,103 +325,6 @@ public class SwerveDrive extends RobotDrive
 
         return modules;
     }   //createSwerveModules
-
-    //
-    // Command-based required methods.
-    //
-
-    private void setModuleStates(SwerveModuleState[] desiredStates, boolean isOpenLoop)
-    {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, RobotParams.Swerve.maxSpeed);
-        for (int i = 0; i < desiredStates.length; i++)
-        {
-            // Set steer angle.
-            desiredStates[i] = SwerveModuleState.optimize(
-                desiredStates[i], Rotation2d.fromRotations(steerMotors[i].getMotorPosition()));
-            steerMotors[i].setMotorPosition(desiredStates[i].angle.getRotations(), null, 0.0);
-            // Set drive wheel speed.
-            if (isOpenLoop)
-            {
-                driveMotors[i].setMotorPower(desiredStates[i].speedMetersPerSecond / RobotParams.Swerve.maxSpeed);
-            }
-            else
-            {
-                driveMotors[i].setMotorVelocity(
-                    Conversions.MPSToRPS(desiredStates[i].speedMetersPerSecond, RobotParams.Swerve.wheelCircumference), 0.0);
-            }
-        }
-    }
-
-    public void setModuleStates(SwerveModuleState[] desiredStates)
-    {
-        setModuleStates(desiredStates, false);
-    }
-
-    // public SwerveModuleState[] getModuleStates()
-    // {
-    //     SwerveModuleState[] states = new SwerveModuleState[4];
-
-    //     for ()
-    //     {
-    //         states[mod.moduleNumber] = mod.getState();
-    //     }
-
-    //     return states;
-    // }
-
-    public SwerveModulePosition[] getModulePositions()
-    {
-        SwerveModulePosition[] positions = new SwerveModulePosition[4];
-
-        for (int i = 0; i < positions.length; i++)
-        {
-            positions[i] = new SwerveModulePosition(
-                Conversions.rotationsToMeters(driveMotors[i].getMotorPosition(), RobotParams.Swerve.wheelCircumference),
-                Rotation2d.fromRotations(steerMotors[i].getMotorPosition()));
-        }
-
-        return positions;
-    }
-
-    public Pose2d getPose()
-    {
-        return swerveOdometry.getPoseMeters();
-    }   //getPose
-
-    public void setPose(Pose2d pose)
-    {
-        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), pose);
-    }
-
-    public Rotation2d getHeading()
-    {
-        return getPose().getRotation();
-    }
-
-    public void setHeading(Rotation2d heading)
-    {
-        swerveOdometry.resetPosition(
-            getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), heading));
-    }
-
-    public void zeroHeading()
-    {
-        swerveOdometry.resetPosition(
-            getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
-    }
-
-    public Rotation2d getGyroYaw()
-    {
-        double gyroYaw = ((FrcAHRSGyro) gyro).ahrs.getYaw();
-        return (RobotParams.Swerve.invertGyro) ?
-            Rotation2d.fromDegrees(360 - gyroYaw) : Rotation2d.fromDegrees(gyroYaw);
-    }
-
-    @Override
-    public void periodic()
-    {
-        swerveOdometry.update(getGyroYaw(), getModulePositions());
-    }
 
     /**
      * This method displays the steering absolute encoder and internal motor encoder values on the dashboard for
@@ -718,5 +620,90 @@ public class SwerveDrive extends RobotDrive
             }
         }
     }   //setAntiDefenseEnabled
+
+    //
+    // Command-based required methods.
+    //
+
+    private void setModuleStates(SwerveModuleState[] desiredStates, boolean isOpenLoop)
+    {
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, RobotParams.Swerve.maxSpeed);
+        for (int i = 0; i < desiredStates.length; i++)
+        {
+            // Set steer angle.
+            desiredStates[i] = SwerveModuleState.optimize(
+                desiredStates[i], Rotation2d.fromRotations(steerMotors[i].getMotorPosition()));
+            steerMotors[i].setMotorPosition(desiredStates[i].angle.getRotations(), null, 0.0);
+            // Set drive wheel speed.
+            if (isOpenLoop)
+            {
+                driveMotors[i].setMotorPower(desiredStates[i].speedMetersPerSecond / RobotParams.Swerve.maxSpeed);
+            }
+            else
+            {
+                driveMotors[i].setMotorVelocity(
+                    Conversions.MPSToRPS(desiredStates[i].speedMetersPerSecond, RobotParams.Swerve.wheelCircumference), 0.0);
+            }
+        }
+    }
+
+    public void setModuleStates(SwerveModuleState[] desiredStates)
+    {
+        setModuleStates(desiredStates, false);
+    }
+
+    public SwerveModulePosition[] getModulePositions()
+    {
+        SwerveModulePosition[] positions = new SwerveModulePosition[4];
+
+        for (int i = 0; i < positions.length; i++)
+        {
+            positions[i] = new SwerveModulePosition(
+                Conversions.rotationsToMeters(driveMotors[i].getMotorPosition(), RobotParams.Swerve.wheelCircumference),
+                Rotation2d.fromRotations(steerMotors[i].getMotorPosition()));
+        }
+
+        return positions;
+    }
+
+    public Pose2d getPose()
+    {
+        return swerveOdometry.getPoseMeters();
+    }   //getPose
+
+    public void setPose(Pose2d pose)
+    {
+        swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), pose);
+    }
+
+    public Rotation2d getHeading()
+    {
+        return getPose().getRotation();
+    }
+
+    public void setHeading(Rotation2d heading)
+    {
+        swerveOdometry.resetPosition(
+            getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), heading));
+    }
+
+    public void zeroHeading()
+    {
+        swerveOdometry.resetPosition(
+            getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
+    }
+
+    public Rotation2d getGyroYaw()
+    {
+        double gyroYaw = ((FrcAHRSGyro) gyro).ahrs.getYaw();
+        return (RobotParams.Swerve.invertGyro) ?
+            Rotation2d.fromDegrees(360 - gyroYaw) : Rotation2d.fromDegrees(gyroYaw);
+    }
+
+    @Override
+    public void periodic()
+    {
+        swerveOdometry.update(getGyroYaw(), getModulePositions());
+    }
 
 }   //class SwerveDrive

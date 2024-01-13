@@ -1,4 +1,4 @@
-package team492.commandbased.autos;
+package team492.commandbased;
 
 import team492.RobotParams;
 import team492.drivebases.SwerveDrive;
