@@ -274,6 +274,32 @@ public class SwerveDrive extends RobotDrive
     }   //createSteerEncoders
 
     /**
+     * This method reads the absolute steering encoder and synchronize the steering motor encoder with it.
+     *
+     * @param index specifies the swerve module index.
+     */
+    private void syncSteerEncoder(int index)
+    {
+        // getPosition returns a value in the range of 0 to 1.0 of one revolution.
+        double motorEncoderPos = steerEncoders[index].getScaledPosition() * RobotParams.SWERVE_STEER_GEAR_RATIO;
+        StatusCode statusCode = ((FrcCANFalcon) steerMotors[index]).motor.setPosition(motorEncoderPos);
+        if (statusCode != StatusCode.OK)
+        {
+            robot.globalTracer.traceWarn(
+                moduleName, swerveModuleNames[index] + ": Falcon.setPosition failed (code=" + statusCode +
+                ", pos=" + motorEncoderPos + ").");
+        }
+
+        double actualEncoderPos = ((FrcCANFalcon) steerMotors[index]).motor.getPosition().getValueAsDouble();
+        if (Math.abs(motorEncoderPos - actualEncoderPos) > 0.01)
+        {
+            robot.globalTracer.traceWarn(
+                swerveModuleNames[index],
+                "Steer encoder out-of-sync (expected=" + motorEncoderPos + ", actual=" + actualEncoderPos + ")");
+        }
+    }   //syncSteerEncoder
+
+    /**
      * This method creates an array of swerve modules and configure them.
      *
      * @param names specifies an array of names for each swerve module.
@@ -292,22 +318,7 @@ public class SwerveDrive extends RobotDrive
             steerMotors[i].setBrakeModeEnabled(false);
             steerMotors[i].setPositionSensorScaleAndOffset(RobotParams.SWERVE_STEER_DEGREES_PER_ENCODER_UNIT, 0.0);
             steerMotors[i].setPositionPidCoefficients(RobotParams.steerCoeffs);
-            // getPosition returns a value in the range of 0 to 1.0 of one revolution.
-            double motorEncoderPos = steerEncoders[i].getScaledPosition() * RobotParams.SWERVE_STEER_GEAR_RATIO;
-            StatusCode statusCode = ((FrcCANFalcon) steerMotors[i]).motor.setPosition(motorEncoderPos);
-            if (statusCode != StatusCode.OK)
-            {
-                robot.globalTracer.traceWarn(
-                    moduleName, names[i] + ": Falcon.setPosition failed (code=" + statusCode +
-                    ", pos=" + motorEncoderPos + ").");
-            }
-            double actualEncoderPos = ((FrcCANFalcon) steerMotors[i]).motor.getPosition().getValueAsDouble();
-            if (Math.abs(motorEncoderPos - actualEncoderPos) > 0.01)
-            {
-                robot.globalTracer.traceWarn(
-                    names[i],
-                    "Steer encoder out-of-sync (expected=" + motorEncoderPos + ", actual=" + actualEncoderPos + ")");
-            }
+            syncSteerEncoder(i);
             // We have already synchronized the Falcon internal encoder with the zero adjusted absolute encoder, so
             // Falcon servo does not need to compensate for zero position.
             modules[i] = new TrcSwerveModule(names[i], driveMotors[i], steerMotors[i]);
@@ -328,7 +339,7 @@ public class SwerveDrive extends RobotDrive
             // Set steer angle.
             desiredStates[i] = SwerveModuleState.optimize(
                 desiredStates[i], Rotation2d.fromRotations(steerMotors[i].getMotorPosition()));
-            steerMotors[i].setMotorPosition(desiredStates[i].angle.getRotations(), null);
+            steerMotors[i].setMotorPosition(desiredStates[i].angle.getRotations(), null, 0.0);
             // Set drive wheel speed.
             if (isOpenLoop)
             {
@@ -337,7 +348,7 @@ public class SwerveDrive extends RobotDrive
             else
             {
                 driveMotors[i].setMotorVelocity(
-                    Conversions.MPSToRPS(desiredStates[i].speedMetersPerSecond, RobotParams.Swerve.wheelCircumference));
+                    Conversions.MPSToRPS(desiredStates[i].speedMetersPerSecond, RobotParams.Swerve.wheelCircumference), 0.0);
             }
         }
     }
@@ -482,7 +493,7 @@ public class SwerveDrive extends RobotDrive
      */
     public void syncSteerEncoders(boolean forceSync)
     {
-        final double encErrThreshold = 20.0;
+        final double encErrThreshold = 0.01;
         final double timeout = 0.5;
 
         if (!steerEncodersSynced || forceSync)
@@ -518,9 +529,7 @@ public class SwerveDrive extends RobotDrive
             {
                 for (int i = 0; i < steerMotors.length; i++)
                 {
-                    double encoderPos = steerEncoders[i].getScaledPosition();
-                    ((FrcCANFalcon) steerMotors[i]).motor.getConfigurator().setPosition(encoderPos);
-                    robot.globalTracer.traceInfo(moduleName, "syncSteerEncPos[" + i + "]=" + encoderPos);
+                    syncSteerEncoder(i);
                 }
             }
 
@@ -542,7 +551,6 @@ public class SwerveDrive extends RobotDrive
         if (runMode != RunMode.TEST_MODE && runMode != RunMode.DISABLED_MODE)
         {
             setSteerAngleZero(false);
-            syncSteerEncoders(false);
         }
     }   //startMode
 
