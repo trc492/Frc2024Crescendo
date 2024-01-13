@@ -56,7 +56,7 @@ public class RobotParams
         // Global config
         public static RobotType robotType                       = RobotType.SwerveRobot;
         public static boolean inCompetition                     = false;
-        public static final boolean hybridMode                  = false;
+        public static final boolean hybridMode                  = true;
         public static final boolean useTraceLog                 = true;
         // Status Update
         public static final boolean doStatusUpdate              = true;
@@ -334,12 +334,14 @@ public class RobotParams
     public static final double MECANUM_Y_TOLERANCE              = 2.0;
 
     // public static final double SWERVE_DRIVE_INCHES_PER_ENCODER_UNIT= 9.072106867127145344367826764411e-4;
-    public static final double SWERVE_DRIVE_KP                  = 0.003;
+    public static final double SWERVE_DRIVE_KP                  = 0.001;
     public static final double SWERVE_DRIVE_KI                  = 0.0;
     public static final double SWERVE_DRIVE_KD                  = 0.0;
-    public static final double SWERVE_DRIVE_KF                  = 0.0;
+    public static final double SWERVE_DRIVE_KF                  = 0.11;
     public static final double SWERVE_DRIVE_IZONE               = 5.0;
     public static final double SWERVE_DRIVE_TOLERANCE           = 2.0;
+    public static final TrcPidController.PidCoefficients driveCoeffs =
+        new TrcPidController.PidCoefficients(SWERVE_DRIVE_KP, SWERVE_DRIVE_KI, SWERVE_DRIVE_KD, SWERVE_DRIVE_KF);
 
     public static final double GYRO_TURN_KP                     = 0.012;
     public static final double GYRO_TURN_KI                     = 0.0;
@@ -407,7 +409,7 @@ public class RobotParams
 
     // public static final TrcPidController.PidCoefficients magicSteerCoeff =
     //     new TrcPidController.PidCoefficients(2.0, 0.01, 0.0, 1023.0 / STEER_MAX_VEL_COUNT_PER_100MS, 5.0 / STEER_DEGREES_PER_COUNT);
-    public static final double SWERVE_STEER_KP                  = 0.6;
+    public static final double SWERVE_STEER_KP                  = 3.0;
     public static final double SWERVE_STEER_KI                  = 0.0;
     public static final double SWERVE_STEER_KD                  = 0.0;
     // kF set to Motion Magic recommendation.

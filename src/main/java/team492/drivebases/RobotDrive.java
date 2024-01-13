@@ -232,8 +232,6 @@ public class RobotDrive extends SubsystemBase
                     break;
             }
             motors[i].resetFactoryDefault();
-            motors[i].setVoltageCompensationEnabled(RobotParams.BATTERY_NOMINAL_VOLTAGE);
-            motors[i].setBrakeModeEnabled(true);
             motors[i].setMotorInverted(inverted[i]);
         }
 

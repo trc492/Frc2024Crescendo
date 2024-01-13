@@ -314,10 +314,17 @@ public class SwerveDrive extends RobotDrive
 
         for (int i = 0; i < names.length; i++)
         {
+            driveMotors[i].setBrakeModeEnabled(true);
+            driveMotors[i].setPositionSensorScaleAndOffset(RobotParams.SWERVE_DRIVE_INCHES_PER_ENCODER_UNIT, 0.0);
+            driveMotors[i].setVelocityPidCoefficients(RobotParams.driveCoeffs);
+            driveMotors[i].setVoltageCompensationEnabled(RobotParams.BATTERY_NOMINAL_VOLTAGE);
+
             steerMotors[i].setBrakeModeEnabled(false);
             steerMotors[i].setPositionSensorScaleAndOffset(RobotParams.SWERVE_STEER_DEGREES_PER_ENCODER_UNIT, 0.0);
             steerMotors[i].setPositionPidCoefficients(RobotParams.steerCoeffs);
+            steerMotors[i].setVoltageCompensationEnabled(RobotParams.BATTERY_NOMINAL_VOLTAGE);
             syncSteerEncoder(i);
+
             // We have already synchronized the Falcon internal encoder with the zero adjusted absolute encoder, so
             // Falcon servo does not need to compensate for zero position.
             modules[i] = new TrcSwerveModule(names[i], driveMotors[i], steerMotors[i]);
@@ -633,6 +640,11 @@ public class SwerveDrive extends RobotDrive
             // Set steer angle.
             desiredStates[i] = SwerveModuleState.optimize(
                 desiredStates[i], Rotation2d.fromRotations(steerMotors[i].getMotorPosition()));
+            // TrcDbgTrace.globalTraceInfo(
+            //     "SwerveMod" + i, "DriveSpeed=%.3f/%.3f, SteerAngle=%.3f",
+            //     desiredStates[i].speedMetersPerSecond,
+            //     desiredStates[i].speedMetersPerSecond / RobotParams.Swerve.maxSpeed,
+            //     desiredStates[i].angle.getRotations());
             steerMotors[i].setMotorPosition(desiredStates[i].angle.getRotations(), null, 0.0);
             // Set drive wheel speed.
             if (isOpenLoop)
