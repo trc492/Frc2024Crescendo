@@ -334,14 +334,18 @@ public class RobotParams
     public static final double MECANUM_Y_TOLERANCE              = 2.0;
 
     // public static final double SWERVE_DRIVE_INCHES_PER_ENCODER_UNIT= 9.072106867127145344367826764411e-4;
-    public static final double SWERVE_DRIVE_KP                  = 0.001;
+    public static final double SWERVE_DRIVE_KP                  = 0.001;    // BaseFalconSwerve: 0.12
     public static final double SWERVE_DRIVE_KI                  = 0.0;
     public static final double SWERVE_DRIVE_KD                  = 0.0;
-    public static final double SWERVE_DRIVE_KF                  = 0.11;
+    public static final double SWERVE_DRIVE_KF                  = 0.11;     // BaseFalconSwerve: 0.0
     public static final double SWERVE_DRIVE_IZONE               = 5.0;
     public static final double SWERVE_DRIVE_TOLERANCE           = 2.0;
     public static final TrcPidController.PidCoefficients driveCoeffs =
         new TrcPidController.PidCoefficients(SWERVE_DRIVE_KP, SWERVE_DRIVE_KI, SWERVE_DRIVE_KD, SWERVE_DRIVE_KF);
+    // Drive Motor Characterization Values From SYSID
+    public static final double SWERVE_DRIVE_KS                  = 0.32; //TODO: This must be tuned to specific robot
+    public static final double SWERVE_DRIVE_KV                  = 1.51;
+    public static final double SWERVE_DRIVE_KA                  = 0.27;
 
     public static final double GYRO_TURN_KP                     = 0.012;
     public static final double GYRO_TURN_KI                     = 0.0;
@@ -393,7 +397,7 @@ public class RobotParams
     public static final double FALCON_MAX_RPM                   = 6380.0;
 
     public static final double SWERVE_DRIVE_GEAR_RATIO          = 9.63;
-    public static final double SWERVE_DRIVE_WHEEL_CIRCUMFERENCE = 12.56;
+    public static final double SWERVE_DRIVE_WHEEL_CIRCUMFERENCE = 4.0 * Math.PI;
     public static final double SWERVE_DRIVE_INCHES_PER_ENCODER_UNIT =
         SWERVE_DRIVE_WHEEL_CIRCUMFERENCE / SWERVE_DRIVE_GEAR_RATIO;
 

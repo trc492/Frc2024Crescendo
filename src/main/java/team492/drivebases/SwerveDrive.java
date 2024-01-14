@@ -34,6 +34,7 @@ import com.reduxrobotics.canand.CanandEventLoop;
 
 import TrcCommonLib.trclib.TrcWatchdogMgr;
 import TrcCommonLib.trclib.TrcDbgTrace.MsgLevel;
+import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcEncoder;
 import TrcCommonLib.trclib.TrcMotor;
 import TrcCommonLib.trclib.TrcPidController;
@@ -50,6 +51,7 @@ import TrcFrcLib.frclib.FrcCANCoder;
 import TrcFrcLib.frclib.FrcCANFalcon;
 import TrcFrcLib.frclib.FrcCanandcoder;
 import TrcFrcLib.frclib.FrcPdp;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -107,6 +109,9 @@ public class SwerveDrive extends RobotDrive
     public final TrcMotor[] steerMotors;
     public final TrcSwerveModule[] swerveModules;
     public final SwerveDriveOdometry swerveOdometry;
+    private final SimpleMotorFeedforward driveFeedForward =
+        new SimpleMotorFeedforward(
+            RobotParams.SWERVE_DRIVE_KS, RobotParams.SWERVE_DRIVE_KV, RobotParams.SWERVE_DRIVE_KA);
     public int steerZeroCalibrationCount = 0;
     private String antiDefenseOwner = null;
     private boolean steerEncodersSynced = false;
@@ -640,21 +645,27 @@ public class SwerveDrive extends RobotDrive
             // Set steer angle.
             desiredStates[i] = SwerveModuleState.optimize(
                 desiredStates[i], Rotation2d.fromRotations(steerMotors[i].getMotorPosition()));
-            // TrcDbgTrace.globalTraceInfo(
-            //     "SwerveMod" + i, "DriveSpeed=%.3f/%.3f, SteerAngle=%.3f",
-            //     desiredStates[i].speedMetersPerSecond,
-            //     desiredStates[i].speedMetersPerSecond / RobotParams.Swerve.maxSpeed,
-            //     desiredStates[i].angle.getRotations());
-            steerMotors[i].setMotorPosition(desiredStates[i].angle.getRotations(), null, 0.0);
+            steerMotors[i].setMotorPosition(desiredStates[i].angle.getRotations(), null, 0.0, 0.0);
             // Set drive wheel speed.
             if (isOpenLoop)
             {
-                driveMotors[i].setMotorPower(desiredStates[i].speedMetersPerSecond / RobotParams.Swerve.maxSpeed);
+                double dutyCycle = desiredStates[i].speedMetersPerSecond / RobotParams.Swerve.maxSpeed;
+                driveMotors[i].setMotorPower(dutyCycle);
+                TrcDbgTrace.globalTraceInfo(
+                    "SwerveMod" + i, "DriveSpeedOpenLoop: speed=%.3f, dutyCycle=%.3f, SteerAngle=%.3f",
+                    desiredStates[i].speedMetersPerSecond, dutyCycle, desiredStates[i].angle.getRotations());
             }
             else
             {
-                driveMotors[i].setMotorVelocity(
-                    Conversions.MPSToRPS(desiredStates[i].speedMetersPerSecond, RobotParams.Swerve.wheelCircumference), 0.0);
+                double velocity = Conversions.MPSToRPS(
+                    desiredStates[i].speedMetersPerSecond, RobotParams.Swerve.wheelCircumference) /
+                    RobotParams.SWERVE_DRIVE_GEAR_RATIO;
+                double feedForward = driveFeedForward.calculate(desiredStates[i].speedMetersPerSecond);
+                driveMotors[i].setMotorVelocity(velocity, 0.0, feedForward);
+                TrcDbgTrace.globalTraceInfo(
+                    "SwerveMod" + i,
+                    "DriveSpeedClosedLoop: speed=%.3f, motorVel=%.3f, feedForward=%.3f, SteerAngle=%.3f",
+                    desiredStates[i].speedMetersPerSecond, velocity, feedForward, desiredStates[i].angle.getRotations());
             }
         }
     }
