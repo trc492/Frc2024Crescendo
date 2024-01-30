@@ -32,9 +32,9 @@ import team492.Robot;
 /**
  * This class implements auto-assist task.
  */
-public class TaskAuto extends TrcAutoTask<TaskAuto.State>
+public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State>
 {
-    private static final String moduleName = TaskAuto.class.getSimpleName();
+    private static final String moduleName = TaskAutoScoreSpeaker.class.getSimpleName();
 
     public enum State
     {
@@ -60,23 +60,23 @@ public class TaskAuto extends TrcAutoTask<TaskAuto.State>
      * @param ownerName specifies the owner name to take subsystem ownership, can be null if no ownership required.
      * @param robot specifies the robot object that contains all the necessary subsystems.
      */
-    public TaskAuto(String ownerName, Robot robot)
+    public TaskAutoScoreSpeaker(String ownerName, Robot robot)
     {
         super(moduleName, ownerName, TrcTaskMgr.TaskType.POST_PERIODIC_TASK);
         this.ownerName = ownerName;
         this.robot = robot;
-    }   //TaskAuto
+    }   //TaskAutoScoreSpeaker
 
     /**
      * This method starts the auto-assist operation.
      *
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
-    public void autoAssist(TrcEvent completionEvent)
+    public void autoAssistScore(TrcEvent completionEvent)
     {
         tracer.traceInfo(moduleName, "event=" + completionEvent);
         startAutoTask(State.START, new TaskParams(), completionEvent);
-    }   //autoAssist
+    }   //autoAssistScore
 
     /**
      * This method cancels an in progress auto-assist operation if any.
@@ -180,4 +180,4 @@ public class TaskAuto extends TrcAutoTask<TaskAuto.State>
         }
     }   //runTaskState
  
-}   //class TaskAuto
+}   //class TaskAutoScoreSpeaker

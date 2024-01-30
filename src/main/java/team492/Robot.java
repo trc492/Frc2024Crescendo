@@ -37,10 +37,10 @@ import TrcCommonLib.trclib.TrcTaskMgr.TaskType;
 import TrcFrcLib.frclib.FrcAHRSGyro;
 import TrcFrcLib.frclib.FrcDashboard;
 import TrcFrcLib.frclib.FrcJoystick;
-import TrcFrcLib.frclib.FrcLimeLightVision;
 import TrcFrcLib.frclib.FrcMatchInfo;
 import TrcFrcLib.frclib.FrcPdp;
 import TrcFrcLib.frclib.FrcPhotonVision;
+import TrcFrcLib.frclib.FrcPhotonVisionRaw;
 import TrcFrcLib.frclib.FrcRobotBase;
 import TrcFrcLib.frclib.FrcRobotBattery;
 import TrcFrcLib.frclib.FrcXboxController;
@@ -53,9 +53,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
 import team492.subsystems.LEDIndicator;
-import team492.vision.LimeLightVision;
 import team492.vision.OpenCvVision;
 import team492.vision.PhotonVision;
+import team492.vision.PhotonVisionRaw;
 
 /**
  * The Main class is configured to instantiate and automatically run this class,
@@ -99,8 +99,8 @@ public class Robot extends FrcRobotBase
     //
     // Vision subsystem.
     //
-    public LimeLightVision limeLightVision;
     public PhotonVision photonVision;
+    public PhotonVisionRaw photonVisionRaw;
     public OpenCvVision openCvVision;
     //
     // DriveBase subsystem.
@@ -196,14 +196,14 @@ public class Robot extends FrcRobotBase
         //
         if (RobotParams.Preferences.useVision)
         {
-            if (RobotParams.Preferences.useLimeLightVision)
-            {
-                limeLightVision = new LimeLightVision("limelight");
-            }
-
             if (RobotParams.Preferences.usePhotonVision)
             {
-                photonVision = new PhotonVision("OV5647", ledIndicator);
+                photonVision = new PhotonVision("photonvision", ledIndicator);
+            }
+
+            if (RobotParams.Preferences.usePhotonVisionRaw)
+            {
+                photonVisionRaw = new PhotonVisionRaw("photonvision", ledIndicator);
             }
 
             if (RobotParams.Preferences.useOpenCvVision)
@@ -449,16 +449,16 @@ public class Robot extends FrcRobotBase
 
             if (RobotParams.Preferences.showVision)
             {
-                if (limeLightVision != null)
-                {
-                    FrcLimeLightVision.DetectedObject object = limeLightVision.getDetectedObject();
-                    dashboard.displayPrintf(lineNum++, "LimeLight: obj=%s", object);
-                }
-
                 if (photonVision != null)
                 {
                     FrcPhotonVision.DetectedObject object = photonVision.getBestDetectedObject();
                     dashboard.displayPrintf(lineNum++, "Photon: obj=%s", object);
+                }
+
+                if (photonVisionRaw != null)
+                {
+                    FrcPhotonVisionRaw.DetectedObject object = photonVisionRaw.getDetectedObject();
+                    dashboard.displayPrintf(lineNum++, "PhotonRaw: obj=%s", object);
                 }
 
                 if (openCvVision != null)

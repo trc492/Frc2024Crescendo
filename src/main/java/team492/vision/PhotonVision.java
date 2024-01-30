@@ -46,7 +46,8 @@ public class PhotonVision extends FrcPhotonVision
 {
     public enum PipelineType
     {
-        APRILTAG(0);
+        APRILTAG(0),
+        NOTE(1);
 
         public int pipelineIndex;
 
@@ -80,7 +81,7 @@ public class PhotonVision extends FrcPhotonVision
     /**
      * Constructor: Create an instance of the object.
      *
-     * @param cameraName specifies the photon vision camera name.
+     * @param cameraName specifies the network table name that PhotonVision is broadcasting information over.
      * @param ledIndicator specifies the LEDIndicator object, can be null if none provided.
      */
     public PhotonVision(String cameraName, LEDIndicator ledIndicator)
@@ -91,9 +92,9 @@ public class PhotonVision extends FrcPhotonVision
         double startTime = TrcTimer.getModeElapsedTime();
         try
         {
-            aprilTagFieldLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
+            aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
             poseEstimator = new PhotonPoseEstimator(
-                aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_RIO, this, RobotParams.CAMERA_TRANSFORM3D);
+                aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, this, RobotParams.CAMERA_TRANSFORM3D);
             poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         }
         catch (UncheckedIOException e)
@@ -202,7 +203,7 @@ public class PhotonVision extends FrcPhotonVision
         if (pipelineType != currPipeline)
         {
             currPipeline = pipelineType;
-            setPipelineIndex(pipelineType.pipelineIndex);
+            super.setPipelineIndex(pipelineType.pipelineIndex);
             // setLED(VisionLEDMode.kOff);
         }
     }   //setPipeline
@@ -227,6 +228,7 @@ public class PhotonVision extends FrcPhotonVision
      *
      * @return target ground offset.
      */
+    @Override
     public double getTargetHeight(PhotonTrackedTarget target)
     {
         double targetHeight = 0.0;
@@ -245,6 +247,11 @@ public class PhotonVision extends FrcPhotonVision
                         targetHeight = aprilTagPose.getZ();
                     }
                 }
+                break;
+
+            case NOTE:
+                // Assuming Note is on the ground.
+                targetHeight = 0.0;
                 break;
         }
 

@@ -33,6 +33,8 @@ public class LEDIndicator
 {
     private static final TrcAddressableLED.Pattern aprilTagPattern =        // Green
         new TrcAddressableLED.Pattern("AprilTag", new FrcColor(0, 63, 0), RobotParams.NUM_LEDS);
+    private static final TrcAddressableLED.Pattern notePattern =            // Orange
+        new TrcAddressableLED.Pattern("Note", new FrcColor(63, 32, 0), RobotParams.NUM_LEDS);
     private static final TrcAddressableLED.Pattern fieldOrientedPattern =   // Cyan
         new TrcAddressableLED.Pattern("FieldOriented", new FrcColor(0, 63, 63), RobotParams.NUM_LEDS);
     private static final TrcAddressableLED.Pattern robotOrientedPattern =   // Red
@@ -112,6 +114,10 @@ public class LEDIndicator
         {
             case APRILTAG:
                 led.setPatternState(aprilTagPattern, true);
+                break;
+
+            case NOTE:
+                led.setPatternState(notePattern, true);
                 break;
         }
     }   //setPhotonDetectedObject

@@ -68,10 +68,7 @@ public class RobotParams
         public static final boolean showPurePursuitDrive        = false;
         public static final boolean showPidDrive                = false;
 
-        public static final boolean showVision                  = false;
-        public static final boolean showLimeLight               = false;
-        public static final boolean showPhoton                  = false;
-        public static final boolean showOpenCv                  = false;
+        public static final boolean showVision                  = true;
 
         public static final boolean showSubsystems              = false;
         // Inputs
@@ -84,9 +81,9 @@ public class RobotParams
         public static final boolean usePdp                      = false;
         public static final boolean usePressureSensor           = false;
         // Vision
-        public static final boolean useVision                   = false;
-        public static final boolean useLimeLightVision          = false;
-        public static final boolean usePhotonVision             = false;
+        public static final boolean useVision                   = true;
+        public static final boolean usePhotonVision             = true;
+        public static final boolean usePhotonVisionRaw          = false;
         public static final boolean useOpenCvVision             = false;
         public static final boolean useStreamCamera             = false;
         // Drive Base
@@ -99,7 +96,11 @@ public class RobotParams
         public static final boolean useSteeringAnalogEncoder    = false;
         
         // Subsystems
-        public static final boolean useSubsystems               = true;
+        public static final boolean useSubsystems               = false;
+        public static final boolean useIntake                   = false;
+        public static final boolean useShooter                  = false;
+        public static final boolean useClimber                  = false;
+
     }   //class Preferences
 
     public static final String ROBOT_NAME                       = "Robot492";

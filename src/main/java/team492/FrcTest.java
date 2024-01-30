@@ -31,7 +31,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
+import team492.vision.PhotonVision.PipelineType;
 import TrcFrcLib.frclib.FrcChoiceMenu;
+import TrcFrcLib.frclib.FrcPhotonVision;
 import TrcFrcLib.frclib.FrcUserChoices;
 import TrcCommonLib.trclib.TrcMotor;
 import TrcCommonLib.trclib.TrcPidController;
@@ -58,6 +60,7 @@ public class FrcTest extends FrcTeleOp
     {
         SENSORS_TEST,
         SUBSYSTEMS_TEST,
+        VISION_TEST,
         SWERVE_CALIBRATION,
         DRIVE_SPEED_TEST,
         DRIVE_MOTORS_TEST,
@@ -110,6 +113,7 @@ public class FrcTest extends FrcTeleOp
             //
             testMenu.addChoice("Sensors Test", Test.SENSORS_TEST, true, false);
             testMenu.addChoice("Subsystems Test", Test.SUBSYSTEMS_TEST);
+            testMenu.addChoice("Vision Test", Test.VISION_TEST);
             // if (!RobotParams.Preferences.hybridMode)
             // {
                 testMenu.addChoice("Swerve Calibration", Test.SWERVE_CALIBRATION);
@@ -210,6 +214,7 @@ public class FrcTest extends FrcTeleOp
     private double maxTurnRate = 0.0;
     private double prevTime = 0.0;
     private double prevVelocity = 0.0;
+    private PipelineType currPipeline = PipelineType.APRILTAG;
 
     public FrcTest(Robot robot)
     {
@@ -251,15 +256,18 @@ public class FrcTest extends FrcTeleOp
         switch (testChoices.getTest())
         {
             case SENSORS_TEST:
-                //
                 // Make sure no joystick controls on sensors test.
-                //
                 setControlsEnabled(false);
-                //
                 // Sensors Test is the same as Subsystems Test without joystick control.
                 // So let it flow to the next case.
-                //
             case SUBSYSTEMS_TEST:
+                break;
+
+            case VISION_TEST:
+                if (robot.photonVision != null)
+                {
+                    robot.photonVision.setPipeline(currPipeline);
+                }
                 break;
 
             case SWERVE_CALIBRATION:
@@ -468,6 +476,7 @@ public class FrcTest extends FrcTeleOp
             {
                 case SENSORS_TEST:
                 case SUBSYSTEMS_TEST:
+                case VISION_TEST:
                     displaySensorStates(lineNum);
                     break;
 
@@ -540,7 +549,7 @@ public class FrcTest extends FrcTeleOp
     {
         Test test = testChoices.getTest();
 
-        return test == Test.SUBSYSTEMS_TEST || test == Test.DRIVE_SPEED_TEST;
+        return test == Test.SUBSYSTEMS_TEST || test == Test.VISION_TEST || test == Test.DRIVE_SPEED_TEST;
     }   //allowTeleOp
 
     //
@@ -589,6 +598,12 @@ public class FrcTest extends FrcTeleOp
                     robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK].getMotorPower(): 0.0,
                 robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK] != null?
                     robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK].getMotorPower(): 0.0);
+        }
+
+        if (robot.photonVision != null)
+        {
+            FrcPhotonVision.DetectedObject object = robot.photonVision.getBestDetectedObject();
+            robot.dashboard.displayPrintf(lineNum++, "Photon: obj=%s", object);
         }
         //
         // Display other subsystems and sensor info.
