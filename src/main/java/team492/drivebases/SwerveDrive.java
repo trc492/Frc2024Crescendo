@@ -43,6 +43,7 @@ import TrcCommonLib.trclib.TrcPurePursuitDrive;
 import TrcCommonLib.trclib.TrcSwerveDriveBase;
 import TrcCommonLib.trclib.TrcSwerveModule;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcCommonLib.trclib.TrcWatchdogMgr.Watchdog;
 import TrcFrcLib.frclib.FrcAHRSGyro;
@@ -322,12 +323,12 @@ public class SwerveDrive extends RobotDrive
             driveMotors[i].setBrakeModeEnabled(true);
             driveMotors[i].setPositionSensorScaleAndOffset(RobotParams.SWERVE_DRIVE_INCHES_PER_ENCODER_UNIT, 0.0);
             driveMotors[i].setVelocityPidCoefficients(RobotParams.driveCoeffs);
-            driveMotors[i].setVoltageCompensationEnabled(RobotParams.BATTERY_NOMINAL_VOLTAGE);
+            driveMotors[i].setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
 
             steerMotors[i].setBrakeModeEnabled(false);
             steerMotors[i].setPositionSensorScaleAndOffset(RobotParams.SWERVE_STEER_DEGREES_PER_ENCODER_UNIT, 0.0);
             steerMotors[i].setPositionPidCoefficients(RobotParams.steerCoeffs);
-            steerMotors[i].setVoltageCompensationEnabled(RobotParams.BATTERY_NOMINAL_VOLTAGE);
+            steerMotors[i].setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
             syncSteerEncoder(i);
 
             // We have already synchronized the Falcon internal encoder with the zero adjusted absolute encoder, so

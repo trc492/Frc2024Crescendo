@@ -26,6 +26,7 @@ import java.util.Locale;
 import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcOpenCvDetector;
 import TrcCommonLib.trclib.TrcPidController;
+import TrcCommonLib.trclib.TrcPidConveyor;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcRobotBattery;
@@ -52,6 +53,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
+import team492.subsystems.Intake;
 import team492.subsystems.LEDIndicator;
 import team492.vision.OpenCvVision;
 import team492.vision.PhotonVision;
@@ -109,6 +111,7 @@ public class Robot extends FrcRobotBase
     //
     // Other subsystems.
     //
+    public TrcPidConveyor intake;
 
     /**
      * Constructor: Create an instance of the object.
@@ -236,6 +239,10 @@ public class Robot extends FrcRobotBase
         //
         if (RobotParams.Preferences.useSubsystems)
         {
+            if (RobotParams.Preferences.useIntake)
+            {
+                intake = new Intake().getPidConveyor();
+            }
         }
         //
         // Miscellaneous.

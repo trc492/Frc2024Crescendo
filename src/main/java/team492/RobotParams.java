@@ -24,6 +24,7 @@ package team492;
 
 import TrcCommonLib.trclib.TrcHomographyMapper;
 import TrcCommonLib.trclib.TrcPidController;
+import TrcCommonLib.trclib.TrcPidConveyor;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcUtil;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -40,7 +41,7 @@ import team492.drivebases.RobotDrive.DriveMode;
  */
 public class RobotParams
 {
-    public static enum RobotType
+    public enum RobotType
     {
         SwerveRobot,
         MecanumRobot,
@@ -194,7 +195,6 @@ public class RobotParams
     public static final int PDP_CHANNEL_LIMELIGHT               = 0;
     public static final int PDP_CHANNEL_LED                     = 14;
 
-    public static final double BATTERY_NOMINAL_VOLTAGE          = 12.0;
     public static final double BATTERY_CAPACITY_WATT_HOUR       = 18.0*12.0;
     //
     // Analog Input ports.
@@ -474,5 +474,19 @@ public class RobotParams
     //
     // Other subsystems.
     //
+
+    public static class Intake
+    {
+        public static final int candId                          = 7;
+        public static final boolean motorInverted               = false;
+        public static final TrcPidConveyor.Parameters params    = new TrcPidConveyor.Parameters()
+            .setMaxCapacity(1)
+            .setMovePower(1.0)
+            .setObjectDistance(16.0);
+        public static final int entrySensorChannel              = 0;
+        public static final int exitSensorChannel               = 1;
+        public static final boolean entrySensorInverted         = false;
+        public static final boolean exitSensorInverted          = false;
+    }   //class Intake
 
 }   //class RobotParams
