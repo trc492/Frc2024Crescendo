@@ -280,155 +280,231 @@ public class RobotParams
         RobotParams.HOMOGRAPHY_WORLD_TOPRIGHT_X, RobotParams.HOMOGRAPHY_WORLD_TOPRIGHT_Y,
         RobotParams.HOMOGRAPHY_WORLD_BOTTOMLEFT_X, RobotParams.HOMOGRAPHY_WORLD_BOTTOMLEFT_Y,
         RobotParams.HOMOGRAPHY_WORLD_BOTTOMRIGHT_X, RobotParams.HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y);
-    //
-    // DriveBase subsystem.
-    //
-    public static final String LFDRIVE_MOTOR_NAME               = "lfDriveMotor";
-    public static final String RFDRIVE_MOTOR_NAME               = "rfDriveMotor";
-    public static final String LBDRIVE_MOTOR_NAME               = "lbDriveMotor";
-    public static final String RBDRIVE_MOTOR_NAME               = "rbDriveMotor";
-    public static final boolean LFDRIVE_MOTOR_INVERTED          = true;
-    public static final boolean RFDRIVE_MOTOR_INVERTED          = true;
-    public static final boolean LBDRIVE_MOTOR_INVERTED          = true;
-    public static final boolean RBDRIVE_MOTOR_INVERTED          = true;
-    public static final String LFSTEER_ENCODER_NAME             = "lfSteerEncoder";
-    public static final String RFSTEER_ENCODER_NAME             = "rfSteerEncoder";
-    public static final String LBSTEER_ENCODER_NAME             = "lbSteerEncoder";
-    public static final String RBSTEER_ENCODER_NAME             = "rbSteerEncoder";
-    public static final boolean LFSTEER_ENCODER_INVERTED        = false;
-    public static final boolean RFSTEER_ENCODER_INVERTED        = false;
-    public static final boolean LBSTEER_ENCODER_INVERTED        = false;
-    public static final boolean RBSTEER_ENCODER_INVERTED        = false;
-    public static final String LFSTEER_MOTOR_NAME               = "lfSteerMotor";
-    public static final String RFSTEER_MOTOR_NAME               = "rfSteerMotor";
-    public static final String LBSTEER_MOTOR_NAME               = "lbSteerMotor";
-    public static final String RBSTEER_MOTOR_NAME               = "rbSteerMotor";
-    public static final boolean LFSTEER_INVERTED                = false;
-    public static final boolean RFSTEER_INVERTED                = false;
-    public static final boolean LBSTEER_INVERTED                = false;
-    public static final boolean RBSTEER_INVERTED                = false;
-    public static final String LFSWERVE_MODULE_NAME             = "lfWheel";
-    public static final String RFSWERVE_MODULE_NAME             = "rfWheel";
-    public static final String LBSWERVE_MODULE_NAME             = "lbWheel";
-    public static final String RBSWERVE_MODULE_NAME             = "rbWheel";
+
     public static final DriveMode ROBOT_DRIVE_MODE              = DriveMode.ArcadeMode;
-    // West Coast Drive Base (not used);
-    public static final double WCD_INCHES_PER_ENCODER_UNIT      = 2.2421;
-    public static final double WCD_KP                           = 0.011;
-    public static final double WCD_KI                           = 0.0;
-    public static final double WCD_KD                           = 0.0013;
-    public static final double WCD_KF                           = 0.0;
-    public static final double WCD_TOLERANCE                    = 2.0;
-    // Mecanum Drive Base (not used).
-    public static final double MECANUM_X_INCHES_PER_ENCODER_UNIT= 2.2421;
-    public static final double MECANUM_X_KP                     = 0.011;
-    public static final double MECANUM_X_KI                     = 0.0;
-    public static final double MECANUM_X_KD                     = 0.0013;
-    public static final double MECANUM_X_KF                     = 0.0;
-    public static final double MECANUM_X_TOLERANCE              = 2.0;
-
-    public static final double MECANUM_Y_INCHES_PER_ENCODER_UNIT= 2.2421;
-    public static final double MECANUM_Y_KP                     = 0.011;
-    public static final double MECANUM_Y_KI                     = 0.0;
-    public static final double MECANUM_Y_KD                     = 0.0013;
-    public static final double MECANUM_Y_KF                     = 0.0;
-    public static final double MECANUM_Y_TOLERANCE              = 2.0;
-
-    // public static final double SWERVE_DRIVE_INCHES_PER_ENCODER_UNIT= 9.072106867127145344367826764411e-4;
-    public static final double SWERVE_DRIVE_KP                  = 0.001;    // BaseFalconSwerve: 0.12
-    public static final double SWERVE_DRIVE_KI                  = 0.0;
-    public static final double SWERVE_DRIVE_KD                  = 0.0;
-    public static final double SWERVE_DRIVE_KF                  = 0.11;     // BaseFalconSwerve: 0.0
-    public static final double SWERVE_DRIVE_IZONE               = 5.0;
-    public static final double SWERVE_DRIVE_TOLERANCE           = 2.0;
-    public static final TrcPidController.PidCoefficients driveCoeffs =
-        new TrcPidController.PidCoefficients(SWERVE_DRIVE_KP, SWERVE_DRIVE_KI, SWERVE_DRIVE_KD, SWERVE_DRIVE_KF);
-    // Drive Motor Characterization Values From SYSID
-    public static final double SWERVE_DRIVE_KS                  = 0.32; //TODO: This must be tuned to specific robot
-    public static final double SWERVE_DRIVE_KV                  = 1.51;
-    public static final double SWERVE_DRIVE_KA                  = 0.27;
-
-    public static final double GYRO_TURN_KP                     = 0.012;
-    public static final double GYRO_TURN_KI                     = 0.0;
-    public static final double GYRO_TURN_KD                     = 0.0;
-    public static final double GYRO_TURN_KF                     = 0.0;
-    public static final double GYRO_TURN_IZONE                  = 10.0;
-    public static final double GYRO_TURN_TOLERANCE              = 2.0;
-
-    // Not tuned (not used).
-    public static final double X_TIPPING_KP                     = 0.01;
-    public static final double X_TIPPING_KI                     = 0.0;
-    public static final double X_TIPPING_KD                     = 0.0;
-    public static final double X_TIPPING_TOLERANCE              = 10.0;
-    public static final double X_TIPPING_SETTLING_TIME          = 0.2;
-
-    public static final double Y_TIPPING_KP                     = 0.01;
-    public static final double Y_TIPPING_KI                     = 0.0;
-    public static final double Y_TIPPING_KD                     = 0.0;
-    public static final double Y_TIPPING_TOLERANCE              = 10.0;
-    public static final double Y_TIPPING_SETTLING_TIME          = 0.2;
-
-    public static final double ROBOT_MAX_VELOCITY               = 177.1654; // inches per second
-    public static final double ROBOT_MAX_ACCELERATION           = 799.1;
-    public static final double ROBOT_MAX_TURN_RATE              = 572.9578;
-    public static final double ROBOT_VEL_KP                     = 0.0;
-    public static final double ROBOT_VEL_KI                     = 0.0;
-    public static final double ROBOT_VEL_KD                     = 0.0;
-    // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance), units: sec./in.
-    public static final double ROBOT_VEL_KF                     = 1.0 / ROBOT_MAX_VELOCITY;
 
     public static final double DRIVE_SLOW_SCALE                 = 0.5;
     public static final double TURN_SLOW_SCALE                  = 0.3;
     public static final double DRIVE_NORMAL_SCALE               = 0.75;
     public static final double TURN_NORMAL_SCALE                = 0.6;
 
-    public static final double DRIVE_MAX_XPID_POWER             = 0.5;
-    public static final double DRIVE_MAX_YPID_POWER             = 0.6;
-    public static final double DRIVE_MAX_TURNPID_POWER          = 1.0;
+    public static class DifferentialDriveBase
+    {
+        public static final String[] driveMotorNames            = {"leftDriveMotor", "rightDriveMotor"};
+        public static final int[] driveMotorIds                 = {CANID_LFDRIVE_MOTOR, CANID_RFDRIVE_MOTOR};
+        public static final boolean[] driveMotorInverted        = {false, true};
 
-    public static final double DRIVE_MAX_XPID_RAMP_RATE         = 0.5;  // percentPower per sec
-    public static final double DRIVE_MAX_YPID_RAMP_RATE         = 0.5;  // percentPower per sec
-    public static final double DRIVE_MAX_TURNPID_RAMP_RATE      = 1.0;  // percentPower per sec
+        public static final double DRIVE_INCHES_PER_COUNT       = 2.2421;
+        public static final double DRIVE_KP                     = 0.011;
+        public static final double DRIVE_KI                     = 0.0;
+        public static final double DRIVE_KD                     = 0.0013;
+        public static final double DRIVE_KF                     = 0.0;
+        public static final double DRIVE_TOLERANCE              = 2.0;
 
-    public static final double DRIVE_RAMP_RATE                  = 0.25;
+        public static final double TURN_KP                      = 0.012;
+        public static final double TURN_KI                      = 0.0;
+        public static final double TURN_KD                      = 0.0;
+        public static final double TURN_KF                      = 0.0;
+        public static final double TURN_IZONE                   = 10.0;
+        public static final double TURN_TOLERANCE               = 2.0;
 
-    // Applicable only for Swerve Drive.
-    public static final double CANCODER_CPR                     = 4096.0;
-    public static final double FALCON_CPR                       = 2048.0;
-    public static final double FALCON_MAX_RPM                   = 6380.0;
+        public static final double ROBOT_MAX_VELOCITY           = 177.1654; // inches per second
+        public static final double ROBOT_MAX_ACCELERATION       = 799.1;
+        public static final double ROBOT_MAX_TURN_RATE          = 572.9578;
+        public static final double ROBOT_VEL_KP                 = 0.0;
+        public static final double ROBOT_VEL_KI                 = 0.0;
+        public static final double ROBOT_VEL_KD                 = 0.0;
+        // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance), units: sec./in.
+        public static final double ROBOT_VEL_KF                 = 1.0 / ROBOT_MAX_VELOCITY;
 
-    public static final double SWERVE_DRIVE_GEAR_RATIO          = 9.63;
-    public static final double SWERVE_DRIVE_WHEEL_CIRCUMFERENCE = 4.0 * Math.PI;
-    public static final double SWERVE_DRIVE_INCHES_PER_ENCODER_UNIT =
-        SWERVE_DRIVE_WHEEL_CIRCUMFERENCE / SWERVE_DRIVE_GEAR_RATIO;
+        public static final double DRIVE_MAX_PID_POWER          = 0.5;
+        public static final double DRIVE_MAX_PID_RAMP_RATE      = 0.5;  // percentPower per sec
 
-    // public static final double STEER_GEAR_RATIO                 = (24.0/12.0) * (72.0/14.0);
-    public static final double SWERVE_STEER_GEAR_RATIO          = 15.43;
-    public static final double SWERVE_STEER_DEGREES_PER_ENCODER_UNIT = 360.0 / SWERVE_STEER_GEAR_RATIO;
-    // ((theoretical max rpm * speed loss constant / gear ratio) / 60 sec/min) * 360 deg/rev
-    public static final double SWERVE_STEER_MAX_VEL             = (FALCON_MAX_RPM*0.81/SWERVE_STEER_GEAR_RATIO/60.0)*360.0;
+        public static final double TURN_MAX_PID_POWER           = 1.0;
+        public static final double TURN_MAX_PID_RAMP_RATE       = 1.0;  // percentPower per sec
 
-    // Zeroes are normalized offsets which are in the unit of percentage revolution (0.0 to 1.0).
-    // This is a backup if file is not found: LF, RF, LB, RB.
-    public static final double[] SWERVE_STEER_ZEROS             = new double[] {0.0, 0.0, 0.0, 0.0};
+        public static final double PPD_FOLLOWING_DISTANCE       = 12.0;
+        public static final double PPD_POS_TOLERANCE            = 1.0;
+        public static final double PPD_TURN_TOLERANCE           = 2.0;
+        public static final double PPD_MOVE_DEF_OUTPUT_LIMIT    = 0.5;
+        public static final double PPD_ROT_DEF_OUTPUT_LIMIT     = 0.5;
+    }   //class DifferentialDriveBase
 
-    // public static final TrcPidController.PidCoefficients magicSteerCoeff =
-    //     new TrcPidController.PidCoefficients(2.0, 0.01, 0.0, 1023.0 / STEER_MAX_VEL_COUNT_PER_100MS, 5.0 / STEER_DEGREES_PER_COUNT);
-    public static final double SWERVE_STEER_KP                  = 3.0;
-    public static final double SWERVE_STEER_KI                  = 0.0;
-    public static final double SWERVE_STEER_KD                  = 0.0;
-    // kF set to Motion Magic recommendation.
-    public static final double SWERVE_STEER_KF                  = 0.0;//1023.0 / STEER_MAX_VEL_COUNT_PER_100MS;
-    // iZone set to within 5 steering degrees.
-    public static final double SWERVE_STEER_IZONE               = 0.0;//5.0 / STEER_DEGREES_PER_COUNT;
-    public static final TrcPidController.PidCoefficients steerCoeffs =
-        new TrcPidController.PidCoefficients(SWERVE_STEER_KP, SWERVE_STEER_KI, SWERVE_STEER_KD, SWERVE_STEER_KF, SWERVE_STEER_IZONE);
+    public static class MecanumDriveBase
+    {
+        // Drive motors.
+        public static final String[] driveMotorNames            =
+            {"lfDriveMotor", "rfDriveMotor", "lbDriveMotor", "rbDriveMotor"};
+        public static final int[] driveMotorIds                 =
+            {CANID_LFDRIVE_MOTOR, CANID_RFDRIVE_MOTOR, CANID_LBDRIVE_MOTOR, CANID_RBDRIVE_MOTOR};
+        public static final boolean[] driveMotorInverted        = {false, true, false, true};
 
-    public static final double PPD_FOLLOWING_DISTANCE           = 12.0;
-    public static final double PPD_POS_TOLERANCE                = 1.0;
-    public static final double PPD_TURN_TOLERANCE               = 2.0;
-    public static final double PPD_MOVE_DEF_OUTPUT_LIMIT        = 0.5;
-    public static final double PPD_ROT_DEF_OUTPUT_LIMIT         = 0.5;
+        // Mecanum Drive Base (not used).
+        public static final double DRIVE_X_INCHES_PER_COUNT     = 2.2421;
+        public static final double DRIVE_X_KP                   = 0.011;
+        public static final double DRIVE_X_KI                   = 0.0;
+        public static final double DRIVE_X_KD                   = 0.0013;
+        public static final double DRIVE_X_KF                   = 0.0;
+        public static final double DRIVE_X_TOLERANCE            = 2.0;
+
+        public static final double DRIVE_Y_INCHES_PER_COUNT     = 2.2421;
+        public static final double DRIVE_Y_KP                   = 0.011;
+        public static final double DRIVE_Y_KI                   = 0.0;
+        public static final double DRIVE_Y_KD                   = 0.0013;
+        public static final double DRIVE_Y_KF                   = 0.0;
+        public static final double DRIVE_Y_TOLERANCE            = 2.0;
+
+        public static final double TURN_KP                      = 0.012;
+        public static final double TURN_KI                      = 0.0;
+        public static final double TURN_KD                      = 0.0;
+        public static final double TURN_KF                      = 0.0;
+        public static final double TURN_IZONE                   = 10.0;
+        public static final double TURN_TOLERANCE               = 2.0;
+
+        public static final double ROBOT_MAX_VELOCITY           = 177.1654; // inches per second
+        public static final double ROBOT_MAX_ACCELERATION       = 799.1;
+        public static final double ROBOT_MAX_TURN_RATE          = 572.9578;
+        public static final double ROBOT_VEL_KP                 = 0.0;
+        public static final double ROBOT_VEL_KI                 = 0.0;
+        public static final double ROBOT_VEL_KD                 = 0.0;
+        // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance), units: sec./in.
+        public static final double ROBOT_VEL_KF                 = 1.0 / ROBOT_MAX_VELOCITY;
+
+        public static final double DRIVE_MAX_XPID_POWER         = 0.5;
+        public static final double DRIVE_MAX_XPID_RAMP_RATE     = 0.5;  // percentPower per sec
+
+        public static final double DRIVE_MAX_YPID_POWER         = 0.6;
+        public static final double DRIVE_MAX_YPID_RAMP_RATE     = 0.5;  // percentPower per sec
+
+        public static final double DRIVE_MAX_TURNPID_POWER      = 1.0;
+        public static final double DRIVE_MAX_TURNPID_RAMP_RATE  = 1.0;  // percentPower per sec
+
+        public static final double PPD_FOLLOWING_DISTANCE       = 12.0;
+        public static final double PPD_POS_TOLERANCE            = 1.0;
+        public static final double PPD_TURN_TOLERANCE           = 2.0;
+        public static final double PPD_MOVE_DEF_OUTPUT_LIMIT    = 0.5;
+        public static final double PPD_ROT_DEF_OUTPUT_LIMIT     = 0.5;
+    }   //MecanumDriveBase
+
+    public static class SwerveDriveBase
+    {
+        // Drive motors.
+        public static final String[] driveMotorNames            =
+            {"lfDriveMotor", "rfDriveMotor", "lbDriveMotor", "rbDriveMotor"};
+        public static final int[] driveMotorIds                 =
+            {CANID_LFDRIVE_MOTOR, CANID_RFDRIVE_MOTOR, CANID_LBDRIVE_MOTOR, CANID_RBDRIVE_MOTOR};
+        public static final boolean[] driveMotorInverted        = {true, true, true, true};
+
+        // Steer motors.
+        public static final String[] steerMotorNames            =
+            {"lfSteerMotor", "rfSteerMotor", "lbSteerMotor", "rbSteerMotor"};
+        public static final int[] steerMotorIds                 =
+            {CANID_LFSTEER_MOTOR, CANID_RFSTEER_MOTOR, CANID_LBSTEER_MOTOR, CANID_RBSTEER_MOTOR};
+        public static final boolean[] steerMotorInverted        = {false, false, false, false};
+
+        // Steer encoders.
+        public static final String[] steerEncoderNames          =
+            {"lfSteerEncoder", "rfSteerEncoder", "lbSteerEncoder", "rbSteerEncoder"};
+        public static final int[] steerEncoderCanIds            =
+            {CANID_LFSTEER_ENCODER, CANID_RFSTEER_ENCODER, CANID_LBSTEER_ENCODER, CANID_RBSTEER_ENCODER};
+        public static final int[] steerEncoderAnalogIds        =
+            {AIN_LFSTEER_ENCODER, AIN_RFSTEER_ENCODER, AIN_LBSTEER_ENCODER, AIN_RBSTEER_ENCODER};
+        public static final boolean[] steerEncoderInverted      = {false, false, false, false};
+
+        // Swerve modules.
+        public static final String[] swerveModuleNames          = {"lfWheel", "rfWheel", "lbWheel", "rbWheel"};
+
+        // public static final double SWERVE_DRIVE_INCHES_PER_ENCODER_UNIT= 9.072106867127145344367826764411e-4;
+        public static final double DRIVE_KP                     = 0.001;    // BaseFalconSwerve: 0.12
+        public static final double DRIVE_KI                     = 0.0;
+        public static final double DRIVE_KD                     = 0.0;
+        public static final double DRIVE_KF                     = 0.11;     // BaseFalconSwerve: 0.0
+        public static final double DRIVE_IZONE                  = 5.0;
+        public static final double DRIVE_TOLERANCE              = 2.0;
+        public static final TrcPidController.PidCoefficients driveCoeffs =
+            new TrcPidController.PidCoefficients(DRIVE_KP, DRIVE_KI, DRIVE_KD, DRIVE_KF);
+        // Drive Motor Characterization Values From SYSID
+        public static final double DRIVE_KS                     = 0.32; //TODO: This must be tuned to specific robot
+        public static final double DRIVE_KV                     = 1.51;
+        public static final double DRIVE_KA                     = 0.27;
+
+        public static final double TURN_KP                      = 0.012;
+        public static final double TURN_KI                      = 0.0;
+        public static final double TURN_KD                      = 0.0;
+        public static final double TURN_KF                      = 0.0;
+        public static final double TURN_IZONE                   = 10.0;
+        public static final double TURN_TOLERANCE               = 2.0;
+
+        // Not tuned (not used).
+        public static final double X_TIPPING_KP                 = 0.01;
+        public static final double X_TIPPING_KI                 = 0.0;
+        public static final double X_TIPPING_KD                 = 0.0;
+        public static final double X_TIPPING_TOLERANCE          = 10.0;
+        public static final double X_TIPPING_SETTLING_TIME      = 0.2;
+
+        public static final double Y_TIPPING_KP                 = 0.01;
+        public static final double Y_TIPPING_KI                 = 0.0;
+        public static final double Y_TIPPING_KD                 = 0.0;
+        public static final double Y_TIPPING_TOLERANCE          = 10.0;
+        public static final double Y_TIPPING_SETTLING_TIME      = 0.2;
+
+        public static final double ROBOT_MAX_VELOCITY           = 177.1654; // inches per second
+        public static final double ROBOT_MAX_ACCELERATION       = 799.1;
+        public static final double ROBOT_MAX_TURN_RATE          = 572.9578;
+        public static final double ROBOT_VEL_KP                 = 0.0;
+        public static final double ROBOT_VEL_KI                 = 0.0;
+        public static final double ROBOT_VEL_KD                 = 0.0;
+        // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance), units: sec./in.
+        public static final double ROBOT_VEL_KF                 = 1.0 / ROBOT_MAX_VELOCITY;
+
+        public static final double DRIVE_MAX_XPID_POWER         = 0.5;
+        public static final double DRIVE_MAX_XPID_RAMP_RATE     = 0.5;  // percentPower per sec
+
+        public static final double DRIVE_MAX_YPID_POWER         = 0.6;
+        public static final double DRIVE_MAX_YPID_RAMP_RATE     = 0.5;  // percentPower per sec
+
+        public static final double DRIVE_MAX_TURNPID_POWER      = 1.0;
+        public static final double DRIVE_MAX_TURNPID_RAMP_RATE  = 1.0;  // percentPower per sec
+
+        public static final double DRIVE_RAMP_RATE              = 0.25;
+
+        // Applicable only for Swerve Drive.
+        public static final double CANCODER_CPR                 = 4096.0;
+        public static final double FALCON_CPR                   = 2048.0;
+        public static final double FALCON_MAX_RPM               = 6380.0;
+
+        public static final double DRIVE_GEAR_RATIO             = 9.63;
+        public static final double DRIVE_WHEEL_CIRCUMFERENCE    = 4.0 * Math.PI;
+        public static final double DRIVE_INCHES_PER_COUNT       = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
+
+        // public static final double STEER_GEAR_RATIO             = (24.0/12.0) * (72.0/14.0);
+        public static final double STEER_GEAR_RATIO             = 15.43;
+        public static final double STEER_DEGREES_PER_COUNT      = 360.0 / STEER_GEAR_RATIO;
+        // ((theoretical max rpm * speed loss constant / gear ratio) / 60 sec/min) * 360 deg/rev
+        public static final double STEER_MAX_VEL                = (FALCON_MAX_RPM*0.81/STEER_GEAR_RATIO/60.0)*360.0;
+
+        // Zeroes are normalized offsets which are in the unit of percentage revolution (0.0 to 1.0).
+        // This is a backup if file is not found: LF, RF, LB, RB.
+        public static final double[] STEER_ZEROS                = new double[] {0.0, 0.0, 0.0, 0.0};
+
+        // public static final TrcPidController.PidCoefficients magicSteerCoeff =
+        //     new TrcPidController.PidCoefficients(2.0, 0.01, 0.0, 1023.0 / STEER_MAX_VEL_COUNT_PER_100MS, 5.0 / STEER_DEGREES_PER_COUNT);
+        public static final double STEER_KP                     = 3.0;
+        public static final double STEER_KI                     = 0.0;
+        public static final double STEER_KD                     = 0.0;
+        // kF set to Motion Magic recommendation.
+        public static final double STEER_KF                     = 0.0;//1023.0 / STEER_MAX_VEL_COUNT_PER_100MS;
+        // iZone set to within 5 steering degrees.
+        public static final double STEER_IZONE                  = 0.0;//5.0 / STEER_DEGREES_PER_COUNT;
+        public static final TrcPidController.PidCoefficients steerCoeffs =
+            new TrcPidController.PidCoefficients(STEER_KP, STEER_KI, STEER_KD, STEER_KF, STEER_IZONE);
+
+        public static final double PPD_FOLLOWING_DISTANCE       = 12.0;
+        public static final double PPD_POS_TOLERANCE            = 1.0;
+        public static final double PPD_TURN_TOLERANCE           = 2.0;
+        public static final double PPD_MOVE_DEF_OUTPUT_LIMIT    = 0.5;
+        public static final double PPD_ROT_DEF_OUTPUT_LIMIT     = 0.5;
+    }   //class SwerveDriveBase
 
     //
     // Command-based constatns.
@@ -440,7 +516,7 @@ public class RobotParams
         // Drivetrain Constants
         public static final double trackWidth = Units.inchesToMeters(RobotParams.ROBOT_WHEELBASE_WIDTH);
         public static final double wheelBase = Units.inchesToMeters(RobotParams.ROBOT_WHEELBASE_LENGTH);
-        public static final double wheelCircumference = RobotParams.SWERVE_DRIVE_WHEEL_CIRCUMFERENCE;
+        public static final double wheelCircumference = RobotParams.SwerveDriveBase.DRIVE_WHEEL_CIRCUMFERENCE;
         // Swerve Kinematics
         // No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve
         public static final SwerveDriveKinematics swerveKinematics  = new SwerveDriveKinematics(
@@ -449,13 +525,15 @@ public class RobotParams
             new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
         // Meters per Second
-        public static final double maxSpeed = Units.inchesToMeters(RobotParams.ROBOT_MAX_VELOCITY);
+        public static final double maxSpeed = Units.inchesToMeters(RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY);
         // Radians per Second
-        public static final double maxAngularVelocity = Units.degreesToRadians(RobotParams.ROBOT_MAX_TURN_RATE);
+        public static final double maxAngularVelocity =
+            Units.degreesToRadians(RobotParams.SwerveDriveBase.ROBOT_MAX_TURN_RATE);
     }
 
     public static final class AutoConstants
-    { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
+    {
+        //TODO: The below constants are used in the example auto, and must be tuned to specific robot
         public static final double kMaxSpeedMetersPerSecond = 4.0;
         public static final double kMaxAccelerationMetersPerSecondSquared = 4.0;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
@@ -488,5 +566,15 @@ public class RobotParams
         public static final boolean entrySensorInverted         = false;
         public static final boolean exitSensorInverted          = false;
     }   //class Intake
+
+    public static class Shooter
+    {
+
+    }   //class Shooter
+
+    public static class Climber
+    {
+
+    }   // class Climber
 
 }   //class RobotParams

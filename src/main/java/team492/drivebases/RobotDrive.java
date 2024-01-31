@@ -54,11 +54,12 @@ import team492.RobotParams;
 public class RobotDrive extends SubsystemBase
 {
     private static final String moduleName = RobotDrive.class.getSimpleName();
+    private static final String FIELD_ZERO_HEADING_FILE = "FieldZeroHeading.txt";
+
     public static final int INDEX_LEFT_FRONT = 0;
     public static final int INDEX_RIGHT_FRONT = 1;
     public static final int INDEX_LEFT_BACK = 2;
     public static final int INDEX_RIGHT_BACK = 3;
-    private static final String FIELD_ZERO_HEADING_FILE = "FieldZeroHeading.txt";
 
     public enum MotorType
     {
@@ -130,7 +131,7 @@ public class RobotDrive extends SubsystemBase
         {
             driveBase.setOdometryEnabled(true, true);
             // Disable ramp rate control in autonomous.
-            double rampTime = runMode == RunMode.AUTO_MODE? 0.0: RobotParams.DRIVE_RAMP_RATE;
+            double rampTime = runMode == RunMode.AUTO_MODE? 0.0: RobotParams.SwerveDriveBase.DRIVE_RAMP_RATE;
             for (int i = 0; i < driveMotors.length; i++)
             {
                 driveMotors[i].setOpenLoopRampRate(rampTime);

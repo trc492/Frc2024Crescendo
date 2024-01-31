@@ -37,16 +37,6 @@ import team492.RobotParams;
  */
 public class MecanumDrive extends RobotDrive
 {
-    private final String[] driveMotorNames = {
-        RobotParams.LFDRIVE_MOTOR_NAME, RobotParams.RFDRIVE_MOTOR_NAME,
-        RobotParams.LBDRIVE_MOTOR_NAME, RobotParams.RBDRIVE_MOTOR_NAME};
-    private final int[] driveMotorIds = {
-        RobotParams.CANID_LFDRIVE_MOTOR, RobotParams.CANID_RFDRIVE_MOTOR,
-        RobotParams.CANID_LBDRIVE_MOTOR, RobotParams.CANID_RBDRIVE_MOTOR};
-    private final boolean[] driveMotorInverted = {
-        RobotParams.LFDRIVE_MOTOR_INVERTED, RobotParams.RFDRIVE_MOTOR_INVERTED,
-        RobotParams.LBDRIVE_MOTOR_INVERTED, RobotParams.RBDRIVE_MOTOR_INVERTED};
-
     /**
      * Constructor: Create an instance of the object.
      *
@@ -56,50 +46,64 @@ public class MecanumDrive extends RobotDrive
     {
         super(robot);
 
-        driveMotors = createMotors(MotorType.CanFalcon, false, driveMotorNames, driveMotorIds, driveMotorInverted);
+        driveMotors = createMotors(
+            MotorType.CanFalcon, false, RobotParams.MecanumDriveBase.driveMotorNames,
+            RobotParams.MecanumDriveBase.driveMotorIds, RobotParams.MecanumDriveBase.driveMotorInverted);
         driveBase = new TrcMecanumDriveBase(
-            driveMotors[INDEX_LEFT_FRONT], driveMotors[INDEX_LEFT_BACK],
-            driveMotors[INDEX_RIGHT_FRONT], driveMotors[INDEX_RIGHT_BACK], gyro);
+            driveMotors[RobotDrive.INDEX_LEFT_FRONT], driveMotors[RobotDrive.INDEX_LEFT_BACK],
+            driveMotors[RobotDrive.INDEX_RIGHT_FRONT], driveMotors[RobotDrive.INDEX_RIGHT_BACK], gyro);
         driveBase.setOdometryScales(
-            RobotParams.MECANUM_X_INCHES_PER_ENCODER_UNIT, RobotParams.MECANUM_Y_INCHES_PER_ENCODER_UNIT);
+            RobotParams.MecanumDriveBase.DRIVE_X_INCHES_PER_COUNT, RobotParams.MecanumDriveBase.DRIVE_Y_INCHES_PER_COUNT);
 
         if (robot.pdp != null)
         {
             robot.pdp.registerEnergyUsed(
-                new FrcPdp.Channel(RobotParams.PDP_CHANNEL_LFDRIVE_MOTOR, driveMotorNames[INDEX_LEFT_FRONT]),
-                new FrcPdp.Channel(RobotParams.PDP_CHANNEL_LBDRIVE_MOTOR, driveMotorNames[INDEX_LEFT_BACK]),
-                new FrcPdp.Channel(RobotParams.PDP_CHANNEL_RFDRIVE_MOTOR, driveMotorNames[INDEX_RIGHT_FRONT]),
-                new FrcPdp.Channel(RobotParams.PDP_CHANNEL_RBDRIVE_MOTOR, driveMotorNames[INDEX_RIGHT_BACK]));
+                new FrcPdp.Channel(
+                    RobotParams.PDP_CHANNEL_LFDRIVE_MOTOR,
+                    RobotParams.MecanumDriveBase.driveMotorNames[RobotDrive.INDEX_LEFT_FRONT]),
+                new FrcPdp.Channel(
+                    RobotParams.PDP_CHANNEL_LBDRIVE_MOTOR,
+                    RobotParams.MecanumDriveBase.driveMotorNames[RobotDrive.INDEX_LEFT_BACK]),
+                new FrcPdp.Channel(
+                    RobotParams.PDP_CHANNEL_RFDRIVE_MOTOR,
+                    RobotParams.MecanumDriveBase.driveMotorNames[RobotDrive.INDEX_RIGHT_FRONT]),
+                new FrcPdp.Channel(
+                    RobotParams.PDP_CHANNEL_RBDRIVE_MOTOR,
+                    RobotParams.MecanumDriveBase.driveMotorNames[RobotDrive.INDEX_RIGHT_BACK]));
         }
         //
         // Create and initialize PID controllers.
         //
         xPosPidCoeff = new TrcPidController.PidCoefficients(
-            RobotParams.MECANUM_X_KP, RobotParams.MECANUM_X_KI, RobotParams.MECANUM_X_KD, RobotParams.MECANUM_X_KF);
+            RobotParams.MecanumDriveBase.DRIVE_X_KP, RobotParams.MecanumDriveBase.DRIVE_X_KI,
+            RobotParams.MecanumDriveBase.DRIVE_X_KD, RobotParams.MecanumDriveBase.DRIVE_X_KF);
         yPosPidCoeff = new TrcPidController.PidCoefficients(
-            RobotParams.MECANUM_Y_KP, RobotParams.MECANUM_Y_KI, RobotParams.MECANUM_Y_KD, RobotParams.MECANUM_Y_KF);
+            RobotParams.MecanumDriveBase.DRIVE_Y_KP, RobotParams.MecanumDriveBase.DRIVE_Y_KI,
+            RobotParams.MecanumDriveBase.DRIVE_Y_KD, RobotParams.MecanumDriveBase.DRIVE_Y_KF);
         turnPidCoeff = new TrcPidController.PidCoefficients(
-            RobotParams.GYRO_TURN_KP, RobotParams.GYRO_TURN_KI, RobotParams.GYRO_TURN_KD, RobotParams.GYRO_TURN_KF);
+            RobotParams.MecanumDriveBase.TURN_KP, RobotParams.MecanumDriveBase.TURN_KI,
+            RobotParams.MecanumDriveBase.TURN_KD, RobotParams.MecanumDriveBase.TURN_KF);
         velPidCoeff = new TrcPidController.PidCoefficients(
-            RobotParams.ROBOT_VEL_KP, RobotParams.ROBOT_VEL_KI, RobotParams.ROBOT_VEL_KD, RobotParams.ROBOT_VEL_KF);
+            RobotParams.MecanumDriveBase.ROBOT_VEL_KP, RobotParams.MecanumDriveBase.ROBOT_VEL_KI,
+            RobotParams.MecanumDriveBase.ROBOT_VEL_KD, RobotParams.MecanumDriveBase.ROBOT_VEL_KF);
 
         pidDrive = new TrcPidDrive(
             "pidDrive", driveBase,
-            xPosPidCoeff, RobotParams.MECANUM_X_TOLERANCE, driveBase::getXPosition,
-            yPosPidCoeff, RobotParams.MECANUM_Y_TOLERANCE, driveBase::getYPosition,
-            turnPidCoeff, RobotParams.GYRO_TURN_TOLERANCE, driveBase::getHeading);
+            xPosPidCoeff, RobotParams.MecanumDriveBase.DRIVE_X_TOLERANCE, driveBase::getXPosition,
+            yPosPidCoeff, RobotParams.MecanumDriveBase.DRIVE_Y_TOLERANCE, driveBase::getYPosition,
+            turnPidCoeff, RobotParams.MecanumDriveBase.TURN_TOLERANCE, driveBase::getHeading);
 
         TrcPidController xPidCtrl = pidDrive.getXPidCtrl();
-        xPidCtrl.setOutputLimit(RobotParams.DRIVE_MAX_XPID_POWER);
-        xPidCtrl.setRampRate(RobotParams.DRIVE_MAX_XPID_RAMP_RATE);
+        xPidCtrl.setOutputLimit(RobotParams.MecanumDriveBase.DRIVE_MAX_XPID_POWER);
+        xPidCtrl.setRampRate(RobotParams.MecanumDriveBase.DRIVE_MAX_XPID_RAMP_RATE);
 
         TrcPidController yPidCtrl = pidDrive.getYPidCtrl();
-        yPidCtrl.setOutputLimit(RobotParams.DRIVE_MAX_YPID_POWER);
-        yPidCtrl.setRampRate(RobotParams.DRIVE_MAX_YPID_RAMP_RATE);
+        yPidCtrl.setOutputLimit(RobotParams.MecanumDriveBase.DRIVE_MAX_YPID_POWER);
+        yPidCtrl.setRampRate(RobotParams.MecanumDriveBase.DRIVE_MAX_YPID_RAMP_RATE);
 
         TrcPidController turnPidCtrl = pidDrive.getTurnPidCtrl();
-        turnPidCtrl.setOutputLimit(RobotParams.DRIVE_MAX_TURNPID_POWER);
-        turnPidCtrl.setRampRate(RobotParams.DRIVE_MAX_TURNPID_RAMP_RATE);
+        turnPidCtrl.setOutputLimit(RobotParams.MecanumDriveBase.DRIVE_MAX_TURNPID_POWER);
+        turnPidCtrl.setRampRate(RobotParams.MecanumDriveBase.DRIVE_MAX_TURNPID_RAMP_RATE);
         turnPidCtrl.setAbsoluteSetPoint(true);
 
         // AbsoluteTargetMode eliminates cumulative errors on multi-segment runs because drive base is keeping track
@@ -110,11 +114,11 @@ public class MecanumDrive extends RobotDrive
 
         purePursuitDrive = new TrcPurePursuitDrive(
             "purePursuitDrive", driveBase,
-            RobotParams.PPD_FOLLOWING_DISTANCE, RobotParams.PPD_POS_TOLERANCE, RobotParams.PPD_TURN_TOLERANCE,
-            xPosPidCoeff, yPosPidCoeff, turnPidCoeff, velPidCoeff);
+            RobotParams.MecanumDriveBase.PPD_FOLLOWING_DISTANCE, RobotParams.MecanumDriveBase.PPD_POS_TOLERANCE,
+            RobotParams.MecanumDriveBase.PPD_TURN_TOLERANCE, xPosPidCoeff, yPosPidCoeff, turnPidCoeff, velPidCoeff);
         purePursuitDrive.setStallDetectionEnabled(true);
-        purePursuitDrive.setMoveOutputLimit(RobotParams.PPD_MOVE_DEF_OUTPUT_LIMIT);
-        purePursuitDrive.setRotOutputLimit(RobotParams.PPD_ROT_DEF_OUTPUT_LIMIT);
+        purePursuitDrive.setMoveOutputLimit(RobotParams.MecanumDriveBase.PPD_MOVE_DEF_OUTPUT_LIMIT);
+        purePursuitDrive.setRotOutputLimit(RobotParams.MecanumDriveBase.PPD_ROT_DEF_OUTPUT_LIMIT);
         purePursuitDrive.setFastModeEnabled(true);
         purePursuitDrive.setTraceLevel(MsgLevel.INFO, false, false, false);
     }   //MecanumDrive
