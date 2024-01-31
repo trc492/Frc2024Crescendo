@@ -179,6 +179,11 @@ public class RobotParams
     public static final int CANID_LBSTEER_ENCODER               = 21;//25;
     public static final int CANID_RBSTEER_ENCODER               = 22;//26;
 
+    // Subsystems.
+    public static final int CANID_INTAKE_MOTOR                  = 7;
+    public static final int CANID_SHOOTER_MOTOR                 = 8;
+    public static final int CANID_TILTER_MOTOR                  = 9;
+
     public static final int CANID_PCM                           = 30;
     public static final int CANID_PDP                           = 31;
     //
@@ -213,6 +218,8 @@ public class RobotParams
     //
     // Digital Input/Output ports.
     //
+    public static final int DIO_INTAKE_ENTRY                    = 0;
+    public static final int DIO_INTAKE_EXIT                     = 1;
 
     //
     // PWM channels.
@@ -568,21 +575,24 @@ public class RobotParams
 
     public static class Intake
     {
-        public static final int candId                          = 7;
+        public static final int candId                          = CANID_INTAKE_MOTOR;
         public static final boolean motorInverted               = false;
         public static final TrcPidConveyor.Parameters params    = new TrcPidConveyor.Parameters()
             .setMaxCapacity(1)
             .setMovePower(1.0)
             .setObjectDistance(16.0);
-        public static final int entrySensorChannel              = 0;
-        public static final int exitSensorChannel               = 1;
+        public static final int entrySensorChannel              = DIO_INTAKE_ENTRY;
+        public static final int exitSensorChannel               = DIO_INTAKE_EXIT;
         public static final boolean entrySensorInverted         = false;
         public static final boolean exitSensorInverted          = false;
     }   //class Intake
 
     public static class Shooter
     {
-
+        public static final int shooterCandId                   = CANID_SHOOTER_MOTOR;
+        public static final boolean shooterMotorInverted        = false;
+        public static final int tilterCanId                     = CANID_TILTER_MOTOR;
+        public static final boolean tilterMotorInverted         = false;
     }   //class Shooter
 
     public static class Climber
