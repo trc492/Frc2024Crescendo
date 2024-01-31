@@ -70,15 +70,11 @@ public class RobotParams
         // Status Update
         public static final boolean doStatusUpdate              = true;
         public static final boolean showLoopTime                = false;
-
         public static final boolean showPowerConsumption        = false;
-
         public static final boolean showDriveBase               = false;
         public static final boolean showPurePursuitDrive        = false;
         public static final boolean showPidDrive                = false;
-
         public static final boolean showVision                  = true;
-
         public static final boolean showSubsystems              = false;
         // Inputs
         public static final boolean useDriverXboxController     = true;
@@ -100,14 +96,12 @@ public class RobotParams
         public static final boolean useVelocityControl          = false;
         public static final boolean useGyroAssist               = false;
         public static final boolean useAntiTipping              = false;
-        
         // Subsystems
         public static final boolean useSubsystems               = false;
         public static final boolean useIntake                   = false;
         public static final boolean useShooter                  = false;
         public static final boolean useClimber                  = false;
         public static final boolean useDeployer                 = false;
-
     }   //class Preferences
 
     public static final String ROBOT_NAME                       = "Robot492";
