@@ -427,7 +427,7 @@ public class RobotParams
         public final boolean[] steerEncoderInverted             = {false, false, false, false};
 
         // Swerve modules.
-        public final String[] swerveModuleNames          = {"lfWheel", "rfWheel", "lbWheel", "rbWheel"};
+        public final String[] swerveModuleNames                 = {"lfWheel", "rfWheel", "lbWheel", "rbWheel"};
 
         // public final double SWERVE_DRIVE_INCHES_PER_COUNT       = 9.072106867127145344367826764411e-4;
         public final double DRIVE_KP                            = 0.001;    // BaseFalconSwerve: 0.12
