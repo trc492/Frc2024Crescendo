@@ -44,7 +44,6 @@ public class Intake
         conveyorMotor.setMotorInverted(RobotParams.Intake.motorInverted);
         conveyorMotor.setBrakeModeEnabled(true);
         conveyorMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
-        conveyorMotor.setCurrentLimit(20.0, 40.0, 0.5);
 
         entrySensor = new FrcDigitalInput(moduleName + ".entrySensor", RobotParams.Intake.entrySensorChannel);
         entrySensor.setInverted(RobotParams.Intake.entrySensorInverted);
