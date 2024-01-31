@@ -86,7 +86,7 @@ public class PhotonVision extends FrcPhotonVision
      */
     public PhotonVision(String cameraName, LEDIndicator ledIndicator)
     {
-        super(cameraName, RobotParams.CAMERA_HEIGHT, RobotParams.CAMERA_PITCH);
+        super(cameraName, RobotParams.Vision.CAMERA_HEIGHT, RobotParams.Vision.CAMERA_PITCH);
         this.ledIndicator = ledIndicator;
 
         double startTime = TrcTimer.getModeElapsedTime();
@@ -94,7 +94,8 @@ public class PhotonVision extends FrcPhotonVision
         {
             aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
             poseEstimator = new PhotonPoseEstimator(
-                aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, this, RobotParams.CAMERA_TRANSFORM3D);
+                aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, this,
+                RobotParams.Vision.CAMERA_TRANSFORM3D);
             poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         }
         catch (UncheckedIOException e)
@@ -155,7 +156,7 @@ public class PhotonVision extends FrcPhotonVision
             // camPose3d is the absolute field position of the camera.
             Pose3d camPose3d = aprilTagPose.transformBy(detectedObj.target.getBestCameraToTarget().inverse());
             // robotPose3d is the absolute 3D field position of the robot centroid on the ground.
-            Pose3d robotPose3d = camPose3d.transformBy(RobotParams.CAMERA_TRANSFORM3D.inverse());
+            Pose3d robotPose3d = camPose3d.transformBy(RobotParams.Vision.CAMERA_TRANSFORM3D.inverse());
             // robotPose is the absolute field position of the robot adjusted to the robot coordinate system.
             robotPose = DetectedObject.pose3dToTrcPose2D(robotPose3d);
             tracer.traceDebug(

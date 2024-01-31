@@ -131,7 +131,7 @@ public class RobotDrive extends SubsystemBase
         {
             driveBase.setOdometryEnabled(true, true);
             // Disable ramp rate control in autonomous.
-            double rampTime = runMode == RunMode.AUTO_MODE? 0.0: RobotParams.SwerveDriveBase.DRIVE_RAMP_RATE;
+            double rampTime = runMode == RunMode.AUTO_MODE? 0.0: RobotParams.DRIVE_RAMP_RATE;
             for (int i = 0; i < driveMotors.length; i++)
             {
                 driveMotors[i].setOpenLoopRampRate(rampTime);

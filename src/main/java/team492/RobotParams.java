@@ -43,11 +43,19 @@ public class RobotParams
 {
     public enum RobotType
     {
-        SwerveRobot,
-        MecanumRobot,
+        NoRobot,
         DifferentialRobot,
-        NoRobot
-    }   //RobotType
+        MecanumRobot,
+        SwerveRobot,
+        ChadRobot
+    }   //enum RobotType
+
+    public enum SteerEncoderType
+    {
+        CANCoder,
+        Canandcoder,
+        AnalogEncoder
+    }   //enum SteerEncoderType
 
     //
     // Robot preferences.
@@ -55,7 +63,7 @@ public class RobotParams
     public static class Preferences
     {
         // Global config
-        public static RobotType robotType                       = RobotType.SwerveRobot;
+        public static RobotType robotType                       = RobotType.ChadRobot;
         public static boolean inCompetition                     = false;
         public static final boolean hybridMode                  = true;
         public static final boolean useTraceLog                 = true;
@@ -92,15 +100,13 @@ public class RobotParams
         public static final boolean useVelocityControl          = false;
         public static final boolean useGyroAssist               = false;
         public static final boolean useAntiTipping              = false;
-        public static final boolean useSteeringCANCoder         = false;
-        public static final boolean useSteeringCanandcoder      = true;
-        public static final boolean useSteeringAnalogEncoder    = false;
         
         // Subsystems
         public static final boolean useSubsystems               = false;
         public static final boolean useIntake                   = false;
         public static final boolean useShooter                  = false;
         public static final boolean useClimber                  = false;
+        public static final boolean useDeployer                 = false;
 
     }   //class Preferences
 
@@ -230,58 +236,65 @@ public class RobotParams
     //
     // Vision subsystem.
     //
-    public static final int CAMERA_IMAGE_WIDTH                  = 320;      // in pixels
-    public static final int CAMERA_IMAGE_HEIGHT                 = 240;      // in pixels
-    // Camera location on robot.
-    public static final double CAMERA_Y_OFFSET                  = 9.5;      // Inches from the center of the robot
-    public static final double CAMERA_X_OFFSET                  = 0.0;      // Exactly centered
-    public static final double CAMERA_HEIGHT                    = 43.625;   // Inches from the floor
-    public static final double CAMERA_PITCH                     = -37.8528213888;   // degrees from horizontal
-    public static final double CAMERA_YAW                       = -2.9126252095;    // degrees from front
-    public static final Transform3d CAMERA_TRANSFORM3D          = new Transform3d(
-        new Translation3d(CAMERA_Y_OFFSET*TrcUtil.METERS_PER_INCH, -CAMERA_X_OFFSET*TrcUtil.METERS_PER_INCH,
-                          CAMERA_HEIGHT*TrcUtil.METERS_PER_INCH),
-        new Rotation3d(0.0, Math.toRadians(-CAMERA_PITCH), Math.toRadians(-CAMERA_YAW)));
-    // Camera: Logitech C310 (not used)
-    public static final double WEBCAM_FX                        = 821.993;  // in pixels
-    public static final double WEBCAM_FY                        = 821.993;  // in pixels
-    public static final double WEBCAM_CX                        = 330.489;  // in pixels
-    public static final double WEBCAM_CY                        = 248.997;  // in pixels
+    public static class Vision
+    {
+        public static final int CAMERA_IMAGE_WIDTH              = 320;      // in pixels
+        public static final int CAMERA_IMAGE_HEIGHT             = 240;      // in pixels
+        // Camera location on robot.
+        public static final double CAMERA_Y_OFFSET              = 9.5;      // Inches from the center of the robot
+        public static final double CAMERA_X_OFFSET              = 0.0;      // Exactly centered
+        public static final double CAMERA_HEIGHT                = 43.625;   // Inches from the floor
+        public static final double CAMERA_PITCH                 = -37.8528213888;   // degrees from horizontal
+        public static final double CAMERA_YAW                   = -2.9126252095;    // degrees from front
+        public static final Transform3d CAMERA_TRANSFORM3D      = new Transform3d(
+            new Translation3d(CAMERA_Y_OFFSET*TrcUtil.METERS_PER_INCH, -CAMERA_X_OFFSET*TrcUtil.METERS_PER_INCH,
+                              CAMERA_HEIGHT*TrcUtil.METERS_PER_INCH),
+            new Rotation3d(0.0, Math.toRadians(-CAMERA_PITCH), Math.toRadians(-CAMERA_YAW)));
+        // Camera: Logitech C310 (not used)
+        public static final double WEBCAM_FX                    = 821.993;  // in pixels
+        public static final double WEBCAM_FY                    = 821.993;  // in pixels
+        public static final double WEBCAM_CX                    = 330.489;  // in pixels
+        public static final double WEBCAM_CY                    = 248.997;  // in pixels
 
-    public static final double CAMERA_DATA_TIMEOUT              = 0.5;      // 500ms
-    public static final double VISION_TARGET_HEIGHT             = 104.0;    // Inches from the floor (not used)
-    public static final double APRILTAG_SIZE                    = 6.0 / TrcUtil.INCHES_PER_METER;   //  in meters
-    // Homography measurements.
-    // Camera rect in inches.
-    public static final double HOMOGRAPHY_CAMERA_TOPLEFT_X      = 0.0;
-    public static final double HOMOGRAPHY_CAMERA_TOPLEFT_Y      = 120.0;
-    public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_X     = CAMERA_IMAGE_WIDTH - 1;
-    public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_Y     = 120.0;
-    public static final double HOMOGRAPHY_CAMERA_BOTTOMLEFT_X   = 0.0;
-    public static final double HOMOGRAPHY_CAMERA_BOTTOMLEFT_Y   = CAMERA_IMAGE_HEIGHT - 1;
-    public static final double HOMOGRAPHY_CAMERA_BOTTOMRIGHT_X  = CAMERA_IMAGE_WIDTH - 1;
-    public static final double HOMOGRAPHY_CAMERA_BOTTOMRIGHT_Y  = CAMERA_IMAGE_HEIGHT - 1;
-    public static final TrcHomographyMapper.Rectangle cameraRect = new TrcHomographyMapper.Rectangle(
-        RobotParams.HOMOGRAPHY_CAMERA_TOPLEFT_X, RobotParams.HOMOGRAPHY_CAMERA_TOPLEFT_Y,
-        RobotParams.HOMOGRAPHY_CAMERA_TOPRIGHT_X, RobotParams.HOMOGRAPHY_CAMERA_TOPRIGHT_Y,
-        RobotParams.HOMOGRAPHY_CAMERA_BOTTOMLEFT_X, RobotParams.HOMOGRAPHY_CAMERA_BOTTOMLEFT_Y,
-        RobotParams.HOMOGRAPHY_CAMERA_BOTTOMRIGHT_X, RobotParams.HOMOGRAPHY_CAMERA_BOTTOMRIGHT_Y);
-    // World rect in inches.
-    public static final double HOMOGRAPHY_WORLD_TOPLEFT_X       = -12.5625;
-    public static final double HOMOGRAPHY_WORLD_TOPLEFT_Y       = 48.0 - ROBOT_LENGTH/2.0 + CAMERA_Y_OFFSET;
-    public static final double HOMOGRAPHY_WORLD_TOPRIGHT_X      = 11.4375;
-    public static final double HOMOGRAPHY_WORLD_TOPRIGHT_Y      = 44.75 - ROBOT_LENGTH/2.0 + CAMERA_Y_OFFSET;
-    public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_X    = -2.5625;
-    public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_Y    = 21.0 - ROBOT_LENGTH/2.0 + CAMERA_Y_OFFSET;
-    public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_X   = 2.5626;
-    public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y   = 21.0 - ROBOT_LENGTH + CAMERA_Y_OFFSET;
-    public static final TrcHomographyMapper.Rectangle worldRect = new TrcHomographyMapper.Rectangle(
-        RobotParams.HOMOGRAPHY_WORLD_TOPLEFT_X, RobotParams.HOMOGRAPHY_WORLD_TOPLEFT_Y,
-        RobotParams.HOMOGRAPHY_WORLD_TOPRIGHT_X, RobotParams.HOMOGRAPHY_WORLD_TOPRIGHT_Y,
-        RobotParams.HOMOGRAPHY_WORLD_BOTTOMLEFT_X, RobotParams.HOMOGRAPHY_WORLD_BOTTOMLEFT_Y,
-        RobotParams.HOMOGRAPHY_WORLD_BOTTOMRIGHT_X, RobotParams.HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y);
+        public static final double CAMERA_DATA_TIMEOUT          = 0.5;      // 500ms
+        public static final double VISION_TARGET_HEIGHT         = 104.0;    // Inches from the floor (not used)
+        public static final double APRILTAG_SIZE                = 6.0 / TrcUtil.INCHES_PER_METER;   //  in meters
+        // Homography measurements.
+        // Camera rect in inches.
+        public static final double HOMOGRAPHY_CAMERA_TOPLEFT_X  = 0.0;
+        public static final double HOMOGRAPHY_CAMERA_TOPLEFT_Y  = 120.0;
+        public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_X = CAMERA_IMAGE_WIDTH - 1;
+        public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_Y = 120.0;
+        public static final double HOMOGRAPHY_CAMERA_BOTTOMLEFT_X = 0.0;
+        public static final double HOMOGRAPHY_CAMERA_BOTTOMLEFT_Y = CAMERA_IMAGE_HEIGHT - 1;
+        public static final double HOMOGRAPHY_CAMERA_BOTTOMRIGHT_X = CAMERA_IMAGE_WIDTH - 1;
+        public static final double HOMOGRAPHY_CAMERA_BOTTOMRIGHT_Y = CAMERA_IMAGE_HEIGHT - 1;
+        public static final TrcHomographyMapper.Rectangle cameraRect = new TrcHomographyMapper.Rectangle(
+            HOMOGRAPHY_CAMERA_TOPLEFT_X, HOMOGRAPHY_CAMERA_TOPLEFT_Y,
+            HOMOGRAPHY_CAMERA_TOPRIGHT_X, HOMOGRAPHY_CAMERA_TOPRIGHT_Y,
+            HOMOGRAPHY_CAMERA_BOTTOMLEFT_X, HOMOGRAPHY_CAMERA_BOTTOMLEFT_Y,
+            HOMOGRAPHY_CAMERA_BOTTOMRIGHT_X, HOMOGRAPHY_CAMERA_BOTTOMRIGHT_Y);
+        // World rect in inches.
+        public static final double HOMOGRAPHY_WORLD_TOPLEFT_X   = -12.5625;
+        public static final double HOMOGRAPHY_WORLD_TOPLEFT_Y   = 48.0 - ROBOT_LENGTH/2.0 + CAMERA_Y_OFFSET;
+        public static final double HOMOGRAPHY_WORLD_TOPRIGHT_X  = 11.4375;
+        public static final double HOMOGRAPHY_WORLD_TOPRIGHT_Y  = 44.75 - ROBOT_LENGTH/2.0 + CAMERA_Y_OFFSET;
+        public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_X= -2.5625;
+        public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_Y= 21.0 - ROBOT_LENGTH/2.0 + CAMERA_Y_OFFSET;
+        public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_X = 2.5626;
+        public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y = 21.0 - ROBOT_LENGTH + CAMERA_Y_OFFSET;
+        public static final TrcHomographyMapper.Rectangle worldRect = new TrcHomographyMapper.Rectangle(
+            HOMOGRAPHY_WORLD_TOPLEFT_X, HOMOGRAPHY_WORLD_TOPLEFT_Y,
+            HOMOGRAPHY_WORLD_TOPRIGHT_X, HOMOGRAPHY_WORLD_TOPRIGHT_Y,
+            HOMOGRAPHY_WORLD_BOTTOMLEFT_X, HOMOGRAPHY_WORLD_BOTTOMLEFT_Y,
+            HOMOGRAPHY_WORLD_BOTTOMRIGHT_X, HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y);
+    }   //class Vision
 
+    //
+    // DriveBase subsystem.
+    //
     public static final DriveMode ROBOT_DRIVE_MODE              = DriveMode.ArcadeMode;
+    public static final double DRIVE_RAMP_RATE                  = 0.25;
 
     public static final double DRIVE_SLOW_SCALE                 = 0.5;
     public static final double TURN_SLOW_SCALE                  = 0.3;
@@ -290,246 +303,246 @@ public class RobotParams
 
     public static class DifferentialDriveBase
     {
-        public static final String[] driveMotorNames            = {"leftDriveMotor", "rightDriveMotor"};
-        public static final int[] driveMotorIds                 = {CANID_LFDRIVE_MOTOR, CANID_RFDRIVE_MOTOR};
-        public static final boolean[] driveMotorInverted        = {false, true};
+        public final String[] driveMotorNames                   = {"leftDriveMotor", "rightDriveMotor"};
+        public final int[] driveMotorIds                        = {CANID_LFDRIVE_MOTOR, CANID_RFDRIVE_MOTOR};
+        public final boolean[] driveMotorInverted               = {false, true};
 
-        public static final double DRIVE_INCHES_PER_COUNT       = 2.2421;
-        public static final double DRIVE_KP                     = 0.011;
-        public static final double DRIVE_KI                     = 0.0;
-        public static final double DRIVE_KD                     = 0.0013;
-        public static final double DRIVE_KF                     = 0.0;
-        public static final double DRIVE_TOLERANCE              = 2.0;
+        public final double DRIVE_INCHES_PER_COUNT              = 2.2421;
+        public final double DRIVE_KP                            = 0.011;
+        public final double DRIVE_KI                            = 0.0;
+        public final double DRIVE_KD                            = 0.0013;
+        public final double DRIVE_KF                            = 0.0;
+        public final double DRIVE_TOLERANCE                     = 2.0;
 
-        public static final double TURN_KP                      = 0.012;
-        public static final double TURN_KI                      = 0.0;
-        public static final double TURN_KD                      = 0.0;
-        public static final double TURN_KF                      = 0.0;
-        public static final double TURN_IZONE                   = 10.0;
-        public static final double TURN_TOLERANCE               = 2.0;
+        public final double TURN_KP                             = 0.012;
+        public final double TURN_KI                             = 0.0;
+        public final double TURN_KD                             = 0.0;
+        public final double TURN_KF                             = 0.0;
+        public final double TURN_IZONE                          = 10.0;
+        public final double TURN_TOLERANCE                      = 2.0;
 
-        public static final double ROBOT_MAX_VELOCITY           = 177.1654; // inches per second
-        public static final double ROBOT_MAX_ACCELERATION       = 799.1;
-        public static final double ROBOT_MAX_TURN_RATE          = 572.9578;
-        public static final double ROBOT_VEL_KP                 = 0.0;
-        public static final double ROBOT_VEL_KI                 = 0.0;
-        public static final double ROBOT_VEL_KD                 = 0.0;
+        public final double ROBOT_MAX_VELOCITY                  = 177.1654; // inches per second
+        public final double ROBOT_MAX_ACCELERATION              = 799.1;
+        public final double ROBOT_MAX_TURN_RATE                 = 572.9578;
+        public final double ROBOT_VEL_KP                        = 0.0;
+        public final double ROBOT_VEL_KI                        = 0.0;
+        public final double ROBOT_VEL_KD                        = 0.0;
         // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance), units: sec./in.
-        public static final double ROBOT_VEL_KF                 = 1.0 / ROBOT_MAX_VELOCITY;
+        public final double ROBOT_VEL_KF                        = 1.0 / ROBOT_MAX_VELOCITY;
 
-        public static final double DRIVE_MAX_PID_POWER          = 0.5;
-        public static final double DRIVE_MAX_PID_RAMP_RATE      = 0.5;  // percentPower per sec
+        public final double DRIVE_MAX_PID_POWER                 = 0.5;
+        public final double DRIVE_MAX_PID_RAMP_RATE             = 0.5;  // percentPower per sec
 
-        public static final double TURN_MAX_PID_POWER           = 1.0;
-        public static final double TURN_MAX_PID_RAMP_RATE       = 1.0;  // percentPower per sec
+        public final double TURN_MAX_PID_POWER                  = 1.0;
+        public final double TURN_MAX_PID_RAMP_RATE              = 1.0;  // percentPower per sec
 
-        public static final double PPD_FOLLOWING_DISTANCE       = 12.0;
-        public static final double PPD_POS_TOLERANCE            = 1.0;
-        public static final double PPD_TURN_TOLERANCE           = 2.0;
-        public static final double PPD_MOVE_DEF_OUTPUT_LIMIT    = 0.5;
-        public static final double PPD_ROT_DEF_OUTPUT_LIMIT     = 0.5;
+        public final double PPD_FOLLOWING_DISTANCE              = 12.0;
+        public final double PPD_POS_TOLERANCE                   = 1.0;
+        public final double PPD_TURN_TOLERANCE                  = 2.0;
+        public final double PPD_MOVE_DEF_OUTPUT_LIMIT           = 0.5;
+        public final double PPD_ROT_DEF_OUTPUT_LIMIT            = 0.5;
     }   //class DifferentialDriveBase
 
     public static class MecanumDriveBase
     {
         // Drive motors.
-        public static final String[] driveMotorNames            =
+        public final String[] driveMotorNames                   =
             {"lfDriveMotor", "rfDriveMotor", "lbDriveMotor", "rbDriveMotor"};
-        public static final int[] driveMotorIds                 =
+        public final int[] driveMotorIds                        =
             {CANID_LFDRIVE_MOTOR, CANID_RFDRIVE_MOTOR, CANID_LBDRIVE_MOTOR, CANID_RBDRIVE_MOTOR};
-        public static final boolean[] driveMotorInverted        = {false, true, false, true};
+        public final boolean[] driveMotorInverted               = {false, true, false, true};
 
         // Mecanum Drive Base (not used).
-        public static final double DRIVE_X_INCHES_PER_COUNT     = 2.2421;
-        public static final double DRIVE_X_KP                   = 0.011;
-        public static final double DRIVE_X_KI                   = 0.0;
-        public static final double DRIVE_X_KD                   = 0.0013;
-        public static final double DRIVE_X_KF                   = 0.0;
-        public static final double DRIVE_X_TOLERANCE            = 2.0;
+        public final double DRIVE_X_INCHES_PER_COUNT            = 2.2421;
+        public final double DRIVE_X_KP                          = 0.011;
+        public final double DRIVE_X_KI                          = 0.0;
+        public final double DRIVE_X_KD                          = 0.0013;
+        public final double DRIVE_X_KF                          = 0.0;
+        public final double DRIVE_X_TOLERANCE                   = 2.0;
 
-        public static final double DRIVE_Y_INCHES_PER_COUNT     = 2.2421;
-        public static final double DRIVE_Y_KP                   = 0.011;
-        public static final double DRIVE_Y_KI                   = 0.0;
-        public static final double DRIVE_Y_KD                   = 0.0013;
-        public static final double DRIVE_Y_KF                   = 0.0;
-        public static final double DRIVE_Y_TOLERANCE            = 2.0;
+        public final double DRIVE_Y_INCHES_PER_COUNT            = 2.2421;
+        public final double DRIVE_Y_KP                          = 0.011;
+        public final double DRIVE_Y_KI                          = 0.0;
+        public final double DRIVE_Y_KD                          = 0.0013;
+        public final double DRIVE_Y_KF                          = 0.0;
+        public final double DRIVE_Y_TOLERANCE                   = 2.0;
 
-        public static final double TURN_KP                      = 0.012;
-        public static final double TURN_KI                      = 0.0;
-        public static final double TURN_KD                      = 0.0;
-        public static final double TURN_KF                      = 0.0;
-        public static final double TURN_IZONE                   = 10.0;
-        public static final double TURN_TOLERANCE               = 2.0;
+        public final double TURN_KP                             = 0.012;
+        public final double TURN_KI                             = 0.0;
+        public final double TURN_KD                             = 0.0;
+        public final double TURN_KF                             = 0.0;
+        public final double TURN_IZONE                          = 10.0;
+        public final double TURN_TOLERANCE                      = 2.0;
 
-        public static final double ROBOT_MAX_VELOCITY           = 177.1654; // inches per second
-        public static final double ROBOT_MAX_ACCELERATION       = 799.1;
-        public static final double ROBOT_MAX_TURN_RATE          = 572.9578;
-        public static final double ROBOT_VEL_KP                 = 0.0;
-        public static final double ROBOT_VEL_KI                 = 0.0;
-        public static final double ROBOT_VEL_KD                 = 0.0;
+        public final double ROBOT_MAX_VELOCITY                  = 177.1654; // inches per second
+        public final double ROBOT_MAX_ACCELERATION              = 799.1;
+        public final double ROBOT_MAX_TURN_RATE                 = 572.9578;
+        public final double ROBOT_VEL_KP                        = 0.0;
+        public final double ROBOT_VEL_KI                        = 0.0;
+        public final double ROBOT_VEL_KD                        = 0.0;
         // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance), units: sec./in.
-        public static final double ROBOT_VEL_KF                 = 1.0 / ROBOT_MAX_VELOCITY;
+        public final double ROBOT_VEL_KF                        = 1.0 / ROBOT_MAX_VELOCITY;
 
-        public static final double DRIVE_MAX_XPID_POWER         = 0.5;
-        public static final double DRIVE_MAX_XPID_RAMP_RATE     = 0.5;  // percentPower per sec
+        public final double DRIVE_MAX_XPID_POWER                = 0.5;
+        public final double DRIVE_MAX_XPID_RAMP_RATE            = 0.5;  // percentPower per sec
 
-        public static final double DRIVE_MAX_YPID_POWER         = 0.6;
-        public static final double DRIVE_MAX_YPID_RAMP_RATE     = 0.5;  // percentPower per sec
+        public final double DRIVE_MAX_YPID_POWER                = 0.6;
+        public final double DRIVE_MAX_YPID_RAMP_RATE            = 0.5;  // percentPower per sec
 
-        public static final double DRIVE_MAX_TURNPID_POWER      = 1.0;
-        public static final double DRIVE_MAX_TURNPID_RAMP_RATE  = 1.0;  // percentPower per sec
+        public final double DRIVE_MAX_TURNPID_POWER             = 1.0;
+        public final double DRIVE_MAX_TURNPID_RAMP_RATE         = 1.0;  // percentPower per sec
 
-        public static final double PPD_FOLLOWING_DISTANCE       = 12.0;
-        public static final double PPD_POS_TOLERANCE            = 1.0;
-        public static final double PPD_TURN_TOLERANCE           = 2.0;
-        public static final double PPD_MOVE_DEF_OUTPUT_LIMIT    = 0.5;
-        public static final double PPD_ROT_DEF_OUTPUT_LIMIT     = 0.5;
-    }   //MecanumDriveBase
+        public final double PPD_FOLLOWING_DISTANCE              = 12.0;
+        public final double PPD_POS_TOLERANCE                   = 1.0;
+        public final double PPD_TURN_TOLERANCE                  = 2.0;
+        public final double PPD_MOVE_DEF_OUTPUT_LIMIT           = 0.5;
+        public final double PPD_ROT_DEF_OUTPUT_LIMIT            = 0.5;
+    }   //class MecanumDriveBase
 
     public static class SwerveDriveBase
     {
         // Drive motors.
-        public static final String[] driveMotorNames            =
+        public final String[] driveMotorNames                   =
             {"lfDriveMotor", "rfDriveMotor", "lbDriveMotor", "rbDriveMotor"};
-        public static final int[] driveMotorIds                 =
+        public final int[] driveMotorIds                        =
             {CANID_LFDRIVE_MOTOR, CANID_RFDRIVE_MOTOR, CANID_LBDRIVE_MOTOR, CANID_RBDRIVE_MOTOR};
-        public static final boolean[] driveMotorInverted        = {true, true, true, true};
+        public final boolean[] driveMotorInverted               = {true, true, true, true};
 
         // Steer motors.
-        public static final String[] steerMotorNames            =
+        public final String[] steerMotorNames                   =
             {"lfSteerMotor", "rfSteerMotor", "lbSteerMotor", "rbSteerMotor"};
-        public static final int[] steerMotorIds                 =
+        public final int[] steerMotorIds                        =
             {CANID_LFSTEER_MOTOR, CANID_RFSTEER_MOTOR, CANID_LBSTEER_MOTOR, CANID_RBSTEER_MOTOR};
-        public static final boolean[] steerMotorInverted        = {false, false, false, false};
+        public final boolean[] steerMotorInverted               = {false, false, false, false};
 
         // Steer encoders.
-        public static final String[] steerEncoderNames          =
+        public final SteerEncoderType steerEncoderType          = SteerEncoderType.Canandcoder;
+        public final String[] steerEncoderNames                 =
             {"lfSteerEncoder", "rfSteerEncoder", "lbSteerEncoder", "rbSteerEncoder"};
-        public static final int[] steerEncoderCanIds            =
+        public final int[] steerEncoderCanIds                   =
             {CANID_LFSTEER_ENCODER, CANID_RFSTEER_ENCODER, CANID_LBSTEER_ENCODER, CANID_RBSTEER_ENCODER};
-        public static final int[] steerEncoderAnalogIds        =
+        public final int[] steerEncoderAnalogIds                =
             {AIN_LFSTEER_ENCODER, AIN_RFSTEER_ENCODER, AIN_LBSTEER_ENCODER, AIN_RBSTEER_ENCODER};
-        public static final boolean[] steerEncoderInverted      = {false, false, false, false};
+        public final boolean[] steerEncoderInverted             = {false, false, false, false};
 
         // Swerve modules.
-        public static final String[] swerveModuleNames          = {"lfWheel", "rfWheel", "lbWheel", "rbWheel"};
+        public final String[] swerveModuleNames          = {"lfWheel", "rfWheel", "lbWheel", "rbWheel"};
 
-        // public static final double SWERVE_DRIVE_INCHES_PER_ENCODER_UNIT= 9.072106867127145344367826764411e-4;
-        public static final double DRIVE_KP                     = 0.001;    // BaseFalconSwerve: 0.12
-        public static final double DRIVE_KI                     = 0.0;
-        public static final double DRIVE_KD                     = 0.0;
-        public static final double DRIVE_KF                     = 0.11;     // BaseFalconSwerve: 0.0
-        public static final double DRIVE_IZONE                  = 5.0;
-        public static final double DRIVE_TOLERANCE              = 2.0;
-        public static final TrcPidController.PidCoefficients driveCoeffs =
+        // public final double SWERVE_DRIVE_INCHES_PER_COUNT       = 9.072106867127145344367826764411e-4;
+        public final double DRIVE_KP                            = 0.001;    // BaseFalconSwerve: 0.12
+        public final double DRIVE_KI                            = 0.0;
+        public final double DRIVE_KD                            = 0.0;
+        public final double DRIVE_KF                            = 0.11;     // BaseFalconSwerve: 0.0
+        public final double DRIVE_IZONE                         = 5.0;
+        public final double DRIVE_TOLERANCE                     = 2.0;
+        public final TrcPidController.PidCoefficients driveCoeffs =
             new TrcPidController.PidCoefficients(DRIVE_KP, DRIVE_KI, DRIVE_KD, DRIVE_KF);
         // Drive Motor Characterization Values From SYSID
-        public static final double DRIVE_KS                     = 0.32; //TODO: This must be tuned to specific robot
-        public static final double DRIVE_KV                     = 1.51;
-        public static final double DRIVE_KA                     = 0.27;
+        public final double DRIVE_KS                            = 0.32; //TODO: This must be tuned to specific robot
+        public final double DRIVE_KV                            = 1.51;
+        public final double DRIVE_KA                            = 0.27;
 
-        public static final double TURN_KP                      = 0.012;
-        public static final double TURN_KI                      = 0.0;
-        public static final double TURN_KD                      = 0.0;
-        public static final double TURN_KF                      = 0.0;
-        public static final double TURN_IZONE                   = 10.0;
-        public static final double TURN_TOLERANCE               = 2.0;
+        public final double TURN_KP                             = 0.012;
+        public final double TURN_KI                             = 0.0;
+        public final double TURN_KD                             = 0.0;
+        public final double TURN_KF                             = 0.0;
+        public final double TURN_IZONE                          = 10.0;
+        public final double TURN_TOLERANCE                      = 2.0;
 
         // Not tuned (not used).
-        public static final double X_TIPPING_KP                 = 0.01;
-        public static final double X_TIPPING_KI                 = 0.0;
-        public static final double X_TIPPING_KD                 = 0.0;
-        public static final double X_TIPPING_TOLERANCE          = 10.0;
-        public static final double X_TIPPING_SETTLING_TIME      = 0.2;
+        public final double X_TIPPING_KP                        = 0.01;
+        public final double X_TIPPING_KI                        = 0.0;
+        public final double X_TIPPING_KD                        = 0.0;
+        public final double X_TIPPING_TOLERANCE                 = 10.0;
+        public final double X_TIPPING_SETTLING_TIME             = 0.2;
 
-        public static final double Y_TIPPING_KP                 = 0.01;
-        public static final double Y_TIPPING_KI                 = 0.0;
-        public static final double Y_TIPPING_KD                 = 0.0;
-        public static final double Y_TIPPING_TOLERANCE          = 10.0;
-        public static final double Y_TIPPING_SETTLING_TIME      = 0.2;
+        public final double Y_TIPPING_KP                        = 0.01;
+        public final double Y_TIPPING_KI                        = 0.0;
+        public final double Y_TIPPING_KD                        = 0.0;
+        public final double Y_TIPPING_TOLERANCE                 = 10.0;
+        public final double Y_TIPPING_SETTLING_TIME             = 0.2;
 
-        public static final double ROBOT_MAX_VELOCITY           = 177.1654; // inches per second
-        public static final double ROBOT_MAX_ACCELERATION       = 799.1;
-        public static final double ROBOT_MAX_TURN_RATE          = 572.9578;
-        public static final double ROBOT_VEL_KP                 = 0.0;
-        public static final double ROBOT_VEL_KI                 = 0.0;
-        public static final double ROBOT_VEL_KD                 = 0.0;
+        public final double ROBOT_MAX_VELOCITY                  = 177.1654; // inches per second
+        public final double ROBOT_MAX_ACCELERATION              = 799.1;
+        public final double ROBOT_MAX_TURN_RATE                 = 572.9578;
+        public final double ROBOT_VEL_KP                        = 0.0;
+        public final double ROBOT_VEL_KI                        = 0.0;
+        public final double ROBOT_VEL_KD                        = 0.0;
         // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance), units: sec./in.
-        public static final double ROBOT_VEL_KF                 = 1.0 / ROBOT_MAX_VELOCITY;
+        public final double ROBOT_VEL_KF                        = 1.0 / ROBOT_MAX_VELOCITY;
 
-        public static final double DRIVE_MAX_XPID_POWER         = 0.5;
-        public static final double DRIVE_MAX_XPID_RAMP_RATE     = 0.5;  // percentPower per sec
+        public final double DRIVE_MAX_XPID_POWER                = 0.5;
+        public final double DRIVE_MAX_XPID_RAMP_RATE            = 0.5;  // percentPower per sec
 
-        public static final double DRIVE_MAX_YPID_POWER         = 0.6;
-        public static final double DRIVE_MAX_YPID_RAMP_RATE     = 0.5;  // percentPower per sec
+        public final double DRIVE_MAX_YPID_POWER                = 0.6;
+        public final double DRIVE_MAX_YPID_RAMP_RATE            = 0.5;  // percentPower per sec
 
-        public static final double DRIVE_MAX_TURNPID_POWER      = 1.0;
-        public static final double DRIVE_MAX_TURNPID_RAMP_RATE  = 1.0;  // percentPower per sec
-
-        public static final double DRIVE_RAMP_RATE              = 0.25;
+        public final double DRIVE_MAX_TURNPID_POWER             = 1.0;
+        public final double DRIVE_MAX_TURNPID_RAMP_RATE         = 1.0;  // percentPower per sec
 
         // Applicable only for Swerve Drive.
-        public static final double CANCODER_CPR                 = 4096.0;
-        public static final double FALCON_CPR                   = 2048.0;
-        public static final double FALCON_MAX_RPM               = 6380.0;
+        public final double CANCODER_CPR                        = 4096.0;
+        public final double FALCON_CPR                          = 2048.0;
+        public final double FALCON_MAX_RPM                      = 6380.0;
 
-        public static final double DRIVE_GEAR_RATIO             = 9.63;
-        public static final double DRIVE_WHEEL_CIRCUMFERENCE    = 4.0 * Math.PI;
-        public static final double DRIVE_INCHES_PER_COUNT       = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
+        public final double DRIVE_GEAR_RATIO                    = 9.63;
+        public final double DRIVE_WHEEL_CIRCUMFERENCE           = 4.0 * Math.PI;
+        public final double DRIVE_INCHES_PER_COUNT              = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
 
-        // public static final double STEER_GEAR_RATIO             = (24.0/12.0) * (72.0/14.0);
-        public static final double STEER_GEAR_RATIO             = 15.43;
-        public static final double STEER_DEGREES_PER_COUNT      = 360.0 / STEER_GEAR_RATIO;
+        // public final double STEER_GEAR_RATIO                    = (24.0/12.0) * (72.0/14.0);
+        public final double STEER_GEAR_RATIO                    = 15.43;
+        public final double STEER_DEGREES_PER_COUNT             = 360.0 / STEER_GEAR_RATIO;
         // ((theoretical max rpm * speed loss constant / gear ratio) / 60 sec/min) * 360 deg/rev
-        public static final double STEER_MAX_VEL                = (FALCON_MAX_RPM*0.81/STEER_GEAR_RATIO/60.0)*360.0;
+        public final double STEER_MAX_VEL                       = (FALCON_MAX_RPM*0.81/STEER_GEAR_RATIO/60.0)*360.0;
 
         // Zeroes are normalized offsets which are in the unit of percentage revolution (0.0 to 1.0).
         // This is a backup if file is not found: LF, RF, LB, RB.
-        public static final double[] STEER_ZEROS                = new double[] {0.0, 0.0, 0.0, 0.0};
+        public final double[] STEER_ZEROS                       = new double[] {0.0, 0.0, 0.0, 0.0};
 
-        // public static final TrcPidController.PidCoefficients magicSteerCoeff =
+        // public final TrcPidController.PidCoefficients magicSteerCoeff =
         //     new TrcPidController.PidCoefficients(2.0, 0.01, 0.0, 1023.0 / STEER_MAX_VEL_COUNT_PER_100MS, 5.0 / STEER_DEGREES_PER_COUNT);
-        public static final double STEER_KP                     = 3.0;
-        public static final double STEER_KI                     = 0.0;
-        public static final double STEER_KD                     = 0.0;
+        public final double STEER_KP                            = 3.0;
+        public final double STEER_KI                            = 0.0;
+        public final double STEER_KD                            = 0.0;
         // kF set to Motion Magic recommendation.
-        public static final double STEER_KF                     = 0.0;//1023.0 / STEER_MAX_VEL_COUNT_PER_100MS;
+        public final double STEER_KF                            = 0.0;//1023.0 / STEER_MAX_VEL_COUNT_PER_100MS;
         // iZone set to within 5 steering degrees.
-        public static final double STEER_IZONE                  = 0.0;//5.0 / STEER_DEGREES_PER_COUNT;
-        public static final TrcPidController.PidCoefficients steerCoeffs =
+        public final double STEER_IZONE                         = 0.0;//5.0 / STEER_DEGREES_PER_COUNT;
+        public final TrcPidController.PidCoefficients steerCoeffs =
             new TrcPidController.PidCoefficients(STEER_KP, STEER_KI, STEER_KD, STEER_KF, STEER_IZONE);
 
-        public static final double PPD_FOLLOWING_DISTANCE       = 12.0;
-        public static final double PPD_POS_TOLERANCE            = 1.0;
-        public static final double PPD_TURN_TOLERANCE           = 2.0;
-        public static final double PPD_MOVE_DEF_OUTPUT_LIMIT    = 0.5;
-        public static final double PPD_ROT_DEF_OUTPUT_LIMIT     = 0.5;
-    }   //class SwerveDriveBase
+        public final double PPD_FOLLOWING_DISTANCE              = 12.0;
+        public final double PPD_POS_TOLERANCE                   = 1.0;
+        public final double PPD_TURN_TOLERANCE                  = 2.0;
+        public final double PPD_MOVE_DEF_OUTPUT_LIMIT           = 0.5;
+        public final double PPD_ROT_DEF_OUTPUT_LIMIT            = 0.5;
 
-    //
-    // Command-based constatns.
-    //
-
-    public static final class Swerve
-    {
-        public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
+        //
+        // Command-based constatns.
+        //
+        public final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
         // Drivetrain Constants
-        public static final double trackWidth = Units.inchesToMeters(RobotParams.ROBOT_WHEELBASE_WIDTH);
-        public static final double wheelBase = Units.inchesToMeters(RobotParams.ROBOT_WHEELBASE_LENGTH);
-        public static final double wheelCircumference = RobotParams.SwerveDriveBase.DRIVE_WHEEL_CIRCUMFERENCE;
+        public final double trackWidth = Units.inchesToMeters(ROBOT_WHEELBASE_WIDTH);
+        public final double wheelBase = Units.inchesToMeters(ROBOT_WHEELBASE_LENGTH);
+        public final double wheelCircumference = Units.inchesToMeters(DRIVE_WHEEL_CIRCUMFERENCE);
         // Swerve Kinematics
         // No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve
-        public static final SwerveDriveKinematics swerveKinematics  = new SwerveDriveKinematics(
+        public final SwerveDriveKinematics swerveKinematics  = new SwerveDriveKinematics(
             new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
             new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
         // Meters per Second
-        public static final double maxSpeed = Units.inchesToMeters(RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY);
+        public final double maxSpeed = Units.inchesToMeters(ROBOT_MAX_VELOCITY);
         // Radians per Second
-        public static final double maxAngularVelocity =
-            Units.degreesToRadians(RobotParams.SwerveDriveBase.ROBOT_MAX_TURN_RATE);
-    }
+        public final double maxAngularVelocity = Units.degreesToRadians(ROBOT_MAX_TURN_RATE);
+
+    }   //class SwerveDriveBase
+
+    public static class ChadDriveBase extends SwerveDriveBase
+    {
+        public final SteerEncoderType steerEncoderType          = SteerEncoderType.CANCoder;
+    }   //class ChadDriveBase
 
     public static final class AutoConstants
     {
@@ -575,6 +588,11 @@ public class RobotParams
     public static class Climber
     {
 
-    }   // class Climber
+    }   //class Climber
+
+    public static class Deployer
+    {
+
+    }   //class Deployer
 
 }   //class RobotParams

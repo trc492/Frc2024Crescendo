@@ -51,6 +51,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import team492.RobotParams.RobotType;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
 import team492.subsystems.Intake;
@@ -74,12 +75,6 @@ public class Robot extends FrcRobotBase
     public final TrcDbgTrace globalTracer = TrcDbgTrace.getGlobalTracer();
     private double nextDashboardUpdateTime = TrcTimer.getModeElapsedTime();
     private boolean traceLogOpened = false;
-    //
-    // Hybrid mode objects.
-    //
-    // public static CTREConfigs ctreConfigs;
-    // public RobotContainer m_robotContainer;
-    public Command m_autonomousCommand;
     //
     // Inputs.
     //
@@ -112,6 +107,10 @@ public class Robot extends FrcRobotBase
     // Other subsystems.
     //
     public TrcPidConveyor intake;
+    //
+    // Hybrid mode objects.
+    //
+    public Command m_autonomousCommand;
 
     /**
      * Constructor: Create an instance of the object.
@@ -136,37 +135,19 @@ public class Robot extends FrcRobotBase
     @Override
     public void robotInit()
     {
-        // if (RobotParams.Preferences.hybridMode)
-        // {
-        //     ctreConfigs = new CTREConfigs();
-        //     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-        //     // autonomous chooser on the dashboard.
-        //     m_robotContainer = new RobotContainer();
-        // }
-        //
-        // Create and initialize global objects.
-        //
-
-        //
-        // Create and initialize inputs.
-        //
-        // Give driver control to command-based if Hybrid Mode is ON.
-        // if (!RobotParams.Preferences.hybridMode)
-        // {
-            if (RobotParams.Preferences.useDriverXboxController)
-            {
-                driverController = new FrcXboxController("DriverController", RobotParams.XBOX_DRIVER_CONTROLLER);
-                driverController.setLeftYInverted(true);
-                driverController.setRightYInverted(true);
-            }
-            else
-            {
-                leftDriveStick = new FrcJoystick("DriverLeftStick", RobotParams.JSPORT_DRIVER_LEFTSTICK);
-                leftDriveStick.setYInverted(true);
-                rightDriveStick = new FrcJoystick("DriverRightStick", RobotParams.JSPORT_DRIVER_RIGHTSTICK);
-                rightDriveStick.setYInverted(true);
-            }
-        // }
+        if (RobotParams.Preferences.useDriverXboxController)
+        {
+            driverController = new FrcXboxController("DriverController", RobotParams.XBOX_DRIVER_CONTROLLER);
+            driverController.setLeftYInverted(true);
+            driverController.setRightYInverted(true);
+        }
+        else
+        {
+            leftDriveStick = new FrcJoystick("DriverLeftStick", RobotParams.JSPORT_DRIVER_LEFTSTICK);
+            leftDriveStick.setYInverted(true);
+            rightDriveStick = new FrcJoystick("DriverRightStick", RobotParams.JSPORT_DRIVER_RIGHTSTICK);
+            rightDriveStick.setYInverted(true);
+        }
 
         operatorStick = new FrcJoystick("operatorStick", RobotParams.JSPORT_OPERATORSTICK);
         operatorStick.setYInverted(false);
@@ -212,12 +193,13 @@ public class Robot extends FrcRobotBase
             if (RobotParams.Preferences.useOpenCvVision)
             {
                 UsbCamera camera = CameraServer.startAutomaticCapture();
-                camera.setResolution(RobotParams.CAMERA_IMAGE_WIDTH, RobotParams.CAMERA_IMAGE_HEIGHT);
+                camera.setResolution(RobotParams.Vision.CAMERA_IMAGE_WIDTH, RobotParams.Vision.CAMERA_IMAGE_HEIGHT);
                 camera.setFPS(10);
                 openCvVision = new OpenCvVision(
-                    "OpenCvVision", 1, RobotParams.cameraRect, RobotParams.worldRect, CameraServer.getVideo(),
-                    CameraServer.putVideo("UsbWebcam", RobotParams.CAMERA_IMAGE_WIDTH,
-                    RobotParams.CAMERA_IMAGE_HEIGHT));
+                    "OpenCvVision", 1, RobotParams.Vision.cameraRect, RobotParams.Vision.worldRect,
+                    CameraServer.getVideo(),
+                    CameraServer.putVideo(
+                        "UsbWebcam", RobotParams.Vision.CAMERA_IMAGE_WIDTH, RobotParams.Vision.CAMERA_IMAGE_HEIGHT));
             }
 
             if (RobotParams.Preferences.useStreamCamera)
@@ -230,10 +212,10 @@ public class Robot extends FrcRobotBase
         //
         // Create and initialize RobotDrive subsystem.
         //
-        // if (!RobotParams.Preferences.hybridMode)
-        // {
-            robotDrive = new SwerveDrive(this);
-        // }
+        robotDrive = new SwerveDrive(
+            this,
+            RobotParams.Preferences.robotType.equals(RobotType.ChadRobot)?
+                new RobotParams.ChadDriveBase(): new RobotParams.SwerveDriveBase());
         //
         // Create and initialize other subsystems.
         //
