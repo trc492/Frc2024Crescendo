@@ -214,7 +214,8 @@ public class FrcTest extends FrcTeleOp
     private double maxTurnRate = 0.0;
     private double prevTime = 0.0;
     private double prevVelocity = 0.0;
-    private PipelineType currPipeline = PipelineType.APRILTAG;
+    private PipelineType frontPipeline = PipelineType.APRILTAG;
+    private PipelineType backPipeline = PipelineType.APRILTAG;
 
     public FrcTest(Robot robot)
     {
@@ -264,9 +265,14 @@ public class FrcTest extends FrcTeleOp
                 break;
 
             case VISION_TEST:
-                if (robot.photonVision != null)
+                if (robot.photonVisionFront != null)
                 {
-                    robot.photonVision.setPipeline(currPipeline);
+                    robot.photonVisionFront.setPipeline(frontPipeline);
+                }
+
+                if (robot.photonVisionBack != null)
+                {
+                    robot.photonVisionBack.setPipeline(backPipeline);
                 }
                 break;
 
@@ -600,10 +606,16 @@ public class FrcTest extends FrcTeleOp
                     robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK].getMotorPower(): 0.0);
         }
 
-        if (robot.photonVision != null)
+        if (robot.photonVisionFront != null)
         {
-            FrcPhotonVision.DetectedObject object = robot.photonVision.getBestDetectedObject();
-            robot.dashboard.displayPrintf(lineNum++, "Photon: obj=%s", object);
+            FrcPhotonVision.DetectedObject object = robot.photonVisionFront.getBestDetectedObject();
+            robot.dashboard.displayPrintf(lineNum++, "PhotonFront: obj=%s", object);
+        }
+
+        if (robot.photonVisionBack != null)
+        {
+            FrcPhotonVision.DetectedObject object = robot.photonVisionBack.getBestDetectedObject();
+            robot.dashboard.displayPrintf(lineNum++, "PhotonBack: obj=%s", object);
         }
         //
         // Display other subsystems and sensor info.

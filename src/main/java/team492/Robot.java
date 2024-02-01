@@ -96,7 +96,8 @@ public class Robot extends FrcRobotBase
     //
     // Vision subsystem.
     //
-    public PhotonVision photonVision;
+    public PhotonVision photonVisionFront;
+    public PhotonVision photonVisionBack;
     public PhotonVisionRaw photonVisionRaw;
     public OpenCvVision openCvVision;
     //
@@ -182,12 +183,13 @@ public class Robot extends FrcRobotBase
         {
             if (RobotParams.Preferences.usePhotonVision)
             {
-                photonVision = new PhotonVision("photonvision", ledIndicator);
+                photonVisionFront = new PhotonVision("OV9782", ledIndicator);
+                photonVisionBack = new PhotonVision("OV9281", ledIndicator);
             }
 
             if (RobotParams.Preferences.usePhotonVisionRaw)
             {
-                photonVisionRaw = new PhotonVisionRaw("photonvision", ledIndicator);
+                photonVisionRaw = new PhotonVisionRaw("photonvision", "OV9782", ledIndicator);
             }
 
             if (RobotParams.Preferences.useOpenCvVision)
@@ -438,10 +440,16 @@ public class Robot extends FrcRobotBase
 
             if (RobotParams.Preferences.showVision)
             {
-                if (photonVision != null)
+                if (photonVisionFront != null)
                 {
-                    FrcPhotonVision.DetectedObject object = photonVision.getBestDetectedObject();
-                    dashboard.displayPrintf(lineNum++, "Photon: obj=%s", object);
+                    FrcPhotonVision.DetectedObject object = photonVisionFront.getBestDetectedObject();
+                    dashboard.displayPrintf(lineNum++, "PhotonFront: obj=%s", object);
+                }
+
+                if (photonVisionBack != null)
+                {
+                    FrcPhotonVision.DetectedObject object = photonVisionBack.getBestDetectedObject();
+                    dashboard.displayPrintf(lineNum++, "PhotonBack: obj=%s", object);
                 }
 
                 if (photonVisionRaw != null)

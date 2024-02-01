@@ -22,15 +22,16 @@
 
 package team492.vision;
 
-import java.io.UncheckedIOException;
+import java.io.IOException;
 import java.util.Optional;
 
-
+import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcFrcLib.frclib.FrcPhotonVisionRaw;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
+import team492.RobotParams;
 import team492.subsystems.LEDIndicator;
 import team492.vision.PhotonVision.PipelineType;
 
@@ -47,29 +48,31 @@ public class PhotonVisionRaw extends FrcPhotonVisionRaw
     /**
      * Constructor: Create an instance of the object.
      *
-     * @param cameraName specifies the network table name that PhotonVision is broadcasting information over.
+     * @param tableName specifies the network table name that PhotonVision is broadcasting information over.
+     * @param cameraName specifies the camera name.
      * @param ledIndicator specifies the LEDIndicator object, can be null if none provided.
      */
-    public PhotonVisionRaw(String cameraName, LEDIndicator ledIndicator)
+    public PhotonVisionRaw(String tableName, String cameraName, LEDIndicator ledIndicator)
     {
-        super(cameraName);
+        super(tableName, cameraName);
         this.ledIndicator = ledIndicator;
 
         double startTime = TrcTimer.getModeElapsedTime();
         try
         {
-            aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+            aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
             // poseEstimator = new PhotonPoseEstimator(
-            //     aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, this, RobotParams.CAMERA_TRANSFORM3D);
+            //     aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, this,
+            //     RobotParams.CAMERA_TRANSFORM3D);
             // poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         }
-        catch (UncheckedIOException e)
+        catch (IOException e)
         {
             throw new RuntimeException("Failed to load AprilTag field layout info.");
         }
         double endTime = TrcTimer.getModeElapsedTime();
-
         tracer.traceDebug(instanceName, "Loading AprilTag field layout took " + (endTime - startTime) + " sec.");
+
         setPipeline(PipelineType.APRILTAG);
     }   //PhotonVisionRaw
 
@@ -134,6 +137,31 @@ public class PhotonVisionRaw extends FrcPhotonVisionRaw
     //     return robotPose;
     // }   //getRobotFieldPosition
 
+    // /**
+    //  * This method uses the PhotonVision Pose Estimator to get an estimated absolute field position of the robot.
+    //  *
+    //  * @return absolute robot field position, can be null if not provided.
+    //  */
+    // public TrcPose2D getEstimatedFieldPosition(TrcPose2D robotPose)
+    // {
+    //     TrcPose2D estimatedRobotPose = null;
+
+    //     if (poseEstimator != null)
+    //     {
+    //         if (robotPose != null)
+    //         {
+    //             poseEstimator.setReferencePose(DetectedObject.trcPose2DToPose3d(robotPose));
+    //         }
+    //         Optional<EstimatedRobotPose> optionalPose = poseEstimator.update();
+    //         if (optionalPose.isPresent())
+    //         {
+    //             estimatedRobotPose = DetectedObject.pose3dToTrcPose2D(optionalPose.get().estimatedPose);
+    //         }
+    //     }
+
+    //     return estimatedRobotPose;
+    // }   //getEstimatedFieldPosition
+
     /**
      * This method sets the active pipeline type used in the LimeLight.
      *
@@ -158,5 +186,44 @@ public class PhotonVisionRaw extends FrcPhotonVisionRaw
         currPipeline = PipelineType.getType(super.getSelectedPipeline());
         return currPipeline;
     }   //getPipeline
+
+    //
+    // Implements FrcPhotonVision abstract methods.
+    //
+
+    // /**
+    //  * This method returns the ground offset of the detected target.
+    //  *
+    //  * @return target ground offset.
+    //  */
+    // @Override
+    // public double getTargetHeight(PhotonTrackedTarget target)
+    // {
+    //     double targetHeight = 0.0;
+    //     PipelineType pipelineType = getPipeline();
+
+    //     switch (pipelineType)
+    //     {
+    //         case APRILTAG:
+    //             if (target != null)
+    //             {
+    //                 // Even though PhotonVision said detected target, FieldLayout may not give us AprilTagPose.
+    //                 // Check it before access the AprilTag pose.
+    //                 Pose3d aprilTagPose = getAprilTagPose(target.getFiducialId());
+    //                 if (aprilTagPose != null)
+    //                 {
+    //                     targetHeight = aprilTagPose.getZ();
+    //                 }
+    //             }
+    //             break;
+
+    //         case NOTE:
+    //             // Assuming Note is on the ground.
+    //             targetHeight = 0.0;
+    //             break;
+    //     }
+
+    //     return targetHeight;
+    // }   //getTargetHeight
 
 }   //class PhotonVisionRaw
