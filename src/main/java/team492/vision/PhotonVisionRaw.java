@@ -25,13 +25,11 @@ package team492.vision;
 import java.io.IOException;
 import java.util.Optional;
 
-import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcFrcLib.frclib.FrcPhotonVisionRaw;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
-import team492.RobotParams;
 import team492.subsystems.LEDIndicator;
 import team492.vision.PhotonVision.PipelineType;
 
