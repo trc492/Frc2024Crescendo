@@ -280,7 +280,7 @@ public class FrcTest extends FrcTeleOp
                 if (robot.robotDrive != null && robot.robotDrive instanceof SwerveDrive)
                 {
                     setControlsEnabled(false);
-                    // ((SwerveDrive) robot.robotDrive).startSteerCalibrate();
+                    ((SwerveDrive) robot.robotDrive).startSteeringCalibration();
                 }
                 break;
 
@@ -390,6 +390,18 @@ public class FrcTest extends FrcTeleOp
     public void stopMode(RunMode prevMode, RunMode nextMode)
     {
         super.stopMode(prevMode, nextMode);
+        switch (testChoices.getTest())
+        {
+            case SWERVE_CALIBRATION:
+                if (robot.robotDrive != null && robot.robotDrive instanceof SwerveDrive)
+                {
+                    ((SwerveDrive) robot.robotDrive).stopSteeringCalibration();
+                }
+                break;
+
+            default:
+                break;
+        }
     }   //stopMode
 
     //
@@ -489,7 +501,7 @@ public class FrcTest extends FrcTeleOp
                 case SWERVE_CALIBRATION:
                     if (robot.robotDrive != null && robot.robotDrive instanceof SwerveDrive)
                     {
-                        // robot.robotDrive.steerCalibratePeriodic();
+                        ((SwerveDrive) robot.robotDrive).runSteeringCalibration();
                         displaySensorStates(lineNum);
                     }
                     break;
@@ -590,13 +602,6 @@ public class FrcTest extends FrcTeleOp
             robot.dashboard.displayPrintf(
                 lineNum++, "DriveBase: Pose=%s,Vel=%s", robot.robotDrive.driveBase.getFieldPosition(),
                 robot.robotDrive.driveBase.getFieldVelocity());
-            robot.dashboard.displayPrintf(lineNum++, "DriveEncoders: lf=%.1f,rf=%.1f,lb=%.1f,rb=%.1f",
-                robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_FRONT].getPosition(),
-                robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_FRONT].getPosition(),
-                robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK] != null?
-                    robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK].getPosition(): 0.0,
-                robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK] != null?
-                    robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK].getPosition(): 0.0);
             robot.dashboard.displayPrintf(lineNum++, "DrivePower: lf=%.2f,rf=%.2f,lb=%.2f,rb=%.2f",
                 robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_FRONT].getMotorPower(),
                 robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_FRONT].getMotorPower(),
@@ -604,6 +609,22 @@ public class FrcTest extends FrcTeleOp
                     robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK].getMotorPower(): 0.0,
                 robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK] != null?
                     robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK].getMotorPower(): 0.0);
+            robot.dashboard.displayPrintf(lineNum++, "DriveEnc: lf=%.1f,rf=%.1f,lb=%.1f,rb=%.1f",
+                robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_FRONT].getPosition(),
+                robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_FRONT].getPosition(),
+                robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK] != null?
+                    robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK].getPosition(): 0.0,
+                robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK] != null?
+                    robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK].getPosition(): 0.0);
+            if (robot.robotDrive instanceof SwerveDrive)
+            {
+                SwerveDrive swerveDrive = (SwerveDrive) robot.robotDrive;
+                robot.dashboard.displayPrintf(lineNum++, "SteerEnc: lf=%f, rf=%f, lb=%f, rb=%f",
+                    swerveDrive.steerEncoders[RobotDrive.INDEX_LEFT_FRONT].getRawPosition(),
+                    swerveDrive.steerEncoders[RobotDrive.INDEX_RIGHT_FRONT].getRawPosition(),
+                    swerveDrive.steerEncoders[RobotDrive.INDEX_LEFT_BACK].getRawPosition(),
+                    swerveDrive.steerEncoders[RobotDrive.INDEX_RIGHT_BACK].getRawPosition());
+            }
         }
 
         if (robot.photonVisionFront != null)

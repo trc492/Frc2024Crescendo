@@ -81,7 +81,8 @@ public class SwerveDrive extends RobotDrive
     public final SwerveDriveOdometry swerveOdometry;
     private final SimpleMotorFeedforward driveFeedForward;
 
-    public int steerZeroCalibrationCount = 0;
+    private double[] steerZeros = new double[4];
+    private int steerZeroCalibrationCount = 0;
     private String antiDefenseOwner = null;
     private boolean steerEncodersSynced = false;
 
@@ -228,14 +229,21 @@ public class SwerveDrive extends RobotDrive
             for (int i = 0; i < names.length; i++)
             {
                 FrcCANCoder canCoder = new FrcCANCoder(names[i], encoderIds[i]);
-                canCoder.resetFactoryDefault();
-
-                // Configure the sensor direction to match the steering motor direction.
-                canCoder.setInverted(inverted[i]);
-                canCoder.setAbsoluteRange(true);
-                // Normalize encoder to the range of 0 to 1.0 for a revolution (revolution per count).
-                canCoder.setScaleAndOffset(1.0 / driveBaseParams.CANCODER_CPR, 0.0, steerZeros[i]);
-                encoders[i] = canCoder;
+                try
+                {
+                    canCoder.resetFactoryDefault();
+                    // Configure the sensor direction to match the steering motor direction.
+                    canCoder.setInverted(inverted[i]);
+                    canCoder.setAbsoluteRange(true);
+                    // CANCoder is already normalized to the range of 0 to 1.0 for a revolution
+                    // (revolution per count).
+                    canCoder.setScaleAndOffset(1.0, 0.0, steerZeros[i]);
+                    encoders[i] = canCoder;
+                }
+                finally
+                {
+                    canCoder.close();
+                }
             }
         }
         else if (driveBaseParams.steerEncoderType.equals(SteerEncoderType.Canandcoder))
@@ -489,10 +497,8 @@ public class SwerveDrive extends RobotDrive
 
     /**
      * This method starts the steering calibration.
-     *
-     * @param steerZeros specifies the steer zero calibration data array to be initialized.
      */
-    public void startSteeringCalibration(double[] steerZeros)
+    public void startSteeringCalibration()
     {
         steerZeroCalibrationCount = 0;
         Arrays.fill(steerZeros, 0.0);
@@ -500,10 +506,8 @@ public class SwerveDrive extends RobotDrive
 
     /**
      * This method stops the steering calibration and saves the calibration data to a file.
-     *
-     * @param steerZeros specifies the steer zero calibration data array to be saved.
      */
-    public void stopSteeringCalibration(double[] steerZeros)
+    public void stopSteeringCalibration()
     {
         for (int i = 0; i < steerZeros.length; i++)
         {
@@ -515,10 +519,8 @@ public class SwerveDrive extends RobotDrive
 
     /**
      * This method is called periodically to sample the steer encoders for averaging the zero position data.
-     *
-     * @param steerZeros specifies the steer zero calibration data array to be updated.
      */
-    public void runSteeringCalibration(double[] steerZeros)
+    public void runSteeringCalibration()
     {
         for (int i = 0; i < steerZeros.length; i++)
         {
