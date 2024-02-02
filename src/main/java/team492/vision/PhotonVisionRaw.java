@@ -25,11 +25,13 @@ package team492.vision;
 import java.io.IOException;
 import java.util.Optional;
 
+import TrcCommonLib.trclib.TrcPose3D;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcFrcLib.frclib.FrcPhotonVisionRaw;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import team492.subsystems.LEDIndicator;
 import team492.vision.PhotonVision.PipelineType;
 
@@ -98,10 +100,14 @@ public class PhotonVisionRaw extends FrcPhotonVisionRaw
      * @param aprilTagId sepcifies the AprilTag ID to retrieve its field location.
      * @return 3D location of the AprilTag.
      */
-    public Pose3d getAprilTagPose(int aprilTagId)
+    public TrcPose3D getAprilTagPose(int aprilTagId)
     {
         Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(aprilTagId);
-        return tagPose.isPresent()? tagPose.get(): null;
+        Pose3d pose3d = tagPose.isPresent()? tagPose.get(): null;
+        Rotation3d rotation = pose3d != null? pose3d.getRotation(): null;
+        return pose3d != null?
+                new TrcPose3D(-pose3d.getY(), pose3d.getX(), pose3d.getZ(),
+                              -rotation.getZ(), rotation.getY(), rotation.getX()): null;
     }   //getAprilTagPose
 
     // /**

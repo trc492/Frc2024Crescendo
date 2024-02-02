@@ -25,9 +25,15 @@ package team492.autotasks;
 import TrcCommonLib.trclib.TrcAutoTask;
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcOwnershipMgr;
+import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
+import TrcCommonLib.trclib.TrcTimer;
+import TrcFrcLib.frclib.FrcPhotonVision;
+import edu.wpi.first.wpilibj.DriverStation;
+import team492.FrcAuto;
 import team492.Robot;
+import team492.RobotParams;
 
 /**
  * This class implements auto-assist task.
@@ -39,20 +45,34 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
     public enum State
     {
         START,
+        FIND_APRILTAG,
+        DRIVE_TO_APRILTAG,
+        SCORE_NOTE,
         DONE
     }   //enum State
 
     private static class TaskParams
     {
-        TaskParams()
+        boolean inAuto;
+        boolean useVision;
+        boolean relocalize;
+
+        TaskParams(boolean inAuto, boolean useVision, boolean relocalize)
         {
+            this.inAuto = inAuto;
+            this.useVision = useVision;
+            this.relocalize = relocalize;
         }   //TaskParams
+
     }   //class TaskParams
 
     private final String ownerName;
     private final Robot robot;
+    private final TrcEvent event;
 
     private String currOwner = null;
+    private TrcPose2D relAprilTagPose = null;
+    private Double visionExpiredTime = null;
 
     /**
      * Constructor: Create an instance of the object.
@@ -65,17 +85,21 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
         super(moduleName, ownerName, TrcTaskMgr.TaskType.POST_PERIODIC_TASK);
         this.ownerName = ownerName;
         this.robot = robot;
+        this.event = new TrcEvent(moduleName + ".event");
     }   //TaskAutoScoreSpeaker
 
     /**
      * This method starts the auto-assist operation.
      *
+     * @param inAuto specifies true if this is called by autonomous, false otherwise.
+     * @param useVision specifies true to use vision to detect AprilTag, false otherwise.
+     * @param relocalize specifies true to use vision to relocalize robot, false otherwise.
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
-    public void autoAssistScore(TrcEvent completionEvent)
+    public void autoAssistScore(boolean inAuto, boolean useVision, boolean relocalize, TrcEvent completionEvent)
     {
-        tracer.traceInfo(moduleName, "event=" + completionEvent);
-        startAutoTask(State.START, new TaskParams(), completionEvent);
+        tracer.traceInfo(moduleName, "inAuto=" + inAuto + ", useVision=" + useVision + ", event=" + completionEvent);
+        startAutoTask(State.START, new TaskParams(inAuto, useVision, relocalize), completionEvent);
     }   //autoAssistScore
 
     /**
@@ -165,11 +189,111 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
     protected void runTaskState(
         Object params, State state, TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
     {
-        // TaskParams taskParams = (TaskParams) params;
+        TaskParams taskParams = (TaskParams) params;
 
         switch (state)
         {
             case START:
+                relAprilTagPose = null;
+                if (taskParams.useVision && robot.photonVisionBack != null)
+                {
+                    tracer.traceInfo(moduleName, "Using AprilTag Vision.");
+                    sm.setState(State.FIND_APRILTAG);
+                }
+                else
+                {
+                    // Not using AprilTag vision, skip vision.
+                    tracer.traceInfo(moduleName, "Not using AprilTag Vision.");
+                    sm.setState(State.DRIVE_TO_APRILTAG);
+                }
+                break;
+
+            case FIND_APRILTAG:
+                // Use vision to determine the appropriate AprilTag location.
+                FrcPhotonVision.DetectedObject object = robot.photonVisionBack.getBestDetectedObject();
+                if (object != null)
+                {
+                    int aprilTagId = object.target.getFiducialId();
+                    if (/*RED*/aprilTagId == 3 || aprilTagId == 4 || /*BLUE*/aprilTagId == 7 || aprilTagId == 8)
+                    {
+                        if (taskParams.relocalize)
+                        {
+                            TrcPose2D robotFieldPose =
+                                robot.photonVisionBack.getRobotFieldPosition(RobotParams.Vision.CAMERA_TRANSFORM3D);
+                            // If we see the AprilTag, we can use its location to re-localize the robot.
+                            robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
+                            tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
+                        }
+                        relAprilTagPose = object.targetPose.toPose2D();
+                        tracer.traceInfo(
+                            moduleName, "Vision found AprilTag %d at %s from camera.", aprilTagId, object.targetPose);
+                        sm.setState(State.DRIVE_TO_APRILTAG);
+                    }
+                }
+                else if (visionExpiredTime == null)
+                {
+                    // Can't find AprilTag, set a timeout and try again.
+                    visionExpiredTime = TrcTimer.getCurrentTime() + 1.0;
+                }
+                else if (TrcTimer.getCurrentTime() >= visionExpiredTime)
+                {
+                    // Timed out, moving on.
+                    tracer.traceInfo(moduleName, "No AprilTag found.");
+                    sm.setState(State.DRIVE_TO_APRILTAG);
+                }
+                break;
+
+            case DRIVE_TO_APRILTAG:
+                // Navigate robot to Apriltag.
+                tracer.traceInfo(
+                    moduleName, state + ": RobotFieldPose=" + robot.robotDrive.driveBase.getFieldPosition());
+                if (relAprilTagPose == null)
+                {
+                    // Not using vision or vision did not see AprilTag, just go to it blindly using odometry and
+                    // its known location. If we are not in Autonomous, the robot may not know its location. In
+                    // this case, we just warn the driver and quit.
+                    if (taskParams.inAuto)
+                    {
+                        // TODO: Need to take into consideration of starting position.
+                        int targetAprilTagId =
+                            FrcAuto.autoChoices.getAlliance() == DriverStation.Alliance.Red ? 4 : 7;
+                        TrcPose2D absRobotPose = robot.robotDrive.driveBase.getFieldPosition();
+                        TrcPose2D absAprilTagPose =
+                            robot.photonVisionBack.getAprilTagPose(targetAprilTagId).toPose2D();
+                        relAprilTagPose = absAprilTagPose.subtractRelativePose(absRobotPose);
+                        tracer.traceInfo(
+                            moduleName,
+                            "Drive to AprilTag %d using odometry (robotPose=%s, aprilTagPose=%s, relPose=%s).",
+                            targetAprilTagId, absRobotPose, absAprilTagPose, relAprilTagPose);
+                    }
+                    else if (robot.ledIndicator != null)
+                    {
+                        // Tell the drivers vision doesn't see anything so they can score manually.
+                        robot.ledIndicator.setPhotonDetectedObject(null);
+                    }
+                }
+
+                if (relAprilTagPose != null)
+                {
+                    // Account for end-effector offset from the camera.
+                    relAprilTagPose.y -= 5.85;
+                    // Maintain heading to be squared to the Speaker.
+                    relAprilTagPose.angle =
+                        FrcAuto.autoChoices.getAlliance() == DriverStation.Alliance.Red ? 0.0 : 180.0;
+                    // We are right in front of the Speaker, so we don't need full power to approach it.
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.35);
+                    robot.robotDrive.purePursuitDrive.start(
+                        currOwner, event, 3.0, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        relAprilTagPose);
+                    sm.waitForSingleEvent(event, State.SCORE_NOTE);
+                }
+                else
+                {
+                    sm.setState(State.DONE);
+                }
+                break;
+
+            case SCORE_NOTE:
                 break;
 
             default:

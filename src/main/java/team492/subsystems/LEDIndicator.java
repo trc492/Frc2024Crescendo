@@ -35,10 +35,12 @@ public class LEDIndicator
         new TrcAddressableLED.Pattern("AprilTag", new FrcColor(0, 63, 0), RobotParams.NUM_LEDS);
     private static final TrcAddressableLED.Pattern notePattern =            // Orange
         new TrcAddressableLED.Pattern("Note", new FrcColor(63, 32, 0), RobotParams.NUM_LEDS);
+    private static final TrcAddressableLED.Pattern seeNothingPattern = // Red
+        new TrcAddressableLED.Pattern("SeeNothing", new FrcColor(63, 0, 0), RobotParams.NUM_LEDS);
     private static final TrcAddressableLED.Pattern fieldOrientedPattern =   // Cyan
         new TrcAddressableLED.Pattern("FieldOriented", new FrcColor(0, 63, 63), RobotParams.NUM_LEDS);
-    private static final TrcAddressableLED.Pattern robotOrientedPattern =   // Red
-        new TrcAddressableLED.Pattern("RobotOriented", new FrcColor(63, 0, 0), RobotParams.NUM_LEDS);
+    private static final TrcAddressableLED.Pattern robotOrientedPattern =   // Blue
+        new TrcAddressableLED.Pattern("RobotOriented", new FrcColor(0, 0, 63), RobotParams.NUM_LEDS);
     private static final TrcAddressableLED.Pattern inverseOrientedPattern = // Magenta
         new TrcAddressableLED.Pattern("InverseOriented", new FrcColor(63, 0, 63), RobotParams.NUM_LEDS);
     private static final TrcAddressableLED.Pattern nominalPattern =         // Black
@@ -49,6 +51,8 @@ public class LEDIndicator
         {
             // Highest priority.
             aprilTagPattern,
+            notePattern,
+            seeNothingPattern,
             fieldOrientedPattern,
             robotOrientedPattern,
             inverseOrientedPattern,
@@ -110,15 +114,22 @@ public class LEDIndicator
 
     public void setPhotonDetectedObject(PhotonVision.PipelineType pipelineType)
     {
-        switch (pipelineType)
+        if (pipelineType == null)
         {
-            case APRILTAG:
-                led.setPatternState(aprilTagPattern, true);
-                break;
+            led.setPatternState(seeNothingPattern, true, 0.5);
+        }
+        else
+        {
+            switch (pipelineType)
+            {
+                case APRILTAG:
+                    led.setPatternState(aprilTagPattern, true);
+                    break;
 
-            case NOTE:
-                led.setPatternState(notePattern, true);
-                break;
+                case NOTE:
+                    led.setPatternState(notePattern, true);
+                    break;
+            }
         }
     }   //setPhotonDetectedObject
 

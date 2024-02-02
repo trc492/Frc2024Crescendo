@@ -27,11 +27,13 @@ import java.util.Optional;
 
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import TrcCommonLib.trclib.TrcPose3D;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import team492.RobotParams;
 import team492.subsystems.LEDIndicator;
 
@@ -127,10 +129,14 @@ public class PhotonVision extends FrcPhotonVision
      * @param aprilTagId sepcifies the AprilTag ID to retrieve its field location.
      * @return 3D location of the AprilTag.
      */
-    public Pose3d getAprilTagPose(int aprilTagId)
+    public TrcPose3D getAprilTagPose(int aprilTagId)
     {
         Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(aprilTagId);
-        return tagPose.isPresent()? tagPose.get(): null;
+        Pose3d pose3d = tagPose.isPresent()? tagPose.get(): null;
+        Rotation3d rotation = pose3d != null? pose3d.getRotation(): null;
+        return pose3d != null?
+                new TrcPose3D(-pose3d.getY(), pose3d.getX(), pose3d.getZ(),
+                              -rotation.getZ(), rotation.getY(), rotation.getX()): null;
     }   //getAprilTagPose
 
     /**
@@ -180,10 +186,10 @@ public class PhotonVision extends FrcPhotonVision
                 {
                     // Even though PhotonVision said detected target, FieldLayout may not give us AprilTagPose.
                     // Check it before access the AprilTag pose.
-                    Pose3d aprilTagPose = getAprilTagPose(target.getFiducialId());
+                    TrcPose3D aprilTagPose = getAprilTagPose(target.getFiducialId());
                     if (aprilTagPose != null)
                     {
-                        targetHeight = aprilTagPose.getZ();
+                        targetHeight = aprilTagPose.z;
                     }
                 }
                 break;
