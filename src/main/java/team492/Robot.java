@@ -59,7 +59,6 @@ import team492.subsystems.LEDIndicator;
 import team492.vision.OpenCvVision;
 import team492.vision.PhotonVision;
 import team492.vision.PhotonVisionRaw;
-import team492.vision.PhotonVision.PipelineType;
 
 /**
  * The Main class is configured to instantiate and automatically run this class,
