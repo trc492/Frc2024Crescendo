@@ -59,6 +59,7 @@ import team492.subsystems.LEDIndicator;
 import team492.vision.OpenCvVision;
 import team492.vision.PhotonVision;
 import team492.vision.PhotonVisionRaw;
+import team492.vision.PhotonVision.PipelineType;
 
 /**
  * The Main class is configured to instantiate and automatically run this class,
@@ -443,13 +444,23 @@ public class Robot extends FrcRobotBase
                 if (photonVisionFront != null)
                 {
                     FrcPhotonVision.DetectedObject object = photonVisionFront.getBestDetectedObject();
-                    dashboard.displayPrintf(lineNum++, "PhotonFront: obj=%s", object);
+                    if (object != null)
+                    {
+                        dashboard.displayPrintf(
+                            lineNum++, "PhotonFront: pipeline=%s, pose=%s",
+                            photonVisionFront.getPipeline(), object.targetPose);
+                    }
                 }
 
                 if (photonVisionBack != null)
                 {
                     FrcPhotonVision.DetectedObject object = photonVisionBack.getBestDetectedObject();
-                    dashboard.displayPrintf(lineNum++, "PhotonBack: obj=%s", object);
+                    if (object != null)
+                    {
+                        dashboard.displayPrintf(
+                            lineNum++, "PhotonBack: pipeline=%s, pose=%s",
+                            photonVisionBack.getPipeline(), object.targetPose);
+                    }
                 }
 
                 if (photonVisionRaw != null)

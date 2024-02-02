@@ -244,8 +244,8 @@ public class RobotParams
         // Camera location on robot.
         public static final double CAMERA_Y_OFFSET              = 9.5;      // Inches from the center of the robot
         public static final double CAMERA_X_OFFSET              = 0.0;      // Exactly centered
-        public static final double CAMERA_HEIGHT                = 43.625;   // Inches from the floor
-        public static final double CAMERA_PITCH                 = -37.8528213888;   // degrees from horizontal
+        public static final double CAMERA_HEIGHT                = 10.75;    // Inches from the floor
+        public static final double CAMERA_PITCH                 = -8.0;     // degrees from horizontal
         public static final double CAMERA_YAW                   = -2.9126252095;    // degrees from front
         public static final Transform3d CAMERA_TRANSFORM3D      = new Transform3d(
             new Translation3d(CAMERA_Y_OFFSET*TrcUtil.METERS_PER_INCH, -CAMERA_X_OFFSET*TrcUtil.METERS_PER_INCH,

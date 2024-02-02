@@ -214,7 +214,7 @@ public class FrcTest extends FrcTeleOp
     private double maxTurnRate = 0.0;
     private double prevTime = 0.0;
     private double prevVelocity = 0.0;
-    private PipelineType frontPipeline = PipelineType.APRILTAG;
+    private PipelineType frontPipeline = PipelineType.NOTE;
     private PipelineType backPipeline = PipelineType.APRILTAG;
 
     public FrcTest(Robot robot)
@@ -609,13 +609,21 @@ public class FrcTest extends FrcTeleOp
         if (robot.photonVisionFront != null)
         {
             FrcPhotonVision.DetectedObject object = robot.photonVisionFront.getBestDetectedObject();
-            robot.dashboard.displayPrintf(lineNum++, "PhotonFront: obj=%s", object);
+            if (object != null)
+            {
+                robot.dashboard.displayPrintf(
+                    lineNum++, "PhotonFront: pipeline=%s, pose=%s", frontPipeline, object.targetPose);
+            }
         }
 
         if (robot.photonVisionBack != null)
         {
             FrcPhotonVision.DetectedObject object = robot.photonVisionBack.getBestDetectedObject();
-            robot.dashboard.displayPrintf(lineNum++, "PhotonBack: obj=%s", object);
+            if (object != null)
+            {
+                robot.dashboard.displayPrintf(
+                    lineNum++, "PhotonBack: pipeline=%s, pose=%s", backPipeline, object.targetPose);
+            }
         }
         //
         // Display other subsystems and sensor info.
