@@ -38,7 +38,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     // Global objects.
     //
     protected final Robot robot;
-    private boolean controlsEnabled = false;
+    private boolean controlsEnabled = true;
     private double driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
     private double turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
 
@@ -157,12 +157,18 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         robot.dashboard.displayPrintf(
                             1, "Arcade: x=%.3f, y=%.3f, rot=%.3f", inputs[0], inputs[1], inputs[2]);
                     }
+
                 }
                 //
                 // Analog control of subsystem is done here if necessary.
                 //
+
                 if (RobotParams.Preferences.useSubsystems)
                 {
+                    double power = robot.driverController.getLeftTriggerAxis();
+                    robot.shooterMotor.setPower(power);
+                    robot.dashboard.displayPrintf(12, "Shooter Motor: velocity=%.3f", robot.shooterMotor.getVelocity());
+
                 }
             }
             //
@@ -227,6 +233,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
         robot.dashboard.displayPrintf(
             8, "DriverController: button=0x%04x %s", button, pressed ? "pressed" : "released");
+
+        
 
         switch (button)
         {

@@ -63,7 +63,7 @@ public class RobotParams
     public static class Preferences
     {
         // Global config
-        public static RobotType robotType                       = RobotType.ChadRobot;
+        public static RobotType robotType                       = RobotType.SwerveRobot;
         public static boolean inCompetition                     = false;
         public static final boolean hybridMode                  = true;
         public static final boolean useTraceLog                 = true;
@@ -74,7 +74,7 @@ public class RobotParams
         public static final boolean showDriveBase               = false;
         public static final boolean showPurePursuitDrive        = false;
         public static final boolean showPidDrive                = false;
-        public static final boolean showVision                  = true;
+        public static final boolean showVision                  = false;
         public static final boolean showSubsystems              = false;
         // Inputs
         public static final boolean useDriverXboxController     = true;
@@ -86,8 +86,8 @@ public class RobotParams
         public static final boolean usePdp                      = false;
         public static final boolean usePressureSensor           = false;
         // Vision
-        public static final boolean useVision                   = true;
-        public static final boolean usePhotonVision             = true;
+        public static final boolean useVision                   = false;
+        public static final boolean usePhotonVision             = false;
         public static final boolean usePhotonVisionRaw          = false;
         public static final boolean useOpenCvVision             = false;
         public static final boolean useStreamCamera             = false;
@@ -97,7 +97,7 @@ public class RobotParams
         public static final boolean useGyroAssist               = false;
         public static final boolean useAntiTipping              = false;
         // Subsystems
-        public static final boolean useSubsystems               = false;
+        public static final boolean useSubsystems               = true;
         public static final boolean useIntake                   = false;
         public static final boolean useShooter                  = false;
         public static final boolean useClimber                  = false;

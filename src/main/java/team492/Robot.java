@@ -36,6 +36,7 @@ import TrcCommonLib.trclib.TrcVisionTargetInfo;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcCommonLib.trclib.TrcTaskMgr.TaskType;
 import TrcFrcLib.frclib.FrcAHRSGyro;
+import TrcFrcLib.frclib.FrcCANFalcon;
 import TrcFrcLib.frclib.FrcDashboard;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcMatchInfo;
@@ -108,6 +109,7 @@ public class Robot extends FrcRobotBase
     // Other subsystems.
     //
     public TrcPidConveyor intake;
+    public FrcCANFalcon shooterMotor;
     //
     // Hybrid mode objects.
     //
@@ -136,6 +138,7 @@ public class Robot extends FrcRobotBase
     @Override
     public void robotInit()
     {
+
         if (RobotParams.Preferences.useDriverXboxController)
         {
             driverController = new FrcXboxController("DriverController", RobotParams.XBOX_DRIVER_CONTROLLER);
@@ -221,12 +224,17 @@ public class Robot extends FrcRobotBase
         //
         // Create and initialize other subsystems.
         //
+
+
         if (RobotParams.Preferences.useSubsystems)
         {
             if (RobotParams.Preferences.useIntake)
             {
                 intake = new Intake().getPidConveyor();
             }
+
+            shooterMotor = new FrcCANFalcon("shooterMotor", 7);
+            
         }
         //
         // Miscellaneous.
