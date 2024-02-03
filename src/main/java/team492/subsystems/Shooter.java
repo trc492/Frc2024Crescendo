@@ -33,8 +33,8 @@ public class Shooter
 {
     private static final String moduleName = Shooter.class.getSimpleName();
 
-    private final FrcCANFalcon shooterMotor;
-    private final FrcCANFalcon tilterMotor;
+    public final FrcCANFalcon shooterMotor;
+    public final FrcCANFalcon tilterMotor;
     private TrcTaskMgr.TaskObject shooterTaskObj;
     private boolean manualOverride = false;
     private TrcEvent completionEvent = null;
@@ -46,7 +46,7 @@ public class Shooter
         shooterMotor.setMotorInverted(RobotParams.Shooter.shooterMotorInverted);
         shooterMotor.setBrakeModeEnabled(false);
         shooterMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
-        shooterMotor.setPositionSensorScaleAndOffset(RobotParams.Shooter.shooterScale, 0.0);
+        shooterMotor.setPositionSensorScaleAndOffset(RobotParams.Shooter.shooterPosScale, 0.0);
         // Configure shooter PID.
 
         tilterMotor = new FrcCANFalcon(moduleName + ".tilterMotor", RobotParams.Shooter.tilterCanId);
@@ -54,15 +54,15 @@ public class Shooter
         tilterMotor.setMotorInverted(RobotParams.Shooter.tilterMotorInverted);
         tilterMotor.setBrakeModeEnabled(true);
         tilterMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
+        // Configure current limit.
         tilterMotor.enableLowerLimitSwitch(true);
         tilterMotor.enableUpperLimitSwitch(true);
-        // Configure tilter PID.
-        // Configure Motion Magic.
-        // Configure current limit.
-        // Configure soft position limits?
-        // Sync absolute encoder to motor encoder
         tilterMotor.setPositionSensorScaleAndOffset(
-            RobotParams.Shooter.tilterScale, RobotParams.Shooter.tilterOffset);
+            RobotParams.Shooter.tilterPosScale, RobotParams.Shooter.tilterPosOffset);
+        // Configure tilter PID.
+        // Configure soft position limits?
+        // Configure Motion Magic.
+        // Sync absolute encoder to motor encoder
 
         shooterTaskObj = TrcTaskMgr.createTask("ShooterTask", this::shooterTask);
     }

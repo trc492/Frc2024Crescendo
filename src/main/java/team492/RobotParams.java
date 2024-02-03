@@ -23,10 +23,10 @@
 package team492;
 
 import TrcCommonLib.trclib.TrcHomographyMapper;
-import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPidConveyor;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcUtil;
+import TrcCommonLib.trclib.TrcPidController.PidCoefficients;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -177,6 +177,7 @@ public class RobotParams
     public static final int CANID_INTAKE_MOTOR                  = 7;
     public static final int CANID_SHOOTER_MOTOR                 = 8;
     public static final int CANID_TILTER_MOTOR                  = 9;
+    public static final int CANID_CLIMBER_MOTOR                 = 17;
 
     public static final int CANID_PCM                           = 30;
     public static final int CANID_PDP                           = 31;
@@ -436,8 +437,8 @@ public class RobotParams
         public final double DRIVE_KF                            = 0.11;     // BaseFalconSwerve: 0.0
         public final double DRIVE_IZONE                         = 5.0;
         public final double DRIVE_TOLERANCE                     = 2.0;
-        public final TrcPidController.PidCoefficients driveCoeffs =
-            new TrcPidController.PidCoefficients(DRIVE_KP, DRIVE_KI, DRIVE_KD, DRIVE_KF);
+        public final PidCoefficients driveCoeffs                =
+            new PidCoefficients(DRIVE_KP, DRIVE_KI, DRIVE_KD, DRIVE_KF);
         // Drive Motor Characterization Values From SYSID
         public final double DRIVE_KS                            = 0.32; //TODO: This must be tuned to specific robot
         public final double DRIVE_KV                            = 1.51;
@@ -500,8 +501,8 @@ public class RobotParams
         // This is a backup if file is not found: LF, RF, LB, RB.
         public final double[] STEER_ZEROS                       = new double[] {0.0, 0.0, 0.0, 0.0};
 
-        // public final TrcPidController.PidCoefficients magicSteerCoeff =
-        //     new TrcPidController.PidCoefficients(2.0, 0.01, 0.0, 1023.0 / STEER_MAX_VEL_COUNT_PER_100MS, 5.0 / STEER_DEGREES_PER_COUNT);
+        // public final PidCoefficients magicSteerCoeff            =
+        //     new PidCoefficients(2.0, 0.01, 0.0, 1023.0 / STEER_MAX_VEL_COUNT_PER_100MS, 5.0 / STEER_DEGREES_PER_COUNT);
         public final double STEER_KP                            = 3.0;
         public final double STEER_KI                            = 0.0;
         public final double STEER_KD                            = 0.0;
@@ -509,8 +510,8 @@ public class RobotParams
         public final double STEER_KF                            = 0.0;//1023.0 / STEER_MAX_VEL_COUNT_PER_100MS;
         // iZone set to within 5 steering degrees.
         public final double STEER_IZONE                         = 0.0;//5.0 / STEER_DEGREES_PER_COUNT;
-        public final TrcPidController.PidCoefficients steerCoeffs =
-            new TrcPidController.PidCoefficients(STEER_KP, STEER_KI, STEER_KD, STEER_KF, STEER_IZONE);
+        public final PidCoefficients steerCoeffs                =
+            new PidCoefficients(STEER_KP, STEER_KI, STEER_KD, STEER_KF, STEER_IZONE);
 
         public final double PPD_FOLLOWING_DISTANCE              = 12.0;
         public final double PPD_POS_TOLERANCE                   = 1.0;
@@ -537,7 +538,6 @@ public class RobotParams
         public final double maxSpeed = Units.inchesToMeters(ROBOT_MAX_VELOCITY);
         // Radians per Second
         public final double maxAngularVelocity = Units.degreesToRadians(ROBOT_MAX_TURN_RATE);
-
     }   //class SwerveDriveBase
 
     public static class ChadDriveBase extends SwerveDriveBase
@@ -579,26 +579,33 @@ public class RobotParams
         public static final int exitSensorChannel               = DIO_INTAKE_EXIT;
         public static final boolean entrySensorInverted         = false;
         public static final boolean exitSensorInverted          = false;
+        public static final double posScale                     = 1.0;  //TODO: tune
+        public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);
     }   //class Intake
 
     public static class Shooter
     {
         public static final int shooterCandId                   = CANID_SHOOTER_MOTOR;
         public static final boolean shooterMotorInverted        = false;
-        public static final double shooterGearRatio             = 1.0; //TODO: tune
-        public static final double shooterScale                 = 360.0 / shooterGearRatio;
+        public static final double shooterGearRatio             = 1.0;  //TODO: tune
+        public static final double shooterPosScale              = 360.0 / shooterGearRatio;
+        public static final PidCoefficients shooterVelPidCoeff  = new PidCoefficients(0.0, 0.0, 0.0, 0.0);
 
         public static final int tilterCanId                     = CANID_TILTER_MOTOR;
         public static final boolean tilterMotorInverted         = false;
         public static final double tilterGearRatio              = 1.0;  //TODO: tune
-        public static final double tilterScale                  = 360.0 / tilterGearRatio;
-        public static final double tilterOffset                 = 15.0; //TODO: tune, in degrees 
-        public static final double tilterPowerLimit             = 0.5; //TODO: tune
+        public static final double tilterPosScale               = 360.0 / tilterGearRatio;
+        public static final double tilterPosOffset              = 15.0; //TODO: tune, in degrees
+        public static final double tilterPowerLimit             = 0.5;  //TODO: tune
+        public static final PidCoefficients tilterPosPidCoeff   = new PidCoefficients(0.0, 0.0, 0.0, 0.0);
     }   //class Shooter
 
     public static class Climber
     {
-
+        public static final int candId                          = CANID_CLIMBER_MOTOR;
+        public static final boolean motorInverted               = false;
+        public static final double posScale                     = 1.0;  //TODO: tune
+        public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);
     }   //class Climber
 
     public static class Deployer

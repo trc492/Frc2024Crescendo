@@ -32,10 +32,10 @@ public class Intake
 {
     private static final String moduleName = Intake.class.getSimpleName();
 
-    private final FrcCANFalcon conveyorMotor;
-    private final FrcDigitalInput entrySensor;
-    private final FrcDigitalInput exitSensor;
-    private final TrcPidConveyor conveyor;
+    public final FrcCANFalcon conveyorMotor;
+    public final FrcDigitalInput entrySensor;
+    public final FrcDigitalInput exitSensor;
+    public final TrcPidConveyor conveyor;
 
     public Intake()
     {
@@ -44,6 +44,8 @@ public class Intake
         conveyorMotor.setMotorInverted(RobotParams.Intake.motorInverted);
         conveyorMotor.setBrakeModeEnabled(true);
         conveyorMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
+        conveyorMotor.setPositionSensorScaleAndOffset(RobotParams.Intake.posScale, 0.0);
+        conveyorMotor.setPositionPidCoefficients(RobotParams.Intake.posPidCoeff);
 
         entrySensor = new FrcDigitalInput(moduleName + ".entrySensor", RobotParams.Intake.entrySensorChannel);
         entrySensor.setInverted(RobotParams.Intake.entrySensorInverted);
