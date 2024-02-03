@@ -570,42 +570,42 @@ public class RobotParams
     public static class Intake
     {
         public static final int candId                          = CANID_INTAKE_MOTOR;
-        public static final boolean motorInverted               = false;
+        public static final boolean motorInverted               = false;    //TODO: tune
         public static final TrcPidConveyor.Parameters params    = new TrcPidConveyor.Parameters()
             .setMaxCapacity(1)
-            .setMovePower(1.0)
+            .setMovePower(1.0)                              //TODO: tune
             .setObjectDistance(16.0);
         public static final int entrySensorChannel              = DIO_INTAKE_ENTRY;
         public static final int exitSensorChannel               = DIO_INTAKE_EXIT;
-        public static final boolean entrySensorInverted         = false;
-        public static final boolean exitSensorInverted          = false;
-        public static final double posScale                     = 1.0;  //TODO: tune
-        public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);
+        public static final boolean entrySensorInverted         = false;    //TODO: tune
+        public static final boolean exitSensorInverted          = false;    //TODO: tune
+        public static final double posScale                     = 1.0;      //TODO: tune
+        public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);   //TODO: tune
     }   //class Intake
 
     public static class Shooter
     {
         public static final int shooterCandId                   = CANID_SHOOTER_MOTOR;
-        public static final boolean shooterMotorInverted        = false;
-        public static final double shooterGearRatio             = 1.0;  //TODO: tune
-        public static final double shooterPosScale              = 360.0 / shooterGearRatio;
-        public static final PidCoefficients shooterVelPidCoeff  = new PidCoefficients(0.0, 0.0, 0.0, 0.0);
+        public static final boolean shooterMotorInverted        = false;    //TODO: tune
+        public static final double shooterGearRatio             = 1.0;      //TODO: tune
+        public static final double shooterPosScale              = 1.0 / shooterGearRatio;   // in Revolutions
+        public static final PidCoefficients shooterVelPidCoeff  = new PidCoefficients(0.0, 0.0, 0.0, 0.0);  //TODO: tune
 
         public static final int tilterCanId                     = CANID_TILTER_MOTOR;
-        public static final boolean tilterMotorInverted         = false;
-        public static final double tilterGearRatio              = 1.0;  //TODO: tune
-        public static final double tilterPosScale               = 360.0 / tilterGearRatio;
-        public static final double tilterPosOffset              = 15.0; //TODO: tune, in degrees
-        public static final double tilterPowerLimit             = 0.5;  //TODO: tune
-        public static final PidCoefficients tilterPosPidCoeff   = new PidCoefficients(0.0, 0.0, 0.0, 0.0);
+        public static final boolean tilterMotorInverted         = false;    //TODO: tune
+        public static final double tilterGearRatio              = 1.0;      //TODO: tune
+        public static final double tilterPosScale               = 360.0 / tilterGearRatio;  // in Degrees
+        public static final double tilterPosOffset              = 15.0;     //TODO: tune, in degrees
+        public static final double tilterPowerLimit             = 0.5;      //TODO: tune
+        public static final PidCoefficients tilterPosPidCoeff   = new PidCoefficients(0.0, 0.0, 0.0, 0.0);  //TODO: tune
     }   //class Shooter
 
     public static class Climber
     {
         public static final int candId                          = CANID_CLIMBER_MOTOR;
-        public static final boolean motorInverted               = false;
-        public static final double posScale                     = 1.0;  //TODO: tune
-        public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);
+        public static final boolean motorInverted               = false;    //TODO: tune
+        public static final double posScale                     = 1.0;      //TODO: tune
+        public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);   //TODO: tune
     }   //class Climber
 
     public static class Deployer
