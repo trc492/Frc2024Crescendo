@@ -587,6 +587,16 @@ public class RobotParams
         public static final boolean shooterMotorInverted        = false;
         public static final int tilterCanId                     = CANID_TILTER_MOTOR;
         public static final boolean tilterMotorInverted         = false;
+
+        public static final double shooterGearRatio             = 1.0; //TODO: tune
+        public static final double tilterGearRatio              = 1.0;  //TODO: tune
+
+        public static final double shooterScale                 = 360.0 / shooterGearRatio;
+        public static final double tilterScale                  = 360.0 / tilterGearRatio;
+
+        public static final double tilterOffset                 = 15.0; //TODO: tune, in degrees 
+
+        public static final double shooterPowerLimit            = 0.5; //TODO: tune
     }   //class Shooter
 
     public static class Climber
