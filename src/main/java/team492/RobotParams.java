@@ -63,9 +63,9 @@ public class RobotParams
     public static class Preferences
     {
         // Global config
-        public static RobotType robotType                       = RobotType.ChadRobot;
+        public static RobotType robotType                       = RobotType.SwerveRobot;
         public static boolean inCompetition                     = false;
-        public static final boolean hybridMode                  = true;
+        public static final boolean hybridMode                  = false;
         public static final boolean useTraceLog                 = true;
         // Status Update
         public static final boolean doStatusUpdate              = false;
@@ -74,7 +74,7 @@ public class RobotParams
         public static final boolean showDriveBase               = false;
         public static final boolean showPurePursuitDrive        = false;
         public static final boolean showPidDrive                = false;
-        public static final boolean showVision                  = true;
+        public static final boolean showVision                  = false;
         public static final boolean showSubsystems              = false;
         // Inputs
         public static final boolean useDriverXboxController     = true;
@@ -418,7 +418,7 @@ public class RobotParams
         public final boolean[] steerMotorInverted               = {false, false, false, false};
 
         // Steer encoders.
-        public final SteerEncoderType steerEncoderType          = SteerEncoderType.Canandcoder;
+        public SteerEncoderType steerEncoderType                = SteerEncoderType.Canandcoder;
         public final String[] steerEncoderNames                 =
             {"lfSteerEncoder", "rfSteerEncoder", "lbSteerEncoder", "rbSteerEncoder"};
         public final int[] steerEncoderCanIds                   =
@@ -491,8 +491,7 @@ public class RobotParams
         public final double DRIVE_WHEEL_CIRCUMFERENCE           = 4.0 * Math.PI;
         public final double DRIVE_INCHES_PER_COUNT              = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
 
-        // public final double STEER_GEAR_RATIO                    = (24.0/12.0) * (72.0/14.0);
-        public final double STEER_GEAR_RATIO                    = 15.43;
+        public double STEER_GEAR_RATIO                          = 15.43;
         public final double STEER_DEGREES_PER_COUNT             = 360.0 / STEER_GEAR_RATIO;
         // ((theoretical max rpm * speed loss constant / gear ratio) / 60 sec/min) * 360 deg/rev
         public final double STEER_MAX_VEL                       = (FALCON_MAX_RPM*0.81/STEER_GEAR_RATIO/60.0)*360.0;
@@ -539,11 +538,6 @@ public class RobotParams
         // Radians per Second
         public final double maxAngularVelocity = Units.degreesToRadians(ROBOT_MAX_TURN_RATE);
     }   //class SwerveDriveBase
-
-    public static class ChadDriveBase extends SwerveDriveBase
-    {
-        public final SteerEncoderType steerEncoderType          = SteerEncoderType.CANCoder;
-    }   //class ChadDriveBase
 
     public static final class AutoConstants
     {

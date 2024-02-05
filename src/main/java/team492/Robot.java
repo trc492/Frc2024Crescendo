@@ -216,10 +216,8 @@ public class Robot extends FrcRobotBase
         //
         // Create and initialize RobotDrive subsystem.
         //
-        robotDrive = new SwerveDrive(
-            this,
-            RobotParams.Preferences.robotType.equals(RobotType.ChadRobot)?
-                new RobotParams.ChadDriveBase(): new RobotParams.SwerveDriveBase());
+        RobotParams.SwerveDriveBase driveBaseParams = getSwerveDriveBaseParams();
+        robotDrive = new SwerveDrive(this, driveBaseParams);
         //
         // Create and initialize other subsystems.
         //
@@ -255,6 +253,24 @@ public class Robot extends FrcRobotBase
         //
         setupRobotModes(new FrcTeleOp(this), new FrcAuto(this), new FrcTest(this), new FrcDisabled(this));
     }   //robotInit
+
+    /**
+     * This method checks the Swerve Robot Type and makes adjustments to the DriveBase parameters if necessary.
+     *
+     * @return adjusted swerve drive base parameters.
+     */
+    private RobotParams.SwerveDriveBase getSwerveDriveBaseParams()
+    {
+        RobotParams.SwerveDriveBase driveBaseParams = new RobotParams.SwerveDriveBase();
+
+        if (RobotParams.Preferences.robotType.equals(RobotType.ChadRobot))
+        {
+            driveBaseParams.steerEncoderType = RobotParams.SteerEncoderType.CANCoder;
+            driveBaseParams.STEER_GEAR_RATIO = (24.0/12.0) * (72.0/14.0);;
+        }
+
+        return driveBaseParams;
+    }   //getSwerveDriveBaseParams
 
     /**
      * This method is called periodically after mode specific periodic method is called. This is to simulate the
