@@ -56,6 +56,7 @@ import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
 import team492.subsystems.Intake;
 import team492.subsystems.LEDIndicator;
+import team492.subsystems.Shooter;
 import team492.vision.OpenCvVision;
 import team492.vision.PhotonVision;
 import team492.vision.PhotonVisionRaw;
@@ -108,6 +109,7 @@ public class Robot extends FrcRobotBase
     // Other subsystems.
     //
     public TrcPidConveyor intake;
+    public Shooter shooter;
     //
     // Hybrid mode objects.
     //
@@ -226,6 +228,11 @@ public class Robot extends FrcRobotBase
             if (RobotParams.Preferences.useIntake)
             {
                 intake = new Intake().getPidConveyor();
+            }
+
+            if (RobotParams.Preferences.useShooter)
+            {
+                shooter = new Shooter();
             }
         }
         //

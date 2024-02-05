@@ -22,6 +22,8 @@
 
 package team492;
 
+import java.util.Arrays;
+
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
@@ -41,6 +43,15 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     private boolean controlsEnabled = false;
     private double driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
     private double turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
+    private double[] prevDriveInputs = null;
+    private static final double shooterMinVel = 0.0;
+    private static final double shooterMaxVel = 6000.0;
+    private static final double shooterMinInc = 10.0;
+    private static final double shooterMaxInc = 1000.0;
+    private Double prevShooterVel = null;
+    private double presetShooterVel = 0.0;
+    private double presetShooterInc = 100.0;
+    private Double prevTilterPower = null;
 
     /**
      * Constructor: Create an instance of the object.
@@ -126,6 +137,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     @Override
     public void periodic(double elapsedTime, boolean slowPeriodicLoop)
     {
+        int lineNum = 1;
         if (slowPeriodicLoop)
         {
             if (controlsEnabled)
@@ -135,34 +147,114 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 //
                 if (robot.robotDrive != null)
                 {
-                    double[] inputs = robot.robotDrive.getDriveInputs(
+                    double[] driveInputs = robot.robotDrive.getDriveInputs(
                         RobotParams.ROBOT_DRIVE_MODE, true, driveSpeedScale, turnSpeedScale);
-
-                    if (robot.robotDrive.driveBase.supportsHolonomicDrive())
+                    if (!Arrays.equals(driveInputs, prevDriveInputs))
                     {
-                        robot.robotDrive.driveBase.holonomicDrive(
-                            null, inputs[0], inputs[1], inputs[2], robot.robotDrive.driveBase.getDriveGyroAngle());
-                        robot.dashboard.displayPrintf(
-                            1, "Holonomic: x=%.3f, y=%.3f, rot=%.3f", inputs[0], inputs[1], inputs[2]);
+                        if (robot.robotDrive.driveBase.supportsHolonomicDrive())
+                        {
+                            robot.robotDrive.driveBase.holonomicDrive(
+                                null, driveInputs[0], driveInputs[1], driveInputs[2],
+                                robot.robotDrive.driveBase.getDriveGyroAngle());
+                            robot.dashboard.displayPrintf(
+                                lineNum++, "Holonomic: x=%.3f, y=%.3f, rot=%.3f",
+                                driveInputs[0], driveInputs[1], driveInputs[2]);
+                        }
+                        else if (RobotParams.Preferences.useTankDrive)
+                        {
+                            robot.robotDrive.driveBase.tankDrive(driveInputs[0], driveInputs[1]);
+                            robot.dashboard.displayPrintf(
+                                lineNum++, "Tank: left=%.3f, right=%.3f, rot=%.3f",
+                                driveInputs[0], driveInputs[1], driveInputs[2]);
+                        }
+                        else
+                        {
+                            robot.robotDrive.driveBase.arcadeDrive(driveInputs[1], driveInputs[2]);
+                            robot.dashboard.displayPrintf(
+                                lineNum++, "Arcade: x=%.3f, y=%.3f, rot=%.3f",
+                                driveInputs[0], driveInputs[1], driveInputs[2]);
+                        }
                     }
-                    else if (RobotParams.Preferences.useTankDrive)
-                    {
-                        robot.robotDrive.driveBase.tankDrive(inputs[0], inputs[1]);
-                        robot.dashboard.displayPrintf(
-                            1, "Tank: left=%.3f, right=%.3f, rot=%.3f", inputs[0], inputs[1], inputs[2]);
-                    }
-                    else
-                    {
-                        robot.robotDrive.driveBase.arcadeDrive(inputs[1], inputs[2]);
-                        robot.dashboard.displayPrintf(
-                            1, "Arcade: x=%.3f, y=%.3f, rot=%.3f", inputs[0], inputs[1], inputs[2]);
-                    }
+                    prevDriveInputs = driveInputs;
                 }
                 //
                 // Analog control of subsystem is done here if necessary.
                 //
                 if (RobotParams.Preferences.useSubsystems)
                 {
+                    if (robot.shooter != null)
+                    {
+                        // Controlling shooter velocity.
+                        switch (robot.driverController.getPOV())
+                        {
+                            case 0:
+                                if (presetShooterVel + presetShooterInc <= shooterMaxVel)
+                                {
+                                    presetShooterVel += presetShooterInc;
+                                }
+                                break;
+
+                            case 90:
+                                if (presetShooterInc / 10.0 >= shooterMinInc)
+                                {
+                                    presetShooterInc /= 10.0;
+                                }
+                                break;
+
+                            case 180:
+                                if (presetShooterVel - presetShooterInc >= shooterMinVel)
+                                {
+                                    presetShooterVel -= presetShooterInc;
+                                }
+                                break;
+
+                            case 270:
+                                if (presetShooterInc * 10.0 <= shooterMaxInc)
+                                {
+                                    presetShooterInc *= 10.0;
+                                }
+                                break;
+                        }
+
+                        double shooterVel =
+                            robot.driverController.getRightTriggerAxis() -
+                            robot.driverController.getLeftTriggerAxis();
+                        if (presetShooterVel != 0.0)
+                        {
+                            if (shooterVel == 0.0)
+                            {
+                                // We have a button preset velocity and joystick is not overriding, set shooter to
+                                // preset velocity.
+                                shooterVel = presetShooterVel;
+                            }
+                            else
+                            {
+                                // We have a button preset velocity but joystick is overriding, set shooter to
+                                // joystick value and clear button preset velocity.
+                                presetShooterVel = 0.0;
+                            }
+                        }
+
+                        if (prevShooterVel == null || prevShooterVel != shooterVel)
+                        {
+                            // Only set shooter velocity if it is different from previous velocity.
+                            robot.shooter.setShooterVelocity(shooterVel);
+                            prevShooterVel = shooterVel;
+                        }
+                        robot.dashboard.displayPrintf(
+                            lineNum++, "ShooterVel: %.3f/%.3f/%.0f",
+                            robot.shooter.getShooterVelocity(), presetShooterVel, presetShooterInc);
+
+                        // Controlling tilter angle.
+                        double tilterPower = robot.driverController.getLeftYWithDeadband(true);
+                        if (prevTilterPower == null || prevTilterPower != tilterPower)
+                        {
+                            robot.shooter.setTilterPower(tilterPower);
+                        }
+                        robot.dashboard.displayPrintf(
+                            lineNum++, "Tilter: power=%.2f, angle=%.2f",
+                            robot.shooter.getTilterPower(), robot.shooter.getTilterAngle());
+                    }
                 }
             }
             //
@@ -246,6 +338,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_B:
+                if (robot.shooter != null)
+                {
+                    robot.shooter.setManualOverrideEnabled(pressed);
+                }
                 break;
 
             case FrcXboxController.BUTTON_X:
@@ -278,7 +374,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BACK:
-                // Code review: Need to add zero calibrate code here for titler.
+                // Code review: Need to add zero calibrate code here for tilter unless it has absolute encoder.
                 break;
 
             case FrcXboxController.START:
