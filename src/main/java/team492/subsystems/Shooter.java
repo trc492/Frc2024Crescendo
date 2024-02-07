@@ -22,8 +22,6 @@
 
 package team492.subsystems;
 
-import javax.lang.model.element.ModuleElement;
-
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
@@ -36,7 +34,7 @@ public class Shooter
     private static final String moduleName = Shooter.class.getSimpleName();
 
     public final FrcCANFalcon shooterMotor;
-    public final FrcCANFalcon tilterMotor;
+    public final FrcCANFalcon tilterMotor;  //CodeReview: not a Falcon, it's a SparkMax brushed motor.
     private TrcTaskMgr.TaskObject shooterTaskObj;
     private boolean manualOverride = false;
     private TrcEvent completionEvent = null;
@@ -60,18 +58,17 @@ public class Shooter
         tilterMotor.setMotorInverted(RobotParams.Shooter.tilterMotorInverted);
         tilterMotor.setBrakeModeEnabled(true);
         tilterMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
-        // Configure current limit. DONE
         tilterMotor.setCurrentLimit(20.0, 40.0, 0.5); //TODO: tune
         tilterMotor.enableLowerLimitSwitch(true);
         tilterMotor.enableUpperLimitSwitch(true);
         tilterMotor.setPositionSensorScaleAndOffset(
             RobotParams.Shooter.tilterPosScale, RobotParams.Shooter.tilterPosOffset);
-        // Configure tilter PID. DONE
+        tilterMotor.setSoftPositionLimits(RobotParams.Shooter.tilterMinPos, RobotParams.Shooter.tilterMaxPos, false);
         tilterMotor.setPositionPidCoefficients(RobotParams.Shooter.tilterPosPidCoeff);
-        // Configure soft position limits? DONE
-        tilterMotor.setSoftPositionLimits(RobotParams.Shooter.tilterSoftLowerLimit, RobotParams.Shooter.tilterSoftUpperLimit, false);
 
         // Sync absolute encoder to motor encoder DONE, not sure if this is right though
+        // CodeReview: Need to talk to mechanical to find out what absolute encoder they have.
+        // Also, mechanical said the tilter motor is not a Falcon, it's a SparkMax brushed motor.
         tilterMotor.setPosition(tilterMotor.getEncoderRawPosition());
 
         shooterTaskObj = TrcTaskMgr.createTask("ShooterTask", this::shooterTask);
@@ -286,5 +283,25 @@ public class Shooter
     {
         return 0.0;
     }   //getTilterPower
+
+    /**
+     * This method checks if the tilter's lower limit switch is active.
+     *
+     * @return true if active, false otherwise.
+     */
+    public boolean tilterLowerLimitSwitchActive()
+    {
+        return false;
+    }   //tilterLowerLimitSwitchActive
+
+    /**
+     * This method checks if the tilter's upper limit switch is active.
+     *
+     * @return true if active, false otherwise.
+     */
+    public boolean tilterUpperLimitSwitchActive()
+    {
+        return false;
+    }   //tilterUpperLimitSwitchActive
 
 }   //class Shooter

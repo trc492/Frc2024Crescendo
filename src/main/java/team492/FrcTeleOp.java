@@ -182,6 +182,12 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 //
                 if (RobotParams.Preferences.useSubsystems)
                 {
+                    // CodeReview: all subsystem control should be on operator controller, not driver!!!
+                    if (robot.intake != null)
+                    {
+
+                    }
+
                     if (robot.shooter != null)
                     {
                         // Controlling shooter velocity.
@@ -242,7 +248,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             prevShooterVel = shooterVel;
                         }
                         robot.dashboard.displayPrintf(
-                            lineNum++, "ShooterVel: %.3f/%.3f/%.0f",
+                            lineNum++, "Shooter: vel=%.0f, preset=%.0f, inc=%.0f",
                             robot.shooter.getShooterVelocity(), presetShooterVel, presetShooterInc);
 
                         // Controlling tilter angle.
@@ -252,8 +258,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.shooter.setTilterPower(tilterPower);
                         }
                         robot.dashboard.displayPrintf(
-                            lineNum++, "Tilter: power=%.2f, angle=%.2f",
-                            robot.shooter.getTilterPower(), robot.shooter.getTilterAngle());
+                            lineNum++, "Tilter: power=%.2f, angle=%.2f, limitSw=%s/%s",
+                            robot.shooter.getTilterPower(), robot.shooter.getTilterAngle(),
+                            robot.shooter.tilterLowerLimitSwitchActive(),
+                            robot.shooter.tilterUpperLimitSwitchActive());
                     }
                 }
             }
@@ -338,6 +346,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_B:
+                // CodeReview: this should be on the operator controller!
                 if (robot.shooter != null)
                 {
                     robot.shooter.setManualOverrideEnabled(pressed);
