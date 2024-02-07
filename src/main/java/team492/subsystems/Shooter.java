@@ -35,7 +35,7 @@ public class Shooter
 
     public final FrcCANFalcon shooterMotor;
     public final FrcCANFalcon tilterMotor;  //CodeReview: not a Falcon, it's a SparkMax brushed motor.
-    private TrcTaskMgr.TaskObject shooterTaskObj;
+    private final TrcTaskMgr.TaskObject shooterTaskObj;
     private boolean manualOverride = false;
     private TrcEvent completionEvent = null;
 
@@ -49,8 +49,8 @@ public class Shooter
         shooterMotor.setMotorInverted(RobotParams.Shooter.shooterMotorInverted);
         shooterMotor.setBrakeModeEnabled(false);
         shooterMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
+        shooterMotor.enableMotionProfile(0.0, RobotParams.Shooter.shooterAcceleration, 0.0);
         shooterMotor.setPositionSensorScaleAndOffset(RobotParams.Shooter.shooterPosScale, 0.0);
-        // Configure shooter PID. DONE
         shooterMotor.setVelocityPidCoefficients(RobotParams.Shooter.shooterVelPidCoeff);
 
         tilterMotor = new FrcCANFalcon(moduleName + ".tilterMotor", RobotParams.Shooter.tilterCanId);
@@ -58,7 +58,11 @@ public class Shooter
         tilterMotor.setMotorInverted(RobotParams.Shooter.tilterMotorInverted);
         tilterMotor.setBrakeModeEnabled(true);
         tilterMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
-        tilterMotor.setCurrentLimit(20.0, 40.0, 0.5); //TODO: tune
+        tilterMotor.enableMotionProfile(
+            RobotParams.Shooter.tilterVelocity, RobotParams.Shooter.tilterAcceleration, 0.0);
+        tilterMotor.setCurrentLimit(
+            RobotParams.Shooter.tilterCurrentLimit, RobotParams.Shooter.tilterCurrentThreshold,
+            RobotParams.Shooter.tilterCurrentThresholdTime);
         tilterMotor.enableLowerLimitSwitch(true);
         tilterMotor.enableUpperLimitSwitch(true);
         tilterMotor.setPositionSensorScaleAndOffset(
@@ -89,9 +93,11 @@ public class Shooter
      */
     public void prepForShooting(double velocity, double tiltAngle, TrcEvent event)
     {
+        // TODO: Implement this.
         // Set up velocity, tiltAngle and event.
         // Set shooter velocity.
         // Set tilter angle.
+        // Do we need timeout?
         // Enable task to monitor velocity and tiltAngle.
     }   //prepForShooting
 
@@ -124,11 +130,7 @@ public class Shooter
     public void setManualOverrideEnabled(boolean enabled)
     {
         manualOverride = enabled;
-        // if (!enabled)
-        // {
-        //     pitchTicksTarget = (int) pitchMotor.getPosition();
-        // }
-    }
+    }   //setManualOverrideEnabled
 
     /**
      * This method checks if manual override is enabled.
@@ -150,7 +152,9 @@ public class Shooter
      */
     private void shooterTask(TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
     {
-        // If tilter and shooter reached target, signal event, disable task.
+        // TODO: Implement this.
+        // If tilter has not reached target, setPosition with GravityComp.
+        // else if shooter has reached target, signal event and disable task.
     }   //shooterTask
 
     /**
@@ -161,6 +165,7 @@ public class Shooter
      */
     private double getTilterGravityComp()
     {
+        // TODO: Implement this.
         return 0; // theoretically, it's gravity neutral
     }   //getTilterGravityComp
 
@@ -271,6 +276,7 @@ public class Shooter
      */
     public void setTilterPower(double power)
     {
+        // TODO: Implement this.
         // if manualOverride call motor.setPower else call motor.setPidPower
     }   //setTilterPower
 
@@ -281,6 +287,7 @@ public class Shooter
      */
     public double getTilterPower()
     {
+        // TODO: Implement this.
         return 0.0;
     }   //getTilterPower
 
@@ -291,6 +298,7 @@ public class Shooter
      */
     public boolean tilterLowerLimitSwitchActive()
     {
+        // TODO: Implement this.
         return false;
     }   //tilterLowerLimitSwitchActive
 
@@ -301,6 +309,7 @@ public class Shooter
      */
     public boolean tilterUpperLimitSwitchActive()
     {
+        // TODO: Implement this.
         return false;
     }   //tilterUpperLimitSwitchActive
 
