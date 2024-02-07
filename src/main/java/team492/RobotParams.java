@@ -421,7 +421,7 @@ public class RobotParams
         public SteerEncoderType steerEncoderType                = SteerEncoderType.Canandcoder;
         public final String[] steerEncoderNames                 =
             {"lfSteerEncoder", "rfSteerEncoder", "lbSteerEncoder", "rbSteerEncoder"};
-        public final int[] steerEncoderCanIds                   =
+        public int[] steerEncoderCanIds                         =
             {CANID_LFSTEER_ENCODER, CANID_RFSTEER_ENCODER, CANID_LBSTEER_ENCODER, CANID_RBSTEER_ENCODER};
         public final int[] steerEncoderAnalogIds                =
             {AIN_LFSTEER_ENCODER, AIN_RFSTEER_ENCODER, AIN_LBSTEER_ENCODER, AIN_RBSTEER_ENCODER};
