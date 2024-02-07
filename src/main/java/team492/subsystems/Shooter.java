@@ -22,6 +22,8 @@
 
 package team492.subsystems;
 
+import javax.lang.model.element.ModuleElement;
+
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
@@ -50,22 +52,27 @@ public class Shooter
         shooterMotor.setBrakeModeEnabled(false);
         shooterMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
         shooterMotor.setPositionSensorScaleAndOffset(RobotParams.Shooter.shooterPosScale, 0.0);
-        // Configure shooter PID.
+        // Configure shooter PID. DONE
+        shooterMotor.setVelocityPidCoefficients(RobotParams.Shooter.shooterVelPidCoeff);
 
         tilterMotor = new FrcCANFalcon(moduleName + ".tilterMotor", RobotParams.Shooter.tilterCanId);
         tilterMotor.resetFactoryDefault();
         tilterMotor.setMotorInverted(RobotParams.Shooter.tilterMotorInverted);
         tilterMotor.setBrakeModeEnabled(true);
         tilterMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
-        // Configure current limit.
+        // Configure current limit. DONE
+        tilterMotor.setCurrentLimit(20.0, 40.0, 0.5); //TODO: tune
         tilterMotor.enableLowerLimitSwitch(true);
         tilterMotor.enableUpperLimitSwitch(true);
         tilterMotor.setPositionSensorScaleAndOffset(
             RobotParams.Shooter.tilterPosScale, RobotParams.Shooter.tilterPosOffset);
-        // Configure tilter PID.
-        // Configure soft position limits?
-        // Configure Motion Magic.
-        // Sync absolute encoder to motor encoder
+        // Configure tilter PID. DONE
+        tilterMotor.setPositionPidCoefficients(RobotParams.Shooter.tilterPosPidCoeff);
+        // Configure soft position limits? DONE
+        tilterMotor.setSoftPositionLimits(RobotParams.Shooter.tilterSoftLowerLimit, RobotParams.Shooter.tilterSoftUpperLimit, false);
+
+        // Sync absolute encoder to motor encoder DONE, not sure if this is right though
+        tilterMotor.setPosition(tilterMotor.getEncoderRawPosition());
 
         shooterTaskObj = TrcTaskMgr.createTask("ShooterTask", this::shooterTask);
     }   //Shooter
