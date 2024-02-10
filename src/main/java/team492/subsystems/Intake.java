@@ -39,7 +39,7 @@ public class Intake
 
     public Intake()
     {
-        conveyorMotor = new FrcCANFalcon(moduleName + ".motor", RobotParams.Intake.candId);
+        conveyorMotor = new FrcCANFalcon(moduleName + ".motor", RobotParams.Intake.motorCandId);
         conveyorMotor.resetFactoryDefault();
         conveyorMotor.setMotorInverted(RobotParams.Intake.motorInverted);
         conveyorMotor.setBrakeModeEnabled(true);

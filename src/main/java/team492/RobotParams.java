@@ -563,7 +563,7 @@ public class RobotParams
 
     public static class Intake
     {
-        public static final int candId                          = CANID_INTAKE_MOTOR;
+        public static final int motorCandId                     = CANID_INTAKE_MOTOR;
         public static final boolean motorInverted               = false;    //TODO: tune
         public static final TrcPidConveyor.Parameters params    = new TrcPidConveyor.Parameters()
             .setMaxCapacity(1)
@@ -609,10 +609,10 @@ public class RobotParams
 
     public static class Climber
     {
-        public static final int climberCandId                   = CANID_CLIMBER_MOTOR;
+        public static final int motorCandId                     = CANID_CLIMBER_MOTOR;
         public static final boolean motorInverted               = false;    //TODO: tune
-        public static final double climberPosScale              = 1.0;      //TODO: tune
-        public static final PidCoefficients climberPosPidCoeff  = new PidCoefficients(0.0, 0.0, 0.0);   //TODO: tune
+        public static final double posScale                     = 1.0;      //TODO: tune
+        public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);   //TODO: tune
 
         public static final double maxHeight                    = 1.0; //TODO: tune
         public static final double minHeight                    = 0.0; //TODO: tune
