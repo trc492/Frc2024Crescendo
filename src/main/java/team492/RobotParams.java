@@ -584,14 +584,22 @@ public class RobotParams
         public static final double shooterGearRatio             = 1.0;      //TODO: tune
         public static final double shooterPosScale              = 1.0 / shooterGearRatio;   // in Revolutions
         public static final PidCoefficients shooterVelPidCoeff  = new PidCoefficients(0.0, 0.0, 0.0, 0.0);  //TODO: tune
+        public static final double shooterAcceleration          = 0.0;      //TODO: tune
 
         public static final int tilterCanId                     = CANID_TILTER_MOTOR;
         public static final boolean tilterMotorInverted         = false;    //TODO: tune
         public static final double tilterGearRatio              = 1.0;      //TODO: tune
         public static final double tilterPosScale               = 360.0 / tilterGearRatio;  // in Degrees
-        public static final double tilterPosOffset              = 15.0;     //TODO: tune, in degrees
+        public static final double tilterPosOffset              = 0.0;     //TODO: tune, in degrees
         public static final double tilterPowerLimit             = 0.5;      //TODO: tune
         public static final PidCoefficients tilterPosPidCoeff   = new PidCoefficients(0.0, 0.0, 0.0, 0.0);  //TODO: tune
+        public static final double tilterMinPos                 = tilterPosOffset;  //TODO: tune
+        public static final double tilterMaxPos                 = 90.0;             //TODO: tune
+        public static final double tilterVelocity               = 0.0;              //TODO: tune
+        public static final double tilterAcceleration           = 0.0;              //TODO: tune
+        public static final double tilterCurrentLimit           = 20.0;             //TODO: tune
+        public static final double tilterCurrentThreshold       = 40.0;             //TODO: tune
+        public static final double tilterCurrentThresholdTime   = 0.5;              //TODO: tune
     }   //class Shooter
 
     public static class Climber
