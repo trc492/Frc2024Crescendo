@@ -596,10 +596,10 @@ public class RobotParams
 
     public static class Climber
     {
-        public static final int candId                          = CANID_CLIMBER_MOTOR;
+        public static final int climberCandId                   = CANID_CLIMBER_MOTOR;
         public static final boolean motorInverted               = false;    //TODO: tune
-        public static final double posScale                     = 1.0;      //TODO: tune
-        public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);   //TODO: tune
+        public static final double climberPosScale                     = 1.0;      //TODO: tune
+        public static final PidCoefficients climberPosPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);   //TODO: tune
     }   //class Climber
 
     public static class Deployer

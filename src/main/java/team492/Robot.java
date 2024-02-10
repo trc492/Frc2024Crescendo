@@ -54,6 +54,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import team492.RobotParams.RobotType;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
+import team492.subsystems.Climber;
 import team492.subsystems.Intake;
 import team492.subsystems.LEDIndicator;
 import team492.subsystems.Shooter;
@@ -110,6 +111,7 @@ public class Robot extends FrcRobotBase
     //
     public TrcPidConveyor intake;
     public Shooter shooter;
+    public Climber climber;
     //
     // Hybrid mode objects.
     //
@@ -231,6 +233,11 @@ public class Robot extends FrcRobotBase
             if (RobotParams.Preferences.useShooter)
             {
                 shooter = new Shooter();
+            }
+
+            if (RobotParams.Preferences.useClimber)
+            {
+                climber = new Climber();
             }
         }
         //
