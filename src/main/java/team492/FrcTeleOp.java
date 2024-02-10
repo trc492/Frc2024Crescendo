@@ -258,9 +258,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.shooter.setTilterPower(tilterPower);
                         }
                         robot.dashboard.displayPrintf(
-                            lineNum++, "Tilter: power=%.2f, angle=%.2f, limitSw=%s/%s",
+                            lineNum++, "Tilter: power=%.2f, angle=%.2f, upperLimit=%s",
                             robot.shooter.getTilterPower(), robot.shooter.getTilterAngle(),
-                            robot.shooter.tilterLowerLimitSwitchActive(),
                             robot.shooter.tilterUpperLimitSwitchActive());
                     }
                 }

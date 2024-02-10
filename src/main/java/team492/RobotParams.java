@@ -600,6 +600,11 @@ public class RobotParams
         public static final double tilterCurrentLimit           = 20.0;             //TODO: tune
         public static final double tilterCurrentThreshold       = 40.0;             //TODO: tune
         public static final double tilterCurrentThresholdTime   = 0.5;              //TODO: tune
+
+        public static final double tilterMaxHoldingPower        = 0.0;              //TODO: tune
+        public static final double tilterAngleTolerance         = 1.0;              //TODO: tune
+
+        public static final double shooterVelocityTolerance     = 1.0;              //TODO: tune
     }   //class Shooter
 
     public static class Climber

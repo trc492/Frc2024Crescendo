@@ -26,7 +26,10 @@ import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcUtil;
+import TrcCommonLib.trclib.TrcTaskMgr.Task;
+import TrcCommonLib.trclib.TrcTaskMgr.TaskType;
 import TrcFrcLib.frclib.FrcCANFalcon;
+import TrcFrcLib.frclib.FrcCANSparkMax;
 import team492.RobotParams;
 
 public class Shooter
@@ -34,10 +37,16 @@ public class Shooter
     private static final String moduleName = Shooter.class.getSimpleName();
 
     public final FrcCANFalcon shooterMotor;
-    public final FrcCANFalcon tilterMotor;  //CodeReview: not a Falcon, it's a SparkMax brushed motor.
+    public final FrcCANSparkMax tilterMotor;  //CodeReview: not a Falcon, it's a SparkMax brushed motor. DONE
     private final TrcTaskMgr.TaskObject shooterTaskObj;
     private boolean manualOverride = false;
+
     private TrcEvent completionEvent = null;
+
+    private String tilterOwner = null;
+    private double tilterTargetAngle = 0.0;
+    private double tilterTimeout = 0.0;
+    private TrcEvent tilterEvent = null;
 
     /**
      * Constructor: Create an instance of the object.
@@ -53,7 +62,7 @@ public class Shooter
         shooterMotor.setPositionSensorScaleAndOffset(RobotParams.Shooter.shooterPosScale, 0.0);
         shooterMotor.setVelocityPidCoefficients(RobotParams.Shooter.shooterVelPidCoeff);
 
-        tilterMotor = new FrcCANFalcon(moduleName + ".tilterMotor", RobotParams.Shooter.tilterCanId);
+        tilterMotor = new FrcCANSparkMax(moduleName + ".tilterMotor", RobotParams.Shooter.tilterCanId, false);
         tilterMotor.resetFactoryDefault();
         tilterMotor.setMotorInverted(RobotParams.Shooter.tilterMotorInverted);
         tilterMotor.setBrakeModeEnabled(true);
@@ -63,17 +72,14 @@ public class Shooter
         tilterMotor.setCurrentLimit(
             RobotParams.Shooter.tilterCurrentLimit, RobotParams.Shooter.tilterCurrentThreshold,
             RobotParams.Shooter.tilterCurrentThresholdTime);
-        tilterMotor.enableLowerLimitSwitch(true);
+
         tilterMotor.enableUpperLimitSwitch(true);
+        tilterMotor.setSoftPositionLimits(RobotParams.Shooter.tilterMinPos, null, false);
+        
         tilterMotor.setPositionSensorScaleAndOffset(
             RobotParams.Shooter.tilterPosScale, RobotParams.Shooter.tilterPosOffset);
-        tilterMotor.setSoftPositionLimits(RobotParams.Shooter.tilterMinPos, RobotParams.Shooter.tilterMaxPos, false);
-        tilterMotor.setPositionPidCoefficients(RobotParams.Shooter.tilterPosPidCoeff);
 
-        // Sync absolute encoder to motor encoder DONE, not sure if this is right though
-        // CodeReview: Need to talk to mechanical to find out what absolute encoder they have.
-        // Also, mechanical said the tilter motor is not a Falcon, it's a SparkMax brushed motor.
-        tilterMotor.setPosition(tilterMotor.getEncoderRawPosition());
+        tilterMotor.setPositionPidCoefficients(RobotParams.Shooter.tilterPosPidCoeff);
 
         shooterTaskObj = TrcTaskMgr.createTask("ShooterTask", this::shooterTask);
     }   //Shooter
@@ -91,14 +97,18 @@ public class Shooter
      * @param tiltAngle specifies the absolute tilter angle in degrees.
      * @param event specifies an event to signal when both reached target, can be null if not provided.
      */
-    public void prepForShooting(double velocity, double tiltAngle, TrcEvent event)
+    public void prepForShooting(String owner, double velocity, double tiltAngle, TrcEvent event, double timeout)
     {
-        // TODO: Implement this.
+        // TODO: Implement this. DONE
         // Set up velocity, tiltAngle and event.
         // Set shooter velocity.
         // Set tilter angle.
         // Do we need timeout?
         // Enable task to monitor velocity and tiltAngle.
+        shooterMotor.setVelocity(owner, 0.0, velocity, 0.0, null);
+        tilterMotor.setPosition(owner, 0.0, tiltAngle, true, RobotParams.Shooter.tilterPowerLimit, null, timeout);
+        completionEvent = event;
+        setTaskEnabled(true);
     }   //prepForShooting
 
     /**
@@ -152,7 +162,17 @@ public class Shooter
      */
     private void shooterTask(TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
     {
-        // TODO: Implement this.
+        // TODO: Implement this. DONE
+        if (!tilterMotor.getPositionOnTarget(RobotParams.Shooter.tilterAngleTolerance)){
+            tilterMotor.setPosition(tilterOwner, 0.0, tilterTargetAngle, true, RobotParams.Shooter.tilterPowerLimit, tilterEvent,
+            tilterTimeout);
+        }
+        else if (shooterMotor.getVelocityOnTarget(RobotParams.Shooter.shooterVelocityTolerance)){
+            if (completionEvent != null) {
+                completionEvent.signal();
+            }
+            setTaskEnabled(false);
+        }
         // If tilter has not reached target, setPosition with GravityComp.
         // else if shooter has reached target, signal event and disable task.
     }   //shooterTask
@@ -165,8 +185,8 @@ public class Shooter
      */
     private double getTilterGravityComp()
     {
-        // TODO: Implement this.
-        return 0; // theoretically, it's gravity neutral
+        // TODO: Implement this. DONE
+        return RobotParams.Shooter.tilterMaxHoldingPower * Math.cos(Math.toRadians(getTilterAngle()));
     }   //getTilterGravityComp
 
     //
@@ -230,6 +250,11 @@ public class Shooter
      */
     public void setTilterAngle(String owner, double angle, TrcEvent completionEvent, double timeout)
     {
+        tilterOwner = owner;
+        tilterTargetAngle = angle;
+        tilterEvent = completionEvent;
+        tilterTimeout = timeout;
+
         tilterMotor.setPosition(
             owner, 0.0, angle, true, RobotParams.Shooter.tilterPowerLimit, completionEvent, timeout);
     }   //setTilterAngle
@@ -276,7 +301,8 @@ public class Shooter
      */
     public void setTilterPower(double power)
     {
-        // TODO: Implement this.
+        // TODO: Implement this. DONE
+        tilterMotor.setPower(null, 0.0, power, 0.0, null);
         // if manualOverride call motor.setPower else call motor.setPidPower
     }   //setTilterPower
 
@@ -287,20 +313,9 @@ public class Shooter
      */
     public double getTilterPower()
     {
-        // TODO: Implement this.
-        return 0.0;
+        // TODO: Implement this. DONE
+        return tilterMotor.getPower();
     }   //getTilterPower
-
-    /**
-     * This method checks if the tilter's lower limit switch is active.
-     *
-     * @return true if active, false otherwise.
-     */
-    public boolean tilterLowerLimitSwitchActive()
-    {
-        // TODO: Implement this.
-        return false;
-    }   //tilterLowerLimitSwitchActive
 
     /**
      * This method checks if the tilter's upper limit switch is active.
@@ -309,8 +324,8 @@ public class Shooter
      */
     public boolean tilterUpperLimitSwitchActive()
     {
-        // TODO: Implement this.
-        return false;
+        // TODO: Implement this. DONE
+        return tilterMotor.isUpperLimitSwitchActive();
     }   //tilterUpperLimitSwitchActive
 
 }   //class Shooter
