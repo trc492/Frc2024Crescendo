@@ -354,9 +354,17 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_X:
+                if (pressed && robot.climber != null)
+                    {
+                        robot.climber.extend();
+                    }
                 break;
 
             case FrcXboxController.BUTTON_Y:
+                if (pressed && robot.climber != null)
+                    {
+                        robot.climber.retract();
+                    }
                 break;
 
             case FrcXboxController.LEFT_BUMPER:

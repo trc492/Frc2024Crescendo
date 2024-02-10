@@ -26,7 +26,6 @@ package team492.subsystems;
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcUtil;
 import TrcFrcLib.frclib.FrcCANFalcon;
-import team492.Robot;
 import team492.RobotParams;
 // single motor turning the spool (lets telescope out) (slack = taller) 
 // (max/min height)
@@ -73,14 +72,24 @@ public class Climber
         return climberMotor.getPosition();
     }
     
-    public void setPosition(double position)
+    public void extend()
     {
-        climberMotor.setPosition(position);
+        climberMotor.setPosition(RobotParams.Climber.maxHeight);
     }
 
-    public void setPosition(double position, TrcEvent completionEvent, double timeout)
+    public void extend(TrcEvent completionEvent, double timeout)
     {
-        climberMotor.setPosition(0.0, position, true, 1.0, completionEvent, timeout);
+        climberMotor.setPosition(0.0, RobotParams.Climber.maxHeight, true, 1.0, completionEvent, timeout);
+    }
+
+    public void retract()
+    {
+        climberMotor.setPosition(RobotParams.Climber.minHeight);
+    }
+
+    public void retract(TrcEvent completionEvent, double timeout)
+    {
+        climberMotor.setPosition(0.0, RobotParams.Climber.minHeight, true, 1.0, completionEvent, timeout);
     }
 
 }   //class Climber
