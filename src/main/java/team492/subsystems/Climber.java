@@ -57,14 +57,8 @@ public class Climber
     @Override
     public String toString()
     {
-        return moduleName +
-               ": lowerLimit=" + climberMotor.isLowerLimitSwitchActive();
+        return moduleName;
     }   //toString
-
-    public FrcCANFalcon getClimberMotor()
-    {
-        return climberMotor;
-    }   //get climberMotor
 
     public double getPosition()
     {

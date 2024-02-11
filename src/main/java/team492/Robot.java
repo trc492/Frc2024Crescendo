@@ -187,8 +187,8 @@ public class Robot extends FrcRobotBase
         {
             if (RobotParams.Preferences.usePhotonVision)
             {
-                photonVisionFront = new PhotonVision("OV9782", ledIndicator);
-                photonVisionBack = new PhotonVision("OV9281", ledIndicator);
+                photonVisionFront = new PhotonVision("OV9281", ledIndicator);
+                photonVisionBack = new PhotonVision("OV9782", ledIndicator);
             }
 
             if (RobotParams.Preferences.usePhotonVisionRaw)
@@ -218,8 +218,7 @@ public class Robot extends FrcRobotBase
         //
         // Create and initialize RobotDrive subsystem.
         //
-        RobotParams.SwerveDriveBase driveBaseParams = getSwerveDriveBaseParams();
-        robotDrive = new SwerveDrive(this, driveBaseParams);
+        robotDrive = new SwerveDrive(this, getSwerveDriveBaseParams());
         //
         // Create and initialize other subsystems.
         //

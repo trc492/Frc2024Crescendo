@@ -31,6 +31,7 @@ import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import team492.FrcAuto;
 import team492.Robot;
 import team492.RobotParams;
@@ -38,9 +39,16 @@ import team492.RobotParams;
 /**
  * This class implements auto-assist task.
  */
-public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State>
+public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
 {
-    private static final String moduleName = TaskAutoScoreSpeaker.class.getSimpleName();
+    private static final String moduleName = TaskAutoScoreNote.class.getSimpleName();
+
+    public enum ScoreTarget
+    {
+        Speaker,
+        Arm,
+        Trap
+    }   //enum ScoreTarget
 
     public enum State
     {
@@ -53,12 +61,16 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
 
     private static class TaskParams
     {
+        Alliance alliance;
+        ScoreTarget targetType;
         boolean inAuto;
         boolean useVision;
         boolean relocalize;
 
-        TaskParams(boolean inAuto, boolean useVision, boolean relocalize)
+        TaskParams(Alliance alliance, ScoreTarget targetType, boolean inAuto, boolean useVision, boolean relocalize)
         {
+            this.alliance = alliance;
+            this.targetType = targetType;
             this.inAuto = inAuto;
             this.useVision = useVision;
             this.relocalize = relocalize;
@@ -71,6 +83,7 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
     private final TrcEvent event;
 
     private String currOwner = null;
+    private int aprilTagId = 0;
     private TrcPose2D relAprilTagPose = null;
     private Double visionExpiredTime = null;
 
@@ -80,26 +93,37 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
      * @param ownerName specifies the owner name to take subsystem ownership, can be null if no ownership required.
      * @param robot specifies the robot object that contains all the necessary subsystems.
      */
-    public TaskAutoScoreSpeaker(String ownerName, Robot robot)
+    public TaskAutoScoreNote(String ownerName, Robot robot)
     {
         super(moduleName, ownerName, TrcTaskMgr.TaskType.POST_PERIODIC_TASK);
         this.ownerName = ownerName;
         this.robot = robot;
         this.event = new TrcEvent(moduleName + ".event");
-    }   //TaskAutoScoreSpeaker
+    }   //TaskAutoScoreNote
 
     /**
      * This method starts the auto-assist operation.
      *
+     * @param alliance specifies the alliance color, can be null if score in place.
+     * @param targetType specifies the score target type.
      * @param inAuto specifies true if this is called by autonomous, false otherwise.
      * @param useVision specifies true to use vision to detect AprilTag, false otherwise.
      * @param relocalize specifies true to use vision to relocalize robot, false otherwise.
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
-    public void autoAssistScore(boolean inAuto, boolean useVision, boolean relocalize, TrcEvent completionEvent)
+    public void autoAssistScore(
+        Alliance alliance, ScoreTarget targetType, boolean inAuto, boolean useVision, boolean relocalize,
+        TrcEvent completionEvent)
     {
-        tracer.traceInfo(moduleName, "inAuto=" + inAuto + ", useVision=" + useVision + ", event=" + completionEvent);
-        startAutoTask(State.START, new TaskParams(inAuto, useVision, relocalize), completionEvent);
+        tracer.traceInfo(
+            moduleName,
+            "alliance=" + alliance +
+            ", targetType=" + targetType +
+            ", inAuto=" + inAuto +
+            ", useVision=" + useVision +
+            ", event=" + completionEvent);
+        startAutoTask(
+            State.START, new TaskParams(alliance, targetType, inAuto, useVision, relocalize), completionEvent);
     }   //autoAssistScore
 
     /**
@@ -125,6 +149,7 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
     @Override
     protected boolean acquireSubsystemsOwnership()
     {
+        // TODO: acquire ownership of all subsystems involved.
         boolean success = ownerName == null ||
                           (robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName));
 
@@ -153,6 +178,7 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
     @Override
     protected void releaseSubsystemsOwnership()
     {
+        // TODO: release ownership of all subsystems involved.
         if (ownerName != null)
         {
             TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
@@ -194,15 +220,16 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
         switch (state)
         {
             case START:
+                // TODO: Determine what AprilTag ID to look for according to alliance and ScoreTarget type.
                 relAprilTagPose = null;
-                if (taskParams.useVision && robot.photonVisionBack != null)
+                if (taskParams.useVision && robot.photonVisionFront != null)
                 {
                     tracer.traceInfo(moduleName, "Using AprilTag Vision.");
                     sm.setState(State.FIND_APRILTAG);
                 }
                 else
                 {
-                    // Not using AprilTag vision, skip vision.
+                    // Not using AprilTag vision, skip vision and just score at current location.
                     tracer.traceInfo(moduleName, "Not using AprilTag Vision.");
                     sm.setState(State.DRIVE_TO_APRILTAG);
                 }
@@ -210,7 +237,7 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
 
             case FIND_APRILTAG:
                 // Use vision to determine the appropriate AprilTag location.
-                FrcPhotonVision.DetectedObject object = robot.photonVisionBack.getBestDetectedObject();
+                FrcPhotonVision.DetectedObject object = robot.photonVisionFront.getBestDetectedObject();
                 if (object != null)
                 {
                     int aprilTagId = object.target.getFiducialId();
@@ -219,7 +246,7 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
                         if (taskParams.relocalize)
                         {
                             TrcPose2D robotFieldPose =
-                                robot.photonVisionBack.getRobotFieldPosition(RobotParams.Vision.CAMERA_TRANSFORM3D);
+                                robot.photonVisionFront.getRobotFieldPosition(RobotParams.Vision.CAMERA_TRANSFORM3D);
                             // If we see the AprilTag, we can use its location to re-localize the robot.
                             robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
                             tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
@@ -259,7 +286,7 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
                             FrcAuto.autoChoices.getAlliance() == DriverStation.Alliance.Red ? 4 : 7;
                         TrcPose2D absRobotPose = robot.robotDrive.driveBase.getFieldPosition();
                         TrcPose2D absAprilTagPose =
-                            robot.photonVisionBack.getAprilTagPose(targetAprilTagId).toPose2D();
+                            robot.photonVisionFront.getAprilTagPose(targetAprilTagId).toPose2D();
                         relAprilTagPose = absAprilTagPose.subtractRelativePose(absRobotPose);
                         tracer.traceInfo(
                             moduleName,
@@ -294,6 +321,7 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
                 break;
 
             case SCORE_NOTE:
+                // Determine shooter speed and tilter angle according to the score target type.
                 break;
 
             default:
@@ -304,4 +332,4 @@ public class TaskAutoScoreSpeaker extends TrcAutoTask<TaskAutoScoreSpeaker.State
         }
     }   //runTaskState
  
-}   //class TaskAutoScoreSpeaker
+}   //class TaskAutoScoreNote

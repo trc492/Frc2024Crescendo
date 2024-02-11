@@ -101,7 +101,6 @@ public class RobotParams
         public static final boolean useIntake                   = false;
         public static final boolean useShooter                  = false;
         public static final boolean useClimber                  = false;
-        public static final boolean useDeployer                 = false;
     }   //class Preferences
 
     public static final String ROBOT_NAME                       = "Robot492";
@@ -617,10 +616,5 @@ public class RobotParams
         public static final double maxHeight                    = 1.0; //TODO: tune
         public static final double minHeight                    = 0.0; //TODO: tune
     }   //class Climber
-
-    public static class Deployer
-    {
-
-    }   //class Deployer
 
 }   //class RobotParams
