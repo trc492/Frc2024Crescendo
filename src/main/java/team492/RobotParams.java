@@ -486,7 +486,7 @@ public class RobotParams
         public final double FALCON_CPR                          = 2048.0;
         public final double FALCON_MAX_RPM                      = 6380.0;
 
-        public final double DRIVE_GEAR_RATIO                    = 9.63;
+        public double DRIVE_GEAR_RATIO                          = 9.63;
         public final double DRIVE_WHEEL_CIRCUMFERENCE           = 4.0 * Math.PI;
         public final double DRIVE_INCHES_PER_COUNT              = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
 

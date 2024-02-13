@@ -273,7 +273,8 @@ public class Robot extends FrcRobotBase
         {
             driveBaseParams.steerEncoderType = RobotParams.SteerEncoderType.CANCoder;
             driveBaseParams.steerEncoderCanIds = new int[] {7, 8, 9, 10};
-            driveBaseParams.STEER_GEAR_RATIO = (24.0/12.0) * (72.0/14.0);;
+            driveBaseParams.STEER_GEAR_RATIO = (24.0/12.0) * (72.0/14.0);
+            driveBaseParams.DRIVE_GEAR_RATIO = 6.55;
         }
 
         return driveBaseParams;
