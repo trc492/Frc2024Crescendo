@@ -73,6 +73,7 @@ public class Shooter
         tilterMotor.setPositionSensorScaleAndOffset(
             RobotParams.Shooter.tilterPosScale, RobotParams.Shooter.tilterPosOffset);
         tilterMotor.setPositionPidCoefficients(RobotParams.Shooter.tilterPosPidCoeff);
+        tilterMotor.setPositionPidPowerComp(this::getTilterGravityComp);
 
         shooterTaskObj = TrcTaskMgr.createTask("ShooterTask", this::shooterTask);
     }   //Shooter
@@ -176,9 +177,10 @@ public class Shooter
      * This method is called by PID control to determine the power required to compensate for gravity in essence
      * making the tilter gravity neutral (i.e. hold its position, aka feedforward).
      *
+     * @param currPower specifies the current tilter power (not used).
      * @return gravity compensation power.
      */
-    private double getTilterGravityComp()
+    private double getTilterGravityComp(double currPower)
     {
         return RobotParams.Shooter.tilterMaxHoldingPower * Math.cos(Math.toRadians(getTilterAngle()));
     }   //getTilterGravityComp
