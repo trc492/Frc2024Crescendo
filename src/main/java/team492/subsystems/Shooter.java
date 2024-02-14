@@ -157,7 +157,6 @@ public class Shooter
     {
         if (!tilterMotor.getPositionOnTarget(RobotParams.Shooter.tilterAngleTolerance))
         {
-            // TODO: Figure out how to do GravityComp.
             tilterMotor.setPosition(
                 owner, 0.0, tilterTargetAngle, true, RobotParams.Shooter.tilterPowerLimit, null, 0.0);
         }
@@ -292,9 +291,14 @@ public class Shooter
      */
     public void setTilterPower(double power)
     {
-        // CodeReview: Please pay attention to the psuedocode below.
+        // CodeReview: Please pay attention to the psuedocode below. DONE
         // if manualOverride call motor.setPower else call motor.setPidPower
-        tilterMotor.setPower(null, 0.0, power, 0.0, null);
+        if (manualOverride) {
+            tilterMotor.setPower(null, 0.0, power, 0.0, null);;
+        }
+        else {
+            tilterMotor.setPidPower(null, power, RobotParams.Shooter.tilterMinPos, RobotParams.Shooter.tilterMaxPos, true);
+        }
     }   //setTilterPower
 
     /**
