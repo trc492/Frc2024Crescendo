@@ -25,8 +25,10 @@ package team492.autotasks;
 import TrcCommonLib.trclib.TrcAutoTask;
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcOwnershipMgr;
+import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import team492.Robot;
 
 /**
@@ -39,20 +41,40 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     public enum State
     {
         START,
+        // start shooter/tilter WHILE setting up
+        FIND_APRILTAG,
+        DRIVE_TO_APRILTAG,
         DONE
     }   //enum State
 
     private static class TaskParams
     {
-        TaskParams()
+        Alliance alliance;
+        boolean inAuto;
+        boolean useVision;
+        boolean relocalize;
+        double timeout;
+        int alignment;
+
+        TaskParams(Alliance alliance, boolean inAuto, boolean useVision, boolean relocalize, double timeout, int alignment)
         {
-        }   //TaskParams
+            this.alliance = alliance;
+            this.inAuto = inAuto;
+            this.useVision = useVision;
+            this.relocalize = relocalize;
+            this.timeout = timeout;
+            this.alignment = alignment;
+        }
     }   //class TaskParams
 
     private final String ownerName;
     private final Robot robot;
+    private final TrcEvent event;
 
     private String currOwner = null;
+    private int aprilTagId = 0;
+    private TrcPose2D relAprilTagPose = null;
+    private Double visionExpiredTime = null;
 
     /**
      * Constructor: Create an instance of the object.
@@ -65,6 +87,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
         super(moduleName, ownerName, TrcTaskMgr.TaskType.POST_PERIODIC_TASK);
         this.ownerName = ownerName;
         this.robot = robot;
+        this.event = new TrcEvent(moduleName + ".event");
     }   //TaskAutoPickupFromSource
 
     /**
@@ -72,10 +95,18 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
      *
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
-    public void autoAssistPickup(TrcEvent completionEvent)
+    public void autoAssistPickup(
+        Alliance alliance, boolean inAuto, boolean useVision, boolean relocalize, double timeout, int alignment,
+    TrcEvent completionEvent)
     {
-        tracer.traceInfo(moduleName, "event=" + completionEvent);
-        startAutoTask(State.START, new TaskParams(), completionEvent);
+        tracer.traceInfo(
+            moduleName,
+            "alliance=" + alliance +
+            ", inAuto=" + inAuto +
+            ", useVision=" + useVision +
+            ", alignment=" + alignment +
+            ", event=" + completionEvent);
+        startAutoTask(State.START, new TaskParams(alliance, inAuto, useVision, relocalize, timeout, alignment), completionEvent);
     }   //autoAssistPickup
 
     /**
@@ -101,6 +132,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     @Override
     protected boolean acquireSubsystemsOwnership()
     {
+        // TODO: acquire ownership of all subsystems involved.
         boolean success = ownerName == null ||
                           (robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName));
 
@@ -129,6 +161,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     @Override
     protected void releaseSubsystemsOwnership()
     {
+        // TODO: release ownership of all subsystems involved.
         if (ownerName != null)
         {
             TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
@@ -165,15 +198,38 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     protected void runTaskState(
         Object params, State state, TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
     {
-        // TaskParams taskParams = (TaskParams) params;
+        TaskParams taskParams = (TaskParams) params;
 
         switch (state)
         {
             case START:
+                // TODO: Determine what AprilTag ID to look for according to alliance and position to go to based on alignment (L/M/R)
+                if (taskParams.useVision && robot.photonVisionFront != null)
+                {
+                    tracer.traceInfo(moduleName, "Using AprilTag Vision.");
+                    sm.setState(State.FIND_APRILTAG);
+                }
+                else 
+                {
+                    // cancel auto task if no vision
+                    // maybe still backwards spin shooter motor
+                }
                 break;
+
+            case FIND_APRILTAG:
+                // start shooter/tilter WHILE setting up
+                // start vision (front cam)
+                // look for apriltag
+                break;
+
+            case DRIVE_TO_APRILTAG:
+                // align + drive to source using apriltags
+                // flash LED when ready (for human player)
+                // after intaking, flash LED (for driver)
 
             default:
             case DONE:
+                // stop shooter
                 // Stop task.
                 stopAutoTask(true);
                 break;
