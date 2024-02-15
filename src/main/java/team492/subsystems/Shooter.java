@@ -72,6 +72,9 @@ public class Shooter
         tilterMotor.setSoftPositionLimits(RobotParams.Shooter.tilterMinPos, null, false);
         tilterMotor.setPositionSensorScaleAndOffset(
             RobotParams.Shooter.tilterPosScale, RobotParams.Shooter.tilterPosOffset);
+        // We are using software position PID control for Tilter. So we just enable software PID before setting
+        // PID coefficients.
+        tilterMotor.setSoftwarePidEnabled(true);
         tilterMotor.setPositionPidCoefficients(RobotParams.Shooter.tilterPosPidCoeff);
         tilterMotor.setPositionPidPowerComp(this::getTilterGravityComp);
 
@@ -291,12 +294,12 @@ public class Shooter
      */
     public void setTilterPower(double power)
     {
-        // CodeReview: Please pay attention to the psuedocode below. DONE
-        // if manualOverride call motor.setPower else call motor.setPidPower
-        if (manualOverride) {
+        if (manualOverride)
+        {
             tilterMotor.setPower(null, 0.0, power, 0.0, null);;
         }
-        else {
+        else
+        {
             tilterMotor.setPidPower(null, power, RobotParams.Shooter.tilterMinPos, RobotParams.Shooter.tilterMaxPos, true);
         }
     }   //setTilterPower
