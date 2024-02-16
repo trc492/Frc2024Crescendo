@@ -214,8 +214,8 @@ public class FrcTest extends FrcTeleOp
     private double maxTurnRate = 0.0;
     private double prevTime = 0.0;
     private double prevVelocity = 0.0;
-    private PipelineType frontPipeline = PipelineType.NOTE;
-    private PipelineType backPipeline = PipelineType.APRILTAG;
+    private PipelineType frontPipeline = PipelineType.APRILTAG;
+    private PipelineType backPipeline = PipelineType.NOTE;
 
     public FrcTest(Robot robot)
     {
