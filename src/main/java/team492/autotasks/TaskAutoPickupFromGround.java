@@ -26,11 +26,16 @@ import TrcCommonLib.trclib.TrcAutoTask;
 import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcOwnershipMgr;
+import TrcCommonLib.trclib.TrcPose2D;
+import TrcCommonLib.trclib.TrcPose3D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
+import TrcCommonLib.trclib.TrcTimer;
 import TrcCommonLib.trclib.TrcUtil;
+import TrcCommonLib.trclib.TrcPixyCam1.ObjectBlock;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import team492.Robot;
+import team492.RobotParams;
 import team492.vision.PhotonVision.PipelineType;
 
 /**
@@ -44,7 +49,6 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     {
         START,
         DETECT_NOTE, 
-        PREP_TO_DRIVE,
         DRIVE_TO_NOTE,
         DONE
     }   //enum State
@@ -60,12 +64,16 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
 
     private final String ownerName;
     private final Robot robot;
-    private final TrcEvent event;
+    private final TrcEvent driveEvent;
+    private final TrcEvent intakeEvent;
+    
 
 
     private final TrcDbgTrace msgTracer;
     private String currOwner = null;
     private String driveOwner = null;
+    private Double visionExpiredTime = null;
+    private TrcPose2D notePose = null;
 
     /**
      * Constructor: Create an instance of the object.
@@ -79,7 +87,16 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         this.ownerName = ownerName;
         this.robot = robot;
         this.msgTracer = msgTracer;
-        this.event = new TrcEvent(moduleName + ".event");
+        this.driveEvent = new TrcEvent(moduleName + ".driveEvent");
+        this.intakeEvent = new TrcEvent(moduleName +".intakeEvent");
+        // Intake event
+        // Drive event
+        
+        // Vision Event
+
+
+
+
     }   //TaskAutoPickupFromGround
 
     /**
@@ -207,6 +224,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 // We are checking if the back camera is working, and if so, moving to the DETECT_NOTE state
 
                 if(robot.photonVisionBack != null){
+                    robot.photonVisionBack.setPipeline(PipelineType.NOTE);
                     tracer.traceInfo(moduleName, "Using Vision to find Note.");
                     sm.setState(State.DETECT_NOTE);
                 } else{
@@ -222,33 +240,65 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 FrcPhotonVision.DetectedObject object = robot.photonVisionBack.getBestDetectedObject();
                 
                 if(object != null){
-                // TODO: Write Logic
-                // TODO: Logic needs review
-                    
 
-                    // double targetDist = TrcUtil.magnitude(object., object.targetPose.y);
-                    // double targetAngle = object.targetPose.
+                    // Note found with Vision, will move to PREP_TO_DRIVE STATE  
+                    notePose = object.getObjectPose().toPose2D();
 
+                    sm.setState(State.DRIVE_TO_NOTE);
 
-                    
+                } else if (visionExpiredTime == null)
+                {
+                        // Can't find AprilTag, set a timeout and try again.
+                        visionExpiredTime = TrcTimer.getCurrentTime() + 1.0;
+                } else if (TrcTimer.getCurrentTime() >= visionExpiredTime)
+                {
+                        // Timed out, moving on.
+                        tracer.traceInfo(moduleName, "No Note Found.");
+                        sm.setState(State.DONE);
                 }
-                // TODO: Write State
-                break;
-
-            case PREP_TO_DRIVE:
-                // TODO: Write State
-                // Will tuck in shooter, and prep subsystems to pickup object
                 break;
 
             case DRIVE_TO_NOTE:
+
+                
                 // TODO: Write State
                 // Will implement driving code
+
+                if(notePose != null){
+
+                    robot.intake.setPower(ownerName, RobotParams.Intake.intakePower);
+                    robot.intake.registerEntryEvent(intakeEvent);
+                    sm.addEvent(intakeEvent);
+                    robot.robotDrive.purePursuitDrive.start(ownerName, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(),true, notePose);
+                    sm.addEvent(driveEvent);
+                    sm.waitForEvents(State.DONE, false);
+
+                } else{
+
+                    sm.setState(State.DONE);
+
+                }
+
+
                 break;
 
 
             default:
             case DONE:
                 // Stop task.
+
+                robot.robotDrive.purePursuitDrive.cancel();
+
+                robot.intake.setPower(ownerName, 0.0);
+                sm.addEvent(null);
+
+                if(robot.ledIndicator !=null){
+                    
+                    robot.ledIndicator.setIntakeDetectedObject(robot.intake.getNumObjects() > 0);
+
+                }
+
+            
                 stopAutoTask(true);
                 break;
         }

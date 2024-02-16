@@ -574,6 +574,8 @@ public class RobotParams
         public static final boolean exitSensorInverted          = false;    //TODO: tune
         public static final double posScale                     = 1.0;      //TODO: tune
         public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);   //TODO: tune
+
+        public static final double intakePower                  =  0.5; // TODO: Tune       
     }   //class Intake
 
     public static class Shooter

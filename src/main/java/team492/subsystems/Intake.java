@@ -78,4 +78,12 @@ public class Intake
         return conveyor;
     }   //getPidConveyor
 
+
+    // public void setIntakePower(String owner, double power){
+
+    //     conveyor.motor.setPower(owner, 0, power, 0, null);
+
+    // }
+
+
 }   //class Intake
