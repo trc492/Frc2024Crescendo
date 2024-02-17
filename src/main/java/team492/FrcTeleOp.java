@@ -35,6 +35,7 @@ import TrcFrcLib.frclib.FrcXboxController;
  */
 public class FrcTeleOp implements TrcRobot.RobotMode
 {
+    private static final String moduleName = FrcTeleOp.class.getSimpleName();
     private static final boolean traceButtonEvents = true;
     //
     // Global objects.
@@ -44,13 +45,13 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     private double driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
     private double turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
     private double[] prevDriveInputs = null;
-    private static final double shooterMinVel = 0.0;
-    private static final double shooterMaxVel = 6000.0;
-    private static final double shooterMinInc = 10.0;
-    private static final double shooterMaxInc = 1000.0;
+    private static final double shooterMinVel = 0.0;    // in rps.
+    private static final double shooterMaxVel = 100.0;  // in rps.
+    private static final double shooterMinInc = 1.0;    // in rps.
+    private static final double shooterMaxInc = 10.0;   // in rps.
     private Double prevShooterVel = null;
     private double presetShooterVel = 0.0;
-    private double presetShooterInc = 100.0;
+    private double presetShooterInc = 10.0;
     private Double prevTilterPower = null;
 
     /**
@@ -182,7 +183,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 //
                 if (RobotParams.Preferences.useSubsystems)
                 {
-                    // CodeReview: all subsystem control should be on operator controller, not driver!!!
                     if (robot.intake != null)
                     {
 
@@ -191,7 +191,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (robot.shooter != null)
                     {
                         // Controlling shooter velocity.
-                        switch (robot.driverController.getPOV())
+                        switch (robot.operatorController.getPOV())
                         {
                             case 0:
                                 if (presetShooterVel + presetShooterInc <= shooterMaxVel)
@@ -223,8 +223,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         }
 
                         double shooterVel =
-                            robot.driverController.getRightTriggerAxis() -
-                            robot.driverController.getLeftTriggerAxis();
+                            robot.operatorController.getRightTriggerAxis() -
+                            robot.operatorController.getLeftTriggerAxis();
                         if (presetShooterVel != 0.0)
                         {
                             if (shooterVel == 0.0)
@@ -252,7 +252,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.shooter.getShooterVelocity(), presetShooterVel, presetShooterInc);
 
                         // Controlling tilter angle.
-                        double tilterPower = robot.driverController.getLeftYWithDeadband(true);
+                        double tilterPower = robot.operatorController.getLeftYWithDeadband(true);
                         if (prevTilterPower == null || prevTilterPower != tilterPower)
                         {
                             robot.shooter.setTilterPower(tilterPower);
@@ -285,18 +285,25 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
         // if (!RobotParams.Preferences.hybridMode)
         // {
-            if (RobotParams.Preferences.useDriverXboxController)
-            {
-                robot.driverController.setButtonHandler(enabled? this::driverControllerButtonEvent: null);
-            }
-            else
-            {
-                robot.leftDriveStick.setButtonHandler(enabled? this::leftDriveStickButtonEvent: null);
-                robot.rightDriveStick.setButtonHandler(enabled? this::rightDriveStickButtonEvent: null);
-            }
-        // }
+        if (RobotParams.Preferences.useDriverXboxController)
+        {
+            robot.driverController.setButtonHandler(enabled? this::driverControllerButtonEvent: null);
+        }
+        else
+        {
+            robot.leftDriveStick.setButtonHandler(enabled? this::leftDriveStickButtonEvent: null);
+            robot.rightDriveStick.setButtonHandler(enabled? this::rightDriveStickButtonEvent: null);
+        }
 
-        robot.operatorStick.setButtonHandler(enabled? this::operatorStickButtonEvent: null);
+        if (RobotParams.Preferences.useOperatorXboxController)
+        {
+            robot.operatorController.setButtonHandler(enabled? this::operatorControllerButtonEvent: null);
+        }
+        else
+        {
+            robot.operatorStick.setButtonHandler(enabled? this::operatorStickButtonEvent: null);
+        }
+        // }
 
         if (RobotParams.Preferences.useButtonPanels)
         {
@@ -310,18 +317,16 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     //
 
     /**
-     * This method is called when a driver stick button event is detected.
+     * This method is called when a driver controller button event is detected.
      *
      * @param button specifies the button ID that generates the event.
      * @param pressed specifies true if the button is pressed, false otherwise.
      */
     private void driverControllerButtonEvent(int button, boolean pressed)
     {
-        final String funcName = "driverControllerButtonEvent";
-
         if (traceButtonEvents)
         {
-            robot.globalTracer.traceInfo(funcName, ">>>>> button=%d, pressed=%s", button, pressed);
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
         }
 
         robot.dashboard.displayPrintf(
@@ -345,25 +350,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_B:
-                // CodeReview: this should be on the operator controller!
-                if (robot.shooter != null)
-                {
-                    robot.shooter.setManualOverrideEnabled(pressed);
-                }
-                break;
-
-            case FrcXboxController.BUTTON_X:
-                if (pressed && robot.climber != null)
-                    {
-                        robot.climber.extend();
-                    }
-                break;
-
-            case FrcXboxController.BUTTON_Y:
-                if (pressed && robot.climber != null)
-                    {
-                        robot.climber.retract();
-                    }
                 break;
 
             case FrcXboxController.LEFT_BUMPER:
@@ -390,7 +376,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BACK:
-                // Code review: Need to add zero calibrate code here for tilter unless it has absolute encoder.
                 break;
 
             case FrcXboxController.START:
@@ -405,6 +390,69 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     }   //driverControllerButtonEvent
 
     /**
+     * This method is called when an operator controller button event is detected.
+     *
+     * @param button specifies the button ID that generates the event.
+     * @param pressed specifies true if the button is pressed, false otherwise.
+     */
+    private void operatorControllerButtonEvent(int button, boolean pressed)
+    {
+        if (traceButtonEvents)
+        {
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
+        }
+
+        robot.dashboard.displayPrintf(
+            8, "OperatorController: button=0x%04x %s", button, pressed ? "pressed" : "released");
+
+        switch (button)
+        {
+            case FrcXboxController.BUTTON_A:
+                break;
+
+            case FrcXboxController.BUTTON_B:
+                break;
+
+            case FrcXboxController.BUTTON_X:
+                if (pressed && robot.climber != null)
+                {
+                    robot.climber.extend();
+                }
+                break;
+
+            case FrcXboxController.BUTTON_Y:
+                if (pressed && robot.climber != null)
+                {
+                    robot.climber.retract();
+                }
+                break;
+
+            case FrcXboxController.LEFT_BUMPER:
+                if (robot.shooter != null)
+                {
+                    robot.shooter.setManualOverrideEnabled(pressed);
+                }
+                break;
+
+            case FrcXboxController.RIGHT_BUMPER:
+                break;
+
+            case FrcXboxController.BACK:
+                // Code review: Need to add zero calibrate code here for tilter unless it has absolute encoder.
+                break;
+
+            case FrcXboxController.START:
+                break;
+
+            case FrcXboxController.LEFT_STICK_BUTTON:
+                break;
+
+            case FrcXboxController.RIGHT_STICK_BUTTON:
+                break;
+        }
+    }   //operatorControllerButtonEvent
+
+    /**
      * This method is called when a right driver stick button event is detected.
      *
      * @param button specifies the button ID that generates the event
@@ -412,11 +460,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
      */
     private void leftDriveStickButtonEvent(int button, boolean pressed)
     {
-        final String funcName = "leftDriveStickButtonEvent";
-
         if (traceButtonEvents)
         {
-            robot.globalTracer.traceInfo(funcName, ">>>>> button=%d, pressed=%s", button, pressed);
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
         }
 
         robot.dashboard.displayPrintf(
@@ -470,11 +516,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
      */
     private void rightDriveStickButtonEvent(int button, boolean pressed)
     {
-        final String funcName = "rightDriveStickButtonEvent";
-
         if (traceButtonEvents)
         {
-            robot.globalTracer.traceInfo(funcName, ">>>>> button=%d, pressed=%s", button, pressed);
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
         }
 
         robot.dashboard.displayPrintf(
@@ -517,11 +561,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
      */
     private void operatorStickButtonEvent(int button, boolean pressed)
     {
-        final String funcName = "operatorStickButtonEvent";
-
         if (traceButtonEvents)
         {
-            robot.globalTracer.traceInfo(funcName, ">>>>> button=%d, pressed=%s", button, pressed);
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
         }
 
         robot.dashboard.displayPrintf(
@@ -575,11 +617,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
      */
     private void buttonPanelButtonEvent(int button, boolean pressed)
     {
-        final String funcName = "buttonPanelButtonEvent";
-
         if (traceButtonEvents)
         {
-            robot.globalTracer.traceInfo(funcName, ">>>>> button=%d, pressed=%s", button, pressed);
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
         }
 
         robot.dashboard.displayPrintf(
@@ -627,11 +667,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
      */
     private void switchPanelButtonEvent(int button, boolean pressed)
     {
-        final String funcName = "switchPanelButtonEvent";
-
         if (traceButtonEvents)
         {
-            robot.globalTracer.traceInfo(funcName, ">>>>> button=%d, pressed=%s", button, pressed);
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
         }
 
         robot.dashboard.displayPrintf(

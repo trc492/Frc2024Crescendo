@@ -35,7 +35,6 @@ import TrcCommonLib.trclib.TrcTimer;
 import TrcCommonLib.trclib.TrcVisionTargetInfo;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcCommonLib.trclib.TrcTaskMgr.TaskType;
-import TrcFrcLib.frclib.FrcAHRSGyro;
 import TrcFrcLib.frclib.FrcDashboard;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcMatchInfo;
@@ -81,6 +80,7 @@ public class Robot extends FrcRobotBase
     // Inputs.
     //
     public FrcXboxController driverController;
+    public FrcXboxController operatorController;
     public FrcJoystick leftDriveStick, rightDriveStick;
     public FrcJoystick operatorStick;
     public FrcJoystick buttonPanel;
@@ -154,8 +154,17 @@ public class Robot extends FrcRobotBase
             rightDriveStick.setYInverted(true);
         }
 
-        operatorStick = new FrcJoystick("operatorStick", RobotParams.JSPORT_OPERATORSTICK);
-        operatorStick.setYInverted(false);
+        if (RobotParams.Preferences.useOperatorXboxController)
+        {
+            operatorController = new FrcXboxController("OperatorController", RobotParams.XBOX_OPERATOR_CONTROLLER);
+            operatorController.setLeftYInverted(true);
+            operatorController.setRightYInverted(true);
+        }
+        else
+        {
+            operatorStick = new FrcJoystick("operatorStick", RobotParams.JSPORT_OPERATORSTICK);
+            operatorStick.setYInverted(false);
+        }
 
         if (RobotParams.Preferences.useButtonPanels)
         {
@@ -411,16 +420,16 @@ public class Robot extends FrcRobotBase
                 {
                     TrcPose2D robotPose = robotDrive.driveBase.getFieldPosition();
 
-                    dashboard.putNumber("DriveBase/xPos", robotPose.x);
-                    dashboard.putNumber("DriveBase/yPos", robotPose.y);
-                    dashboard.putData("DriveBase/heading", ((FrcAHRSGyro) robotDrive.gyro).getGyroSendable());
-                    dashboard.putNumber("DriveBase/Yaw", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getYaw());
-                    dashboard.putNumber("DriveBase/Pitch", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getPitch());
-                    dashboard.putNumber("DriveBase/Roll", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getRoll());
-                    dashboard.putNumber("DriveBase/AccelX", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getWorldLinearAccelX());
-                    dashboard.putNumber("DriveBase/AccelY", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getWorldLinearAccelY());
-                    dashboard.putNumber("DriveBase/AccelZ", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getWorldLinearAccelZ());
-                    dashboard.putNumber("DriverBase/Compass", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getCompassHeading());
+                    // dashboard.putNumber("DriveBase/xPos", robotPose.x);
+                    // dashboard.putNumber("DriveBase/yPos", robotPose.y);
+                    // dashboard.putData("DriveBase/heading", ((FrcAHRSGyro) robotDrive.gyro).getGyroSendable());
+                    // dashboard.putNumber("DriveBase/Yaw", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getYaw());
+                    // dashboard.putNumber("DriveBase/Pitch", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getPitch());
+                    // dashboard.putNumber("DriveBase/Roll", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getRoll());
+                    // dashboard.putNumber("DriveBase/AccelX", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getWorldLinearAccelX());
+                    // dashboard.putNumber("DriveBase/AccelY", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getWorldLinearAccelY());
+                    // dashboard.putNumber("DriveBase/AccelZ", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getWorldLinearAccelZ());
+                    // dashboard.putNumber("DriverBase/Compass", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getCompassHeading());
                     //
                     // DriveBase debug info.
                     //
@@ -441,15 +450,23 @@ public class Robot extends FrcRobotBase
                         SwerveDrive swerveDrive = (SwerveDrive) robotDrive;
 
                         dashboard.displayPrintf(
-                            lineNum++, "SteerAngle: lf=%.1f/%.1f, rf=%.1f/%.1f, lb=%.1f/%.1f, rb=%.1f/%.1f",
+                            lineNum++,
+                            "FrontSteer(angle/motorEnc/absEnc): lf=%.1f/%.3f/%.3f, rf=%.1f/%.3f/%.3f",
                             swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_FRONT].getSteerAngle(),
-                            swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_FRONT].steerMotor.getMotorPosition(),
+                            swerveDrive.steerMotors[RobotDrive.INDEX_LEFT_FRONT].getMotorPosition(),
+                            swerveDrive.steerEncoders[RobotDrive.INDEX_LEFT_FRONT].getRawPosition(),
                             swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_FRONT].getSteerAngle(),
-                            swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_FRONT].steerMotor.getMotorPosition(),
+                            swerveDrive.steerMotors[RobotDrive.INDEX_RIGHT_FRONT].getMotorPosition(),
+                            swerveDrive.steerEncoders[RobotDrive.INDEX_RIGHT_FRONT].getRawPosition());
+                        dashboard.displayPrintf(
+                            lineNum++,
+                            "BackSteer(angle/motorEnc/absEnc): lb=%.1f/%.3f/%.3f, rb=%.1f/%.3f/%.3f",
                             swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_BACK].getSteerAngle(),
-                            swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_BACK].steerMotor.getMotorPosition(),
+                            swerveDrive.steerMotors[RobotDrive.INDEX_LEFT_BACK].getMotorPosition(),
+                            swerveDrive.steerEncoders[RobotDrive.INDEX_LEFT_BACK].getRawPosition(),
                             swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_BACK].getSteerAngle(),
-                            swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_BACK].steerMotor.getMotorPosition());
+                            swerveDrive.steerMotors[RobotDrive.INDEX_RIGHT_BACK].getMotorPosition(),
+                            swerveDrive.steerEncoders[RobotDrive.INDEX_RIGHT_BACK].getRawPosition());
                     }
                     dashboard.displayPrintf(lineNum++, "DriveBase: pose=%s", robotPose);
 

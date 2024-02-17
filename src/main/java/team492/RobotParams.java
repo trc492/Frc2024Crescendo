@@ -68,16 +68,17 @@ public class RobotParams
         public static final boolean hybridMode                  = false;
         public static final boolean useTraceLog                 = true;
         // Status Update
-        public static final boolean doStatusUpdate              = false;
+        public static final boolean doStatusUpdate              = true;
         public static final boolean showLoopTime                = false;
         public static final boolean showPowerConsumption        = false;
         public static final boolean showDriveBase               = false;
         public static final boolean showPurePursuitDrive        = false;
         public static final boolean showPidDrive                = false;
         public static final boolean showVision                  = false;
-        public static final boolean showSubsystems              = false;
+        public static final boolean showSubsystems              = true;
         // Inputs
         public static final boolean useDriverXboxController     = true;
+        public static final boolean useOperatorXboxController   = true;
         public static final boolean useTankDrive                = false;
         public static final boolean doOneStickDrive             = false;
         public static final boolean useButtonPanels             = false;
@@ -86,7 +87,7 @@ public class RobotParams
         public static final boolean usePdp                      = false;
         public static final boolean usePressureSensor           = false;
         // Vision
-        public static final boolean useVision                   = true;
+        public static final boolean useVision                   = false;
         public static final boolean usePhotonVision             = true;
         public static final boolean usePhotonVisionRaw          = false;
         public static final boolean useOpenCvVision             = false;
@@ -97,9 +98,9 @@ public class RobotParams
         public static final boolean useGyroAssist               = false;
         public static final boolean useAntiTipping              = false;
         // Subsystems
-        public static final boolean useSubsystems               = false;
+        public static final boolean useSubsystems               = true;
         public static final boolean useIntake                   = false;
-        public static final boolean useShooter                  = false;
+        public static final boolean useShooter                  = true;
         public static final boolean useClimber                  = false;
     }   //class Preferences
 
@@ -149,6 +150,7 @@ public class RobotParams
     public static final int XBOX_DRIVER_CONTROLLER              = 0;
     public static final int JSPORT_DRIVER_LEFTSTICK             = 0;
     public static final int JSPORT_DRIVER_RIGHTSTICK            = 1;
+    public static final int XBOX_OPERATOR_CONTROLLER            = 2;
     public static final int JSPORT_OPERATORSTICK                = 2;
     public static final int JSPORT_BUTTON_PANEL                 = 3;
     public static final int JSPORT_SWITCH_PANEL                 = 4;
@@ -173,10 +175,10 @@ public class RobotParams
     public static final int CANID_RBSTEER_ENCODER               = 22;//26;
 
     // Subsystems.
-    public static final int CANID_INTAKE_MOTOR                  = 7;
-    public static final int CANID_SHOOTER_MOTOR                 = 8;
-    public static final int CANID_TILTER_MOTOR                  = 9;
-    public static final int CANID_CLIMBER_MOTOR                 = 17;
+    public static final int CANID_TILTER_MOTOR                  = 7;
+    public static final int CANID_INTAKE_MOTOR                  = 8;
+    public static final int CANID_CLIMBER_MOTOR                 = 9;
+    public static final int CANID_SHOOTER_MOTOR                 = 17;
 
     public static final int CANID_PCM                           = 30;
     public static final int CANID_PDP                           = 31;
@@ -593,7 +595,7 @@ public class RobotParams
         public static final double tilterPosScale               = 360.0 / tilterGearRatio;  // in Degrees
         public static final double tilterPosOffset              = 0.0;     //TODO: tune, in degrees
         public static final double tilterPowerLimit             = 0.5;      //TODO: tune
-        public static final PidCoefficients tilterPosPidCoeff   = new PidCoefficients(0.0, 0.0, 0.0, 0.0);  //TODO: tune
+        public static final PidCoefficients tilterPosPidCoeff   = new PidCoefficients(0.6, 0.0, 0.001, 0.13);  //Done
         public static final double tilterMinPos                 = tilterPosOffset;  //TODO: tune
         public static final double tilterMaxPos                 = 90.0;             //TODO: tune
         public static final double tilterVelocity               = 0.0;              //TODO: tune
