@@ -134,7 +134,8 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     {
         // TODO: acquire ownership of all subsystems involved.
         boolean success = ownerName == null ||
-                          (robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName));
+                          robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName) &&
+                          robot.shooter.acquireExclusiveAccess(ownerName);
 
         if (success)
         {
@@ -162,7 +163,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     protected void releaseSubsystemsOwnership()
     {
         // TODO: release ownership of all subsystems involved.
-        if (ownerName != null)
+        if (currOwner != null)
         {
             TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
             tracer.traceInfo(

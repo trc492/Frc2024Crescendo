@@ -149,9 +149,9 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     @Override
     protected boolean acquireSubsystemsOwnership()
     {
-        // TODO: acquire ownership of all subsystems involved.
         boolean success = ownerName == null ||
-                          (robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName));
+                          robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName) &&
+                          robot.shooter.acquireExclusiveAccess(ownerName);
 
         if (success)
         {
@@ -164,7 +164,8 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
             tracer.traceWarn(
                 moduleName,
                 "Failed to acquire subsystem ownership (currOwner=" + currOwner +
-                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
+                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) +
+                ", shooter=" + ownershipMgr.getOwner(robot.shooter) + ").");
             releaseSubsystemsOwnership();
         }
 
@@ -178,15 +179,16 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     @Override
     protected void releaseSubsystemsOwnership()
     {
-        // TODO: release ownership of all subsystems involved.
-        if (ownerName != null)
+        if (currOwner != null)
         {
             TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
             tracer.traceInfo(
                 moduleName,
                 "Releasing subsystem ownership (currOwner=" + currOwner +
-                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
+                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) +
+                ", shooter=" + ownershipMgr.getOwner(robot.shooter) + ").");
             robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
+            robot.shooter.releaseExclusiveAccess(currOwner);
             currOwner = null;
         }
     }   //releaseSubsystemsOwnership
@@ -199,6 +201,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     {
         tracer.traceInfo(moduleName, "Stopping subsystems.");
         robot.robotDrive.cancel(currOwner);
+        robot.shooter.stopShooter();
     }   //stopSubsystems
 
     /**

@@ -22,9 +22,10 @@
 
 package team492.subsystems;
 
+import TrcCommonLib.trclib.TrcIntake;
+import TrcCommonLib.trclib.TrcTriggerDigitalInput;
 import TrcCommonLib.trclib.TrcUtil;
-import TrcCommonLib.trclib.TrcPidConveyor;
-import TrcFrcLib.frclib.FrcCANFalcon;
+import TrcFrcLib.frclib.FrcCANSparkMax;
 import TrcFrcLib.frclib.FrcDigitalInput;
 import team492.RobotParams;
 
@@ -32,28 +33,31 @@ public class Intake
 {
     private static final String moduleName = Intake.class.getSimpleName();
 
-    public final FrcCANFalcon conveyorMotor;
-    public final FrcDigitalInput entrySensor;
-    public final FrcDigitalInput exitSensor;
-    public final TrcPidConveyor conveyor;
+    public final FrcCANSparkMax intakeMotor;
+    private final FrcDigitalInput entrySensor, exitSensor;
+    private final TrcTriggerDigitalInput entryTrigger, exitTrigger;
+    public final TrcIntake intake;
 
     public Intake()
     {
-        conveyorMotor = new FrcCANFalcon(moduleName + ".motor", RobotParams.Intake.motorCandId);
-        conveyorMotor.resetFactoryDefault();
-        conveyorMotor.setMotorInverted(RobotParams.Intake.motorInverted);
-        conveyorMotor.setBrakeModeEnabled(true);
-        conveyorMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
-        conveyorMotor.setPositionSensorScaleAndOffset(RobotParams.Intake.posScale, 0.0);
-        conveyorMotor.setPositionPidCoefficients(RobotParams.Intake.posPidCoeff);
+        intakeMotor = new FrcCANSparkMax(moduleName + ".motor", RobotParams.Intake.motorCandId, true);
+        intakeMotor.resetFactoryDefault();
+        intakeMotor.setMotorInverted(RobotParams.Intake.motorInverted);
+        intakeMotor.setBrakeModeEnabled(true);
+        intakeMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
+        // intakeMotor.setPositionSensorScaleAndOffset(RobotParams.Intake.posScale, 0.0);
+        // intakeMotor.setPositionPidCoefficients(RobotParams.Intake.posPidCoeff);
 
         entrySensor = new FrcDigitalInput(moduleName + ".entrySensor", RobotParams.Intake.entrySensorChannel);
         entrySensor.setInverted(RobotParams.Intake.entrySensorInverted);
+        entryTrigger = new TrcTriggerDigitalInput(moduleName + ".entryTrigger", entrySensor);
 
         exitSensor = new FrcDigitalInput(moduleName + ".exitSensor", RobotParams.Intake.exitSensorChannel);
         exitSensor.setInverted(RobotParams.Intake.exitSensorInverted);
+        exitTrigger = new TrcTriggerDigitalInput(moduleName + ".exitTrigger", exitSensor);
 
-        conveyor = new TrcPidConveyor(moduleName, conveyorMotor, entrySensor, exitSensor, RobotParams.Intake.params);
+        intake = new TrcIntake(
+            moduleName, intakeMotor, new TrcIntake.Trigger(entryTrigger), new TrcIntake.Trigger(exitTrigger));
     }   //Intake
 
     /**
@@ -62,28 +66,17 @@ public class Intake
     @Override
     public String toString()
     {
-        return moduleName +
-               ": numObj=" + conveyor.getNumObjects() +
-               ", entry=" + conveyor.isEntrySensorActive() +
-               ", exit=" + conveyor.isExitSensorActive();
+        return intake.toString();
     }   //toString
 
     /**
-     * This method returns the TrcPidConveyor object created.
+     * This method returns the TrcIntake object created.
      *
-     * @return TrcPidConveyor object.
+     * @return TrcIntake object.
      */
-    public TrcPidConveyor getPidConveyor()
+    public TrcIntake getIntake()
     {
-        return conveyor;
-    }   //getPidConveyor
-
-
-    // public void setIntakePower(String owner, double power){
-
-    //     conveyor.motor.setPower(owner, 0, power, 0, null);
-
-    // }
-
+        return intake;
+    }   //getIntake
 
 }   //class Intake

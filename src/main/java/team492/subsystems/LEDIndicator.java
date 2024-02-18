@@ -133,16 +133,16 @@ public class LEDIndicator
         }
     }   //setPhotonDetectedObject
 
-    public void setIntakeDetectedObject(boolean hasObject){
-        if(hasObject){
-
+    public void setIntakeDetectedObject(boolean hasObject)
+    {
+        if (hasObject)
+        {
             led.setPatternState(notePattern, true, 0.5);
-
-
-        } else {
+        }
+        else
+        {
             led.setPatternState(seeNothingPattern, true, 0.5);
         }
-
-    }
+    }   //setIntakeDetectedObject
 
 }   //class LEDIndicator

@@ -23,7 +23,6 @@
 package team492;
 
 import TrcCommonLib.trclib.TrcHomographyMapper;
-import TrcCommonLib.trclib.TrcPidConveyor;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcPidController.PidCoefficients;
@@ -566,18 +565,14 @@ public class RobotParams
     {
         public static final int motorCandId                     = CANID_INTAKE_MOTOR;
         public static final boolean motorInverted               = false;    //TODO: tune
-        public static final TrcPidConveyor.Parameters params    = new TrcPidConveyor.Parameters()
-            .setMaxCapacity(1)
-            .setMovePower(1.0)                              //TODO: tune
-            .setObjectDistance(16.0);
         public static final int entrySensorChannel              = DIO_INTAKE_ENTRY;
         public static final int exitSensorChannel               = DIO_INTAKE_EXIT;
         public static final boolean entrySensorInverted         = false;    //TODO: tune
         public static final boolean exitSensorInverted          = false;    //TODO: tune
-        public static final double posScale                     = 1.0;      //TODO: tune
-        public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);   //TODO: tune
 
-        public static final double intakePower                  =  0.5; // TODO: Tune       
+        public static final double intakePower                  = 0.5;      // TODO: Tune
+        public static final double ejectForwardPower            = 0.5;      // TODO: Tune
+        public static final double ejectReversePower            = -0.5;     // TODO: Tune
     }   //class Intake
 
     public static class Shooter

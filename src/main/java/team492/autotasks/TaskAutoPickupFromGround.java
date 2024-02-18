@@ -23,16 +23,12 @@
 package team492.autotasks;
 
 import TrcCommonLib.trclib.TrcAutoTask;
-import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcOwnershipMgr;
 import TrcCommonLib.trclib.TrcPose2D;
-import TrcCommonLib.trclib.TrcPose3D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
-import TrcCommonLib.trclib.TrcUtil;
-import TrcCommonLib.trclib.TrcPixyCam1.ObjectBlock;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import team492.Robot;
 import team492.RobotParams;
@@ -53,25 +49,21 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         DONE
     }   //enum State
 
-    private static class TaskParams
-    {
-        boolean inAuto;
-        TaskParams(boolean inAuto)
-        {
-            this.inAuto = inAuto;
-        }   //TaskParams
-    }   //class TaskParams
+    // private static class TaskParams
+    // {
+    //     boolean inAuto;
+    //     TaskParams(boolean inAuto)
+    //     {
+    //         this.inAuto = inAuto;
+    //     }   //TaskParams
+    // }   //class TaskParams
 
     private final String ownerName;
     private final Robot robot;
     private final TrcEvent driveEvent;
     private final TrcEvent intakeEvent;
-    
 
-
-    private final TrcDbgTrace msgTracer;
     private String currOwner = null;
-    private String driveOwner = null;
     private Double visionExpiredTime = null;
     private TrcPose2D notePose = null;
 
@@ -81,22 +73,13 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
      * @param ownerName specifies the owner name to take subsystem ownership, can be null if no ownership required.
      * @param robot specifies the robot object that contains all the necessary subsystems.
      */
-    public TaskAutoPickupFromGround(String ownerName, Robot robot, TrcDbgTrace msgTracer)
+    public TaskAutoPickupFromGround(String ownerName, Robot robot)
     {
         super(moduleName, ownerName, TrcTaskMgr.TaskType.POST_PERIODIC_TASK);
         this.ownerName = ownerName;
         this.robot = robot;
-        this.msgTracer = msgTracer;
         this.driveEvent = new TrcEvent(moduleName + ".driveEvent");
         this.intakeEvent = new TrcEvent(moduleName +".intakeEvent");
-        // Intake event
-        // Drive event
-        
-        // Vision Event
-
-
-
-
     }   //TaskAutoPickupFromGround
 
     /**
@@ -106,11 +89,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
      */
     public void autoAssistPickup(TrcEvent completionEvent, boolean inAuto)
     {
-        tracer.traceInfo(
-            moduleName, 
-            "event=" + completionEvent + 
-            ", inAuto=" + inAuto);
-        startAutoTask(State.START, new TaskParams(inAuto), completionEvent);
+        tracer.traceInfo(moduleName, "event=" + completionEvent);
+        startAutoTask(State.START, null, completionEvent);
     }   //autoAssistPickup
 
     /**
@@ -118,11 +98,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
      */
     public void autoAssistCancel()
     {
-        final String funcName = "autoAssistCancel";
-
-        if(msgTracer != null){
-            tracer.traceInfo(moduleName, "Canceling auto-assist.");
-        }
+        tracer.traceInfo(moduleName, "Canceling auto-assist.");
         stopAutoTask(false);
     }   //autoAssistCancel
 
@@ -140,9 +116,9 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     @Override
     protected boolean acquireSubsystemsOwnership()
     {
-        // TODO: Figure out subsystem owenership aquisition
         boolean success = ownerName == null ||
-                          (robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName));
+                          robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName) &&
+                          robot.intake.acquireExclusiveAccess(ownerName);
 
         if (success)
         {
@@ -155,7 +131,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
             tracer.traceWarn(
                 moduleName,
                 "Failed to acquire subsystem ownership (currOwner=" + currOwner +
-                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
+                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) +
+                ", intake=" + ownershipMgr.getOwner(robot.intake) + ").");
             releaseSubsystemsOwnership();
         }
 
@@ -169,27 +146,18 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     @Override
     protected void releaseSubsystemsOwnership()
     {
-        // TODO: Figure out subsystem ownership release
-        if (ownerName != null)
+        if (currOwner != null)
         {
             TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
             tracer.traceInfo(
                 moduleName,
                 "Releasing subsystem ownership (currOwner=" + currOwner +
-                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
+                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) +
+                ", intake=" + ownershipMgr.getOwner(robot.intake) + ").");
             robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
+            robot.intake.releaseExclusiveAccess(currOwner);
             currOwner = null;
         }
-
-        if (driveOwner != null)
-        {
-            robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
-            driveOwner = null;
-        }
-
-
-        robot.intake.releaseExclusiveAccess(currOwner);
-        currOwner = null;
     }   //releaseSubsystemsOwnership
 
     /**
@@ -200,6 +168,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     {
         tracer.traceInfo(moduleName, "Stopping subsystems.");
         robot.robotDrive.cancel(currOwner);
+        robot.intake.autoAssistCancel(currOwner);
     }   //stopSubsystems
 
     /**
@@ -216,89 +185,70 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     protected void runTaskState(
         Object params, State state, TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
     {
-        TaskParams taskParams = (TaskParams) params;
-
+        // TaskParams taskParams = (TaskParams) params;
         switch (state)
         {
             case START:
                 // We are checking if the back camera is working, and if so, moving to the DETECT_NOTE state
-
-                if(robot.photonVisionBack != null){
+                if (robot.photonVisionBack != null)
+                {
+                    tracer.traceInfo(moduleName, "Using Note Vision.");
                     robot.photonVisionBack.setPipeline(PipelineType.NOTE);
-                    tracer.traceInfo(moduleName, "Using Vision to find Note.");
                     sm.setState(State.DETECT_NOTE);
-                } else{
-                    // Back camera is not working, moving to DONE State
-                    tracer.traceInfo(moduleName, "Error in Camera, moving to DONE State");
+                }
+                else
+                {
+                    // Back camera is not enabled, moving to DONE State
+                    tracer.traceInfo(moduleName, "Not using Note Vision.");
                     sm.setState(State.DONE);
                 }
-
                 break;
 
             case DETECT_NOTE:
-                    
+                // Use vision to find Note.
                 FrcPhotonVision.DetectedObject object = robot.photonVisionBack.getBestDetectedObject();
-                
-                if(object != null){
-
-                    // Note found with Vision, will move to PREP_TO_DRIVE STATE  
+                if (object != null)
+                {
                     notePose = object.getObjectPose().toPose2D();
-
                     sm.setState(State.DRIVE_TO_NOTE);
-
-                } else if (visionExpiredTime == null)
+                }
+                else if (visionExpiredTime == null)
                 {
-                        // Can't find AprilTag, set a timeout and try again.
-                        visionExpiredTime = TrcTimer.getCurrentTime() + 1.0;
-                } else if (TrcTimer.getCurrentTime() >= visionExpiredTime)
+                    // Can't find Note, set a timeout and try again.
+                    visionExpiredTime = TrcTimer.getCurrentTime() + 1.0;
+                }
+                else if (TrcTimer.getCurrentTime() >= visionExpiredTime)
                 {
-                        // Timed out, moving on.
-                        tracer.traceInfo(moduleName, "No Note Found.");
-                        sm.setState(State.DONE);
+                    // Timed out, moving on.
+                    tracer.traceInfo(moduleName, "No Note Found.");
+                    sm.setState(State.DONE);
                 }
                 break;
 
             case DRIVE_TO_NOTE:
-
-                
-                // TODO: Write State
-                // Will implement driving code
-
-                if(notePose != null){
-
-                    robot.intake.setPower(ownerName, RobotParams.Intake.intakePower);
-                    robot.intake.registerEntryEvent(intakeEvent);
+                if (notePose != null)
+                {
+                    robot.intake.autoAssistIntake(
+                        currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
                     sm.addEvent(intakeEvent);
-                    robot.robotDrive.purePursuitDrive.start(ownerName, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(),true, notePose);
+                    robot.robotDrive.purePursuitDrive.start(
+                        currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(),true, notePose);
                     sm.addEvent(driveEvent);
                     sm.waitForEvents(State.DONE, false);
-
-                } else{
-
-                    sm.setState(State.DONE);
-
                 }
-
-
+                else
+                {
+                    sm.setState(State.DONE);
+                }
                 break;
-
 
             default:
             case DONE:
                 // Stop task.
-
-                robot.robotDrive.purePursuitDrive.cancel();
-
-                robot.intake.setPower(ownerName, 0.0);
-                sm.addEvent(null);
-
-                if(robot.ledIndicator !=null){
-                    
-                    robot.ledIndicator.setIntakeDetectedObject(robot.intake.getNumObjects() > 0);
-
+                if (robot.ledIndicator !=null)
+                {
+                    robot.ledIndicator.setIntakeDetectedObject(robot.intake.hasObject());
                 }
-
-            
                 stopAutoTask(true);
                 break;
         }

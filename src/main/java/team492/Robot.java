@@ -24,9 +24,9 @@ package team492;
 
 import java.util.Locale;
 import TrcCommonLib.trclib.TrcDbgTrace;
+import TrcCommonLib.trclib.TrcIntake;
 import TrcCommonLib.trclib.TrcOpenCvDetector;
 import TrcCommonLib.trclib.TrcPidController;
-import TrcCommonLib.trclib.TrcPidConveyor;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcRobotBattery;
@@ -109,7 +109,7 @@ public class Robot extends FrcRobotBase
     //
     // Other subsystems.
     //
-    public TrcPidConveyor intake;
+    public TrcIntake intake;
     public Shooter shooter;
     public Climber climber;
     //
@@ -235,12 +235,11 @@ public class Robot extends FrcRobotBase
         {
             if (RobotParams.Preferences.useIntake)
             {
-                intake = new Intake().getPidConveyor();
-            }
-
-            if (RobotParams.Preferences.useShooter)
-            {
-                shooter = new Shooter();
+                intake = new Intake().getIntake();
+                if (RobotParams.Preferences.useShooter)
+                {
+                    shooter = new Shooter(intake);
+                }
             }
 
             if (RobotParams.Preferences.useClimber)
