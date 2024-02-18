@@ -54,22 +54,23 @@ public class Shooter
         shooterMotor.setMotorInverted(RobotParams.Shooter.shooterMotorInverted);
         shooterMotor.setBrakeModeEnabled(false);
         shooterMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
-        shooterMotor.enableMotionProfile(0.0, RobotParams.Shooter.shooterAcceleration, 0.0);
+        // shooterMotor.enableMotionProfile(0.0, RobotParams.Shooter.shooterAcceleration, 0.0);
         shooterMotor.setPositionSensorScaleAndOffset(RobotParams.Shooter.shooterPosScale, 0.0);
         shooterMotor.setVelocityPidCoefficients(RobotParams.Shooter.shooterVelPidCoeff);
 
-        tilterMotor = new FrcCANSparkMax(moduleName + ".tilterMotor", RobotParams.Shooter.tilterCanId, false);
+        tilterMotor = new FrcCANSparkMax(moduleName + ".tilterMotor", RobotParams.Shooter.tilterCanId, false, true);
         tilterMotor.resetFactoryDefault();
         tilterMotor.setMotorInverted(RobotParams.Shooter.tilterMotorInverted);
         tilterMotor.setBrakeModeEnabled(true);
         tilterMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
-        tilterMotor.enableMotionProfile(
-            RobotParams.Shooter.tilterVelocity, RobotParams.Shooter.tilterAcceleration, 0.0);
+        // tilterMotor.enableMotionProfile(
+        //     RobotParams.Shooter.tilterVelocity, RobotParams.Shooter.tilterAcceleration, 0.0);
         tilterMotor.setCurrentLimit(
             RobotParams.Shooter.tilterCurrentLimit, RobotParams.Shooter.tilterCurrentThreshold,
             RobotParams.Shooter.tilterCurrentThresholdTime);
+        tilterMotor.enableLowerLimitSwitch(true);
         tilterMotor.enableUpperLimitSwitch(true);
-        tilterMotor.setSoftPositionLimits(RobotParams.Shooter.tilterMinPos, null, false);
+        // tilterMotor.setSoftPositionLimits(RobotParams.Shooter.tilterMinPos, null, false);
         tilterMotor.setPositionSensorScaleAndOffset(
             RobotParams.Shooter.tilterPosScale, RobotParams.Shooter.tilterPosOffset);
         // We are using software position PID control for Tilter. So we just enable software PID before setting
@@ -313,6 +314,16 @@ public class Shooter
     {
         return tilterMotor.getPower();
     }   //getTilterPower
+
+    /**
+     * This method checks if the tilter's lower limit switch is active.
+     *
+     * @return true if active, false otherwise.
+     */
+    public boolean tilterLowerLimitSwitchActive()
+    {
+        return tilterMotor.isLowerLimitSwitchActive();
+    }   //tilterLowerLimitSwitchActive
 
     /**
      * This method checks if the tilter's upper limit switch is active.

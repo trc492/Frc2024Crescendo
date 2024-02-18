@@ -223,8 +223,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         }
 
                         double shooterVel =
-                            robot.operatorController.getRightTriggerAxis() -
-                            robot.operatorController.getLeftTriggerAxis();
+                            (robot.operatorController.getRightTriggerAxis() -
+                             robot.operatorController.getLeftTriggerAxis()) *
+                            shooterMaxVel;
                         if (presetShooterVel != 0.0)
                         {
                             if (shooterVel == 0.0)
@@ -248,8 +249,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             prevShooterVel = shooterVel;
                         }
                         robot.dashboard.displayPrintf(
-                            lineNum++, "Shooter: vel=%.0f, preset=%.0f, inc=%.0f",
-                            robot.shooter.getShooterVelocity(), presetShooterVel, presetShooterInc);
+                            lineNum++, "Shooter: vel=%.0f/%.0f, preset=%.0f, inc=%.0f",
+                            shooterVel, robot.shooter.getShooterVelocity(), presetShooterVel, presetShooterInc);
 
                         // Controlling tilter angle.
                         double tilterPower = robot.operatorController.getLeftYWithDeadband(true);
@@ -258,8 +259,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.shooter.setTilterPower(tilterPower);
                         }
                         robot.dashboard.displayPrintf(
-                            lineNum++, "Tilter: power=%.2f, angle=%.2f, upperLimit=%s",
+                            lineNum++, "Tilter: power=%.2f, angle=%.2f, limits=%s/%s",
                             robot.shooter.getTilterPower(), robot.shooter.getTilterAngle(),
+                            robot.shooter.tilterLowerLimitSwitchActive(),
                             robot.shooter.tilterUpperLimitSwitchActive());
                     }
                 }

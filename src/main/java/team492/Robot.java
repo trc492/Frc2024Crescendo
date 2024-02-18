@@ -526,6 +526,16 @@ public class Robot extends FrcRobotBase
 
             if (RobotParams.Preferences.showSubsystems)
             {
+                if (shooter != null)
+                {
+                    dashboard.displayPrintf(
+                        lineNum++, "Shooter: power=%.3f, vel=%.3f",
+                        shooter.shooterMotor.getPower(), shooter.getShooterVelocity());
+                    dashboard.displayPrintf(
+                        lineNum++, "Tilter: power=%.3f, pos=%.1f, limitSw=%s/%s",
+                        shooter.getTilterPower(), shooter.getTilterAngle(),
+                        shooter.tilterLowerLimitSwitchActive(), shooter.tilterUpperLimitSwitchActive());
+                }
             }
         }
     }   //updateStatus

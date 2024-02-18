@@ -416,7 +416,7 @@ public class RobotParams
             {"lfSteerMotor", "rfSteerMotor", "lbSteerMotor", "rbSteerMotor"};
         public final int[] steerMotorIds                        =
             {CANID_LFSTEER_MOTOR, CANID_RFSTEER_MOTOR, CANID_LBSTEER_MOTOR, CANID_RBSTEER_MOTOR};
-        public final boolean[] steerMotorInverted               = {false, false, false, false};
+        public final boolean[] steerMotorInverted               = {false, true, false, true};
 
         // Steer encoders.
         public SteerEncoderType steerEncoderType                = SteerEncoderType.Canandcoder;
