@@ -408,14 +408,14 @@ public class RobotParams
             {"lfDriveMotor", "rfDriveMotor", "lbDriveMotor", "rbDriveMotor"};
         public final int[] driveMotorIds                        =
             {CANID_LFDRIVE_MOTOR, CANID_RFDRIVE_MOTOR, CANID_LBDRIVE_MOTOR, CANID_RBDRIVE_MOTOR};
-        public final boolean[] driveMotorInverted               = {true, true, true, true};
+        public final boolean[] driveMotorInverted               = {false, false, false, false};
 
         // Steer motors.
         public final String[] steerMotorNames                   =
             {"lfSteerMotor", "rfSteerMotor", "lbSteerMotor", "rbSteerMotor"};
         public final int[] steerMotorIds                        =
             {CANID_LFSTEER_MOTOR, CANID_RFSTEER_MOTOR, CANID_LBSTEER_MOTOR, CANID_RBSTEER_MOTOR};
-        public final boolean[] steerMotorInverted               = {false, true, false, true};
+        public final boolean[] steerMotorInverted               = {false, false, false, false};
 
         // Steer encoders.
         public SteerEncoderType steerEncoderType                = SteerEncoderType.Canandcoder;
@@ -578,8 +578,8 @@ public class RobotParams
     public static class Shooter
     {
         public static final int shooterCandId                   = CANID_SHOOTER_MOTOR;
-        public static final boolean shooterMotorInverted        = false;    //TODO: tune
-        public static final double shooterGearRatio             = 1.0;      //TODO: tune
+        public static final boolean shooterMotorInverted        = false;
+        public static final double shooterGearRatio             = 1.0;
         public static final double shooterPosScale              = 1.0 / shooterGearRatio;   // in Revolutions
         public static final PidCoefficients shooterVelPidCoeff  = new PidCoefficients(0.0, 0.0, 0.0, 0.0);  //TODO: tune
         public static final double shooterAcceleration          = 0.0;      //TODO: tune
