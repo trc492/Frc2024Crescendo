@@ -168,7 +168,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     {
         tracer.traceInfo(moduleName, "Stopping subsystems.");
         robot.robotDrive.cancel(currOwner);
-        robot.intake.autoAssistCancel(currOwner);
+        robot.intake.cancel(currOwner);
     }   //stopSubsystems
 
     /**

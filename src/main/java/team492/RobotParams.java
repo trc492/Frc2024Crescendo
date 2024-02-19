@@ -98,7 +98,7 @@ public class RobotParams
         public static final boolean useAntiTipping              = false;
         // Subsystems
         public static final boolean useSubsystems               = true;
-        public static final boolean useIntake                   = false;
+        public static final boolean useIntake                   = true;
         public static final boolean useShooter                  = true;
         public static final boolean useClimber                  = false;
     }   //class Preferences
@@ -174,7 +174,7 @@ public class RobotParams
     public static final int CANID_RBSTEER_ENCODER               = 22;//26;
 
     // Subsystems.
-    public static final int CANID_TILTER_MOTOR                  = 7;
+    public static final int CANID_TILT_MOTOR                    = 7;
     public static final int CANID_INTAKE_MOTOR                  = 8;
     public static final int CANID_CLIMBER_MOTOR                 = 9;
     public static final int CANID_SHOOTER_MOTOR                 = 17;
@@ -580,29 +580,28 @@ public class RobotParams
         public static final int shooterCandId                   = CANID_SHOOTER_MOTOR;
         public static final boolean shooterMotorInverted        = false;
         public static final double shooterGearRatio             = 1.0;
-        public static final double shooterPosScale              = 1.0 / shooterGearRatio;   // in Revolutions
-        public static final PidCoefficients shooterVelPidCoeff  = new PidCoefficients(0.0, 0.0, 0.0, 0.0);  //TODO: tune
+        public static final double shooterPosScale              = 1.0 / shooterGearRatio;   // in rotations
+        public static final PidCoefficients shooterVelPidCoeff  = new PidCoefficients(0.45, 0.0, 0.0001, 0.125);
         public static final double shooterAcceleration          = 0.0;      //TODO: tune
+        public static final double shooterVelocityTolerance     = 3.0;
 
-        public static final int tilterCanId                     = CANID_TILTER_MOTOR;
-        public static final boolean tilterMotorInverted         = false;    //TODO: tune
-        public static final double tilterGearRatio              = 1.0;      //TODO: tune
-        public static final double tilterPosScale               = 360.0 / tilterGearRatio;  // in Degrees
-        public static final double tilterPosOffset              = 0.0;     //TODO: tune, in degrees
-        public static final double tilterPowerLimit             = 0.5;      //TODO: tune
-        public static final PidCoefficients tilterPosPidCoeff   = new PidCoefficients(0.6, 0.0, 0.001, 0.13);  //Done
-        public static final double tilterMinPos                 = tilterPosOffset;  //TODO: tune
-        public static final double tilterMaxPos                 = 90.0;             //TODO: tune
-        public static final double tilterVelocity               = 0.0;              //TODO: tune
-        public static final double tilterAcceleration           = 0.0;              //TODO: tune
-        public static final double tilterCurrentLimit           = 20.0;             //TODO: tune
-        public static final double tilterCurrentThreshold       = 40.0;             //TODO: tune
-        public static final double tilterCurrentThresholdTime   = 0.5;              //TODO: tune
+        public static final int tiltCanId                       = CANID_TILT_MOTOR;
+        public static final boolean tiltMotorInverted           = true;
+        public static final double tiltGearRatio                = 59.0/18.0;
+        public static final double tiltPosScale                 = 112.5;    //360.0 / tiltGearRatio;
+        public static final double tiltPosOffset                = 0.0;      //TODO: tune, in degrees
+        public static final double tiltPowerLimit               = 0.5;      //TODO: tune
+        public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.6, 0.0, 0.001, 0.13);  //TODO: Tune
+        public static final double tiltMinPos                   = tiltPosOffset;    //TODO: tune
+        public static final double tiltMaxPos                   = 90.0;             //TODO: tune
+        public static final double tiltVelocity                 = 0.0;              //TODO: tune
+        public static final double tiltAcceleration             = 0.0;              //TODO: tune
+        public static final double tiltCurrentLimit             = 20.0;             //TODO: tune
+        public static final double tiltCurrentThreshold         = 40.0;             //TODO: tune
+        public static final double tiltCurrentThresholdTime     = 0.5;              //TODO: tune
 
-        public static final double tilterMaxHoldingPower        = 0.0;              //TODO: tune
-        public static final double tilterAngleTolerance         = 1.0;              //TODO: tune
-
-        public static final double shooterVelocityTolerance     = 1.0;              //TODO: tune
+        public static final double tiltMaxHoldingPower          = 0.0;              //TODO: tune
+        public static final double tiltAngleTolerance           = 1.0;              //TODO: tune
     }   //class Shooter
 
     public static class Climber

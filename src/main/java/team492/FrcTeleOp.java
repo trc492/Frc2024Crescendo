@@ -52,7 +52,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     private Double prevShooterVel = null;
     private double presetShooterVel = 0.0;
     private double presetShooterInc = 10.0;
-    private Double prevTilterPower = null;
+    private Double prevTiltPower = null;
 
     /**
      * Constructor: Create an instance of the object.
@@ -245,24 +245,32 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         if (prevShooterVel == null || prevShooterVel != shooterVel)
                         {
                             // Only set shooter velocity if it is different from previous velocity.
-                            robot.shooter.setShooterVelocity(shooterVel);
+                            if (shooterVel == 0.0)
+                            {
+                                // Don't abruptly stop the shooter, gently spin down.
+                                robot.shooter.stopShooter();
+                            }
+                            else
+                            {
+                                robot.shooter.setShooterVelocity(shooterVel);
+                            }
                             prevShooterVel = shooterVel;
                         }
                         robot.dashboard.displayPrintf(
                             lineNum++, "Shooter: vel=%.0f/%.0f, preset=%.0f, inc=%.0f",
                             shooterVel, robot.shooter.getShooterVelocity(), presetShooterVel, presetShooterInc);
 
-                        // Controlling tilter angle.
-                        double tilterPower = robot.operatorController.getLeftYWithDeadband(true);
-                        if (prevTilterPower == null || prevTilterPower != tilterPower)
+                        // Controlling tilt angle.
+                        double tiltPower = robot.operatorController.getLeftYWithDeadband(true);
+                        if (prevTiltPower == null || prevTiltPower != tiltPower)
                         {
-                            robot.shooter.setTilterPower(tilterPower);
+                            robot.shooter.setTiltPower(tiltPower);
                         }
                         robot.dashboard.displayPrintf(
-                            lineNum++, "Tilter: power=%.2f, angle=%.2f, limits=%s/%s",
-                            robot.shooter.getTilterPower(), robot.shooter.getTilterAngle(),
-                            robot.shooter.tilterLowerLimitSwitchActive(),
-                            robot.shooter.tilterUpperLimitSwitchActive());
+                            lineNum++, "Tilt: power=%.2f/%.2f, angle=%.2f, limits=%s/%s",
+                            tiltPower, robot.shooter.getTiltPower(), robot.shooter.getTiltAngle(),
+                            robot.shooter.tiltLowerLimitSwitchActive(),
+                            robot.shooter.tiltUpperLimitSwitchActive());
                     }
                 }
             }
@@ -440,7 +448,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BACK:
-                // Code review: Need to add zero calibrate code here for tilter unless it has absolute encoder.
                 break;
 
             case FrcXboxController.START:

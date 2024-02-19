@@ -20,7 +20,6 @@
  * SOFTWARE.
  */
 
-
 package team492.subsystems;
 
 import TrcCommonLib.trclib.TrcEvent;
@@ -30,7 +29,6 @@ import team492.RobotParams;
 // single motor turning the spool (lets telescope out) (slack = taller) 
 // (max/min height)
 // lower limit switch (limit in rotations)
-
 
 public class Climber
 {
@@ -52,7 +50,7 @@ public class Climber
     }   //Climber
 
     /**
-     * This method returns the state of the Climber in a string.
+     * This method returns the instance name.
      */
     @Override
     public String toString()

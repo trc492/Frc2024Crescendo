@@ -61,7 +61,7 @@ public class Intake
     }   //Intake
 
     /**
-     * This method returns the state of the Arm in a string.
+     * This method returns the instance name.
      */
     @Override
     public String toString()

@@ -24,12 +24,14 @@ package team492;
 
 import java.util.Locale;
 import TrcCommonLib.trclib.TrcDbgTrace;
+import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcIntake;
 import TrcCommonLib.trclib.TrcOpenCvDetector;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcRobotBattery;
+import TrcCommonLib.trclib.TrcShooter;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcCommonLib.trclib.TrcVisionTargetInfo;
@@ -110,7 +112,7 @@ public class Robot extends FrcRobotBase
     // Other subsystems.
     //
     public TrcIntake intake;
-    public Shooter shooter;
+    public TrcShooter shooter;
     public Climber climber;
     //
     // Hybrid mode objects.
@@ -238,7 +240,7 @@ public class Robot extends FrcRobotBase
                 intake = new Intake().getIntake();
                 if (RobotParams.Preferences.useShooter)
                 {
-                    shooter = new Shooter(intake);
+                    shooter = new Shooter(this::shoot).getShooter();
                 }
             }
 
@@ -531,9 +533,9 @@ public class Robot extends FrcRobotBase
                         lineNum++, "Shooter: power=%.3f, vel=%.3f",
                         shooter.shooterMotor.getPower(), shooter.getShooterVelocity());
                     dashboard.displayPrintf(
-                        lineNum++, "Tilter: power=%.3f, pos=%.1f, limitSw=%s/%s",
-                        shooter.getTilterPower(), shooter.getTilterAngle(),
-                        shooter.tilterLowerLimitSwitchActive(), shooter.tilterUpperLimitSwitchActive());
+                        lineNum++, "Tilt: power=%.3f, pos=%.1f, limitSw=%s/%s",
+                        shooter.getTiltPower(), shooter.getTiltAngle(),
+                        shooter.tiltLowerLimitSwitchActive(), shooter.tiltUpperLimitSwitchActive());
                 }
             }
         }
@@ -582,6 +584,18 @@ public class Robot extends FrcRobotBase
             TrcDbgTrace.setTraceLogEnabled(enabled);
         }
     }   //setTraceLogEnabled
+
+    /**
+     * This method is called by TrcShooter to shoot an object.
+     *
+     * @param completionEvent specifies the event to signal when the shoot operation is completed.
+     */
+    private void shoot(TrcEvent completionEvent)
+    {
+        shooter.tracer.traceDebug(
+            intake.toString(), "power=" + RobotParams.Intake.ejectForwardPower + ", event=" + completionEvent);
+        intake.autoAssistEjectForward(0.0, RobotParams.Intake.ejectForwardPower, 0.0, completionEvent, 0.0);
+    }   //shoot
 
     //
     // Getters for sensor data.
