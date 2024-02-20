@@ -139,6 +139,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     public void periodic(double elapsedTime, boolean slowPeriodicLoop)
     {
         int lineNum = 1;
+
         if (slowPeriodicLoop)
         {
             if (controlsEnabled)
@@ -267,8 +268,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.shooter.setTiltPower(tiltPower);
                         }
                         robot.dashboard.displayPrintf(
-                            lineNum++, "Tilt: power=%.2f/%.2f, angle=%.2f, limits=%s/%s",
-                            tiltPower, robot.shooter.getTiltPower(), robot.shooter.getTiltAngle(),
+                            lineNum++, "Tilt: power=%.2f/%.2f, angle=%.2f/%f, limits=%s/%s",
+                            tiltPower, robot.shooter.getTiltPower(),
+                            robot.shooter.getTiltAngle(),
+                            robot.shooter.tiltMotor.getMotorPosition(),
                             robot.shooter.tiltLowerLimitSwitchActive(),
                             robot.shooter.tiltUpperLimitSwitchActive());
                     }

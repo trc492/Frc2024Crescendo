@@ -50,6 +50,8 @@ public class Shooter
         shooterMotor.disableUpperLimitSwitch();
         shooterMotor.setBrakeModeEnabled(false);
         shooterMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
+        shooterMotor.enableMotionProfile(
+            RobotParams.Shooter.shooterMaxVelocity, RobotParams.Shooter.shooterMaxAcceleration, 0.0);
         shooterMotor.setPositionSensorScaleAndOffset(RobotParams.Shooter.shooterPosScale, 0.0);
         shooterMotor.setVelocityPidCoefficients(RobotParams.Shooter.shooterVelPidCoeff);
 
@@ -64,7 +66,7 @@ public class Shooter
         tiltMotor.enableLowerLimitSwitch(true);
         tiltMotor.enableUpperLimitSwitch(true);
         tiltMotor.setPositionSensorScaleAndOffset(
-            RobotParams.Shooter.tiltPosScale, RobotParams.Shooter.tiltPosOffset);
+            RobotParams.Shooter.tiltPosScale, RobotParams.Shooter.tiltPosOffset, RobotParams.Shooter.tiltZeroOffset);
         // We are using software position PID control for Tilt. So we just enable software PID before setting
         // PID coefficients.
         tiltMotor.setSoftwarePidEnabled(true);
