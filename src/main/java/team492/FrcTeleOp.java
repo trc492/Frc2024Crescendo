@@ -45,14 +45,14 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     private double driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
     private double turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
     private double[] prevDriveInputs = null;
-    private static final double shooterMinVel = 0.0;    // in rps.
-    private static final double shooterMaxVel = 100.0;  // in rps.
+    private static final double shooterMaxVel = RobotParams.Shooter.shooterMaxVelocity; // in rps.
     private static final double shooterMinInc = 1.0;    // in rps.
     private static final double shooterMaxInc = 10.0;   // in rps.
     private Double prevShooterVel = null;
     private double presetShooterVel = 0.0;
     private double presetShooterInc = 10.0;
     private Double prevTiltPower = null;
+    private boolean manualOverride = false;
 
     /**
      * Constructor: Create an instance of the object.
@@ -184,49 +184,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 //
                 if (RobotParams.Preferences.useSubsystems)
                 {
-                    if (robot.intake != null)
-                    {
-
-                    }
-
                     if (robot.shooter != null)
                     {
-                        // Controlling shooter velocity.
-                        switch (robot.operatorController.getPOV())
-                        {
-                            case 0:
-                                if (presetShooterVel + presetShooterInc <= shooterMaxVel)
-                                {
-                                    presetShooterVel += presetShooterInc;
-                                }
-                                break;
-
-                            case 90:
-                                if (presetShooterInc / 10.0 >= shooterMinInc)
-                                {
-                                    presetShooterInc /= 10.0;
-                                }
-                                break;
-
-                            case 180:
-                                if (presetShooterVel - presetShooterInc >= shooterMinVel)
-                                {
-                                    presetShooterVel -= presetShooterInc;
-                                }
-                                break;
-
-                            case 270:
-                                if (presetShooterInc * 10.0 <= shooterMaxInc)
-                                {
-                                    presetShooterInc *= 10.0;
-                                }
-                                break;
-                        }
-
                         double shooterVel =
                             (robot.operatorController.getRightTriggerAxis() -
-                             robot.operatorController.getLeftTriggerAxis()) *
-                            shooterMaxVel;
+                             robot.operatorController.getLeftTriggerAxis()) * shooterMaxVel;
                         if (presetShooterVel != 0.0)
                         {
                             if (shooterVel == 0.0)
@@ -421,9 +383,40 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         switch (button)
         {
             case FrcXboxController.BUTTON_A:
+                if (robot.intake != null)
+                {
+                    if (pressed)
+                    {
+                        robot.intake.autoAssistIntake(RobotParams.Intake.intakePower, 0.0, 0.0);
+                    }
+                    else
+                    {
+                        robot.intake.cancel();
+                    }
+                }
                 break;
 
             case FrcXboxController.BUTTON_B:
+                if (robot.intake != null)
+                {
+                    if (pressed)
+                    {
+                        if (manualOverride)
+                        {
+                            // AKA: spit!
+                            robot.intake.autoAssistEjectReverse(RobotParams.Intake.ejectReversePower, 0.0);
+                        }
+                        else
+                        {
+                            // AKA: shoot!
+                            robot.intake.autoAssistEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                        }
+                    }
+                    else
+                    {
+                        robot.intake.cancel();
+                    }
+                }
                 break;
 
             case FrcXboxController.BUTTON_X:
@@ -441,13 +434,54 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.LEFT_BUMPER:
+                manualOverride = pressed;
                 if (robot.shooter != null)
                 {
-                    robot.shooter.setManualOverrideEnabled(pressed);
+                    robot.shooter.setManualOverrideEnabled(manualOverride);
                 }
                 break;
 
             case FrcXboxController.RIGHT_BUMPER:
+                break;
+
+            case FrcXboxController.DPAD_UP:
+                if (pressed)
+                {
+                    if (presetShooterVel + presetShooterInc <= shooterMaxVel)
+                    {
+                        presetShooterVel += presetShooterInc;
+                    }
+                }
+                break;
+
+            case FrcXboxController.DPAD_DOWN:
+                if (pressed)
+                {
+                    if (presetShooterVel - presetShooterInc >= -shooterMaxVel)
+                    {
+                        presetShooterVel -= presetShooterInc;
+                    }
+                }
+                break;
+
+            case FrcXboxController.DPAD_LEFT:
+                if (pressed)
+                {
+                    if (presetShooterInc * 10.0 <= shooterMaxInc)
+                    {
+                        presetShooterInc *= 10.0;
+                    }
+                }
+                break;
+
+            case FrcXboxController.DPAD_RIGHT:
+                if (pressed)
+                {
+                    if (presetShooterInc / 10.0 >= shooterMinInc)
+                    {
+                        presetShooterInc /= 10.0;
+                    }
+                }
                 break;
 
             case FrcXboxController.BACK:
