@@ -228,7 +228,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
             case DRIVE_TO_NOTE:
                 if (notePose != null)
                 {
-                    robot.intake.autoAssistIntake(
+                    robot.intake.autoIntake(
                         currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
                     sm.addEvent(intakeEvent);
                     robot.robotDrive.purePursuitDrive.start(

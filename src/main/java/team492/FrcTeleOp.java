@@ -387,7 +387,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     if (pressed)
                     {
-                        robot.intake.autoAssistIntake(RobotParams.Intake.intakePower, 0.0, 0.0);
+                        robot.intake.autoIntake(RobotParams.Intake.intakePower, 0.0, 0.0);
                     }
                     else
                     {
@@ -404,12 +404,12 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         if (manualOverride)
                         {
                             // AKA: spit!
-                            robot.intake.autoAssistEjectReverse(RobotParams.Intake.ejectReversePower, 0.0);
+                            robot.intake.autoEjectReverse(RobotParams.Intake.ejectReversePower, 0.0);
                         }
                         else
                         {
                             // AKA: shoot!
-                            robot.intake.autoAssistEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                            robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
                         }
                     }
                     else

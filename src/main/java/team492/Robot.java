@@ -594,7 +594,7 @@ public class Robot extends FrcRobotBase
     {
         shooter.tracer.traceDebug(
             intake.toString(), "power=" + RobotParams.Intake.ejectForwardPower + ", event=" + completionEvent);
-        intake.autoAssistEjectForward(0.0, RobotParams.Intake.ejectForwardPower, 0.0, completionEvent, 0.0);
+        intake.autoEjectForward(0.0, RobotParams.Intake.ejectForwardPower, 0.0, completionEvent, 0.0);
     }   //shoot
 
     //
