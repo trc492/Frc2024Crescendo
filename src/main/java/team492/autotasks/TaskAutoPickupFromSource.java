@@ -28,8 +28,11 @@ import TrcCommonLib.trclib.TrcOwnershipMgr;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
+import TrcCommonLib.trclib.TrcTimer;
+import TrcFrcLib.frclib.FrcPhotonVision;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import team492.Robot;
+import team492.RobotParams;
 
 /**
  * This class implements auto-assist task.
@@ -49,18 +52,12 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
 
     private static class TaskParams
     {
-        Alliance alliance;
-        boolean inAuto;
-        boolean useVision;
         boolean relocalize;
         double timeout;
         int alignment;
 
-        TaskParams(Alliance alliance, boolean inAuto, boolean useVision, boolean relocalize, double timeout, int alignment)
+        TaskParams(boolean relocalize, double timeout, int alignment)
         {
-            this.alliance = alliance;
-            this.inAuto = inAuto;
-            this.useVision = useVision;
             this.relocalize = relocalize;
             this.timeout = timeout;
             this.alignment = alignment;
@@ -72,7 +69,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     private final TrcEvent event;
 
     private String currOwner = null;
-    private int aprilTagId = 0;
+    private int aprilTagId = -1;
     private TrcPose2D relAprilTagPose = null;
     private Double visionExpiredTime = null;
 
@@ -96,17 +93,15 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
     public void autoAssistPickup(
-        Alliance alliance, boolean inAuto, boolean useVision, boolean relocalize, double timeout, int alignment,
-    TrcEvent completionEvent)
+        Alliance alliance, boolean relocalize, double timeout, int alignment, TrcEvent completionEvent)
     {
         tracer.traceInfo(
             moduleName,
-            "alliance=" + alliance +
-            ", inAuto=" + inAuto +
-            ", useVision=" + useVision +
+            "relocalize=" + relocalize +
+            ", timeout=" + timeout +
             ", alignment=" + alignment +
             ", event=" + completionEvent);
-        startAutoTask(State.START, new TaskParams(alliance, inAuto, useVision, relocalize, timeout, alignment), completionEvent);
+        startAutoTask(State.START, new TaskParams(relocalize, timeout, alignment), completionEvent);
     }   //autoAssistPickup
 
     /**
@@ -132,10 +127,10 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     @Override
     protected boolean acquireSubsystemsOwnership()
     {
-        // TODO: acquire ownership of all subsystems involved.
         boolean success = ownerName == null ||
-                          robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName) &&
-                          robot.shooter.acquireExclusiveAccess(ownerName);
+                          robot.intake.acquireExclusiveAccess(ownerName) &&
+                          robot.shooter.acquireExclusiveAccess(ownerName) &&
+                          robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName);
 
         if (success)
         {
@@ -148,6 +143,8 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
             tracer.traceWarn(
                 moduleName,
                 "Failed to acquire subsystem ownership (currOwner=" + currOwner +
+                ", intake=" + ownershipMgr.getOwner(robot.intake) +
+                ", shooter=" + ownershipMgr.getOwner(robot.shooter) +
                 ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
             releaseSubsystemsOwnership();
         }
@@ -162,13 +159,14 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     @Override
     protected void releaseSubsystemsOwnership()
     {
-        // TODO: release ownership of all subsystems involved.
         if (currOwner != null)
         {
             TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
             tracer.traceInfo(
                 moduleName,
                 "Releasing subsystem ownership (currOwner=" + currOwner +
+                ", intake=" + ownershipMgr.getOwner(robot.intake) +
+                ", shooter=" + ownershipMgr.getOwner(robot.shooter) +
                 ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
             robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
             currOwner = null;
@@ -182,6 +180,8 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     protected void stopSubsystems()
     {
         tracer.traceInfo(moduleName, "Stopping subsystems.");
+        robot.intake.cancel(currOwner);
+        robot.shooter.cancel(currOwner);
         robot.robotDrive.cancel(currOwner);
     }   //stopSubsystems
 
@@ -204,23 +204,55 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
         switch (state)
         {
             case START:
-                // TODO: Determine what AprilTag ID to look for according to alliance and position to go to based on alignment (L/M/R)
-                if (taskParams.useVision && robot.photonVisionFront != null)
+                relAprilTagPose = null;
+                if (robot.shooter != null)
+                {
+                    robot.shooter.aimShooter(
+                        currOwner, RobotParams.Shooter.shooterPickupVelocity, RobotParams.Shooter.tiltPickupAngle,
+                        0.0, null, 0.0, null);
+                }
+                // Auto pickup from source must use vision. If vision is not available, quit.
+                if (robot.photonVisionFront != null)
                 {
                     tracer.traceInfo(moduleName, "Using AprilTag Vision.");
                     sm.setState(State.FIND_APRILTAG);
                 }
                 else 
                 {
-                    // cancel auto task if no vision
-                    // maybe still backwards spin shooter motor
+                    sm.setState(State.DONE);
                 }
                 break;
 
             case FIND_APRILTAG:
-                // start shooter/tilter WHILE setting up
-                // start vision (front cam)
-                // look for apriltag
+                // Use vision to determine the appropriate AprilTag location.
+                FrcPhotonVision.DetectedObject object = robot.photonVisionFront.getDetectedAprilTag(-1);
+                if (object != null)
+                {
+                    aprilTagId = object.target.getFiducialId();
+                    if (taskParams.relocalize)
+                    {
+                        TrcPose2D robotFieldPose =
+                            robot.photonVisionFront.getRobotFieldPosition(RobotParams.Vision.CAMERA_TRANSFORM3D);
+                        // If we see the AprilTag, we can use its location to re-localize the robot.
+                        robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
+                        tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
+                    }
+                    relAprilTagPose = object.targetPose.toPose2D();
+                    tracer.traceInfo(
+                        moduleName, "Vision found AprilTag %d at %s from camera.", aprilTagId, object.targetPose);
+                    sm.setState(State.DRIVE_TO_APRILTAG);
+                }
+                else if (visionExpiredTime == null)
+                {
+                    // Can't find AprilTag, set a timeout and try again.
+                    visionExpiredTime = TrcTimer.getCurrentTime() + 1.0;
+                }
+                else if (TrcTimer.getCurrentTime() >= visionExpiredTime)
+                {
+                    // Timed out, moving on.
+                    tracer.traceInfo(moduleName, "No AprilTag found.");
+                    sm.setState(State.DRIVE_TO_APRILTAG);
+                }
                 break;
 
             case DRIVE_TO_APRILTAG:
@@ -230,7 +262,6 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
 
             default:
             case DONE:
-                // stop shooter
                 // Stop task.
                 stopAutoTask(true);
                 break;

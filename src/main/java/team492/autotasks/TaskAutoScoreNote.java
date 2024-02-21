@@ -194,8 +194,9 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 ", intake=" + ownershipMgr.getOwner(robot.intake) +
                 ", shooter=" + ownershipMgr.getOwner(robot.shooter) +
                 ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
-            robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
+            robot.intake.releaseExclusiveAccess(currOwner);
             robot.shooter.releaseExclusiveAccess(currOwner);
+            robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
             currOwner = null;
         }
     }   //releaseSubsystemsOwnership
@@ -345,7 +346,8 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
             case AIM_IN_PLACE:
                 if (relAprilTagPose != null)
                 {
-                    robot.robotDrive.pidDrive.setRelativeTurnTarget(relAprilTagPose.angle, event);
+                    robot.robotDrive.pidDrive.setRelativeTarget(
+                        currOwner, 0.0, 0.0, relAprilTagPose.angle, false, event, 0.0);
                     sm.waitForSingleEvent(event, State.SCORE_NOTE);
                 }
                 else if (robot.ledIndicator != null)

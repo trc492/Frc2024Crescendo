@@ -585,6 +585,7 @@ public class RobotParams
         public static final double shooterMaxVelocity           = 100.0;    // in rot per second.
         public static final double shooterMaxAcceleration       = 100.0;    // in rot per second square.
         public static final double shooterVelocityTolerance     = 3.0;      // in rot per second.
+        public static final double shooterPickupVelocity        = 30.0;     // in rot per second. TODO: Tune
 
         public static final int tiltCanId                       = CANID_TILT_MOTOR;
         public static final boolean tiltMotorInverted           = true;
@@ -604,6 +605,7 @@ public class RobotParams
 
         public static final double tiltMaxHoldingPower          = 0.0;              //TODO: tune
         public static final double tiltAngleTolerance           = 1.0;              //TODO: tune
+        public static final double tiltPickupAngle              = 80.0;             //TODO: tune
     }   //class Shooter
 
     public static class Climber

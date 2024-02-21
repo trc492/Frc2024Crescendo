@@ -189,7 +189,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         switch (state)
         {
             case START:
-                // We are checking if the back camera is working, and if so, moving to the DETECT_NOTE state
+                // Auto pickup from ground must use vision. If vision is not available, quit.
                 if (robot.photonVisionBack != null)
                 {
                     tracer.traceInfo(moduleName, "Using Note Vision.");
@@ -198,7 +198,6 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 }
                 else
                 {
-                    // Back camera is not enabled, moving to DONE State
                     tracer.traceInfo(moduleName, "Not using Note Vision.");
                     sm.setState(State.DONE);
                 }
