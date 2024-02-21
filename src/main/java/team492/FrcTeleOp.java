@@ -184,6 +184,15 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 //
                 if (RobotParams.Preferences.useSubsystems)
                 {
+                    if (robot.intake != null)
+                    {
+                        robot.dashboard.displayPrintf(
+                            lineNum++, "Intake: power=%.2f, entry/exit=%s/%s",
+                            robot.intake.getPower(),
+                            robot.intake.isTriggerActive(robot.intake.entryTrigger),
+                            robot.intake.isTriggerActive(robot.intake.exitTrigger));
+                    }
+
                     if (robot.shooter != null)
                     {
                         double shooterVel =

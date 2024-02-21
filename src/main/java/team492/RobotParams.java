@@ -564,11 +564,11 @@ public class RobotParams
     public static class Intake
     {
         public static final int motorCandId                     = CANID_INTAKE_MOTOR;
-        public static final boolean motorInverted               = false;    //TODO: tune
+        public static final boolean motorInverted               = false;
         public static final int entrySensorChannel              = DIO_INTAKE_ENTRY;
         public static final int exitSensorChannel               = DIO_INTAKE_EXIT;
-        public static final boolean entrySensorInverted         = false;    //TODO: tune
-        public static final boolean exitSensorInverted          = false;    //TODO: tune
+        public static final boolean entrySensorInverted         = true;
+        public static final boolean exitSensorInverted          = true;
 
         public static final double intakePower                  = 0.5;      // TODO: Tune
         public static final double ejectForwardPower            = 0.5;      // TODO: Tune
