@@ -106,6 +106,30 @@ public class PhotonVision extends FrcPhotonVision
     }   //PhotonVision
 
     /**
+     * This method returns the detected AprilTag object.
+     *
+     * @param aprilTagId specifies the AprilTag ID to look for, -1 if looking for any AprilTag.
+     * @return detected AprilTag object.
+     */
+    @Override
+    public DetectedObject getDetectedAprilTag(int aprilTagId)
+    {
+        DetectedObject detectedAprilTag = null;
+
+        if (currPipeline == PipelineType.APRILTAG)
+        {
+            detectedAprilTag = super.getDetectedAprilTag(aprilTagId);
+
+            if (detectedAprilTag != null && ledIndicator != null)
+            {
+                ledIndicator.setPhotonDetectedObject(getPipeline());
+            }
+        }
+
+        return detectedAprilTag;
+    }   //getDetectedAprilTag
+
+    /**
      * This method returns the best detected object and set the LED to indicate type detected object type.
      *
      * @return best detected object.
