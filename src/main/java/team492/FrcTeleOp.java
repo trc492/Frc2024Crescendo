@@ -45,14 +45,20 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     private double driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
     private double turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
     private double[] prevDriveInputs = null;
-    private static final double shooterMaxVel = RobotParams.Shooter.shooterMaxVelocity; // in rps.
+
+    private double prevShooterVel = 0.0;
     private static final double shooterMinInc = 1.0;    // in rps.
     private static final double shooterMaxInc = 10.0;   // in rps.
-    private double prevShooterVel = 0.0;
     private double presetShooterVel = 0.0;
     private double presetShooterInc = 10.0;
+
     private double prevTiltPower = 0.0;
-    private boolean manualOverride = false;
+    private static final double tiltMinInc = 1.0;       // in degrees
+    private static final double tiltMaxInc = 10.0;      // in degrees
+    private double presetTiltAngle = 0.0;               // in degrees
+    private double presetTiltInc = 0.0;                 // in degrees
+
+    private boolean altFunc = false;
 
     /**
      * Constructor: Create an instance of the object.
@@ -197,24 +203,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     {
                         double shooterVel =
                             (robot.operatorController.getRightTriggerAxis() -
-                             robot.operatorController.getLeftTriggerAxis()) * shooterMaxVel;
-                        if (presetShooterVel != 0.0)
-                        {
-                            if (shooterVel == 0.0)
-                            {
-                                // We have a button preset velocity and joystick is not overriding, set shooter to
-                                // preset velocity.
-                                shooterVel = presetShooterVel;
-                            }
-                            else
-                            {
-                                // We have a button preset velocity but joystick is overriding, set shooter to
-                                // joystick value and clear button preset velocity.
-                                presetShooterVel = 0.0;
-                            }
-                        }
-
-                        // Only set shooter velocity if it is different from previous velocity.
+                             robot.operatorController.getLeftTriggerAxis()) * RobotParams.Shooter.shooterMaxVelocity;
+                        // Only set shooter velocity if it is different from previous value.
                         if (prevShooterVel != shooterVel)
                         {
                             if (shooterVel == 0.0)
@@ -232,20 +222,18 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             lineNum++, "Shooter: vel=%.0f/%.0f, preset=%.0f, inc=%.0f",
                             shooterVel, robot.shooter.getShooterVelocity(), presetShooterVel, presetShooterInc);
 
-                        // Controlling tilt angle.
                         double tiltPower = robot.operatorController.getLeftYWithDeadband(true);
+                        // Only set tilt power if it is different from previous value.
                         if (prevTiltPower != tiltPower)
                         {
                             robot.shooter.setTiltPower(tiltPower);
                             prevTiltPower = tiltPower;
                         }
                         robot.dashboard.displayPrintf(
-                            lineNum++, "Tilt: power=%.2f/%.2f, angle=%.2f/%.2f/%f, limits=%s/%s",
-                            tiltPower, robot.shooter.getTiltPower(),
-                            robot.shooter.getTiltAngle(),
-                            robot.shooter.tiltMotor.getPidTarget(),
-                            robot.shooter.tiltMotor.getMotorPosition(),
-                            robot.shooter.tiltLowerLimitSwitchActive(),
+                            lineNum++, "Tilt: power=%.2f/%.2f, angle=%.2f/%.2f/%f, inc=%.0f, limits=%s/%s",
+                            tiltPower, robot.shooter.getTiltPower(), robot.shooter.getTiltAngle(),
+                            robot.shooter.tiltMotor.getPidTarget(), robot.shooter.tiltMotor.getMotorPosition(),
+                            presetTiltInc, robot.shooter.tiltLowerLimitSwitchActive(),
                             robot.shooter.tiltUpperLimitSwitchActive());
                     }
                 }
@@ -412,7 +400,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     if (pressed)
                     {
-                        if (manualOverride)
+                        if (altFunc)
                         {
                             // AKA: spit!
                             robot.intake.autoEjectReverse(RobotParams.Intake.ejectReversePower, 0.0);
@@ -445,10 +433,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.LEFT_BUMPER:
-                manualOverride = pressed;
+                altFunc = pressed;
                 if (robot.shooter != null)
                 {
-                    robot.shooter.setManualOverrideEnabled(manualOverride);
+                    robot.shooter.setManualOverrideEnabled(altFunc);
                 }
                 break;
 
@@ -456,63 +444,85 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.DPAD_UP:
-                if (pressed)
+                if (pressed && robot.shooter != null)
                 {
-                    if (manualOverride)
+                    if (altFunc)
                     {
-                        if (robot.shooter != null)
+                        if (presetShooterVel + presetShooterInc <= RobotParams.Shooter.shooterMaxVelocity)
                         {
-                            robot.shooter.tiltMotor.presetPositionUp(
-                                moduleName, RobotParams.Shooter.tiltPowerLimit);
+                            presetShooterVel += presetShooterInc;
+                            robot.shooter.setShooterVelocity(presetShooterVel);
                         }
                     }
                     else
                     {
-                        if (presetShooterVel + presetShooterInc <= shooterMaxVel)
+                        if (presetTiltAngle + presetTiltInc <= RobotParams.Shooter.tiltMaxPos)
                         {
-                            presetShooterVel += presetShooterInc;
+                            presetTiltAngle += presetTiltInc;
+                            robot.shooter.setTiltAngle(presetTiltAngle);
                         }
                     }
                 }
                 break;
 
             case FrcXboxController.DPAD_DOWN:
-                if (pressed)
+                if (pressed && robot.shooter != null)
                 {
-                    if (manualOverride)
+                    if (altFunc)
                     {
-                        if (robot.shooter != null)
+                        if (presetShooterVel - presetShooterInc >= -RobotParams.Shooter.shooterMaxVelocity)
                         {
-                            robot.shooter.tiltMotor.presetPositionDown(
-                                moduleName, RobotParams.Shooter.tiltPowerLimit);
+                            presetShooterVel -= presetShooterInc;
+                            robot.shooter.setShooterVelocity(presetShooterVel);
                         }
                     }
                     else
                     {
-                        if (presetShooterVel - presetShooterInc >= -shooterMaxVel)
+                        if (presetTiltAngle - presetTiltInc >= RobotParams.Shooter.tiltMinPos)
                         {
-                            presetShooterVel -= presetShooterInc;
+                            presetTiltAngle -= presetTiltInc;
+                            robot.shooter.setTiltAngle(presetTiltAngle);
                         }
                     }
                 }
                 break;
 
             case FrcXboxController.DPAD_LEFT:
-                if (pressed)
+                if (pressed && robot.shooter != null)
                 {
-                    if (presetShooterInc * 10.0 <= shooterMaxInc)
+                    if (altFunc)
                     {
-                        presetShooterInc *= 10.0;
+                        if (presetShooterInc * 10.0 <= shooterMaxInc)
+                        {
+                            presetShooterInc *= 10.0;
+                        }
+                    }
+                    else
+                    {
+                        if (presetTiltInc * 10.0 <= tiltMaxInc)
+                        {
+                            presetTiltInc *= 10.0;
+                        }
                     }
                 }
                 break;
 
             case FrcXboxController.DPAD_RIGHT:
-                if (pressed)
+                if (pressed && robot.shooter != null)
                 {
-                    if (presetShooterInc / 10.0 >= shooterMinInc)
+                    if (altFunc)
                     {
-                        presetShooterInc /= 10.0;
+                        if (presetShooterInc / 10.0 >= shooterMinInc)
+                        {
+                            presetShooterInc /= 10.0;
+                        }
+                    }
+                    else
+                    {
+                        if (presetTiltInc / 10.0 >= tiltMinInc)
+                        {
+                            presetTiltInc /= 10.0;
+                        }
                     }
                 }
                 break;

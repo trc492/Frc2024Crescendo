@@ -231,7 +231,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                         currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
                     sm.addEvent(intakeEvent);
                     robot.robotDrive.purePursuitDrive.start(
-                        currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(),true, notePose);
+                        currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true, notePose);
                     sm.addEvent(driveEvent);
                     sm.waitForEvents(State.DONE, false);
                 }
