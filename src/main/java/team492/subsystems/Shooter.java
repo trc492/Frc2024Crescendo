@@ -24,7 +24,6 @@ package team492.subsystems;
 
 import TrcCommonLib.trclib.TrcShooter;
 import TrcCommonLib.trclib.TrcUtil;
-import TrcCommonLib.trclib.TrcDbgTrace.MsgLevel;
 import TrcFrcLib.frclib.FrcCANFalcon;
 import TrcFrcLib.frclib.FrcCANSparkMax;
 import team492.RobotParams;
@@ -72,9 +71,10 @@ public class Shooter
         // PID coefficients.
         tiltMotor.setSoftwarePidEnabled(true);
         tiltMotor.setPositionPidCoefficients(RobotParams.Shooter.tiltPosPidCoeff);
+        tiltMotor.setPositionPidTolerance(RobotParams.Shooter.tiltPosPidTolerance);
         // Tilt is heavily geared down, so don't really need gravity compensation.
         // tiltMotor.setPositionPidPowerComp(this::getTiltGravityComp);
-        tiltMotor.setTraceLevel(MsgLevel.DEBUG, true, false, null);
+        tiltMotor.setPosPresets(RobotParams.Shooter.tiltPresetPosTolerance, RobotParams.Shooter.tiltPresetPositions);
 
         TrcShooter.PanTiltParams tiltParams = new TrcShooter.PanTiltParams(
             RobotParams.Shooter.tiltPowerLimit, RobotParams.Shooter.tiltMinPos, RobotParams.Shooter.tiltMaxPos);

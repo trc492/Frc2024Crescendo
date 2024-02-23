@@ -594,7 +594,8 @@ public class RobotParams
         public static final double tiltPosOffset                = -14.0;    // in degrees
         public static final double tiltZeroOffset               = 0.036;    // in raw encoder unit
         public static final double tiltPowerLimit               = 0.5;      //TODO: tune
-        public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.005, 0.0, 0.0, 0.0);
+        public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.025, 0.0, 0.001, 0.0);
+        public static final double tiltPosPidTolerance          = 2.0;
         public static final double tiltMinPos                   = tiltPosOffset;    //TODO: tune
         public static final double tiltMaxPos                   = 85.0;             //TODO: tune
         public static final double tiltVelocity                 = 0.0;              //TODO: tune
@@ -606,6 +607,9 @@ public class RobotParams
         public static final double tiltMaxHoldingPower          = 0.0;              //TODO: tune
         public static final double tiltAngleTolerance           = 1.0;              //TODO: tune
         public static final double tiltPickupAngle              = 80.0;             //TODO: tune
+        public static final double tiltPresetPosTolerance       = 2.0;              // in degrees.
+        public static final double[] tiltPresetPositions        = new double[]
+            {tiltMinPos, 0.0, 15.0, 30.0, 45.0, 60.0, 75.0, tiltMaxPos};
     }   //class Shooter
 
     public static class Climber

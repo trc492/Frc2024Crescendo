@@ -48,10 +48,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     private static final double shooterMaxVel = RobotParams.Shooter.shooterMaxVelocity; // in rps.
     private static final double shooterMinInc = 1.0;    // in rps.
     private static final double shooterMaxInc = 10.0;   // in rps.
-    private Double prevShooterVel = null;
+    private double prevShooterVel = 0.0;
     private double presetShooterVel = 0.0;
     private double presetShooterInc = 10.0;
-    private Double prevTiltPower = null;
+    private double prevTiltPower = 0.0;
     private boolean manualOverride = false;
 
     /**
@@ -214,9 +214,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             }
                         }
 
-                        if (prevShooterVel == null || prevShooterVel != shooterVel)
+                        // Only set shooter velocity if it is different from previous velocity.
+                        if (prevShooterVel != shooterVel)
                         {
-                            // Only set shooter velocity if it is different from previous velocity.
                             if (shooterVel == 0.0)
                             {
                                 // Don't abruptly stop the shooter, gently spin down.
@@ -234,14 +234,16 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
                         // Controlling tilt angle.
                         double tiltPower = robot.operatorController.getLeftYWithDeadband(true);
-                        if (prevTiltPower == null || prevTiltPower != tiltPower)
+                        if (prevTiltPower != tiltPower)
                         {
                             robot.shooter.setTiltPower(tiltPower);
+                            prevTiltPower = tiltPower;
                         }
                         robot.dashboard.displayPrintf(
-                            lineNum++, "Tilt: power=%.2f/%.2f, angle=%.2f/%f, limits=%s/%s",
+                            lineNum++, "Tilt: power=%.2f/%.2f, angle=%.2f/%.2f/%f, limits=%s/%s",
                             tiltPower, robot.shooter.getTiltPower(),
                             robot.shooter.getTiltAngle(),
+                            robot.shooter.tiltMotor.getPidTarget(),
                             robot.shooter.tiltMotor.getMotorPosition(),
                             robot.shooter.tiltLowerLimitSwitchActive(),
                             robot.shooter.tiltUpperLimitSwitchActive());
@@ -456,9 +458,20 @@ public class FrcTeleOp implements TrcRobot.RobotMode
             case FrcXboxController.DPAD_UP:
                 if (pressed)
                 {
-                    if (presetShooterVel + presetShooterInc <= shooterMaxVel)
+                    if (manualOverride)
                     {
-                        presetShooterVel += presetShooterInc;
+                        if (robot.shooter != null)
+                        {
+                            robot.shooter.tiltMotor.presetPositionUp(
+                                moduleName, RobotParams.Shooter.tiltPowerLimit);
+                        }
+                    }
+                    else
+                    {
+                        if (presetShooterVel + presetShooterInc <= shooterMaxVel)
+                        {
+                            presetShooterVel += presetShooterInc;
+                        }
                     }
                 }
                 break;
@@ -466,9 +479,20 @@ public class FrcTeleOp implements TrcRobot.RobotMode
             case FrcXboxController.DPAD_DOWN:
                 if (pressed)
                 {
-                    if (presetShooterVel - presetShooterInc >= -shooterMaxVel)
+                    if (manualOverride)
                     {
-                        presetShooterVel -= presetShooterInc;
+                        if (robot.shooter != null)
+                        {
+                            robot.shooter.tiltMotor.presetPositionDown(
+                                moduleName, RobotParams.Shooter.tiltPowerLimit);
+                        }
+                    }
+                    else
+                    {
+                        if (presetShooterVel - presetShooterInc >= -shooterMaxVel)
+                        {
+                            presetShooterVel -= presetShooterInc;
+                        }
                     }
                 }
                 break;
