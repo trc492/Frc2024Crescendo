@@ -178,6 +178,7 @@ public class ShootParamTable
      */
     private double interpolateTiltAngle(double distance, Params entry1, Params entry2)
     {
+        // TODO: interpolation should NOT be linear. It should have a tangent relationship with distance.
         double w = (distance - entry1.distance) / (entry2.distance - entry1.distance);
         double value = (1 - w) * entry1.tiltAngle + w * entry2.tiltAngle;
         return value;
@@ -194,6 +195,7 @@ public class ShootParamTable
      */
     private double extrapolateTiltAngle(double distance, Params entry1, Params entry2)
     {
+        // TODO: extrapolation should NOT be linear. It should have a tangent relationship with distance.
         double deltaAngle = entry2.tiltAngle - entry1.tiltAngle;
         double deltaDistance = entry2.distance - entry1.distance;
         double m = deltaAngle / deltaDistance;

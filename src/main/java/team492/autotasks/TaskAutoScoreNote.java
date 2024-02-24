@@ -369,12 +369,12 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                         break;
 
                     case Amp:
-                        shootParams = RobotParams.Shooter.ampShootParams;
                         // Use tuned Amp shooting parameters.
+                        shootParams = RobotParams.Shooter.ampShootParams;
                         break;
 
                     case Stage:
-                        // Use vision distance to look up shooter parameters???
+                        // Use vision distance to look up shooter parameters or tuned Stage shooting params???
                         shootParams = RobotParams.Shooter.stageShootParams;
                         break;
                 }
