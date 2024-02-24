@@ -30,9 +30,12 @@ import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcFrcLib.frclib.FrcPhotonVision;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import team492.FrcAuto;
 import team492.Robot;
 import team492.RobotParams;
+import team492.vision.PhotonVision.PipelineType;
 
 /**
  * This class implements auto-assist task.
@@ -41,10 +44,16 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
 {
     private static final String moduleName = TaskAutoPickupFromSource.class.getSimpleName();
 
+    public enum Alignment
+    {
+        Left,
+        Middle,
+        Right
+    }
+
     public enum State
     {
         START,
-        // start shooter/tilter WHILE setting up
         FIND_APRILTAG,
         DRIVE_TO_APRILTAG,
         DONE
@@ -54,9 +63,9 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     {
         boolean relocalize;
         double timeout;
-        int alignment;
+        Alignment alignment;
 
-        TaskParams(boolean relocalize, double timeout, int alignment)
+        TaskParams(boolean relocalize, double timeout, Alignment alignment)
         {
             this.relocalize = relocalize;
             this.timeout = timeout;
@@ -93,7 +102,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
     public void autoAssistPickup(
-        Alliance alliance, boolean relocalize, double timeout, int alignment, TrcEvent completionEvent)
+        Alliance alliance, boolean relocalize, double timeout, Alignment alignment, TrcEvent completionEvent)
     {
         tracer.traceInfo(
             moduleName,
@@ -179,6 +188,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     @Override
     protected void stopSubsystems()
     {
+        // unregisterExitTriggerNotifyEvent();
         tracer.traceInfo(moduleName, "Stopping subsystems.");
         robot.intake.cancel(currOwner);
         robot.shooter.cancel(currOwner);
@@ -205,6 +215,22 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
         {
             case START:
                 relAprilTagPose = null;
+                switch (taskParams.alignment)
+                {
+                    case Left:
+                        aprilTagId = 
+                            (FrcAuto.autoChoices.getAlliance() == Alliance.Red)? 2: 10;
+                        break;
+
+                    case Right:
+                        aprilTagId = 
+                            (FrcAuto.autoChoices.getAlliance() == Alliance.Red)? 1: 9;
+                        break;
+
+                    default:
+                        break;
+                }
+
                 if (robot.shooter != null)
                 {
                     robot.shooter.aimShooter(
@@ -217,9 +243,9 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                     tracer.traceInfo(moduleName, "Using AprilTag Vision.");
                     sm.setState(State.FIND_APRILTAG);
                 }
-                else 
+                else
                 {
-                    sm.setState(State.DONE);
+                    sm.setState(State.DRIVE_TO_APRILTAG);
                 }
                 break;
 
@@ -228,7 +254,24 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                 FrcPhotonVision.DetectedObject object = robot.photonVisionFront.getDetectedAprilTag(-1);
                 if (object != null)
                 {
-                    aprilTagId = object.target.getFiducialId();
+                    // case MIDDLE 
+                    if (aprilTagId == -1)
+                    {
+                        int target = object.target.getFiducialId();
+                        if (FrcAuto.autoChoices.getAlliance() == DriverStation.Alliance.Red)
+                        {
+                            aprilTagId = 
+                                (target == 9 || target == 10)? target: -1;
+
+                        }
+                        else
+                        {
+                            aprilTagId = 
+                                (target == 1 || target == 2)? target: -1;
+
+                        }
+                    }
+
                     if (taskParams.relocalize)
                     {
                         TrcPose2D robotFieldPose =
@@ -259,6 +302,45 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                 // align + drive to source using apriltags
                 // flash LED when ready (for human player)
                 // after intaking, flash LED (for driver)
+
+                if (relAprilTagPose != null)
+                {
+                    // Account for end-effector offset from the camera and heading.
+                    relAprilTagPose.y -= 5.85; //TODO: Tune
+                    // if Middle shift x (there's no middle apriltag)
+                    if (taskParams.alignment == Alignment.Middle)
+                    {
+                        if (FrcAuto.autoChoices.getAlliance() == DriverStation.Alliance.Red)
+                        {
+                            relAprilTagPose.x += 
+                                (aprilTagId == 10)? 5.0: -5.0; //TODO: Tune
+                        }
+                        else
+                        {
+                            relAprilTagPose.x += 
+                                (aprilTagId == 2)? 5.0: -5.0; //TODO: Tune
+                        }
+                    }
+                    // We are right in front of the Source, so we don't need full power to approach it.
+                    tracer.traceInfo(
+                        moduleName,
+                        state + ": RobotFieldPose=" + robot.robotDrive.driveBase.getFieldPosition() +
+                        ", RelAprilTagPose=" + relAprilTagPose);
+                    // registerExitTriggerNotifyEvent(event, true);
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.35);
+                    robot.robotDrive.purePursuitDrive.start(
+                        currOwner, null, 3.0, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        relAprilTagPose);
+                }
+                else if (robot.ledIndicator != null)
+                {
+                    // Did not detect AprilTag, tell the drivers and quit.
+                    robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
+                    robot.ledIndicator.setPhotonDetectedObject(null);
+                }
+                // registerExitTriggerNotifyEvent(event, true);
+                sm.waitForSingleEvent(event, State.DONE);
+                break;
 
             default:
             case DONE:
