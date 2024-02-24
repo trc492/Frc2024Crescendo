@@ -603,7 +603,7 @@ public class Robot extends FrcRobotBase
      *
      * @param completionEvent specifies the event to signal when the shoot operation is completed.
      */
-    private void shoot(TrcEvent completionEvent)
+    public void shoot(TrcEvent completionEvent)
     {
         shooter.tracer.traceDebug(
             intake.toString(), "power=" + RobotParams.Intake.ejectForwardPower + ", event=" + completionEvent);

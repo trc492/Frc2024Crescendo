@@ -33,6 +33,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import team492.autotasks.ShootParamTable;
 import team492.drivebases.RobotDrive.DriveMode;
 
 /**
@@ -588,6 +589,18 @@ public class RobotParams
         public static final double shooterVelMinInc             = 1.0;      // in rps.
         public static final double shooterVelMaxInc             = 10.0;     // in rps.
         public static final double shooterPickupVelocity        = 30.0;     // in rps. TODO: Tune
+        public static final ShootParamTable.Params ampShootParams = new ShootParamTable.Params(
+            "Amp", 0.0, 30.0, 60.0);
+        public static final ShootParamTable.Params stageShootParams = new ShootParamTable.Params(
+            "Stage", 0.0, 30.0, 60.0);
+        public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
+            .add("Speaker0ft", 12.0, 2700, 45.0)
+            .add("Speaker1ft", 24.0, 50.0, 45.0)
+            .add("Speaker2ft", 36.0, 50.0, 45.0)
+            .add("Speaker3ft", 48.0, 50.0, 45.0)
+            .add("Speaker4ft", 60.0, 50.0, 45.0)
+            .add("Speaker5ft", 72.0, 50.0, 45.0)
+            .add("Speaker6ft", 84.0, 50.0, 45.0);
 
         public static final int tiltCanId                       = CANID_TILT_MOTOR;
         public static final boolean tiltMotorInverted           = true;

@@ -359,6 +359,27 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
 
             case SCORE_NOTE:
                 // Determine shooter speed and tilt angle according to the score target type.
+                ShootParamTable.Params shootParams = null;
+
+                switch (taskParams.targetType)
+                {
+                    case Speaker:
+                        // Use vision distance to look up shooter parameters.
+                        shootParams = RobotParams.Shooter.speakerShootParamTable.get(relAprilTagPose.y);
+                        break;
+
+                    case Amp:
+                        shootParams = RobotParams.Shooter.ampShootParams;
+                        // Use tuned Amp shooting parameters.
+                        break;
+
+                    case Stage:
+                        // Use vision distance to look up shooter parameters???
+                        shootParams = RobotParams.Shooter.stageShootParams;
+                        break;
+                }
+                robot.shooter.aimShooter(currOwner, shootParams.shooterVelocity, shootParams.tiltAngle, 0.0, event, 0.0, robot::shoot);
+                sm.waitForSingleEvent(event, State.DONE);
                 break;
 
             default:
