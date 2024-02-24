@@ -49,15 +49,6 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         DONE
     }   //enum State
 
-    // private static class TaskParams
-    // {
-    //     boolean inAuto;
-    //     TaskParams(boolean inAuto)
-    //     {
-    //         this.inAuto = inAuto;
-    //     }   //TaskParams
-    // }   //class TaskParams
-
     private final String ownerName;
     private final Robot robot;
     private final TrcEvent driveEvent;
@@ -79,7 +70,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         this.ownerName = ownerName;
         this.robot = robot;
         this.driveEvent = new TrcEvent(moduleName + ".driveEvent");
-        this.intakeEvent = new TrcEvent(moduleName +".intakeEvent");
+        this.intakeEvent = new TrcEvent(moduleName + ".intakeEvent");
     }   //TaskAutoPickupFromGround
 
     /**
@@ -87,7 +78,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
      *
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
-    public void autoAssistPickup(TrcEvent completionEvent, boolean inAuto)
+    public void autoAssistPickup(TrcEvent completionEvent)
     {
         tracer.traceInfo(moduleName, "event=" + completionEvent);
         startAutoTask(State.START, null, completionEvent);
@@ -117,8 +108,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     protected boolean acquireSubsystemsOwnership()
     {
         boolean success = ownerName == null ||
-                          robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName) &&
-                          robot.intake.acquireExclusiveAccess(ownerName);
+                          robot.intake.acquireExclusiveAccess(ownerName) &&
+                          robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName);
 
         if (success)
         {
@@ -131,8 +122,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
             tracer.traceWarn(
                 moduleName,
                 "Failed to acquire subsystem ownership (currOwner=" + currOwner +
-                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) +
-                ", intake=" + ownershipMgr.getOwner(robot.intake) + ").");
+                ", intake=" + ownershipMgr.getOwner(robot.intake) +
+                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
             releaseSubsystemsOwnership();
         }
 
@@ -152,10 +143,10 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
             tracer.traceInfo(
                 moduleName,
                 "Releasing subsystem ownership (currOwner=" + currOwner +
-                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) +
-                ", intake=" + ownershipMgr.getOwner(robot.intake) + ").");
-            robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
+                ", intake=" + ownershipMgr.getOwner(robot.intake) +
+                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
             robot.intake.releaseExclusiveAccess(currOwner);
+            robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
             currOwner = null;
         }
     }   //releaseSubsystemsOwnership
@@ -167,8 +158,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     protected void stopSubsystems()
     {
         tracer.traceInfo(moduleName, "Stopping subsystems.");
-        robot.robotDrive.cancel(currOwner);
         robot.intake.cancel(currOwner);
+        robot.robotDrive.cancel(currOwner);
     }   //stopSubsystems
 
     /**
@@ -185,7 +176,6 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     protected void runTaskState(
         Object params, State state, TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
     {
-        // TaskParams taskParams = (TaskParams) params;
         switch (state)
         {
             case START:
@@ -209,6 +199,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 if (object != null)
                 {
                     notePose = object.getObjectPose().toPose2D();
+                    tracer.traceInfo(moduleName, "Vision found Note at %s from camera.", notePose);
                     sm.setState(State.DRIVE_TO_NOTE);
                 }
                 else if (visionExpiredTime == null)
@@ -230,6 +221,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     robot.intake.autoIntake(
                         currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
                     sm.addEvent(intakeEvent);
+                    // We are right in front of the Speaker, so we don't need full power to approach it.
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.35);
                     robot.robotDrive.purePursuitDrive.start(
                         currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true, notePose);
                     sm.addEvent(driveEvent);

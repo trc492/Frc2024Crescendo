@@ -106,6 +106,22 @@ public class PhotonVision extends FrcPhotonVision
     }   //PhotonVision
 
     /**
+     * This method returns the 3D field location of the AprilTag with its given ID.
+     *
+     * @param aprilTagId sepcifies the AprilTag ID to retrieve its field location.
+     * @return 3D location of the AprilTag.
+     */
+    public TrcPose3D getAprilTagPose(int aprilTagId)
+    {
+        Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(aprilTagId);
+        Pose3d pose3d = tagPose.isPresent()? tagPose.get(): null;
+        Rotation3d rotation = pose3d != null? pose3d.getRotation(): null;
+        return pose3d != null?
+                new TrcPose3D(-pose3d.getY(), pose3d.getX(), pose3d.getZ(),
+                              -rotation.getZ(), rotation.getY(), rotation.getX()): null;
+    }   //getAprilTagPose
+
+    /**
      * This method returns the detected AprilTag object.
      *
      * @param aprilTagId specifies the AprilTag ID to look for, -1 if looking for any AprilTag.
@@ -130,20 +146,22 @@ public class PhotonVision extends FrcPhotonVision
     }   //getDetectedAprilTag
 
     /**
-     * This method returns the 3D field location of the AprilTag with its given ID.
+     * This method returns the best detected object.
      *
-     * @param aprilTagId sepcifies the AprilTag ID to retrieve its field location.
-     * @return 3D location of the AprilTag.
+     * @return best detected object.
      */
-    public TrcPose3D getAprilTagPose(int aprilTagId)
+    @Override
+    public DetectedObject getBestDetectedObject()
     {
-        Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(aprilTagId);
-        Pose3d pose3d = tagPose.isPresent()? tagPose.get(): null;
-        Rotation3d rotation = pose3d != null? pose3d.getRotation(): null;
-        return pose3d != null?
-                new TrcPose3D(-pose3d.getY(), pose3d.getX(), pose3d.getZ(),
-                              -rotation.getZ(), rotation.getY(), rotation.getX()): null;
-    }   //getAprilTagPose
+        DetectedObject bestDetectedObj = super.getBestDetectedObject();
+
+        if (bestDetectedObj != null && ledIndicator != null)
+        {
+            ledIndicator.setPhotonDetectedObject(getPipeline());
+        }
+
+        return bestDetectedObj;
+    }   //getBestDetectedObject
 
     /**
      * This method sets the active pipeline type used in the LimeLight.
