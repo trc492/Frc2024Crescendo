@@ -24,6 +24,7 @@ package team492;
 
 import java.util.Locale;
 import TrcCommonLib.trclib.TrcDbgTrace;
+import TrcCommonLib.trclib.TrcDiscreteValue;
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcIntake;
 import TrcCommonLib.trclib.TrcOpenCvDetector;
@@ -113,6 +114,8 @@ public class Robot extends FrcRobotBase
     //
     public TrcIntake intake;
     public TrcShooter shooter;
+    public TrcDiscreteValue shooterVelocity;
+    public TrcDiscreteValue shooterTiltAngle;
     public Climber climber;
     //
     // Hybrid mode objects.
@@ -241,6 +244,16 @@ public class Robot extends FrcRobotBase
                 if (RobotParams.Preferences.useShooter)
                 {
                     shooter = new Shooter(this::shoot).getShooter();
+                    shooterVelocity = new TrcDiscreteValue(
+                        "ShooterVelocity",
+                        -RobotParams.Shooter.shooterMaxVelocity, RobotParams.Shooter.shooterMaxVelocity,
+                        RobotParams.Shooter.shooterVelMinInc, RobotParams.Shooter.shooterVelMaxInc,
+                        0.0, 10.0);
+                    shooterTiltAngle = new TrcDiscreteValue(
+                        "ShooterTiltAngle",
+                        RobotParams.Shooter.tiltMinAngle, RobotParams.Shooter.tiltMaxAngle,
+                        RobotParams.Shooter.tiltAngleMinInc, RobotParams.Shooter.tiltAngleMaxInc,
+                        0.0, 10.0);
                 }
             }
 

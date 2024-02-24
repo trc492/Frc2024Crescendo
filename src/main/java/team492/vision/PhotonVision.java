@@ -118,7 +118,7 @@ public class PhotonVision extends FrcPhotonVision
 
         if (currPipeline == PipelineType.APRILTAG)
         {
-            detectedAprilTag = super.getDetectedAprilTag(aprilTagId);
+            detectedAprilTag = aprilTagId == -1? super.getBestDetectedObject(): super.getDetectedAprilTag(aprilTagId);
 
             if (detectedAprilTag != null && ledIndicator != null)
             {
@@ -128,24 +128,6 @@ public class PhotonVision extends FrcPhotonVision
 
         return detectedAprilTag;
     }   //getDetectedAprilTag
-
-    /**
-     * This method returns the best detected object and set the LED to indicate type detected object type.
-     *
-     * @return best detected object.
-     */
-    @Override
-    public DetectedObject getBestDetectedObject()
-    {
-        DetectedObject detectedObject = super.getBestDetectedObject();
-
-        if (detectedObject != null && ledIndicator != null)
-        {
-            ledIndicator.setPhotonDetectedObject(getPipeline());
-        }
-
-        return detectedObject;
-    }   //getBestDetectedObject
 
     /**
      * This method returns the 3D field location of the AprilTag with its given ID.

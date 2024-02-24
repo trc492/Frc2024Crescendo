@@ -47,16 +47,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     private double[] prevDriveInputs = null;
 
     private double prevShooterVel = 0.0;
-    private static final double shooterMinInc = 1.0;    // in rps.
-    private static final double shooterMaxInc = 10.0;   // in rps.
-    private double presetShooterVel = 0.0;
-    private double presetShooterInc = 10.0;
-
     private double prevTiltPower = 0.0;
-    private static final double tiltMinInc = 1.0;       // in degrees
-    private static final double tiltMaxInc = 10.0;      // in degrees
-    private double presetTiltAngle = 0.0;               // in degrees
-    private double presetTiltInc = 0.0;                 // in degrees
 
     private boolean altFunc = false;
 
@@ -220,7 +211,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         }
                         robot.dashboard.displayPrintf(
                             lineNum++, "Shooter: vel=%.0f/%.0f, preset=%.0f, inc=%.0f",
-                            shooterVel, robot.shooter.getShooterVelocity(), presetShooterVel, presetShooterInc);
+                            shooterVel, robot.shooter.getShooterVelocity(), robot.shooterVelocity.getValue(),
+                            robot.shooterVelocity.getIncrement());
 
                         double tiltPower = robot.operatorController.getLeftYWithDeadband(true);
                         // Only set tilt power if it is different from previous value.
@@ -233,7 +225,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             lineNum++, "Tilt: power=%.2f/%.2f, angle=%.2f/%.2f/%f, inc=%.0f, limits=%s/%s",
                             tiltPower, robot.shooter.getTiltPower(), robot.shooter.getTiltAngle(),
                             robot.shooter.tiltMotor.getPidTarget(), robot.shooter.tiltMotor.getMotorPosition(),
-                            presetTiltInc, robot.shooter.tiltLowerLimitSwitchActive(),
+                            robot.shooterTiltAngle.getIncrement(), robot.shooter.tiltLowerLimitSwitchActive(),
                             robot.shooter.tiltUpperLimitSwitchActive());
                     }
                 }
@@ -448,19 +440,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     if (altFunc)
                     {
-                        if (presetShooterVel + presetShooterInc <= RobotParams.Shooter.shooterMaxVelocity)
-                        {
-                            presetShooterVel += presetShooterInc;
-                            robot.shooter.setShooterVelocity(presetShooterVel);
-                        }
+                        robot.shooter.setShooterVelocity(robot.shooterVelocity.upValue());
                     }
                     else
                     {
-                        if (presetTiltAngle + presetTiltInc <= RobotParams.Shooter.tiltMaxPos)
-                        {
-                            presetTiltAngle += presetTiltInc;
-                            robot.shooter.setTiltAngle(presetTiltAngle);
-                        }
+                        robot.shooter.setTiltAngle(robot.shooterTiltAngle.upValue());
                     }
                 }
                 break;
@@ -470,19 +454,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     if (altFunc)
                     {
-                        if (presetShooterVel - presetShooterInc >= -RobotParams.Shooter.shooterMaxVelocity)
-                        {
-                            presetShooterVel -= presetShooterInc;
-                            robot.shooter.setShooterVelocity(presetShooterVel);
-                        }
+                        robot.shooter.setShooterVelocity(robot.shooterVelocity.downValue());
                     }
                     else
                     {
-                        if (presetTiltAngle - presetTiltInc >= RobotParams.Shooter.tiltMinPos)
-                        {
-                            presetTiltAngle -= presetTiltInc;
-                            robot.shooter.setTiltAngle(presetTiltAngle);
-                        }
+                        robot.shooter.setTiltAngle(robot.shooterTiltAngle.downValue());
                     }
                 }
                 break;
@@ -492,17 +468,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     if (altFunc)
                     {
-                        if (presetShooterInc * 10.0 <= shooterMaxInc)
-                        {
-                            presetShooterInc *= 10.0;
-                        }
+                        robot.shooterVelocity.upIncrement();
                     }
                     else
                     {
-                        if (presetTiltInc * 10.0 <= tiltMaxInc)
-                        {
-                            presetTiltInc *= 10.0;
-                        }
+                        robot.shooterTiltAngle.upIncrement();
                     }
                 }
                 break;
@@ -512,17 +482,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     if (altFunc)
                     {
-                        if (presetShooterInc / 10.0 >= shooterMinInc)
-                        {
-                            presetShooterInc /= 10.0;
-                        }
+                        robot.shooterVelocity.downIncrement();
                     }
                     else
                     {
-                        if (presetTiltInc / 10.0 >= tiltMinInc)
-                        {
-                            presetTiltInc /= 10.0;
-                        }
+                        robot.shooterTiltAngle.downIncrement();
                     }
                 }
                 break;

@@ -77,7 +77,7 @@ public class Shooter
         tiltMotor.setPosPresets(RobotParams.Shooter.tiltPresetPosTolerance, RobotParams.Shooter.tiltPresetPositions);
 
         TrcShooter.PanTiltParams tiltParams = new TrcShooter.PanTiltParams(
-            RobotParams.Shooter.tiltPowerLimit, RobotParams.Shooter.tiltMinPos, RobotParams.Shooter.tiltMaxPos);
+            RobotParams.Shooter.tiltPowerLimit, RobotParams.Shooter.tiltMinAngle, RobotParams.Shooter.tiltMaxAngle);
         shooter = new TrcShooter(moduleName, shooterMotor, tiltMotor, tiltParams, null, null);
     }   //Shooter
 

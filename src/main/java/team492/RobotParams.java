@@ -582,10 +582,12 @@ public class RobotParams
         public static final double shooterGearRatio             = 1.0;
         public static final double shooterPosScale              = 1.0 / shooterGearRatio;   // in rot.
         public static final PidCoefficients shooterVelPidCoeff  = new PidCoefficients(0.45, 0.0, 0.0001, 0.125);
-        public static final double shooterMaxVelocity           = 100.0;    // in rot per second.
-        public static final double shooterMaxAcceleration       = 100.0;    // in rot per second square.
-        public static final double shooterVelocityTolerance     = 3.0;      // in rot per second.
-        public static final double shooterPickupVelocity        = 30.0;     // in rot per second. TODO: Tune
+        public static final double shooterMaxVelocity           = 100.0;    // in rps.
+        public static final double shooterMaxAcceleration       = 100.0;    // in rps square.
+        public static final double shooterVelocityTolerance     = 3.0;      // in rps.
+        public static final double shooterVelMinInc             = 1.0;      // in rps.
+        public static final double shooterVelMaxInc             = 10.0;     // in rps.
+        public static final double shooterPickupVelocity        = 30.0;     // in rps. TODO: Tune
 
         public static final int tiltCanId                       = CANID_TILT_MOTOR;
         public static final boolean tiltMotorInverted           = true;
@@ -596,8 +598,10 @@ public class RobotParams
         public static final double tiltPowerLimit               = 0.5;      //TODO: tune
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.025, 0.0, 0.001, 0.0);
         public static final double tiltPosPidTolerance          = 2.0;
-        public static final double tiltMinPos                   = tiltPosOffset;    //TODO: tune
-        public static final double tiltMaxPos                   = 85.0;             //TODO: tune
+        public static final double tiltMinAngle                 = tiltPosOffset;    //TODO: tune
+        public static final double tiltMaxAngle                 = 85.0;     // in degrees.
+        public static final double tiltAngleMinInc              = 1.0;      // in degrees.
+        public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
         public static final double tiltVelocity                 = 0.0;              //TODO: tune
         public static final double tiltAcceleration             = 0.0;              //TODO: tune
         public static final double tiltCurrentLimit             = 20.0;             //TODO: tune
@@ -609,7 +613,7 @@ public class RobotParams
         public static final double tiltPickupAngle              = 80.0;             //TODO: tune
         public static final double tiltPresetPosTolerance       = 2.0;              // in degrees.
         public static final double[] tiltPresetPositions        = new double[]
-            {tiltMinPos, 0.0, 15.0, 30.0, 45.0, 60.0, 75.0, tiltMaxPos};
+            {tiltMinAngle, 0.0, 15.0, 30.0, 45.0, 60.0, 75.0, tiltMaxAngle};
     }   //class Shooter
 
     public static class Climber
