@@ -148,6 +148,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     double[] driveInputs = robot.robotDrive.getDriveInputs(
                         RobotParams.ROBOT_DRIVE_MODE, true, driveSpeedScale, turnSpeedScale);
+                    String msg;
                     if (!Arrays.equals(driveInputs, prevDriveInputs))
                     {
                         if (robot.robotDrive.driveBase.supportsHolonomicDrive())
@@ -173,6 +174,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                                 lineNum++, "Arcade: x=%.3f, y=%.3f, rot=%.3f",
                                 driveInputs[0], driveInputs[1], driveInputs[2]);
                         }
+                    }
+                    else
+                    {
+                        lineNum++;
                     }
                     prevDriveInputs = driveInputs;
                 }

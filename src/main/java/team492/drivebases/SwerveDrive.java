@@ -255,8 +255,10 @@ public class SwerveDrive extends RobotDrive
                 try (FrcCanandcoder canandcoder = new FrcCanandcoder(names[i], encoderIds[i]))
                 {
                     canandcoder.resetFactoryDefaults(false);
+                    TrcTimer.sleep(20);
                     // Configure the sensor direction to match the steering motor direction.
                     canandcoder.setInverted(inverted[i]);
+                    TrcTimer.sleep(20);
                     // Canandcoder is already normalized to the range of 0 to 1.0 for a revolution
                     // (revolution per count).
                     canandcoder.setScaleAndOffset(1.0, 0.0, steerZeros[i]);

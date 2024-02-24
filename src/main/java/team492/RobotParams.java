@@ -68,10 +68,10 @@ public class RobotParams
         public static final boolean hybridMode                  = false;
         public static final boolean useTraceLog                 = true;
         // Status Update
-        public static final boolean doStatusUpdate              = false;
+        public static final boolean doStatusUpdate              = true;
         public static final boolean showLoopTime                = false;
         public static final boolean showPowerConsumption        = false;
-        public static final boolean showDriveBase               = false;
+        public static final boolean showDriveBase               = true;
         public static final boolean showPurePursuitDrive        = false;
         public static final boolean showPidDrive                = false;
         public static final boolean showVision                  = false;
@@ -171,8 +171,8 @@ public class RobotParams
     // Applicable only for Swerve Drive.
     public static final int CANID_LFSTEER_ENCODER               = 23;
     public static final int CANID_RFSTEER_ENCODER               = 24;
-    public static final int CANID_LBSTEER_ENCODER               = 21;//25;
-    public static final int CANID_RBSTEER_ENCODER               = 22;//26;
+    public static final int CANID_LBSTEER_ENCODER               = 25;
+    public static final int CANID_RBSTEER_ENCODER               = 26;
 
     // Subsystems.
     public static final int CANID_TILT_MOTOR                    = 7;
@@ -445,7 +445,7 @@ public class RobotParams
         public final double DRIVE_KV                            = 1.51;
         public final double DRIVE_KA                            = 0.27;
 
-        public final double TURN_KP                             = 0.012;
+        public final double TURN_KP                             = 0.006; //0.012
         public final double TURN_KI                             = 0.0;
         public final double TURN_KD                             = 0.0;
         public final double TURN_KF                             = 0.0;
