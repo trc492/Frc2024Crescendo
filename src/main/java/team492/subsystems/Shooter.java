@@ -60,9 +60,6 @@ public class Shooter
         tiltMotor.setMotorInverted(RobotParams.Shooter.tiltMotorInverted);
         tiltMotor.setBrakeModeEnabled(true);
         tiltMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
-        tiltMotor.setCurrentLimit(
-            RobotParams.Shooter.tiltCurrentLimit, RobotParams.Shooter.tiltCurrentThreshold,
-            RobotParams.Shooter.tiltCurrentThresholdTime);
         tiltMotor.enableLowerLimitSwitch(true);
         tiltMotor.enableUpperLimitSwitch(true);
         tiltMotor.setPositionSensorScaleAndOffset(

@@ -588,7 +588,25 @@ public class RobotParams
         public static final double shooterVelocityTolerance     = 3.0;      // in rps.
         public static final double shooterVelMinInc             = 1.0;      // in rps.
         public static final double shooterVelMaxInc             = 10.0;     // in rps.
-        public static final double shooterPickupVelocity        = 30.0;     // in rps. TODO: Tune
+
+        public static final int tiltCanId                       = CANID_TILT_MOTOR;
+        public static final boolean tiltMotorInverted           = true;
+        public static final double tiltGearRatio                = 59.0/18.0;
+        public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
+        public static final double tiltPosOffset                = -14.0;    // in degrees
+        public static final double tiltZeroOffset               = 0.035;    // in raw encoder unit
+        public static final double tiltPowerLimit               = 0.5;
+        public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.028, 0.0, 0.0012, 0.0);     //(0.025, 0.0, 0.001, 0.0);
+        public static final double tiltPosPidTolerance          = 1.0;
+        public static final double tiltMinAngle                 = tiltPosOffset;
+        public static final double tiltMaxAngle                 = 87.0;     // in degrees.
+        public static final double tiltAngleMinInc              = 1.0;      // in degrees.
+        public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
+
+        public static final double tiltPresetPosTolerance       = 2.0;              // in degrees.
+        public static final double[] tiltPresetPositions        = new double[]
+            {tiltMinAngle, 0.0, 15.0, 30.0, 45.0, 60.0, 75.0, tiltMaxAngle};
+
         public static final ShootParamTable.Params ampShootParams = new ShootParamTable.Params(
             "Amp", 0.0, 30.0, 60.0);
         public static final ShootParamTable.Params stageShootParams = new ShootParamTable.Params(
@@ -602,31 +620,8 @@ public class RobotParams
             .add("Speaker5ft", 72.0, 50.0, 45.0)
             .add("Speaker6ft", 84.0, 50.0, 45.0);
 
-        public static final int tiltCanId                       = CANID_TILT_MOTOR;
-        public static final boolean tiltMotorInverted           = true;
-        public static final double tiltGearRatio                = 59.0/18.0;
-        public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
-        public static final double tiltPosOffset                = -14.0;    // in degrees
-        public static final double tiltZeroOffset               = 0.035;    // in raw encoder unit
-        public static final double tiltPowerLimit               = 0.5;      //TODO: tune
-        public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.028, 0.0, 0.0012, 0.0);     //(0.025, 0.0, 0.001, 0.0);
-        public static final double tiltPosPidTolerance          = 2.0;
-        public static final double tiltMinAngle                 = tiltPosOffset;    //TODO: tune
-        public static final double tiltMaxAngle                 = 87.0;     // in degrees.
-        public static final double tiltAngleMinInc              = 1.0;      // in degrees.
-        public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
-        public static final double tiltVelocity                 = 0.0;              //TODO: tune
-        public static final double tiltAcceleration             = 0.0;              //TODO: tune
-        public static final double tiltCurrentLimit             = 20.0;             //TODO: tune
-        public static final double tiltCurrentThreshold         = 40.0;             //TODO: tune
-        public static final double tiltCurrentThresholdTime     = 0.5;              //TODO: tune
-
-        public static final double tiltMaxHoldingPower          = 0.0;              //TODO: tune
-        public static final double tiltAngleTolerance           = 1.0;              //TODO: tune
-        public static final double tiltPickupAngle              = 80.0;             //TODO: tune
-        public static final double tiltPresetPosTolerance       = 2.0;              // in degrees.
-        public static final double[] tiltPresetPositions        = new double[]
-            {tiltMinAngle, 0.0, 15.0, 30.0, 45.0, 60.0, 75.0, tiltMaxAngle};
+        public static final double shooterSourcePickupVelocity  = 30.0;     // in rps. TODO: Tune
+        public static final double tiltSourcePickupAngle        = 80.0;     // in degrees. TODO: tune
     }   //class Shooter
 
     public static class Climber
