@@ -148,7 +148,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     double[] driveInputs = robot.robotDrive.getDriveInputs(
                         RobotParams.ROBOT_DRIVE_MODE, true, driveSpeedScale, turnSpeedScale);
-                    String msg;
                     if (!Arrays.equals(driveInputs, prevDriveInputs))
                     {
                         if (robot.robotDrive.driveBase.supportsHolonomicDrive())
