@@ -635,6 +635,10 @@ public class FrcTest extends FrcTeleOp
                 robot.dashboard.displayPrintf(
                     lineNum++, "PhotonFront: pipeline=%s, pose=%s", frontPipeline, object.targetPose);
             }
+            else
+            {
+                lineNum++;
+            }
         }
 
         if (robot.photonVisionBack != null)
@@ -644,6 +648,10 @@ public class FrcTest extends FrcTeleOp
             {
                 robot.dashboard.displayPrintf(
                     lineNum++, "PhotonBack: pipeline=%s, pose=%s", backPipeline, object.targetPose);
+            }
+            else
+            {
+                lineNum++;
             }
         }
         //

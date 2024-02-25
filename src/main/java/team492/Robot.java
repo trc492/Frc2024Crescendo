@@ -511,6 +511,10 @@ public class Robot extends FrcRobotBase
                             lineNum++, "PhotonFront: pipeline=%s, pose=%s",
                             photonVisionFront.getPipeline(), object.targetPose);
                     }
+                    else
+                    {
+                        lineNum++;
+                    }
                 }
 
                 if (photonVisionBack != null)
@@ -521,6 +525,10 @@ public class Robot extends FrcRobotBase
                         dashboard.displayPrintf(
                             lineNum++, "PhotonBack: pipeline=%s, pose=%s",
                             photonVisionBack.getPipeline(), object.targetPose);
+                    }
+                    else
+                    {
+                        lineNum++;
                     }
                 }
 

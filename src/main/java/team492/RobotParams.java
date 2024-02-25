@@ -87,7 +87,7 @@ public class RobotParams
         public static final boolean usePdp                      = false;
         public static final boolean usePressureSensor           = false;
         // Vision
-        public static final boolean useVision                   = false;
+        public static final boolean useVision                   = true;
         public static final boolean usePhotonVision             = true;
         public static final boolean usePhotonVisionRaw          = false;
         public static final boolean useOpenCvVision             = false;
@@ -247,8 +247,8 @@ public class RobotParams
         public static final double CAMERA_Y_OFFSET              = 9.5;      // Inches from the center of the robot
         public static final double CAMERA_X_OFFSET              = 0.0;      // Exactly centered
         public static final double CAMERA_HEIGHT                = 10.75;    // Inches from the floor
-        public static final double CAMERA_PITCH                 = -8.0;     // degrees from horizontal
-        public static final double CAMERA_YAW                   = -2.9126252095;    // degrees from front
+        public static final double CAMERA_PITCH                 = 1.0;      // degrees from horizontal
+        public static final double CAMERA_YAW                   = 0.0;      // degrees from front
         public static final Transform3d CAMERA_TRANSFORM3D      = new Transform3d(
             new Translation3d(CAMERA_Y_OFFSET*TrcUtil.METERS_PER_INCH, -CAMERA_X_OFFSET*TrcUtil.METERS_PER_INCH,
                               CAMERA_HEIGHT*TrcUtil.METERS_PER_INCH),
@@ -605,14 +605,14 @@ public class RobotParams
         public static final int tiltCanId                       = CANID_TILT_MOTOR;
         public static final boolean tiltMotorInverted           = true;
         public static final double tiltGearRatio                = 59.0/18.0;
-        public static final double tiltPosScale                 = 110.0;    // 360.0 / tiltGearRatio;
+        public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
         public static final double tiltPosOffset                = -14.0;    // in degrees
-        public static final double tiltZeroOffset               = 0.036;    // in raw encoder unit
+        public static final double tiltZeroOffset               = 0.035;    // in raw encoder unit
         public static final double tiltPowerLimit               = 0.5;      //TODO: tune
-        public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.025, 0.0, 0.001, 0.0);
+        public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.028, 0.0, 0.0012, 0.0);     //(0.025, 0.0, 0.001, 0.0);
         public static final double tiltPosPidTolerance          = 2.0;
         public static final double tiltMinAngle                 = tiltPosOffset;    //TODO: tune
-        public static final double tiltMaxAngle                 = 85.0;     // in degrees.
+        public static final double tiltMaxAngle                 = 87.0;     // in degrees.
         public static final double tiltAngleMinInc              = 1.0;      // in degrees.
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
         public static final double tiltVelocity                 = 0.0;              //TODO: tune
