@@ -264,7 +264,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                     robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
                     robot.ledIndicator.setPhotonDetectedObject(null);
                 }
-                robot.intake.registerExitTriggerNotifyEvent(event, TriggerMode.OnActive);
+                robot.intake.registerExitTriggerNotifyEvent(TriggerMode.OnActive, event);
                 sm.waitForSingleEvent(event, State.DONE);
                 break;
 
