@@ -29,7 +29,7 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
-import TrcCommonLib.trclib.TrcIntake.TriggerType;
+import TrcCommonLib.trclib.TrcTrigger.TriggerMode;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import team492.Robot;
 import team492.RobotParams;
@@ -264,7 +264,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                     robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
                     robot.ledIndicator.setPhotonDetectedObject(null);
                 }
-                robot.intake.registerExitTriggerNotifyEvent(event, TriggerType.TRIGGER_ACTIVE);
+                robot.intake.registerExitTriggerNotifyEvent(event, TriggerMode.OnActive);
                 sm.waitForSingleEvent(event, State.DONE);
                 break;
 
