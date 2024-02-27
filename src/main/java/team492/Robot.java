@@ -508,8 +508,9 @@ public class Robot extends FrcRobotBase
                     if (object != null)
                     {
                         dashboard.displayPrintf(
-                            lineNum++, "PhotonFront: pipeline=%s, pose=%s",
-                            photonVisionFront.getPipeline(), object.targetPose);
+                            lineNum++, "PhotonFront: pipeline=%s, Id=%d, pose=%s, robotPose=%s",
+                            photonVisionFront.getPipeline(), object.target.getFiducialId(), object.targetPose,
+                            photonVisionFront.getRobotFieldPosition(RobotParams.Vision.CAMERA_TRANSFORM3D));
                     }
                     else
                     {
