@@ -445,9 +445,9 @@ public class RobotParams
         public final double DRIVE_KV                            = 1.51;
         public final double DRIVE_KA                            = 0.27;
 
-        public final double TURN_KP                             = 0.006;
+        public final double TURN_KP                             = 0.0065;
         public final double TURN_KI                             = 0.0;
-        public final double TURN_KD                             = 0.0;
+        public final double TURN_KD                             = 0.0004;
         public final double TURN_KF                             = 0.0;
         public final double TURN_IZONE                          = 10.0;
         public final double TURN_TOLERANCE                      = 2.0;
@@ -490,7 +490,8 @@ public class RobotParams
 
         public double DRIVE_GEAR_RATIO                          = 9.63;
         public final double DRIVE_WHEEL_CIRCUMFERENCE           = 4.0 * Math.PI;
-        public final double DRIVE_INCHES_PER_COUNT              = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
+        // public final double DRIVE_INCHES_PER_ROT                = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
+        public final double DRIVE_INCHES_PER_ROT                = 0.99223412;
 
         public double STEER_GEAR_RATIO                          = 15.43;
         public final double STEER_DEGREES_PER_COUNT             = 360.0 / STEER_GEAR_RATIO;
@@ -582,7 +583,7 @@ public class RobotParams
         public static final boolean shooterMotorInverted        = false;
         public static final double shooterGearRatio             = 1.0;
         public static final double shooterPosScale              = 1.0 / shooterGearRatio;   // in rot.
-        public static final PidCoefficients shooterVelPidCoeff  = new PidCoefficients(0.45, 0.0, 0.0001, 0.125);
+        public static final PidCoefficients shooterVelPidCoeff  = new PidCoefficients(0.38, 0.0, 0.000098, 0.120);
         public static final double shooterMaxVelocity           = 100.0;    // in rps.
         public static final double shooterMaxAcceleration       = 100.0;    // in rps square.
         public static final double shooterVelocityTolerance     = 3.0;      // in rps.
