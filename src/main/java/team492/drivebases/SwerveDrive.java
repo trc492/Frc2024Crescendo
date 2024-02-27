@@ -115,12 +115,11 @@ public class SwerveDrive extends RobotDrive
         driveFeedForward = new SimpleMotorFeedforward(
             driveBaseParams.DRIVE_KS, driveBaseParams.DRIVE_KV, driveBaseParams.DRIVE_KA);
 
-
         driveBase = new TrcSwerveDriveBase(
             swerveModules[RobotDrive.INDEX_LEFT_FRONT], swerveModules[RobotDrive.INDEX_LEFT_BACK],
             swerveModules[RobotDrive.INDEX_RIGHT_FRONT], swerveModules[RobotDrive.INDEX_RIGHT_BACK],
             gyro, RobotParams.ROBOT_WHEELBASE_WIDTH, RobotParams.ROBOT_WHEELBASE_LENGTH);
-        driveBase.setOdometryScales(driveBaseParams.DRIVE_INCHES_PER_COUNT, driveBaseParams.DRIVE_INCHES_PER_COUNT);
+        driveBase.setOdometryScales(driveBaseParams.DRIVE_INCHES_PER_ROT, driveBaseParams.DRIVE_INCHES_PER_ROT);
 
         if (RobotParams.Preferences.useAntiTipping)
         {
@@ -330,7 +329,7 @@ public class SwerveDrive extends RobotDrive
         for (int i = 0; i < names.length; i++)
         {
             driveMotors[i].setBrakeModeEnabled(true);
-            driveMotors[i].setPositionSensorScaleAndOffset(driveBaseParams.DRIVE_INCHES_PER_COUNT, 0.0);
+            driveMotors[i].setPositionSensorScaleAndOffset(driveBaseParams.DRIVE_INCHES_PER_ROT, 0.0);
             driveMotors[i].setVelocityPidCoefficients(driveBaseParams.driveCoeffs);
             driveMotors[i].setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
 

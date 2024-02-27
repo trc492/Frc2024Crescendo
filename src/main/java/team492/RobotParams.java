@@ -68,13 +68,13 @@ public class RobotParams
         public static final boolean hybridMode                  = false;
         public static final boolean useTraceLog                 = true;
         // Status Update
-        public static final boolean doStatusUpdate              = false;
+        public static final boolean doStatusUpdate              = true;
         public static final boolean showLoopTime                = false;
         public static final boolean showPowerConsumption        = false;
         public static final boolean showDriveBase               = false;
         public static final boolean showPurePursuitDrive        = false;
         public static final boolean showPidDrive                = false;
-        public static final boolean showVision                  = false;
+        public static final boolean showVision                  = true;
         public static final boolean showSubsystems              = false;
         // Inputs
         public static final boolean useDriverXboxController     = true;
@@ -491,7 +491,7 @@ public class RobotParams
         public double DRIVE_GEAR_RATIO                          = 9.63;
         public final double DRIVE_WHEEL_CIRCUMFERENCE           = 4.0 * Math.PI;
         // public final double DRIVE_INCHES_PER_ROT                = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
-        public final double DRIVE_INCHES_PER_ROT                = 0.99223412;
+        public final double DRIVE_INCHES_PER_ROT                = 1.2070501369;
 
         public double STEER_GEAR_RATIO                          = 15.43;
         public final double STEER_DEGREES_PER_COUNT             = 360.0 / STEER_GEAR_RATIO;
@@ -613,13 +613,13 @@ public class RobotParams
         public static final ShootParamTable.Params stageShootParams = new ShootParamTable.Params(
             "Stage", 0.0, 30.0, 60.0);
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
-            .add("Speaker0ft", 12.0, 2700, 45.0)
-            .add("Speaker1ft", 24.0, 50.0, 45.0)
-            .add("Speaker2ft", 36.0, 50.0, 45.0)
-            .add("Speaker3ft", 48.0, 50.0, 45.0)
-            .add("Speaker4ft", 60.0, 50.0, 45.0)
-            .add("Speaker5ft", 72.0, 50.0, 45.0)
-            .add("Speaker6ft", 84.0, 50.0, 45.0);
+            .add("Speaker0ft", 12.0, 2700, 45.0) // TODO: Tune
+            .add("Speaker1ft", 24.0, 50.0, 45.0) // TODO: Tune
+            .add("Speaker2ft", 36.0, 50.0, 45.0) // TODO: Tune
+            .add("Speaker3ft", 48.0, 50.0, 45.0) // TODO: Tune
+            .add("Speaker4ft", 60.0, 50.0, 45.0) // TODO: Tune
+            .add("Speaker5ft", 117.1, 90.0, 54.0) // Tuned, but distance needs to be recalibrated again from vision
+            .add("Speaker6ft", 128.5, 100.0, 52.0); // Tuned, but distance needs to be recalibrated again from vision
 
         public static final double shooterSourcePickupVelocity  = 30.0;     // in rps. TODO: Tune
         public static final double tiltSourcePickupAngle        = 80.0;     // in degrees. TODO: tune

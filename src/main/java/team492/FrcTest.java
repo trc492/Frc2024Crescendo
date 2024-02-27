@@ -304,6 +304,11 @@ public class FrcTest extends FrcTeleOp
             case X_TIMED_DRIVE:
                 if (robot.robotDrive != null && robot.robotDrive.driveBase.supportsHolonomicDrive())
                 {
+                    for (TrcMotor motor: robot.robotDrive.driveMotors)
+                    {
+                        motor.resetMotorPosition();
+                    }
+                    robot.robotDrive.driveBase.setGyroAssistEnabled(robot.robotDrive.pidDrive.getTurnPidCtrl());
                     testCommand = new CmdTimedDrive(
                         robot.robotDrive.driveBase, 0.0, testChoices.getDriveTime(), testChoices.getDrivePower(),
                         0.0, 0.0);
@@ -313,6 +318,11 @@ public class FrcTest extends FrcTeleOp
             case Y_TIMED_DRIVE:
                 if (robot.robotDrive != null)
                 {
+                    for (TrcMotor motor: robot.robotDrive.driveMotors)
+                    {
+                        motor.resetMotorPosition();
+                    }
+                    robot.robotDrive.driveBase.setGyroAssistEnabled(robot.robotDrive.pidDrive.getTurnPidCtrl());
                     testCommand = new CmdTimedDrive(
                         robot.robotDrive.driveBase, 0.0, testChoices.getDriveTime(), 0.0, testChoices.getDrivePower(),
                         0.0);
@@ -510,14 +520,18 @@ public class FrcTest extends FrcTeleOp
                 case Y_TIMED_DRIVE:
                     if (robot.robotDrive != null)
                     {
-                        double lfEnc = robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_FRONT].getPosition();
-                        double rfEnc = robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_FRONT].getPosition();
-                        double lbEnc = robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK] != null?
-                                        robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK].getPosition(): 0.0;
-                        double rbEnc = robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK] != null?
-                                        robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK].getPosition(): 0.0;
-                        robot.dashboard.displayPrintf(lineNum++, "Enc:lf=%.0f,rf=%.0f", lfEnc, rfEnc);
-                        robot.dashboard.displayPrintf(lineNum++, "Enc:lb=%.0f,rb=%.0f", lbEnc, rbEnc);
+                        double lfEnc = Math.abs(
+                            robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_FRONT].getMotorPosition());
+                        double rfEnc = Math.abs(
+                            robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_FRONT].getMotorPosition());
+                        double lbEnc = Math.abs(
+                            robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK] != null?
+                                robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK].getMotorPosition(): 0.0);
+                        double rbEnc = Math.abs(
+                            robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK] != null?
+                                robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK].getMotorPosition(): 0.0);
+                        robot.dashboard.displayPrintf(lineNum++, "Enc:lf=%f,rf=%f", lfEnc, rfEnc);
+                        robot.dashboard.displayPrintf(lineNum++, "Enc:lb=%f,rb=%f", lbEnc, rbEnc);
                         robot.dashboard.displayPrintf(lineNum++, "EncAverage=%f", (lfEnc + rfEnc + lbEnc + rbEnc) / 4.0);
                         robot.dashboard.displayPrintf(
                             lineNum++, "RobotPose=%s", robot.robotDrive.driveBase.getFieldPosition());

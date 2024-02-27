@@ -156,8 +156,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                                 null, driveInputs[0], driveInputs[1], driveInputs[2],
                                 robot.robotDrive.driveBase.getDriveGyroAngle());
                             robot.dashboard.displayPrintf(
-                                lineNum++, "Holonomic: x=%.3f, y=%.3f, rot=%.3f",
-                                driveInputs[0], driveInputs[1], driveInputs[2]);
+                                lineNum++, "Holonomic: x=%.3f, y=%.3f, rot=%.3f (Orient=%s, GyroAssist=%s)",
+                                driveInputs[0], driveInputs[1], driveInputs[2],
+                                robot.robotDrive.driveBase.getDriveOrientation(),
+                                robot.robotDrive.driveBase.isGyroAssistEnabled());
                         }
                         else if (RobotParams.Preferences.useTankDrive)
                         {
@@ -179,6 +181,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         lineNum++;
                     }
                     prevDriveInputs = driveInputs;
+                    robot.dashboard.displayPrintf(
+                        lineNum++, "RobotPose=%s", robot.robotDrive.driveBase.getFieldPosition());
                 }
                 //
                 // Analog control of subsystem is done here if necessary.
@@ -320,6 +324,12 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_B:
+                if (robot.robotDrive != null && pressed)
+                {
+                    boolean gyroAssistEnabled = !robot.robotDrive.driveBase.isGyroAssistEnabled();
+                    robot.robotDrive.driveBase.setGyroAssistEnabled(
+                        gyroAssistEnabled? robot.robotDrive.pidDrive.getTurnPidCtrl(): null);
+                }
                 break;
 
             case FrcXboxController.LEFT_BUMPER:
