@@ -77,7 +77,7 @@ public class Robot extends FrcRobotBase
     //
     public final FrcDashboard dashboard = FrcDashboard.getInstance();
     public final TrcDbgTrace globalTracer = TrcDbgTrace.getGlobalTracer();
-    private double nextDashboardUpdateTime = TrcTimer.getModeElapsedTime();
+    private double nextDashboardUpdateTime = TrcTimer.getCurrentTime();
     private boolean traceLogOpened = false;
     //
     // Inputs.
@@ -403,12 +403,12 @@ public class Robot extends FrcRobotBase
     public void updateStatus()
     {
         final String funcName = "updateStatus";
-        double currTime = TrcTimer.getModeElapsedTime();
+        double currTime = TrcTimer.getCurrentTime();
         RunMode runMode = getCurrentRunMode();
 
         if (currTime >= nextDashboardUpdateTime)
         {
-            int lineNum = 8;
+            int lineNum = 9;
 
             nextDashboardUpdateTime = currTime + RobotParams.DASHBOARD_UPDATE_INTERVAL;
             if (RobotParams.Preferences.showPowerConsumption)
@@ -510,7 +510,7 @@ public class Robot extends FrcRobotBase
                         dashboard.displayPrintf(
                             lineNum++, "PhotonFront: pipeline=%s, Id=%d, pose=%s, robotPose=%s",
                             photonVisionFront.getPipeline(), object.target.getFiducialId(), object.targetPose,
-                            photonVisionFront.getRobotFieldPosition(RobotParams.Vision.CAMERA_TRANSFORM3D));
+                            photonVisionFront.getRobotFieldPose(object));
                     }
                     else
                     {
