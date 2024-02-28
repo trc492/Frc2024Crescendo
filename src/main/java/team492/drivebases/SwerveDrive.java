@@ -329,7 +329,7 @@ public class SwerveDrive extends RobotDrive
         for (int i = 0; i < names.length; i++)
         {
             driveMotors[i].setBrakeModeEnabled(true);
-            driveMotors[i].setPositionSensorScaleAndOffset(driveBaseParams.DRIVE_INCHES_PER_ROT, 0.0);
+            // Do not scale motor odometry. DriveBase is taking care of scaling.
             driveMotors[i].setVelocityPidCoefficients(driveBaseParams.driveCoeffs);
             driveMotors[i].setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
 

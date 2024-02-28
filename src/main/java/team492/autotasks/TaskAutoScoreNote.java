@@ -276,7 +276,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     if (taskParams.relocalize)
                     {
                         TrcPose2D robotFieldPose =
-                            robot.photonVisionFront.getRobotFieldPosition(RobotParams.Vision.CAMERA_TRANSFORM3D);
+                            robot.photonVisionFront.getRobotFieldPose(object);
                         // If we see the AprilTag, we can use its location to re-localize the robot.
                         robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
                         tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);

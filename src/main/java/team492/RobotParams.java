@@ -24,12 +24,10 @@ package team492;
 
 import TrcCommonLib.trclib.TrcHomographyMapper;
 import TrcCommonLib.trclib.TrcPose2D;
+import TrcCommonLib.trclib.TrcPose3D;
 import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcPidController.PidCoefficients;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -244,15 +242,14 @@ public class RobotParams
         public static final int CAMERA_IMAGE_WIDTH              = 320;      // in pixels
         public static final int CAMERA_IMAGE_HEIGHT             = 240;      // in pixels
         // Camera location on robot.
-        public static final double CAMERA_Y_OFFSET              = 9.5;      // Inches from the center of the robot
-        public static final double CAMERA_X_OFFSET              = 0.0;      // Exactly centered
-        public static final double CAMERA_HEIGHT                = 10.75;    // Inches from the floor
-        public static final double CAMERA_PITCH                 = 1.0;      // degrees from horizontal
-        public static final double CAMERA_YAW                   = 0.0;      // degrees from front
-        public static final Transform3d CAMERA_TRANSFORM3D      = new Transform3d(
-            new Translation3d(CAMERA_Y_OFFSET*TrcUtil.METERS_PER_INCH, -CAMERA_X_OFFSET*TrcUtil.METERS_PER_INCH,
-                              CAMERA_HEIGHT*TrcUtil.METERS_PER_INCH),
-            new Rotation3d(0.0, Math.toRadians(-CAMERA_PITCH), Math.toRadians(-CAMERA_YAW)));
+        public static final double CAMERA_Y_OFFSET              = 0.0;      // Inches forward from robot center
+        public static final double CAMERA_X_OFFSET              = 0.0;      // Inches to the right from robot center
+        public static final double CAMERA_HEIGHT                = 23.25;    // Inches up from the floor
+        public static final double CAMERA_PITCH                 = 1.0;      // degrees up from horizontal
+        public static final double CAMERA_YAW                   = 0.0;      // degrees clockwise from robot front
+        public static final double CAMERA_ROLL                  = 0.0;
+        public static final TrcPose3D ROBOT_TO_CAMERA_POSE      = new TrcPose3D(
+            CAMERA_X_OFFSET, CAMERA_Y_OFFSET, CAMERA_HEIGHT, CAMERA_YAW, CAMERA_PITCH, CAMERA_ROLL);
         // Camera: Logitech C310 (not used)
         public static final double WEBCAM_FX                    = 821.993;  // in pixels
         public static final double WEBCAM_FY                    = 821.993;  // in pixels
@@ -488,10 +485,9 @@ public class RobotParams
         public final double FALCON_CPR                          = 2048.0;
         public final double FALCON_MAX_RPM                      = 6380.0;
 
-        public double DRIVE_GEAR_RATIO                          = 9.63;
+        public double DRIVE_GEAR_RATIO                          = 6.63;//9.63;
         public final double DRIVE_WHEEL_CIRCUMFERENCE           = 4.0 * Math.PI;
-        // public final double DRIVE_INCHES_PER_ROT                = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
-        public final double DRIVE_INCHES_PER_ROT                = 1.2070501369;
+        public final double DRIVE_INCHES_PER_ROT                = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
 
         public double STEER_GEAR_RATIO                          = 15.43;
         public final double STEER_DEGREES_PER_COUNT             = 360.0 / STEER_GEAR_RATIO;

@@ -27,8 +27,11 @@ import java.util.Optional;
 
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcPose3D;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcCommonLib.trclib.TrcUtil;
+import TrcFrcLib.frclib.FrcDashboard;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -89,7 +92,7 @@ public class PhotonVision extends FrcPhotonVision
         double startTime = TrcTimer.getModeElapsedTime();
         try
         {
-            aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
+            aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.kDefaultField.m_resourceFile);
             // poseEstimator = new PhotonPoseEstimator(
             //     aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, this,
             //     RobotParams.CAMERA_TRANSFORM3D);
@@ -111,15 +114,33 @@ public class PhotonVision extends FrcPhotonVision
      * @param aprilTagId sepcifies the AprilTag ID to retrieve its field location.
      * @return 3D location of the AprilTag.
      */
-    public TrcPose3D getAprilTagPose(int aprilTagId)
+    public TrcPose3D getAprilTagFieldPose(int aprilTagId)
     {
         Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(aprilTagId);
         Pose3d pose3d = tagPose.isPresent()? tagPose.get(): null;
         Rotation3d rotation = pose3d != null? pose3d.getRotation(): null;
-        return pose3d != null?
-                new TrcPose3D(-pose3d.getY(), pose3d.getX(), pose3d.getZ(),
-                              -rotation.getZ(), rotation.getY(), rotation.getX()): null;
-    }   //getAprilTagPose
+        return pose3d == null? null:
+                new TrcPose3D(-pose3d.getY() * TrcUtil.INCHES_PER_METER,
+                              pose3d.getX() * TrcUtil.INCHES_PER_METER,
+                              pose3d.getZ() * TrcUtil.INCHES_PER_METER,
+                              -Math.toDegrees(rotation.getZ()),
+                              Math.toDegrees(rotation.getY()),
+                              Math.toDegrees(rotation.getX()));
+    }   //getAprilTagFieldPose
+
+    /**
+     * This method uses the AprilTag's absolute field pose and the detected AprilTag relative pose to calculate the
+     * robot's absolute field pose.
+     *
+     * @param cameraToRobot specifies the transform vector of the camera position on the robot.
+     * @return absolute robot field position, can be null if not provided.
+     */
+    public TrcPose2D getRobotFieldPose(DetectedObject aprilTagObj)
+    {
+        return getRobotFieldPoseFromAprilTag(
+                getAprilTagFieldPose(aprilTagObj.target.getFiducialId()),
+                aprilTagObj.getObjectPose(), RobotParams.Vision.ROBOT_TO_CAMERA_POSE);
+    }   //getRobotFieldPose
 
     /**
      * This method returns the detected AprilTag object.
@@ -210,7 +231,7 @@ public class PhotonVision extends FrcPhotonVision
                 {
                     // Even though PhotonVision said detected target, FieldLayout may not give us AprilTagPose.
                     // Check it before access the AprilTag pose.
-                    TrcPose3D aprilTagPose = getAprilTagPose(target.getFiducialId());
+                    TrcPose3D aprilTagPose = getAprilTagFieldPose(target.getFiducialId());
                     if (aprilTagPose != null)
                     {
                         targetHeight = aprilTagPose.z;
