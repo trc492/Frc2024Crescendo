@@ -170,6 +170,7 @@ public class RobotDrive extends SubsystemBase
                 endOfAutoRobotPose = driveBase.getFieldPosition();
             }
             driveBase.setOdometryEnabled(false);
+            pidDrive.pidDriveTaskProfiler.printPerformanceMetrics(robot.globalTracer);
         }
     }   //stopMode
 

@@ -511,11 +511,15 @@ public class Robot extends FrcRobotBase
                             lineNum++, "PhotonFront: pipeline=%s, Id=%d, pose=%s",
                             photonVisionFront.getPipeline(), object.target.getFiducialId(), object.targetPose);
                         dashboard.displayPrintf(
-                            lineNum++, "PhotonFront: robotPose=%s", photonVisionFront.getRobotFieldPose(object));
+                            lineNum++, "PhotonFront: robotEstimatedPose=%s",
+                            photonVisionFront.getRobotFieldPose(object, true));
+                        dashboard.displayPrintf(
+                            lineNum++, "PhotonFront: RobotFieldPose=%s",
+                            photonVisionFront.getRobotFieldPose(object, false));
                     }
                     else
                     {
-                        lineNum += 2;
+                        lineNum += 3;
                     }
                 }
 

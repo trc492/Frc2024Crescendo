@@ -198,7 +198,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 FrcPhotonVision.DetectedObject object = robot.photonVisionBack.getBestDetectedObject();
                 if (object != null)
                 {
-                    notePose = object.getObjectPose().toPose2D();
+                    notePose = object.getObjectPose();
                     tracer.traceInfo(moduleName, "Vision found Note at %s from camera.", notePose);
                     sm.setState(State.DRIVE_TO_NOTE);
                 }
