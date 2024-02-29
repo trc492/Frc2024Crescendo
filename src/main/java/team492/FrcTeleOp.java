@@ -156,10 +156,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                                 null, driveInputs[0], driveInputs[1], driveInputs[2],
                                 robot.robotDrive.driveBase.getDriveGyroAngle());
                             robot.dashboard.displayPrintf(
-                                lineNum++, "Holonomic: x=%.3f, y=%.3f, rot=%.3f (Orient=%s, GyroAssist=%s)",
-                                driveInputs[0], driveInputs[1], driveInputs[2],
-                                robot.robotDrive.driveBase.getDriveOrientation(),
-                                robot.robotDrive.driveBase.isGyroAssistEnabled());
+                                lineNum++, "Holonomic: x=%.3f, y=%.3f, rot=%.3f",
+                                driveInputs[0], driveInputs[1], driveInputs[2]);
                         }
                         else if (RobotParams.Preferences.useTankDrive)
                         {
@@ -182,7 +180,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     }
                     prevDriveInputs = driveInputs;
                     robot.dashboard.displayPrintf(
-                        lineNum++, "RobotPose=%s", robot.robotDrive.driveBase.getFieldPosition());
+                        lineNum++, "RobotPose=%s, Orient=%s, GyroAssist=%s",
+                        robot.robotDrive.driveBase.getFieldPosition(),
+                        robot.robotDrive.driveBase.getDriveOrientation(),
+                        robot.robotDrive.driveBase.isGyroAssistEnabled());;
                 }
                 //
                 // Analog control of subsystem is done here if necessary.
@@ -393,6 +394,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (pressed)
                     {
                         robot.intake.autoIntake(RobotParams.Intake.intakePower, 0.0, 0.0);
+                    
                     }
                     else
                     {
@@ -447,6 +449,13 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.RIGHT_BUMPER:
+                if(pressed){
+                    robot.shooter.setTiltAngle(88.25);
+                    robot.shooter.setShooterVelocity(-20);
+                } else{
+                    robot.shooter.cancel();
+                }
+
                 break;
 
             case FrcXboxController.DPAD_UP:

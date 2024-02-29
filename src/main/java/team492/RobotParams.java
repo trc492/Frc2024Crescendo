@@ -575,7 +575,7 @@ public class RobotParams
         public static final boolean entrySensorInverted         = true;
         public static final boolean exitSensorInverted          = true;
 
-        public static final double intakePower                  = 0.5;      // TODO: Tune
+        public static final double intakePower                  = 0.7;      // TODO: Tune
         public static final double ejectForwardPower            = 0.5;      // TODO: Tune
         public static final double ejectReversePower            = -0.5;     // TODO: Tune
     }   //class Intake
@@ -612,9 +612,11 @@ public class RobotParams
             {tiltMinAngle, 0.0, 15.0, 30.0, 45.0, 60.0, 75.0, tiltMaxAngle};
 
         public static final ShootParamTable.Params ampShootParams = new ShootParamTable.Params(
-            "Amp", 0.0, 30.0, 60.0);
+            "Amp", 0.0, 20.0, 70.0); // TODO:  Tune Distance
         public static final ShootParamTable.Params stageShootParams = new ShootParamTable.Params(
-            "Stage", 0.0, 30.0, 60.0);
+            "Stage", 0.0, 30.0, 60.0); // Talked with Jackson and said that we would most likely not score in trap, so I don't think there is a need to tune ... Will leave it just in case.
+        public static final ShootParamTable.Params sourceShootParams = new ShootParamTable.Params(
+            "Source", 0.0, -20, 88.0); // TODO: Tune Distance
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
             .add("Speaker0ft", 12.0, 2700, 45.0) // TODO: Tune
             .add("Speaker1ft", 24.0, 50.0, 45.0) // TODO: Tune
