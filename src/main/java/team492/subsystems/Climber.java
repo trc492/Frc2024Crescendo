@@ -22,24 +22,22 @@
 
 package team492.subsystems;
 
+import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcUtil;
-import TrcFrcLib.frclib.FrcCANFalcon;
+import TrcFrcLib.frclib.FrcCANSparkMax;
 import team492.RobotParams;
-// single motor turning the spool (lets telescope out) (slack = taller) 
-// (max/min height)
-// lower limit switch (limit in rotations)
 
 public class Climber
 {
     private static final String moduleName = Climber.class.getSimpleName();
 
-    public final FrcCANFalcon climberMotor;
+    public final FrcCANSparkMax climberMotor;
+    private boolean climbing = false;
 
     public Climber()
     {
-        // CodeReview: Talked to mechanical, they just changed this into a brushless NEO motor on FrcCANSparkMax.
-        climberMotor = new FrcCANFalcon(moduleName + ".motor", RobotParams.Climber.motorCandId);
+        climberMotor = new FrcCANSparkMax(moduleName + ".motor", RobotParams.Climber.motorCandId, true);
         climberMotor.resetFactoryDefault();
         climberMotor.setMotorInverted(RobotParams.Climber.motorInverted);
         climberMotor.setBrakeModeEnabled(true);
@@ -47,6 +45,7 @@ public class Climber
         climberMotor.setPositionSensorScaleAndOffset(RobotParams.Climber.posScale, 0.0);
         climberMotor.setPositionPidCoefficients(RobotParams.Climber.posPidCoeff);
         climberMotor.enableLowerLimitSwitch(true);
+        climberMotor.setPositionPidPowerComp(this::getClimbPowerComp);
     }   //Climber
 
     /**
@@ -58,6 +57,12 @@ public class Climber
         return moduleName;
     }   //toString
 
+    private double getClimbPowerComp(double power)
+    {
+        TrcDbgTrace.globalTraceDebug(moduleName, "Climbing...");
+        return climbing? RobotParams.Climber.climbPowerComp: 0.0;
+    }
+
     public double getPosition()
     {
         return climberMotor.getPosition();
@@ -65,21 +70,31 @@ public class Climber
     
     public void extend(TrcEvent completionEvent, double timeout)
     {
+        climbing = false;
         climberMotor.setPosition(0.0, RobotParams.Climber.maxHeight, true, 1.0, completionEvent, timeout);
     }
 
     public void extend()
     {
+        climbing = false;
         climberMotor.setPosition(RobotParams.Climber.maxHeight);
     }
 
     public void retract(TrcEvent completionEvent, double timeout)
     {
+        climbing = false;
         climberMotor.setPosition(0.0, RobotParams.Climber.minHeight, true, 1.0, completionEvent, timeout);
     }
 
     public void retract()
     {
+        climbing = false;
+        climberMotor.setPosition(RobotParams.Climber.minHeight);
+    }
+
+    public void climb()
+    {
+        climbing = true;
         climberMotor.setPosition(RobotParams.Climber.minHeight);
     }
 

@@ -35,6 +35,7 @@ import team492.vision.PhotonVision.PipelineType;
 import TrcFrcLib.frclib.FrcChoiceMenu;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import TrcFrcLib.frclib.FrcUserChoices;
+import TrcFrcLib.frclib.FrcXboxController;
 import TrcCommonLib.trclib.TrcMotor;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
@@ -587,6 +588,127 @@ public class FrcTest extends FrcTeleOp
     //
     // Overriding ButtonEvent here if necessary.
     //
+
+    /**
+     * This method is called when an operator controller button event is detected.
+     *
+     * @param button specifies the button ID that generates the event.
+     * @param pressed specifies true if the button is pressed, false otherwise.
+     */
+    @Override
+    protected void operatorControllerButtonEvent(int button, boolean pressed)
+    {
+        if (allowTeleOp())
+        {
+            boolean processed = false;
+            //
+            // In addition to or instead of the button controls handled by FrcTeleOp, we can add to or override the
+            // FrcTeleOp button actions.
+            //
+            robot.dashboard.displayPrintf(
+                8, "OperatorController: button=0x%04x %s", button, pressed ? "pressed" : "released");
+
+            switch (button)
+            {
+                case FrcXboxController.BUTTON_A:
+                    break;
+
+                case FrcXboxController.BUTTON_B:
+                    break;
+
+                case FrcXboxController.BUTTON_X:
+                    break;
+
+                case FrcXboxController.BUTTON_Y:
+                    break;
+
+                case FrcXboxController.LEFT_BUMPER:
+                    break;
+
+                case FrcXboxController.RIGHT_BUMPER:
+                    break;
+
+                case FrcXboxController.DPAD_UP:
+                    if (pressed && robot.shooter != null)
+                    {
+                        if (altFunc)
+                        {
+                            robot.shooter.setShooterVelocity(robot.shooterVelocity.upValue());
+                        }
+                        else
+                        {
+                            robot.shooter.setTiltAngle(robot.shooterTiltAngle.upValue());
+                        }
+                    }
+                    processed = true;
+                    break;
+
+                case FrcXboxController.DPAD_DOWN:
+                    if (pressed && robot.shooter != null)
+                    {
+                        if (altFunc)
+                        {
+                            robot.shooter.setShooterVelocity(robot.shooterVelocity.downValue());
+                        }
+                        else
+                        {
+                            robot.shooter.setTiltAngle(robot.shooterTiltAngle.downValue());
+                        }
+                    }
+                    processed = true;
+                    break;
+
+                case FrcXboxController.DPAD_LEFT:
+                    if (pressed && robot.shooter != null)
+                    {
+                        if (altFunc)
+                        {
+                            robot.shooterVelocity.upIncrement();
+                        }
+                        else
+                        {
+                            robot.shooterTiltAngle.upIncrement();
+                        }
+                    }
+                    processed = true;
+                    break;
+
+                case FrcXboxController.DPAD_RIGHT:
+                    if (pressed && robot.shooter != null)
+                    {
+                        if (altFunc)
+                        {
+                            robot.shooterVelocity.downIncrement();
+                        }
+                        else
+                        {
+                            robot.shooterTiltAngle.downIncrement();
+                        }
+                    }
+                    processed = true;
+                    break;
+
+                case FrcXboxController.BACK:
+                    break;
+
+                case FrcXboxController.START:
+                    break;
+
+                case FrcXboxController.LEFT_STICK_BUTTON:
+                    break;
+
+                case FrcXboxController.RIGHT_STICK_BUTTON:
+                    break;
+            }
+            //
+            // If the control was not processed by this method, pass it back to TeleOp.
+            //
+            if (!processed)
+            {
+                super.operatorControllerButtonEvent(button, pressed);
+            }
+        }
+    }   //operatorControllerButtonEvent
 
     //
     // Implement tests.

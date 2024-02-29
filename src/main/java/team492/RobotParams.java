@@ -491,7 +491,7 @@ public class RobotParams
         public final double FALCON_CPR                          = 2048.0;
         public final double FALCON_MAX_RPM                      = 6380.0;
 
-        public double DRIVE_GEAR_RATIO                          = 6.63;//9.63;
+        public double DRIVE_GEAR_RATIO                          = 6.75;
         public final double DRIVE_WHEEL_CIRCUMFERENCE           = 4.0 * Math.PI;
         // public final double DRIVE_INCHES_PER_ROT                = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
         public final double DRIVE_INCHES_PER_ROT                = 1.82618916;
@@ -592,6 +592,9 @@ public class RobotParams
         public static final double shooterVelocityTolerance     = 3.0;      // in rps.
         public static final double shooterVelMinInc             = 1.0;      // in rps.
         public static final double shooterVelMaxInc             = 10.0;     // in rps.
+        public static final double shooterPresetVelTolerance    = 5.0;      // in rps.
+        public static final double[] shooterPresetVelocities    = new double[]
+            {20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0};
 
         public static final int tiltCanId                       = CANID_TILT_MOTOR;
         public static final boolean tiltMotorInverted           = true;
@@ -616,7 +619,7 @@ public class RobotParams
         public static final ShootParamTable.Params stageShootParams = new ShootParamTable.Params(
             "Stage", 0.0, 30.0, 60.0); // Talked with Jackson and said that we would most likely not score in trap, so I don't think there is a need to tune ... Will leave it just in case.
         public static final ShootParamTable.Params sourceShootParams = new ShootParamTable.Params(
-            "Source", 0.0, -20, 88.0); // TODO: Tune Distance
+            "Source", 0.0, -20.0, 88.0); // TODO: Tune Distance
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
             .add("Speaker0ft", 12.0, 2700, 45.0) // TODO: Tune
             .add("Speaker1ft", 24.0, 50.0, 45.0) // TODO: Tune
@@ -637,8 +640,9 @@ public class RobotParams
         public static final double posScale                     = 1.0;      //TODO: tune
         public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);   //TODO: tune
 
-        public static final double maxHeight                    = 1.0; //TODO: tune
-        public static final double minHeight                    = 0.0; //TODO: tune
+        public static final double maxHeight                    = 1.0;  //TODO: tune
+        public static final double minHeight                    = 0.0;  //TODO: tune
+        public static final double climbPowerComp               = 0.5;  //TODO: tune
     }   //class Climber
 
 }   //class RobotParams

@@ -54,6 +54,8 @@ public class Shooter
             RobotParams.Shooter.shooterMaxVelocity, RobotParams.Shooter.shooterMaxAcceleration, 0.0);
         shooterMotor.setPositionSensorScaleAndOffset(RobotParams.Shooter.shooterPosScale, 0.0);
         shooterMotor.setVelocityPidCoefficients(RobotParams.Shooter.shooterVelPidCoeff);
+        shooterMotor.setPresets(
+            true, RobotParams.Shooter.shooterPresetVelTolerance, RobotParams.Shooter.shooterPresetVelocities);
 
         tiltMotor = new FrcCANSparkMax(moduleName + ".tiltMotor", RobotParams.Shooter.tiltCanId, false, true);
         tiltMotor.resetFactoryDefault();
@@ -71,7 +73,8 @@ public class Shooter
         tiltMotor.setPositionPidTolerance(RobotParams.Shooter.tiltPosPidTolerance);
         // Tilt is heavily geared down, so don't really need gravity compensation.
         // tiltMotor.setPositionPidPowerComp(this::getTiltGravityComp);
-        tiltMotor.setPosPresets(RobotParams.Shooter.tiltPresetPosTolerance, RobotParams.Shooter.tiltPresetPositions);
+        tiltMotor.setPresets(
+            false, RobotParams.Shooter.tiltPresetPosTolerance, RobotParams.Shooter.tiltPresetPositions);
 
         TrcShooter.PanTiltParams tiltParams = new TrcShooter.PanTiltParams(
             RobotParams.Shooter.tiltPowerLimit, RobotParams.Shooter.tiltMinAngle, RobotParams.Shooter.tiltMaxAngle);
