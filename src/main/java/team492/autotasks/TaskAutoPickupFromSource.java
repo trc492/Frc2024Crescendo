@@ -119,6 +119,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     {
         boolean success = ownerName == null ||
                           robot.shooter.acquireExclusiveAccess(ownerName) &&
+                          robot.intake.acquireExclusiveAccess(ownerName) &&
                           robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName);
 
         if (success)
@@ -156,6 +157,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                 ", shooter=" + ownershipMgr.getOwner(robot.shooter) +
                 ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
             robot.shooter.releaseExclusiveAccess(currOwner);
+            robot.intake.releaseExclusiveAccess(currOwner);
             robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
             currOwner = null;
         }
@@ -197,6 +199,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                 robot.shooter.aimShooter(
                     currOwner, RobotParams.Shooter.shooterSourcePickupVelocity, RobotParams.Shooter.tiltSourcePickupAngle,
                     0.0, null, 0.0, null);
+                robot.intake.autoIntakeReverse(currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, null, 0.0);
                 // Auto pickup from source must use vision. If vision is not available, quit.
                 if (robot.photonVisionFront != null)
                 {

@@ -629,8 +629,8 @@ public class RobotParams
             .add("Speaker5ft", 117.1, 90.0, 54.0) // Tuned, but distance needs to be recalibrated again from vision
             .add("Speaker6ft", 128.5, 100.0, 52.0); // Tuned, but distance needs to be recalibrated again from vision
 
-        public static final double shooterSourcePickupVelocity  = 30.0;     // in rps. TODO: Tune
-        public static final double tiltSourcePickupAngle        = 80.0;     // in degrees. TODO: tune
+        public static final double shooterSourcePickupVelocity  = -20.0;    // in rps. TODO: Tune
+        public static final double tiltSourcePickupAngle        = 88.25;    // in degrees. TODO: tune
     }   //class Shooter
 
     public static class Climber

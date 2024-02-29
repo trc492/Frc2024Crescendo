@@ -51,6 +51,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
     protected boolean altFunc = false;
     private boolean intakeActive = false;
+    private boolean ejectActive = false;
 
     /**
      * Constructor: Create an instance of the object.
@@ -395,28 +396,45 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     intakeActive = !intakeActive;
                     if (intakeActive)
                     {
-                        robot.intake.autoIntake(RobotParams.Intake.intakePower, 0.0, 0.0);
+                        if (altFunc)
+                        {
+                            // Intake from source.
+                            robot.shooter.aimShooter(
+                                null, RobotParams.Shooter.shooterSourcePickupVelocity, RobotParams.Shooter.tiltSourcePickupAngle,
+                                0.0, null, 0.0, null);
+                            robot.intake.autoIntakeReverse(RobotParams.Intake.intakePower, 0.0, 0.0);
+                        }
+                        else
+                        {
+                            // Intake from ground.
+                            robot.intake.autoIntakeForward(RobotParams.Intake.intakePower, 0.0, 0.0);
+                        }
                     }
                     else
                     {
+                        if (altFunc)
+                        {
+                            robot.shooter.cancel();
+                        }
                         robot.intake.cancel();
                     }
                 }
                 break;
 
             case FrcXboxController.BUTTON_B:
-                if (robot.intake != null)
+                if (robot.intake != null && pressed)
                 {
-                    if (pressed)
+                    ejectActive = !ejectActive;
+                    if (ejectActive)
                     {
                         if (altFunc)
                         {
-                            // AKA: spit!
+                            // Eject
                             robot.intake.autoEjectReverse(RobotParams.Intake.ejectReversePower, 0.0);
                         }
                         else
                         {
-                            // AKA: shoot!
+                            // Shoot
                             robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
                         }
                     }
@@ -437,7 +455,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
             case FrcXboxController.BUTTON_Y:
                 if (pressed && robot.climber != null)
                 {
-                    robot.climber.retract();
+                    robot.climber.climb();
                 }
                 break;
 
@@ -450,15 +468,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.RIGHT_BUMPER:
-                // Pickup from source.
-                if (pressed)
-                {
-                    robot.shooter.aimShooter(null, -20.0, 88.25, 0.0, null, 0.0, null);
-                }
-                else
-                {
-                    robot.shooter.cancel();
-                }
                 break;
 
             case FrcXboxController.DPAD_UP:

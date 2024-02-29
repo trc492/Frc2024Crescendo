@@ -218,7 +218,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
             case DRIVE_TO_NOTE:
                 if (notePose != null)
                 {
-                    robot.intake.autoIntake(
+                    robot.intake.autoIntakeForward(
                         currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
                     sm.addEvent(intakeEvent);
                     // We are right in front of the Speaker, so we don't need full power to approach it.
