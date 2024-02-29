@@ -49,7 +49,7 @@ import TrcCommonLib.trclib.TrcWatchdogMgr.Watchdog;
 import TrcFrcLib.frclib.FrcAHRSGyro;
 import TrcFrcLib.frclib.FrcAnalogEncoder;
 import TrcFrcLib.frclib.FrcCANCoder;
-import TrcFrcLib.frclib.FrcCANFalcon;
+import TrcFrcLib.frclib.FrcCANTalonFX;
 import TrcFrcLib.frclib.FrcCanandcoder;
 import TrcFrcLib.frclib.FrcPdp;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -98,10 +98,10 @@ public class SwerveDrive extends RobotDrive
 
         this.driveBaseParams = driveBaseParams;
         driveMotors = createMotors(
-            MotorType.CanFalcon, false, driveBaseParams.driveMotorNames, driveBaseParams.driveMotorIds,
+            MotorType.CanTalonFx, false, driveBaseParams.driveMotorNames, driveBaseParams.driveMotorIds,
             driveBaseParams.driveMotorInverted);
         steerMotors = createMotors(
-            MotorType.CanFalcon, false, driveBaseParams.steerMotorNames, driveBaseParams.steerMotorIds,
+            MotorType.CanTalonFx, false, driveBaseParams.steerMotorNames, driveBaseParams.steerMotorIds,
             driveBaseParams.steerMotorInverted);
         steerEncoders = createSteerEncoders(
             driveBaseParams.steerEncoderNames,
@@ -294,16 +294,16 @@ public class SwerveDrive extends RobotDrive
         // getPosition returns a value in the range of 0 to 1.0 of one revolution.
         double motorEncoderPos =
             steerEncoders[index].getScaledPosition() * driveBaseParams.STEER_GEAR_RATIO;
-        StatusCode statusCode = ((FrcCANFalcon) steerMotors[index]).motor.setPosition(motorEncoderPos);
+        StatusCode statusCode = ((FrcCANTalonFX) steerMotors[index]).motor.setPosition(motorEncoderPos);
         if (statusCode != StatusCode.OK)
         {
             robot.globalTracer.traceWarn(
                 moduleName,
-                driveBaseParams.swerveModuleNames[index] + ": Falcon.setPosition failed (code=" + statusCode +
+                driveBaseParams.swerveModuleNames[index] + ": TalonFx.setPosition failed (code=" + statusCode +
                 ", pos=" + motorEncoderPos + ").");
         }
 
-        double actualEncoderPos = ((FrcCANFalcon) steerMotors[index]).motor.getPosition().getValueAsDouble();
+        double actualEncoderPos = ((FrcCANTalonFX) steerMotors[index]).motor.getPosition().getValueAsDouble();
         if (Math.abs(motorEncoderPos - actualEncoderPos) > 0.01)
         {
             robot.globalTracer.traceWarn(
@@ -339,8 +339,8 @@ public class SwerveDrive extends RobotDrive
             steerMotors[i].setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
             syncSteerEncoder(i);
 
-            // We have already synchronized the Falcon internal encoder with the zero adjusted absolute encoder, so
-            // Falcon servo does not need to compensate for zero position.
+            // We have already synchronized the TalonFx internal encoder with the zero adjusted absolute encoder, so
+            // motor does not need to compensate for zero position.
             modules[i] = new TrcSwerveModule(names[i], driveMotors[i], steerMotors[i]);
         }
 

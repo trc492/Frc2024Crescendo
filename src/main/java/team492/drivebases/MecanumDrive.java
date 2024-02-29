@@ -48,7 +48,7 @@ public class MecanumDrive extends RobotDrive
         super(robot);
 
         driveMotors = createMotors(
-            MotorType.CanFalcon, false, driveBaseParams.driveMotorNames, driveBaseParams.driveMotorIds,
+            MotorType.CanTalonFx, false, driveBaseParams.driveMotorNames, driveBaseParams.driveMotorIds,
             driveBaseParams.driveMotorInverted);
         driveBase = new TrcMecanumDriveBase(
             driveMotors[RobotDrive.INDEX_LEFT_FRONT], driveMotors[RobotDrive.INDEX_LEFT_BACK],

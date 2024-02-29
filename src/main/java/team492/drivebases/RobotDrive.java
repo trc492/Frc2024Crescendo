@@ -38,9 +38,9 @@ import TrcCommonLib.trclib.TrcPurePursuitDrive;
 import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcAHRSGyro;
-import TrcFrcLib.frclib.FrcCANFalcon;
+import TrcFrcLib.frclib.FrcCANTalonFX;
 import TrcFrcLib.frclib.FrcCANSparkMax;
-import TrcFrcLib.frclib.FrcCANTalon;
+import TrcFrcLib.frclib.FrcCANTalonSRX;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -63,8 +63,8 @@ public class RobotDrive extends SubsystemBase
 
     public enum MotorType
     {
-        CanFalcon,
-        CanTalon,
+        CanTalonFx,
+        CanTalonSrx,
         CanSparkMax
     }   //enum MotorType
 
@@ -205,7 +205,7 @@ public class RobotDrive extends SubsystemBase
     /**
      * This method create an array of motors and configure them (can be drive motor or steer motor for Swerve Drive).
      *
-     * @param motorType specifies the motor type (CAN_FALCON, CAN_TALON or CAN_SPARKMAX).
+     * @param motorType specifies the motor type (CanTalonFx, CanTalonSrx or CanSparkMax).
      * @param brushless specifies true if motor is brushless, false if brushed (only applicable for SparkMax).
      * @param names specifies an array of names for each motor.
      * @param motorCanIds specifies an array of CAN IDs for each motor.
@@ -221,12 +221,12 @@ public class RobotDrive extends SubsystemBase
         {
             switch (motorType)
             {
-                case CanFalcon:
-                    motors[i] = new FrcCANFalcon(names[i], motorCanIds[i]);
+                case CanTalonFx:
+                    motors[i] = new FrcCANTalonFX(names[i], motorCanIds[i]);
                     break;
 
-                case CanTalon:
-                    motors[i] = new FrcCANTalon(names[i], motorCanIds[i]);
+                case CanTalonSrx:
+                    motors[i] = new FrcCANTalonSRX(names[i], motorCanIds[i]);
                     break;
 
                 case CanSparkMax:

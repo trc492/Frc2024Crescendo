@@ -24,7 +24,7 @@ package team492.subsystems;
 
 import TrcCommonLib.trclib.TrcShooter;
 import TrcCommonLib.trclib.TrcUtil;
-import TrcFrcLib.frclib.FrcCANFalcon;
+import TrcFrcLib.frclib.FrcCANTalonFX;
 import TrcFrcLib.frclib.FrcCANSparkMax;
 import team492.RobotParams;
 
@@ -32,7 +32,7 @@ public class Shooter
 {
     private static final String moduleName = Shooter.class.getSimpleName();
 
-    private final FrcCANFalcon shooterMotor;
+    private final FrcCANTalonFX shooterMotor;
     private final FrcCANSparkMax tiltMotor;
     private final TrcShooter shooter;
 
@@ -43,7 +43,7 @@ public class Shooter
      */
     public Shooter(TrcShooter.ShootOperation shootOp)
     {
-        shooterMotor = new FrcCANFalcon(moduleName + ".shooterMotor", RobotParams.Shooter.shooterCandId);
+        shooterMotor = new FrcCANTalonFX(moduleName + ".shooterMotor", RobotParams.Shooter.shooterCandId);
         shooterMotor.resetFactoryDefault();
         shooterMotor.setMotorInverted(RobotParams.Shooter.shooterMotorInverted);
         shooterMotor.disableLowerLimitSwitch();
