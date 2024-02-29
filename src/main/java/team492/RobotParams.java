@@ -493,7 +493,8 @@ public class RobotParams
 
         public double DRIVE_GEAR_RATIO                          = 6.63;//9.63;
         public final double DRIVE_WHEEL_CIRCUMFERENCE           = 4.0 * Math.PI;
-        public final double DRIVE_INCHES_PER_ROT                = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
+        // public final double DRIVE_INCHES_PER_ROT                = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
+        public final double DRIVE_INCHES_PER_ROT                = 1.82618916;
 
         public double STEER_GEAR_RATIO                          = 15.43;
         public final double STEER_DEGREES_PER_COUNT             = 360.0 / STEER_GEAR_RATIO;
