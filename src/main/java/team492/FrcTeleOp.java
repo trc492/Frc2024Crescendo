@@ -434,6 +434,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         }
                         else
                         {
+                            // TODO: Call autoScoreNote instead.
                             // Shoot
                             robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
                         }

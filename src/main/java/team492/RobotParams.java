@@ -68,13 +68,13 @@ public class RobotParams
         public static final boolean hybridMode                  = false;
         public static final boolean useTraceLog                 = true;
         // Status Update
-        public static final boolean doStatusUpdate              = true;
+        public static final boolean doStatusUpdate              = false;
         public static final boolean showLoopTime                = false;
         public static final boolean showPowerConsumption        = false;
         public static final boolean showDriveBase               = false;
         public static final boolean showPurePursuitDrive        = false;
         public static final boolean showPidDrive                = false;
-        public static final boolean showVision                  = true;
+        public static final boolean showVision                  = false;
         public static final boolean showSubsystems              = false;
         // Inputs
         public static final boolean useDriverXboxController     = true;
@@ -435,10 +435,10 @@ public class RobotParams
         public final String[] swerveModuleNames                 = {"lfWheel", "rfWheel", "lbWheel", "rbWheel"};
 
         // public final double SWERVE_DRIVE_INCHES_PER_COUNT       = 9.072106867127145344367826764411e-4;
-        public final double DRIVE_KP                            = 0.001;    // BaseFalconSwerve: 0.12
+        public final double DRIVE_KP                            = 0.02;    // BaseFalconSwerve: 0.12
         public final double DRIVE_KI                            = 0.0;
         public final double DRIVE_KD                            = 0.0;
-        public final double DRIVE_KF                            = 0.11;     // BaseFalconSwerve: 0.0
+        public final double DRIVE_KF                            = 0.0;//0.11;     // BaseFalconSwerve: 0.0
         public final double DRIVE_IZONE                         = 5.0;
         public final double DRIVE_TOLERANCE                     = 2.0;
         public final PidCoefficients driveCoeffs                =
@@ -491,10 +491,10 @@ public class RobotParams
         public final double FALCON_CPR                          = 2048.0;
         public final double FALCON_MAX_RPM                      = 6380.0;
 
+        // Tuned 02/29/2024: WheelDiameter = 3.9326556997620689090425924610785
         public double DRIVE_GEAR_RATIO                          = 6.75;
-        public final double DRIVE_WHEEL_CIRCUMFERENCE           = 4.0 * Math.PI;
-        // public final double DRIVE_INCHES_PER_ROT                = DRIVE_WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
-        public final double DRIVE_INCHES_PER_ROT                = 1.82618916;
+        public final double DRIVE_WHEEL_DIAMETER                = 3.9326556997620689090425924610785;
+        public final double DRIVE_INCHES_PER_ROT                = DRIVE_WHEEL_DIAMETER * Math.PI / DRIVE_GEAR_RATIO;
 
         public double STEER_GEAR_RATIO                          = 15.43;
         public final double STEER_DEGREES_PER_COUNT             = 360.0 / STEER_GEAR_RATIO;
@@ -530,7 +530,7 @@ public class RobotParams
         // Drivetrain Constants
         public final double trackWidth = Units.inchesToMeters(ROBOT_WHEELBASE_WIDTH);
         public final double wheelBase = Units.inchesToMeters(ROBOT_WHEELBASE_LENGTH);
-        public final double wheelCircumference = Units.inchesToMeters(DRIVE_WHEEL_CIRCUMFERENCE);
+        public final double wheelCircumference = Units.inchesToMeters(DRIVE_WHEEL_DIAMETER * Math.PI);
         // Swerve Kinematics
         // No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve
         public final SwerveDriveKinematics swerveKinematics  = new SwerveDriveKinematics(
