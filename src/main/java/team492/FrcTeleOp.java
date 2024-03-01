@@ -48,6 +48,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
     private double prevShooterVel = 0.0;
     private double prevTiltPower = 0.0;
+    private double prevClimbPower = 0.0;
 
     protected boolean altFunc = false;
     private boolean intakeActive = false;
@@ -238,6 +239,22 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.shooter.tiltMotor.getPidTarget(), robot.shooter.tiltMotor.getMotorPosition(),
                             robot.shooterTiltAngle.getIncrement(), robot.shooter.tiltLowerLimitSwitchActive(),
                             robot.shooter.tiltUpperLimitSwitchActive());
+                    }
+
+                    if (robot.climber != null)
+                    {
+                        double climbPower = robot.operatorController.getRightYWithDeadband(true);
+                        if (prevClimbPower != climbPower)
+                        {
+                            robot.climber.climberMotor.setPower(climbPower);
+                            prevClimbPower = climbPower;
+                        }
+                        robot.dashboard.displayPrintf(
+                            lineNum++, "Climber: power=%.2f/%.2f, pos=%.2f/%.2f/%f, limits=%s/%s",
+                            climbPower, robot.climber.climberMotor.getPower(), robot.climber.getPosition(),
+                            robot.climber.climberMotor.getPidTarget(), robot.climber.climberMotor.getMotorPosition(),
+                            robot.climber.climberMotor.isLowerLimitSwitchActive(),
+                            robot.climber.climberMotor.isUpperLimitSwitchActive());
                     }
                 }
             }
