@@ -464,14 +464,14 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_X:
-                if (pressed && robot.climber != null)
+                if (robot.climber != null && pressed)
                 {
                     robot.climber.extend();
                 }
                 break;
 
             case FrcXboxController.BUTTON_Y:
-                if (pressed && robot.climber != null)
+                if (robot.climber != null && pressed)
                 {
                     robot.climber.climb();
                 }
@@ -494,7 +494,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.DPAD_UP:
-                if (pressed && robot.shooter != null)
+                if (robot.shooter != null && pressed)
                 {
                     if (altFunc)
                     {
@@ -508,7 +508,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.DPAD_DOWN:
-                if (pressed && robot.shooter != null)
+                if (robot.shooter != null && pressed)
                 {
                     if (altFunc)
                     {
