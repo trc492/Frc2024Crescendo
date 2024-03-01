@@ -101,7 +101,7 @@ public class RobotParams
         public static final boolean useSubsystems               = true;
         public static final boolean useIntake                   = true;
         public static final boolean useShooter                  = true;
-        public static final boolean useClimber                  = false;
+        public static final boolean useClimber                  = true;
     }   //class Preferences
 
     public static final String ROBOT_NAME                       = "Robot492";

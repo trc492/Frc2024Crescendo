@@ -45,6 +45,7 @@ public class Climber
         climberMotor.setPositionSensorScaleAndOffset(RobotParams.Climber.posScale, 0.0);
         climberMotor.setPositionPidCoefficients(RobotParams.Climber.posPidCoeff);
         climberMotor.enableLowerLimitSwitch(true);
+        climberMotor.enableUpperLimitSwitch(true);
         climberMotor.setPositionPidPowerComp(this::getClimbPowerComp);
     }   //Climber
 

@@ -251,8 +251,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             prevClimbPower = climbPower;
                         }
                         robot.dashboard.displayPrintf(
-                            lineNum++, "Climber: power=%.2f/%.2f, pos=%.2f/%.2f/%f, limits=%s/%s",
-                            climbPower, robot.climber.climberMotor.getPower(), robot.climber.getPosition(),
+                            lineNum++, "Climber: power=%.2f/%.2f, current=%.3f, pos=%.2f/%.2f/%f, limits=%s/%s",
+                            climbPower, robot.climber.climberMotor.getPower(),
+                            robot.climber.climberMotor.getCurrent(),
+                            robot.climber.getPosition(),
                             robot.climber.climberMotor.getPidTarget(), robot.climber.climberMotor.getMotorPosition(),
                             robot.climber.climberMotor.isLowerLimitSwitchActive(),
                             robot.climber.climberMotor.isUpperLimitSwitchActive());
