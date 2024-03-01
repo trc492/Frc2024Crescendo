@@ -446,12 +446,12 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         // Shoot
                         if (altFunc)
                         {
-                            // Shoot at Amp.
+                            // Shoot at Amp with no vision.
                             robot.autoScoreNote.autoAssistScore(TargetType.Amp, false, false, false, null);
                         }
                         else
                         {
-                            // Shoot at Speaker.
+                            // Shoot at Speaker with vision.
                             robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, true, null);
                         }
                     }
