@@ -37,6 +37,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import team492.RobotParams;
+import team492.autotasks.TaskAutoScoreNote.TargetType;
 import team492.subsystems.LEDIndicator;
 
 /**
@@ -145,7 +146,25 @@ public class PhotonVision extends FrcPhotonVision
                                     RobotParams.Vision.ROBOT_TO_CAMERA_POSE);
     }   //getRobotFieldPose
 
-     /**
+    /**
+     * This method returns the best detected object.
+     *
+     * @return best detected object.
+     */
+    @Override
+    public DetectedObject getBestDetectedObject()
+    {
+        DetectedObject bestDetectedObj = super.getBestDetectedObject();
+
+        if (bestDetectedObj != null && ledIndicator != null)
+        {
+            ledIndicator.setPhotonDetectedObject(getPipeline());
+        }
+
+        return bestDetectedObj;
+    }   //getBestDetectedObject
+
+    /**
      * This method returns the detected AprilTag object.
      *
      * @param aprilTagId specifies the AprilTag ID to look for, -1 if looking for any AprilTag.
@@ -170,22 +189,49 @@ public class PhotonVision extends FrcPhotonVision
     }   //getDetectedAprilTag
 
     /**
-     * This method returns the best detected object.
+     * This method get the best detected AprilTag matching the specified target type.
      *
-     * @return best detected object.
+     * @param targetType specifies the target type of the AprilTag to look for.
+     * @return best detected AprilTag.
      */
-    @Override
-    public DetectedObject getBestDetectedObject()
+    public DetectedObject getBestDetectedAprilTag(TargetType targetType)
     {
-        DetectedObject bestDetectedObj = super.getBestDetectedObject();
+        DetectedObject bestObj = null;
 
-        if (bestDetectedObj != null && ledIndicator != null)
+        if (currPipeline == PipelineType.APRILTAG)
         {
-            ledIndicator.setPhotonDetectedObject(getPipeline());
+            DetectedObject objects[] = super.getDetectedObjects();
+
+            if (objects != null)
+            {
+                for (DetectedObject obj: objects)
+                {
+                    int id = obj.target.getFiducialId();
+                    if (targetType == TargetType.Amp && (id == 5 || id == 6))
+                    {
+                        bestObj = obj;
+                        break;
+                    }
+                    else if (targetType == TargetType.Speaker)
+                    {
+                        if (id == 4 || id == 7)
+                        {
+                            // Found preferred AprilTag, we are done.
+                            bestObj = obj;
+                            break;
+                        }
+                        else if (id == 3 || id == 8)
+                        {
+                            // Not the preferred AprilTag, keep looking.
+                            bestObj = obj;
+                        }
+                    }
+                }
+            }
         }
 
-        return bestDetectedObj;
-    }   //getBestDetectedObject
+        return bestObj;
+    }   //getBestDetectedAprilTag
 
     /**
      * This method sets the active pipeline type used in the LimeLight.

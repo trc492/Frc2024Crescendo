@@ -49,12 +49,23 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         DONE
     }   //enum State
 
+    private static class TaskParams
+    {
+        boolean useVision;
+
+        TaskParams(boolean useVision)
+        {
+            this.useVision = useVision;
+        }
+    }   //class TaskParams
+
     private final String ownerName;
     private final Robot robot;
-    private final TrcEvent driveEvent;
     private final TrcEvent intakeEvent;
+    private final TrcEvent driveEvent;
 
     private String currOwner = null;
+    private String driveOwner = null;
     private Double visionExpiredTime = null;
     private TrcPose2D notePose = null;
 
@@ -69,19 +80,20 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         super(moduleName, ownerName, TrcTaskMgr.TaskType.POST_PERIODIC_TASK);
         this.ownerName = ownerName;
         this.robot = robot;
-        this.driveEvent = new TrcEvent(moduleName + ".driveEvent");
         this.intakeEvent = new TrcEvent(moduleName + ".intakeEvent");
+        this.driveEvent = new TrcEvent(moduleName + ".driveEvent");
     }   //TaskAutoPickupFromGround
 
     /**
      * This method starts the auto-assist operation.
      *
+     * @param useVision specifies true to use Vision to approach AprilTag, false to do intake in place.
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
-    public void autoAssistPickup(TrcEvent completionEvent)
+    public void autoAssistPickup(boolean useVision, TrcEvent completionEvent)
     {
-        tracer.traceInfo(moduleName, "event=" + completionEvent);
-        startAutoTask(State.START, null, completionEvent);
+        tracer.traceInfo(moduleName, "useVision=" + useVision + ",event=" + completionEvent);
+        startAutoTask(State.START, new TaskParams(useVision), completionEvent);
     }   //autoAssistPickup
 
     /**
@@ -114,6 +126,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         if (success)
         {
             currOwner = ownerName;
+            driveOwner = ownerName;
             tracer.traceInfo(moduleName, "Successfully acquired subsystem ownerships.");
         }
         else
@@ -146,7 +159,11 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 ", intake=" + ownershipMgr.getOwner(robot.intake) +
                 ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
             robot.intake.releaseExclusiveAccess(currOwner);
-            robot.robotDrive.driveBase.releaseExclusiveAccess(currOwner);
+            if (driveOwner != null)
+            {
+                robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
+                driveOwner = null;
+            }
             currOwner = null;
         }
     }   //releaseSubsystemsOwnership
@@ -176,11 +193,13 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     protected void runTaskState(
         Object params, State state, TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
     {
+        TaskParams taskParams = (TaskParams) params;
+
         switch (state)
         {
             case START:
                 // Auto pickup from ground must use vision. If vision is not available, quit.
-                if (robot.photonVisionBack != null)
+                if (taskParams.useVision && robot.photonVisionBack != null)
                 {
                     tracer.traceInfo(moduleName, "Using Note Vision.");
                     robot.photonVisionBack.setPipeline(PipelineType.NOTE);
@@ -189,7 +208,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 else
                 {
                     tracer.traceInfo(moduleName, "Not using Note Vision.");
-                    sm.setState(State.DONE);
+                    sm.setState(State.DRIVE_TO_NOTE);
                 }
                 break;
 
@@ -211,27 +230,34 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 {
                     // Timed out, moving on.
                     tracer.traceInfo(moduleName, "No Note Found.");
-                    sm.setState(State.DONE);
+                    sm.setState(State.DRIVE_TO_NOTE);
                 }
                 break;
 
             case DRIVE_TO_NOTE:
+                sm.addEvent(intakeEvent);
+                robot.intake.autoIntakeForward(
+                    currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
                 if (notePose != null)
                 {
-                    robot.intake.autoIntakeForward(
-                        currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
-                    sm.addEvent(intakeEvent);
                     // We are right in front of the Speaker, so we don't need full power to approach it.
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.35);
                     robot.robotDrive.purePursuitDrive.start(
                         currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true, notePose);
                     sm.addEvent(driveEvent);
-                    sm.waitForEvents(State.DONE, false);
                 }
                 else
                 {
-                    sm.setState(State.DONE);
+                    // Did not detect Note, release drive ownership to let driver to drive manually.
+                    robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
+                    driveOwner = null;
+                    // Did not detect Note, tell the drivers so they can drive to the source manually.
+                    if (robot.ledIndicator != null)
+                    {
+                        robot.ledIndicator.setPhotonDetectedObject(null);
+                    }
                 }
+                sm.waitForEvents(State.DONE, true);
                 break;
 
             default:

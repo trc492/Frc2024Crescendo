@@ -34,6 +34,7 @@ public class Climber
 
     public final FrcCANSparkMax climberMotor;
     private boolean climbing = false;
+    private boolean manualOverride = false;
 
     public Climber()
     {
@@ -98,5 +99,36 @@ public class Climber
         climbing = true;
         climberMotor.setPosition(RobotParams.Climber.minHeight);
     }
+
+    /**
+     * This method enables/disables manual override for setTiltPower/setPanPower. When manual override is not enabled,
+     * setTiltPower/setPanPower will operate tilt/pan by PID control which means it will slow down the approach when
+     * it's near the upper or lower angle limits. When manul override is enabled, it will simply applied the specified
+     * power as is.
+     *
+     * @param enabled specifies true to enable manual override, false to disable.
+     */
+    public void setManualOverrideEnabled(boolean enabled)
+    {
+        manualOverride = enabled;
+    }   //setManualOverrideEnabled
+
+    /**
+     * This method moves climber up and down with the specified power. It is typically used by TeleOp to control
+     * the climber by a joystick value. Climber movement is PID controlled when manual override is not enabled.
+     *
+     * @param power specifies the power duty cycle used to move tilt (in the range of -1 to 1).
+     */
+    public void setClimbPower(double power)
+    {
+        if (manualOverride)
+        {
+            climberMotor.setPower(null, 0.0, power, 0.0, null);;
+        }
+        else
+        {
+            climberMotor.setPidPower(null, power, RobotParams.Climber.minHeight, RobotParams.Climber.maxHeight, true);
+        }
+    }   //setTiltPower
 
 }   //class Climber

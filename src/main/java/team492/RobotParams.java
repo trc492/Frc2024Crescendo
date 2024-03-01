@@ -575,9 +575,8 @@ public class RobotParams
         public static final boolean entrySensorInverted         = true;
         public static final boolean exitSensorInverted          = true;
 
-        public static final double intakePower                  = 0.7;      // TODO: Tune
-        public static final double ejectForwardPower            = 0.5;      // TODO: Tune
-        public static final double ejectReversePower            = -0.5;     // TODO: Tune
+        public static final double intakePower                  = 0.7;
+        public static final double ejectForwardPower            = 0.5;
     }   //class Intake
 
     public static class Shooter
@@ -603,7 +602,7 @@ public class RobotParams
         public static final double tiltPosOffset                = -14.0;    // in degrees
         public static final double tiltZeroOffset               = 0.035;    // in raw encoder unit
         public static final double tiltPowerLimit               = 0.5;
-        public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.028, 0.0, 0.0012, 0.0);     //(0.025, 0.0, 0.001, 0.0);
+        public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.028, 0.0, 0.0012, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
         public static final double tiltMinAngle                 = tiltPosOffset;
         public static final double tiltMaxAngle                 = 87.0;     // in degrees.
@@ -614,12 +613,14 @@ public class RobotParams
         public static final double[] tiltPresetPositions        = new double[]
             {tiltMinAngle, 0.0, 15.0, 30.0, 45.0, 60.0, 75.0, tiltMaxAngle};
 
-        public static final ShootParamTable.Params ampShootParams = new ShootParamTable.Params(
-            "Amp", 0.0, 20.0, 70.0); // TODO:  Tune Distance
-        public static final ShootParamTable.Params stageShootParams = new ShootParamTable.Params(
-            "Stage", 0.0, 30.0, 60.0); // Talked with Jackson and said that we would most likely not score in trap, so I don't think there is a need to tune ... Will leave it just in case.
-        public static final ShootParamTable.Params sourceShootParams = new ShootParamTable.Params(
-            "Source", 0.0, -20.0, 88.0); // TODO: Tune Distance
+        public static final double ampShooterVelocity           = 20.0;     // in rps.
+        public static final double ampTiltAngle                 = 70.0;     // in degrees.
+        public static final double sourcePickupShooterVelocity  = -20.0;    // in rps.
+        public static final double tiltSourcePickupAngle        = 88.0;     // in degrees.
+        // Talked with Jackson and said that we would most likely not score in trap,
+        // so I don't think there is a need to tune ... Will leave it just in case.
+        // public static final ShootParamTable.Params stageShootParams = new ShootParamTable.Params(
+        //     "Stage", 0.0, 30.0, 60.0);
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
             .add("Speaker0ft", 12.0, 2700, 45.0) // TODO: Tune
             .add("Speaker1ft", 24.0, 50.0, 45.0) // TODO: Tune
@@ -628,15 +629,12 @@ public class RobotParams
             .add("Speaker4ft", 60.0, 50.0, 45.0) // TODO: Tune
             .add("Speaker5ft", 117.1, 90.0, 54.0) // Tuned, but distance needs to be recalibrated again from vision
             .add("Speaker6ft", 128.5, 100.0, 52.0); // Tuned, but distance needs to be recalibrated again from vision
-
-        public static final double shooterSourcePickupVelocity  = -20.0;    // in rps. TODO: Tune
-        public static final double tiltSourcePickupAngle        = 88.25;    // in degrees. TODO: tune
     }   //class Shooter
 
     public static class Climber
     {
         public static final int motorCandId                     = CANID_CLIMBER_MOTOR;
-        public static final boolean motorInverted               = false;    //TODO: tune
+        public static final boolean motorInverted               = false;
         public static final double posScale                     = 1.0;      //TODO: tune
         public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);   //TODO: tune
 

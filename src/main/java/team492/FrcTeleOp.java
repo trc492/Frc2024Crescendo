@@ -29,6 +29,7 @@ import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcXboxController;
+import team492.autotasks.TaskAutoScoreNote.TargetType;
 
 /**
  * This class implements the code to run in TeleOp Mode.
@@ -42,17 +43,19 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     //
     protected final Robot robot;
     private boolean controlsEnabled = false;
+    protected boolean altFunc = false;
+    // DriveBase subsystem.
     private double driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
     private double turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
     private double[] prevDriveInputs = null;
-
+    // Shooter subsystem.
     private double prevShooterVel = 0.0;
     private double prevTiltPower = 0.0;
-    private double prevClimbPower = 0.0;
-
-    protected boolean altFunc = false;
+    // Intake subsystgem.
     private boolean intakeActive = false;
     private boolean ejectActive = false;
+    // Climber subsystem.
+    private double prevClimbPower = 0.0;
 
     /**
      * Constructor: Create an instance of the object.
@@ -246,16 +249,14 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         double climbPower = robot.operatorController.getRightYWithDeadband(true);
                         if (prevClimbPower != climbPower)
                         {
-                            // TODO: Once PID is tuned, we will do setPidPower instead.
-                            robot.climber.climberMotor.setPower(climbPower);
+                            robot.climber.setClimbPower(climbPower);
                             prevClimbPower = climbPower;
                         }
                         robot.dashboard.displayPrintf(
                             lineNum++, "Climber: power=%.2f/%.2f, current=%.3f, pos=%.2f/%.2f/%f, limits=%s/%s",
-                            climbPower, robot.climber.climberMotor.getPower(),
-                            robot.climber.climberMotor.getCurrent(),
-                            robot.climber.getPosition(),
-                            robot.climber.climberMotor.getPidTarget(), robot.climber.climberMotor.getMotorPosition(),
+                            climbPower, robot.climber.climberMotor.getPower(), robot.climber.climberMotor.getCurrent(),
+                            robot.climber.getPosition(), robot.climber.climberMotor.getPidTarget(),
+                            robot.climber.climberMotor.getMotorPosition(),
                             robot.climber.climberMotor.isLowerLimitSwitchActive(),
                             robot.climber.climberMotor.isUpperLimitSwitchActive());
                     }
@@ -280,8 +281,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     {
         controlsEnabled = enabled;
 
-        // if (!RobotParams.Preferences.hybridMode)
-        // {
         if (RobotParams.Preferences.useDriverXboxController)
         {
             robot.driverController.setButtonHandler(enabled? this::driverControllerButtonEvent: null);
@@ -300,7 +299,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         {
             robot.operatorStick.setButtonHandler(enabled? this::operatorStickButtonEvent: null);
         }
-        // }
 
         if (RobotParams.Preferences.useButtonPanels)
         {
@@ -418,16 +416,13 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     {
                         if (altFunc)
                         {
-                            // Intake from source.
-                            robot.shooter.aimShooter(
-                                null, RobotParams.Shooter.shooterSourcePickupVelocity, RobotParams.Shooter.tiltSourcePickupAngle,
-                                0.0, null, 0.0, null);
-                            robot.intake.autoIntakeReverse(RobotParams.Intake.intakePower, 0.0, 0.0);
+                            // Intake from source with no vision.
+                            robot.autoPickupFromSource.autoAssistPickup(false, false, null);
                         }
                         else
                         {
-                            // Intake from ground.
-                            robot.intake.autoIntakeForward(RobotParams.Intake.intakePower, 0.0, 0.0);
+                            // Intake from ground with no vision.
+                            robot.autoPickupFromGround.autoAssistPickup(false, null);
                         }
                     }
                     else
@@ -437,6 +432,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.shooter.cancel();
                         }
                         robot.intake.cancel();
+                        ejectActive = false;
                     }
                 }
                 break;
@@ -447,21 +443,22 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     ejectActive = !ejectActive;
                     if (ejectActive)
                     {
+                        // Shoot
                         if (altFunc)
                         {
-                            // Eject
-                            robot.intake.autoEjectReverse(RobotParams.Intake.ejectReversePower, 0.0);
+                            // Shoot at Amp.
+                            robot.autoScoreNote.autoAssistScore(TargetType.Amp, false, false, false, null);
                         }
                         else
                         {
-                            // TODO: Call autoScoreNote instead.
-                            // Shoot
-                            robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                            // Shoot at Speaker.
+                            robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, true, null);
                         }
                     }
                     else
                     {
                         robot.intake.cancel();
+                        intakeActive = false;
                     }
                 }
                 break;
@@ -485,6 +482,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 if (robot.shooter != null)
                 {
                     robot.shooter.setManualOverrideEnabled(altFunc);
+                }
+
+                if (robot.climber != null)
+                {
+                    robot.climber.setManualOverrideEnabled(altFunc);
                 }
                 break;
 

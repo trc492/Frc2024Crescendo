@@ -54,6 +54,9 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import team492.RobotParams.RobotType;
+import team492.autotasks.TaskAutoPickupFromGround;
+import team492.autotasks.TaskAutoPickupFromSource;
+import team492.autotasks.TaskAutoScoreNote;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
 import team492.subsystems.Climber;
@@ -121,6 +124,12 @@ public class Robot extends FrcRobotBase
     // Hybrid mode objects.
     //
     public Command m_autonomousCommand;
+    //
+    // Auto-Assists.
+    //
+    public TaskAutoScoreNote autoScoreNote;
+    public TaskAutoPickupFromGround autoPickupFromGround;
+    public TaskAutoPickupFromSource autoPickupFromSource;
 
     /**
      * Constructor: Create an instance of the object.
@@ -277,6 +286,12 @@ public class Robot extends FrcRobotBase
                 "RobotPeriodicTask", this::robotPeriodicTask);
             robotPeriodicTask.registerTask(TaskType.POST_PERIODIC_TASK);
         }
+        //
+        // Create Auto-Assists.
+        //
+        autoScoreNote = new TaskAutoScoreNote(null, this);
+        autoPickupFromGround = new TaskAutoPickupFromGround(null, this);
+        autoPickupFromSource = new TaskAutoPickupFromSource(null, this);
         //
         // Create Robot Modes.
         //
