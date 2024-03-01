@@ -144,11 +144,6 @@ public class RobotDrive extends SubsystemBase
                     driveBase.setFieldPosition(endOfAutoRobotPose);
                     endOfAutoRobotPose = null;
                 }
-
-                if (RobotParams.Preferences.useGyroAssist)
-                {
-                    driveBase.setGyroAssistEnabled(pidDrive.getTurnPidCtrl());
-                }
             }
         }
     }   //startMode

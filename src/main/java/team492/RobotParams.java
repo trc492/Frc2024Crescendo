@@ -94,8 +94,6 @@ public class RobotParams
         public static final boolean useStreamCamera             = false;
         // Drive Base
         public static final boolean useExternalOdometry         = false;
-        public static final boolean useVelocityControl          = false;
-        public static final boolean useGyroAssist               = false;
         public static final boolean useAntiTipping              = false;
         // Subsystems
         public static final boolean useSubsystems               = true;
@@ -640,7 +638,7 @@ public class RobotParams
 
         public static final double maxHeight                    = 1.0;  //TODO: tune
         public static final double minHeight                    = 0.0;  //TODO: tune
-        public static final double climbPowerComp               = 0.5;  //TODO: tune
+        public static final double climbPowerComp               = 0.3;  //TODO: tune
     }   //class Climber
 
 }   //class RobotParams
