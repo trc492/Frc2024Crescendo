@@ -246,6 +246,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         double climbPower = robot.operatorController.getRightYWithDeadband(true);
                         if (prevClimbPower != climbPower)
                         {
+                            // TODO: Once PID is tuned, we will do setPidPower instead.
                             robot.climber.climberMotor.setPower(climbPower);
                             prevClimbPower = climbPower;
                         }
