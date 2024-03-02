@@ -62,7 +62,8 @@ public class FrcAuto implements TrcRobot.RobotMode
     {
         POS_1(0),
         POS_2(1),
-        POS_3(2);
+        POS_3(2),
+        POS_4(3);
         // The value can be used as index into arrays if necessary.
         int value;
         AutoStartPos(int value)
@@ -88,6 +89,9 @@ public class FrcAuto implements TrcRobot.RobotMode
         private static final String DBKEY_AUTO_ALLIANCE = "Auto/Alliance";
         private static final String DBKEY_AUTO_STRATEGY = "Auto/Strategy";
         private static final String DBKEY_AUTO_START_POS = "Auto/StartPos";
+        private static final String DBKEY_AUTO_SCORE_WING_NOTE = "Auto/ScoreWingNote";
+        private static final String DBKEY_AUTO_GO_TO_CENTER = "Auto/GoToCenter";
+
         private static final String DBKEY_AUTO_START_DELAY = "Auto/StartDelay";
         private static final String DBKEY_AUTO_PATHFILE = "Auto/PathFile";
         private static final String DBKEY_AUTO_X_DRIVE_DISTANCE = "Auto/XDriveDistance";
@@ -127,15 +131,19 @@ public class FrcAuto implements TrcRobot.RobotMode
             }
             autoStrategyMenu.addChoice("Do Nothing", AutoStrategy.DO_NOTHING, true, true);
 
-            autoStartPosMenu.addChoice("Start Position 1", AutoStartPos.POS_1, true, false);
-            autoStartPosMenu.addChoice("Start Position 2", AutoStartPos.POS_2);
-            autoStartPosMenu.addChoice("Start Position 3", AutoStartPos.POS_3, false, true);
+            autoStartPosMenu.addChoice("Start Position 1 (Amp)", AutoStartPos.POS_1, true, false);
+            autoStartPosMenu.addChoice("Start Position 2 (Subwoofer amp-side)", AutoStartPos.POS_2);
+            autoStartPosMenu.addChoice("Start Position 2 (Subwoofer center)", AutoStartPos.POS_3);
+            autoStartPosMenu.addChoice("Start Position 3 (Subwoofer source-side)", AutoStartPos.POS_4, false, true);
             //
             // Initialize dashboard with default choice values.
             //
             userChoices.addChoiceMenu(DBKEY_AUTO_ALLIANCE, allianceMenu);
             userChoices.addChoiceMenu(DBKEY_AUTO_STRATEGY, autoStrategyMenu);
             userChoices.addChoiceMenu(DBKEY_AUTO_START_POS, autoStartPosMenu);
+            userChoices.addBoolean(DBKEY_AUTO_SCORE_WING_NOTE, true);
+            userChoices.addBoolean(DBKEY_AUTO_GO_TO_CENTER, true);
+
             userChoices.addNumber(DBKEY_AUTO_START_DELAY, 0.0);
             userChoices.addString(DBKEY_AUTO_PATHFILE, "DrivePath.csv");
             userChoices.addNumber(DBKEY_AUTO_X_DRIVE_DISTANCE, 6.0);    // in feet
@@ -165,6 +173,14 @@ public class FrcAuto implements TrcRobot.RobotMode
         {
             return autoStartPosMenu.getCurrentChoiceObject().value;
         }   //getStartPos
+
+        public boolean getScoreWingNote() {
+            return userChoices.getUserBoolean(DBKEY_AUTO_SCORE_WING_NOTE);
+        }
+
+        public boolean getGoToCenter() {
+            return userChoices.getUserBoolean(DBKEY_AUTO_GO_TO_CENTER);
+        }
 
         public double getStartDelay()
         {
@@ -209,6 +225,8 @@ public class FrcAuto implements TrcRobot.RobotMode
                 "alliance=\"%s\" " +
                 "strategy=\"%s\" " +
                 "startPos=\"%s\" " +
+                "scoreWingNote=\"%s\" " + 
+                "goToCenter=\"%s\" " + 
                 "startDelay=%.0f sec " +
                 "pathFile=\"%s\" " +
                 "xDistance=%.1f ft " +
@@ -216,7 +234,7 @@ public class FrcAuto implements TrcRobot.RobotMode
                 "turnDegrees=%.0f deg " +
                 "driveTime=%.0f sec " +
                 "drivePower=%.1f",
-                getAlliance(), getStrategy(), getStartPos(), getStartDelay(), getPathFile(), getXDriveDistance(),
+                getAlliance(), getStrategy(), getStartPos(), getScoreWingNote(), getGoToCenter(), getStartDelay(), getPathFile(), getXDriveDistance(),
                 getYDriveDistance(), getTurnAngle(), getDriveTime(), getDrivePower());
         }   //toString
 
