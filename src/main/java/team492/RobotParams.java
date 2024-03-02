@@ -68,13 +68,13 @@ public class RobotParams
         public static final boolean hybridMode                  = false;
         public static final boolean useTraceLog                 = true;
         // Status Update
-        public static final boolean doStatusUpdate              = false;
+        public static final boolean doStatusUpdate              = true;
         public static final boolean showLoopTime                = false;
         public static final boolean showPowerConsumption        = false;
         public static final boolean showDriveBase               = false;
         public static final boolean showPurePursuitDrive        = false;
         public static final boolean showPidDrive                = false;
-        public static final boolean showVision                  = false;
+        public static final boolean showVision                  = true;
         public static final boolean showSubsystems              = false;
         // Inputs
         public static final boolean useDriverXboxController     = true;
@@ -218,7 +218,7 @@ public class RobotParams
     //
     // PWM channels.
     //
-    public static final int NUM_LEDS                            = 60;
+    public static final int NUM_LEDS                            = 30;
     public static final int PWM_CHANNEL_LED                     = 9;
     //
     // Relay channels.
@@ -245,7 +245,7 @@ public class RobotParams
         public static final double CAMERA_X_OFFSET              = 0.0;      // Inches to the right from robot center
         public static final double CAMERA_Y_OFFSET              = 0.0;      // Inches forward from robot center
         public static final double CAMERA_HEIGHT                = 23.25;    // Inches up from the floor
-        public static final double CAMERA_PITCH                 = 1.0;      // degrees up from horizontal
+        public static final double CAMERA_PITCH                 = 33.0;     // degrees up from horizontal
         public static final double CAMERA_YAW                   = 0.0;      // degrees clockwise from robot front
         public static final double CAMERA_ROLL                  = 0.0;
         public static final Transform3d ROBOT_TO_CAMERA         = new Transform3d(
@@ -620,12 +620,12 @@ public class RobotParams
         // public static final ShootParamTable.Params stageShootParams = new ShootParamTable.Params(
         //     "Stage", 0.0, 30.0, 60.0);
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
-            .add("Speaker0ft", 12.0, 2700, 45.0) // TODO: Tune
-            .add("Speaker1ft", 24.0, 50.0, 45.0) // TODO: Tune
-            .add("Speaker2ft", 36.0, 50.0, 45.0) // TODO: Tune
-            .add("Speaker3ft", 48.0, 50.0, 45.0) // TODO: Tune
-            .add("Speaker4ft", 60.0, 50.0, 45.0) // TODO: Tune
-            .add("Speaker5ft", 117.1, 90.0, 54.0) // Tuned, but distance needs to be recalibrated again from vision
+            .add("Speaker0ft", 0.0, 70.0, 80.0)     // TODO: Tune
+            .add("Speaker1ft", 24.0, 50.0, 45.0)    // TODO: Tune
+            .add("Speaker2ft", 36.0, 50.0, 45.0)    // TODO: Tune
+            .add("Speaker3ft", 48.0, 50.0, 45.0)    // TODO: Tune
+            .add("Speaker4ft", 60.0, 50.0, 45.0)    // TODO: Tune
+            .add("Speaker5ft", 117.1, 90.0, 54.0)   // Tuned, but distance needs to be recalibrated again from vision
             .add("Speaker6ft", 128.5, 100.0, 52.0); // Tuned, but distance needs to be recalibrated again from vision
     }   //class Shooter
 
