@@ -96,7 +96,7 @@ public class RobotParams
         public static final boolean useExternalOdometry         = false;
         public static final boolean useAntiTipping              = false;
         // Subsystems
-        public static final boolean useSubsystems               = false;
+        public static final boolean useSubsystems               = true;
         public static final boolean useIntake                   = true;
         public static final boolean useShooter                  = true;
         public static final boolean useClimber                  = true;
@@ -218,7 +218,7 @@ public class RobotParams
     //
     // PWM channels.
     //
-    public static final int NUM_LEDS                            = 30;
+    public static final int NUM_LEDS                            = 5;
     public static final int PWM_CHANNEL_LED                     = 9;
     //
     // Relay channels.
@@ -302,7 +302,7 @@ public class RobotParams
 
     public static final double DRIVE_SLOW_SCALE                 = 0.5;
     public static final double TURN_SLOW_SCALE                  = 0.3;
-    public static final double DRIVE_NORMAL_SCALE               = 0.75;
+    public static final double DRIVE_NORMAL_SCALE               = 0.8;
     public static final double TURN_NORMAL_SCALE                = 0.6;
 
     public static class DifferentialDriveBase
@@ -316,7 +316,7 @@ public class RobotParams
         public final double DRIVE_KI                            = 0.0;
         public final double DRIVE_KD                            = 0.0013;
         public final double DRIVE_KF                            = 0.0;
-        public final double DRIVE_TOLERANCE                     = 2.0;
+        public final double DRIVE_TOLERANCE                     = 0.1;
 
         public final double TURN_KP                             = 0.012;
         public final double TURN_KI                             = 0.0;
@@ -433,12 +433,12 @@ public class RobotParams
         public final String[] swerveModuleNames                 = {"lfWheel", "rfWheel", "lbWheel", "rbWheel"};
 
         // public final double SWERVE_DRIVE_INCHES_PER_COUNT       = 9.072106867127145344367826764411e-4;
-        public final double DRIVE_KP                            = 0.02;    // BaseFalconSwerve: 0.12
+        public final double DRIVE_KP                            = 0.017;    // BaseFalconSwerve: 0.12
         public final double DRIVE_KI                            = 0.0;
-        public final double DRIVE_KD                            = 0.0;
+        public final double DRIVE_KD                            = 0.0025;
         public final double DRIVE_KF                            = 0.0;//0.11;     // BaseFalconSwerve: 0.0
         public final double DRIVE_IZONE                         = 5.0;
-        public final double DRIVE_TOLERANCE                     = 2.0;
+        public final double DRIVE_TOLERANCE                     = 1.0;
         public final PidCoefficients driveCoeffs                =
             new PidCoefficients(DRIVE_KP, DRIVE_KI, DRIVE_KD, DRIVE_KF);
         // Drive Motor Characterization Values From SYSID
@@ -619,6 +619,7 @@ public class RobotParams
         // so I don't think there is a need to tune ... Will leave it just in case.
         // public static final ShootParamTable.Params stageShootParams = new ShootParamTable.Params(
         //     "Stage", 0.0, 30.0, 60.0);
+
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
             .add("Speaker0ft", 0.0, 70.0, 80.0)     // TODO: Tune
             .add("Speaker1ft", 24.0, 50.0, 45.0)    // TODO: Tune
