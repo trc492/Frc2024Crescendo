@@ -639,6 +639,16 @@ public class Robot extends FrcRobotBase
         intake.autoEjectForward(0.0, RobotParams.Intake.ejectForwardPower, 0.0, completionEvent, 0.0);
     }   //shoot
 
+    /**
+     * This method is called to cancel all pending auto-assist operations and release the ownership of all subsystems.
+     */
+    public void autoAssistCancel()
+    {
+        autoScoreNote.autoAssistCancel();
+        autoPickupFromGround.autoAssistCancel();
+        autoPickupFromSource.autoAssistCancel();
+    }   //autoAssistCancel
+
     //
     // Getters for sensor data.
     //

@@ -51,9 +51,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     // Shooter subsystem.
     private double prevShooterVel = 0.0;
     private double prevTiltPower = 0.0;
-    // Intake subsystgem.
-    private boolean intakeActive = false;
-    private boolean ejectActive = false;
     // Climber subsystem.
     private double prevClimbPower = 0.0;
 
@@ -126,7 +123,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         //
         // Disable subsystems before exiting if necessary.
         //
-        releaseAutoAssistAndSubsystems();
+        robot.autoAssistCancel();
     }   //stopMode
 
     /**
@@ -409,10 +406,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         switch (button)
         {
             case FrcXboxController.BUTTON_A:
-                if (robot.intake != null && pressed)
+                if (robot.intake != null && robot.shooter != null && pressed)
                 {
-                    intakeActive = !intakeActive;
-                    if (intakeActive)
+                    boolean autoAssistActive =
+                        !(robot.autoPickupFromSource.isActive() || robot.autoPickupFromGround.isActive());
+                    if (autoAssistActive)
                     {
                         if (altFunc)
                         {
@@ -427,40 +425,33 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     }
                     else
                     {
-                        if (altFunc)
-                        {
-                            robot.shooter.cancel();
-                        }
-                        robot.intake.cancel();
-                        ejectActive = false;
+                        robot.autoAssistCancel();
                     }
                 }
                 break;
 
             case FrcXboxController.BUTTON_B:
-                if (robot.intake != null && pressed)
+                if (robot.intake != null && robot.shooter != null && pressed)
                 {
-                    ejectActive = !ejectActive;
-                    if (ejectActive)
+                    boolean autoAssistActive = !robot.autoScoreNote.isActive();
+                    if (autoAssistActive)
                     {
-                        // Shoot
                         if (altFunc)
                         {
                             // Shoot at Amp with no vision.
-                            // robot.autoScoreNote.autoAssistScore(TargetType.Amp, false, false, false, null);
-                            robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                            robot.autoScoreNote.autoAssistScore(TargetType.Amp, false, false, false, null);
+                            // robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
                         }
                         else
                         {
                             // Shoot at Speaker with vision.
-                            // robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, true, null);
-                            robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                            robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, true, null);
+                            // robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
                         }
                     }
                     else
                     {
-                        robot.intake.cancel();
-                        intakeActive = false;
+                        robot.autoAssistCancel();
                     }
                 }
                 break;
@@ -799,12 +790,5 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
         }
     }   //switchPanelButtonEvent
-
-    /**
-     * This method is called to cancel all pending auto-assist operations and release the ownership of all subsystems.
-     */
-    private void releaseAutoAssistAndSubsystems()
-    {
-    }   //releaseAutoAssistAndSubsystems
 
 }   //class FrcTeleOp
