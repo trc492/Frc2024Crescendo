@@ -51,6 +51,7 @@ public class FrcAuto implements TrcRobot.RobotMode
     //
     public static enum AutoStrategy
     {
+        CRESCENDO_AUTO,
         HYBRID_MODE_AUTO,
         PP_DRIVE,
         PID_DRIVE,
@@ -72,6 +73,14 @@ public class FrcAuto implements TrcRobot.RobotMode
         }   //AutoStartPos
     }   //enum AutoStartPos
 
+    public static enum EndAction
+    {
+        PARK_STARTING_ZONE,
+        PARK_WING_ZONE,
+        HOARD_ONE_NOTE,
+        HOARD_MULTIPLE_NOTES
+    }   //enum EndAction
+
     /**
      * This class encapsulates all user choices for autonomous mode from the smart dashboard.
      *
@@ -90,7 +99,7 @@ public class FrcAuto implements TrcRobot.RobotMode
         private static final String DBKEY_AUTO_STRATEGY = "Auto/Strategy";
         private static final String DBKEY_AUTO_START_POS = "Auto/StartPos";
         private static final String DBKEY_AUTO_SCORE_WING_NOTE = "Auto/ScoreWingNote";
-        private static final String DBKEY_AUTO_GO_TO_CENTER = "Auto/GoToCenter";
+        private static final String DBKEY_AUTO_END_ACTION = "Auto/EndAction";
 
         private static final String DBKEY_AUTO_START_DELAY = "Auto/StartDelay";
         private static final String DBKEY_AUTO_PATHFILE = "Auto/PathFile";
@@ -104,6 +113,7 @@ public class FrcAuto implements TrcRobot.RobotMode
         private final FrcChoiceMenu<DriverStation.Alliance> allianceMenu;
         private final FrcChoiceMenu<AutoStrategy> autoStrategyMenu;
         private final FrcChoiceMenu<AutoStartPos> autoStartPosMenu;
+        private final FrcChoiceMenu<EndAction> autoEndActionMenu;
 
         public AutoChoices()
         {
@@ -113,6 +123,7 @@ public class FrcAuto implements TrcRobot.RobotMode
             allianceMenu = new FrcChoiceMenu<>(DBKEY_AUTO_ALLIANCE);
             autoStrategyMenu = new FrcChoiceMenu<>(DBKEY_AUTO_STRATEGY);
             autoStartPosMenu = new FrcChoiceMenu<>(DBKEY_AUTO_START_POS);
+            autoEndActionMenu = new FrcChoiceMenu<>(DBKEY_AUTO_END_ACTION);
             //
             // Populate autonomous mode choice menus.
             //
@@ -125,16 +136,22 @@ public class FrcAuto implements TrcRobot.RobotMode
             }
             else
             {
+                autoStrategyMenu.addChoice("Crescendo Auto", AutoStrategy.CRESCENDO_AUTO);
                 autoStrategyMenu.addChoice("Pure Pursuit Drive", AutoStrategy.PP_DRIVE);
                 autoStrategyMenu.addChoice("PID Drive", AutoStrategy.PID_DRIVE);
                 autoStrategyMenu.addChoice("Timed Drive", AutoStrategy.TIMED_DRIVE);
             }
             autoStrategyMenu.addChoice("Do Nothing", AutoStrategy.DO_NOTHING, true, true);
 
-            autoStartPosMenu.addChoice("Start Position 1 (Amp)", AutoStartPos.AMP, true, false);
-            autoStartPosMenu.addChoice("Start Position 2 (Subwoofer amp-side)", AutoStartPos.SW_AMP_SIDE);
-            autoStartPosMenu.addChoice("Start Position 2 (Subwoofer center)", AutoStartPos.SW_CENTER);
-            autoStartPosMenu.addChoice("Start Position 3 (Subwoofer source-side)", AutoStartPos.SW_SOURCE_SIDE, false, true);
+            autoStartPosMenu.addChoice("Start Position: Amp", AutoStartPos.AMP, true, false);
+            autoStartPosMenu.addChoice("Start Position: Subwoofer amp-side", AutoStartPos.SW_AMP_SIDE);
+            autoStartPosMenu.addChoice("Start Position: Subwoofer center", AutoStartPos.SW_CENTER);
+            autoStartPosMenu.addChoice("Start Position: Subwoofer source-side", AutoStartPos.SW_SOURCE_SIDE, false, true);
+
+            autoEndActionMenu.addChoice("Park in Starting Zone", EndAction.PARK_STARTING_ZONE, false, false);
+            autoEndActionMenu.addChoice("Park in Wing Zone", EndAction.PARK_WING_ZONE, false, false);
+            autoEndActionMenu.addChoice("Hoard One Note", EndAction.HOARD_ONE_NOTE, true, false);
+            autoEndActionMenu.addChoice("Hoard Multiple Notes", EndAction.HOARD_MULTIPLE_NOTES, false, true);
             //
             // Initialize dashboard with default choice values.
             //
@@ -142,7 +159,7 @@ public class FrcAuto implements TrcRobot.RobotMode
             userChoices.addChoiceMenu(DBKEY_AUTO_STRATEGY, autoStrategyMenu);
             userChoices.addChoiceMenu(DBKEY_AUTO_START_POS, autoStartPosMenu);
             userChoices.addBoolean(DBKEY_AUTO_SCORE_WING_NOTE, true);
-            userChoices.addBoolean(DBKEY_AUTO_GO_TO_CENTER, true);
+            userChoices.addChoiceMenu(DBKEY_AUTO_END_ACTION, autoEndActionMenu);
 
             userChoices.addNumber(DBKEY_AUTO_START_DELAY, 0.0);
             userChoices.addString(DBKEY_AUTO_PATHFILE, "DrivePath.csv");
@@ -174,13 +191,15 @@ public class FrcAuto implements TrcRobot.RobotMode
             return autoStartPosMenu.getCurrentChoiceObject().value;
         }   //getStartPos
 
-        public boolean getScoreWingNote() {
+        public boolean getScoreWingNote()
+        {
             return userChoices.getUserBoolean(DBKEY_AUTO_SCORE_WING_NOTE);
-        }
+        }   //getScoreWingNote
 
-        public boolean getGoToCenter() {
-            return userChoices.getUserBoolean(DBKEY_AUTO_GO_TO_CENTER);
-        }
+        public EndAction getEndAction()
+        {
+            return autoEndActionMenu.getCurrentChoiceObject();
+        }   //getEndAction
 
         public double getStartDelay()
         {
@@ -226,7 +245,7 @@ public class FrcAuto implements TrcRobot.RobotMode
                 "strategy=\"%s\" " +
                 "startPos=\"%s\" " +
                 "scoreWingNote=\"%s\" " + 
-                "goToCenter=\"%s\" " + 
+                "endAction=\"%s\" " +
                 "startDelay=%.0f sec " +
                 "pathFile=\"%s\" " +
                 "xDistance=%.1f ft " +
@@ -234,8 +253,9 @@ public class FrcAuto implements TrcRobot.RobotMode
                 "turnDegrees=%.0f deg " +
                 "driveTime=%.0f sec " +
                 "drivePower=%.1f",
-                getAlliance(), getStrategy(), getStartPos(), getScoreWingNote(), getGoToCenter(), getStartDelay(), getPathFile(), getXDriveDistance(),
-                getYDriveDistance(), getTurnAngle(), getDriveTime(), getDrivePower());
+                getAlliance(), getStrategy(), getStartPos(), getScoreWingNote(), getEndAction(), getStartDelay(),
+                getPathFile(), getXDriveDistance(), getYDriveDistance(), getTurnAngle(), getDriveTime(),
+                getDrivePower());
         }   //toString
 
     }   //class AutoChoices
