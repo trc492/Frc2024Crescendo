@@ -36,7 +36,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import team492.RobotParams;
+import edu.wpi.first.math.geometry.Transform3d;
 import team492.autotasks.TaskAutoScoreNote.TargetType;
 import team492.subsystems.LEDIndicator;
 
@@ -74,6 +74,8 @@ public class PhotonVision extends FrcPhotonVision
 
     }   //enum PipelineType
 
+    private final Transform3d robotToCam;
+    private final TrcPose2D robotToCamPose;
     private final LEDIndicator ledIndicator;
     private final AprilTagFieldLayout aprilTagFieldLayout;
     private PipelineType currPipeline = PipelineType.APRILTAG;
@@ -82,21 +84,21 @@ public class PhotonVision extends FrcPhotonVision
      * Constructor: Create an instance of the object.
      *
      * @param cameraName specifies the network table name that PhotonVision is broadcasting information over.
+     * @param robotToCam specifies the 3D transform location of the camera from robot center.
+     * @param robotToCamPose specifies the 2D camera pose from robot center.
      * @param ledIndicator specifies the LEDIndicator object, can be null if none provided.
      */
-    public PhotonVision(String cameraName, LEDIndicator ledIndicator)
+    public PhotonVision(String cameraName, Transform3d robotToCam, TrcPose2D robotToCamPose, LEDIndicator ledIndicator)
     {
-        super(cameraName, RobotParams.Vision.ROBOT_TO_CAMERA);
+        super(cameraName, robotToCam);
+        this.robotToCam = robotToCam;
+        this.robotToCamPose = robotToCamPose;
         this.ledIndicator = ledIndicator;
 
         double startTime = TrcTimer.getCurrentTime();
         try
         {
             aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.kDefaultField.m_resourceFile);
-            // poseEstimator = new PhotonPoseEstimator(
-            //     aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, this,
-            //     RobotParams.CAMERA_TRANSFORM3D);
-            // poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         }
         catch (IOException e)
         {
@@ -139,11 +141,11 @@ public class PhotonVision extends FrcPhotonVision
      */
     public TrcPose2D getRobotFieldPose(DetectedObject aprilTagInfo, boolean usePoseEstimator)
     {
-        return usePoseEstimator? getRobotEstimatedPose(RobotParams.Vision.ROBOT_TO_CAMERA):
+        return usePoseEstimator? getRobotEstimatedPose(robotToCam):
                                  getRobotPoseFromAprilTagFieldPose(
                                     getAprilTagFieldPose(aprilTagInfo.target.getFiducialId()).toPose2D(),
                                     aprilTagInfo.targetPose,
-                                    RobotParams.Vision.ROBOT_TO_CAMERA_POSE);
+                                    robotToCamPose);
     }   //getRobotFieldPose
 
     /**

@@ -236,21 +236,37 @@ public class RobotParams
     //
     public static class Vision
     {
-        public static final int CAMERA_IMAGE_WIDTH              = 1280;     // in pixels
-        public static final int CAMERA_IMAGE_HEIGHT             = 800;      // in pixels
+        public static final int FRONTCAM_IMAGE_WIDTH            = 1280;     // in pixels
+        public static final int FRONTCAM_IMAGE_HEIGHT           = 800;      // in pixels
         // Camera location on robot.
-        public static final double CAMERA_X_OFFSET              = 0.0;      // Inches to the right from robot center TODO: Need updating
-        public static final double CAMERA_Y_OFFSET              = 0.0;      // Inches forward from robot center
-        public static final double CAMERA_Z_OFFSET              = 23.0;     // Inches up from the floor
-        public static final double CAMERA_PITCH                 = 33.0;     // degrees up from horizontal
-        public static final double CAMERA_YAW                   = 0.0;      // degrees clockwise from robot front
-        public static final double CAMERA_ROLL                  = 0.0;
-        public static final Transform3d ROBOT_TO_CAMERA         = new Transform3d(
-            new Translation3d(CAMERA_Y_OFFSET*TrcUtil.METERS_PER_INCH, -CAMERA_X_OFFSET*TrcUtil.METERS_PER_INCH,
-                              CAMERA_Z_OFFSET*TrcUtil.METERS_PER_INCH),
-            new Rotation3d(Math.toRadians(CAMERA_ROLL), Math.toRadians(-CAMERA_PITCH), Math.toRadians(-CAMERA_YAW)));
-        public static final TrcPose2D ROBOT_TO_CAMERA_POSE      = new TrcPose2D(
-            CAMERA_X_OFFSET, CAMERA_Y_OFFSET, CAMERA_YAW);
+        public static final double FRONTCAM_X_OFFSET            = 0.0;      // Inches to the right from robot center TODO: Need updating
+        public static final double FRONTCAM_Y_OFFSET            = 0.0;      // Inches forward from robot center
+        public static final double FRONTCAM_Z_OFFSET            = 23.0;     // Inches up from the floor
+        public static final double FRONTCAM_PITCH               = 33.0;     // degrees up from horizontal
+        public static final double FRONTCAM_YAW                 = 0.0;      // degrees clockwise from robot front
+        public static final double FRONTCAM_ROLL                = 0.0;
+        public static final Transform3d ROBOT_TO_FRONTCAM       = new Transform3d(
+            new Translation3d(FRONTCAM_Y_OFFSET*TrcUtil.METERS_PER_INCH, -FRONTCAM_X_OFFSET*TrcUtil.METERS_PER_INCH,
+                              FRONTCAM_Z_OFFSET*TrcUtil.METERS_PER_INCH),
+            new Rotation3d(Math.toRadians(FRONTCAM_ROLL), Math.toRadians(-FRONTCAM_PITCH), Math.toRadians(-FRONTCAM_YAW)));
+        public static final TrcPose2D ROBOT_TO_FRONTCAM_POSE    = new TrcPose2D(
+            FRONTCAM_X_OFFSET, FRONTCAM_Y_OFFSET, FRONTCAM_YAW);
+
+        public static final int BACKCAM_IMAGE_WIDTH             = 1280;     // in pixels
+        public static final int BACKCAM_IMAGE_HEIGHT            = 800;      // in pixels
+        // Camera location on robot.
+        public static final double BACKCAM_X_OFFSET             = 0.0;      // Inches to the right from robot center TODO: Need updating
+        public static final double BACKCAM_Y_OFFSET             = 0.0;      // Inches forward from robot center
+        public static final double BACKCAM_Z_OFFSET             = 23.0;     // Inches up from the floor
+        public static final double BACKCAM_PITCH                = 33.0;     // degrees up from horizontal
+        public static final double BACKCAM_YAW                  = 0.0;      // degrees clockwise from robot front
+        public static final double BACKCAM_ROLL                 = 0.0;
+        public static final Transform3d ROBOT_TO_BACKCAM        = new Transform3d(
+            new Translation3d(BACKCAM_Y_OFFSET*TrcUtil.METERS_PER_INCH, -BACKCAM_X_OFFSET*TrcUtil.METERS_PER_INCH,
+                              BACKCAM_Z_OFFSET*TrcUtil.METERS_PER_INCH),
+            new Rotation3d(Math.toRadians(BACKCAM_ROLL), Math.toRadians(-BACKCAM_PITCH), Math.toRadians(-BACKCAM_YAW)));
+        public static final TrcPose2D ROBOT_TO_BACKCAM_POSE    = new TrcPose2D(
+            BACKCAM_X_OFFSET, BACKCAM_Y_OFFSET, BACKCAM_YAW);
         // Camera: Logitech C310 (not used)
         public static final double WEBCAM_FX                    = 821.993;  // in pixels
         public static final double WEBCAM_FY                    = 821.993;  // in pixels
@@ -264,12 +280,12 @@ public class RobotParams
         // Camera rect in inches.
         public static final double HOMOGRAPHY_CAMERA_TOPLEFT_X  = 0.0;      //TODO: Need updating
         public static final double HOMOGRAPHY_CAMERA_TOPLEFT_Y  = 120.0;
-        public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_X = CAMERA_IMAGE_WIDTH - 1;
+        public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_X = BACKCAM_IMAGE_WIDTH - 1;
         public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_Y = 120.0;
         public static final double HOMOGRAPHY_CAMERA_BOTTOMLEFT_X = 0.0;
-        public static final double HOMOGRAPHY_CAMERA_BOTTOMLEFT_Y = CAMERA_IMAGE_HEIGHT - 1;
-        public static final double HOMOGRAPHY_CAMERA_BOTTOMRIGHT_X = CAMERA_IMAGE_WIDTH - 1;
-        public static final double HOMOGRAPHY_CAMERA_BOTTOMRIGHT_Y = CAMERA_IMAGE_HEIGHT - 1;
+        public static final double HOMOGRAPHY_CAMERA_BOTTOMLEFT_Y = BACKCAM_IMAGE_HEIGHT - 1;
+        public static final double HOMOGRAPHY_CAMERA_BOTTOMRIGHT_X = BACKCAM_IMAGE_WIDTH - 1;
+        public static final double HOMOGRAPHY_CAMERA_BOTTOMRIGHT_Y = BACKCAM_IMAGE_HEIGHT - 1;
         public static final TrcHomographyMapper.Rectangle cameraRect = new TrcHomographyMapper.Rectangle(
             HOMOGRAPHY_CAMERA_TOPLEFT_X, HOMOGRAPHY_CAMERA_TOPLEFT_Y,
             HOMOGRAPHY_CAMERA_TOPRIGHT_X, HOMOGRAPHY_CAMERA_TOPRIGHT_Y,
@@ -277,13 +293,13 @@ public class RobotParams
             HOMOGRAPHY_CAMERA_BOTTOMRIGHT_X, HOMOGRAPHY_CAMERA_BOTTOMRIGHT_Y);
         // World rect in inches.
         public static final double HOMOGRAPHY_WORLD_TOPLEFT_X   = -12.5625;
-        public static final double HOMOGRAPHY_WORLD_TOPLEFT_Y   = 48.0 - ROBOT_LENGTH/2.0 + CAMERA_Y_OFFSET;
+        public static final double HOMOGRAPHY_WORLD_TOPLEFT_Y   = 48.0 - ROBOT_LENGTH/2.0 + BACKCAM_Y_OFFSET;
         public static final double HOMOGRAPHY_WORLD_TOPRIGHT_X  = 11.4375;
-        public static final double HOMOGRAPHY_WORLD_TOPRIGHT_Y  = 44.75 - ROBOT_LENGTH/2.0 + CAMERA_Y_OFFSET;
+        public static final double HOMOGRAPHY_WORLD_TOPRIGHT_Y  = 44.75 - ROBOT_LENGTH/2.0 + BACKCAM_Y_OFFSET;
         public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_X= -2.5625;
-        public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_Y= 21.0 - ROBOT_LENGTH/2.0 + CAMERA_Y_OFFSET;
+        public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_Y= 21.0 - ROBOT_LENGTH/2.0 + BACKCAM_Y_OFFSET;
         public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_X = 2.5626;
-        public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y = 21.0 - ROBOT_LENGTH + CAMERA_Y_OFFSET;
+        public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y = 21.0 - ROBOT_LENGTH + BACKCAM_Y_OFFSET;
         public static final TrcHomographyMapper.Rectangle worldRect = new TrcHomographyMapper.Rectangle(
             HOMOGRAPHY_WORLD_TOPLEFT_X, HOMOGRAPHY_WORLD_TOPLEFT_Y,
             HOMOGRAPHY_WORLD_TOPRIGHT_X, HOMOGRAPHY_WORLD_TOPRIGHT_Y,

@@ -225,7 +225,7 @@ public class OpenCvVision extends FrcOpenCvDetector
     {
         TrcVisionTargetInfo<TrcOpenCvDetector.DetectedObject<?>>[] targets =
             getDetectedTargetsInfo(filter, comparator, RobotParams.Vision.VISION_TARGET_HEIGHT,
-            RobotParams.Vision.CAMERA_Z_OFFSET);
+            RobotParams.Vision.BACKCAM_Z_OFFSET);
 
         return targets != null? targets[0]: null;
     }   //getDetectedTargetInfo
