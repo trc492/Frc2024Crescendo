@@ -115,28 +115,25 @@ public class RobotParams
     // Robot dimensions in inches.
     //
     public static final double ROBOT_WIDTH                      = 34.5;     // Frame dimensions, including bumpers.
-    public static final double ROBOT_LENGTH                     = 37.0;     // Frame dimensions, including bumpers.
+    public static final double ROBOT_LENGTH                     = 34.5;     // Frame dimensions, including bumpers.
 
     public static final double ROBOT_WHEELBASE_WIDTH            = 23.25;    // Required by swerve drive base.
     public static final double ROBOT_WHEELBASE_LENGTH           = 23.25;    // Required by swerve drive base.
     //
     // Robot starting positions.
     //
-    public static final double STARTPOS_BLUE_Y                  = ROBOT_LENGTH / 2.0;
-    public static final double STARTPOS_RED_Y                   = FIELD_LENGTH - STARTPOS_BLUE_Y;
-    public static final double STARTPOS_1_X                     = -42.19;
-    public static final double STARTPOS_2_X                     = -108.19;
-    public static final double STARTPOS_3_X                     = -174.19;
-    public static final TrcPose2D STARTPOS_BLUE_1 = new TrcPose2D(STARTPOS_1_X, STARTPOS_BLUE_Y, 180.0);
-    public static final TrcPose2D STARTPOS_BLUE_2 = new TrcPose2D(STARTPOS_2_X, STARTPOS_BLUE_Y, 180.0);
-    public static final TrcPose2D STARTPOS_BLUE_3 = new TrcPose2D(STARTPOS_3_X, STARTPOS_BLUE_Y, 180.0);
-    public static final TrcPose2D STARTPOS_RED_1 = new TrcPose2D(STARTPOS_1_X, STARTPOS_RED_Y, 0.0);
-    public static final TrcPose2D STARTPOS_RED_2 = new TrcPose2D(STARTPOS_2_X, STARTPOS_RED_Y, 0.0);
-    public static final TrcPose2D STARTPOS_RED_3 = new TrcPose2D(STARTPOS_3_X, STARTPOS_RED_Y, 0.0);
+    public static final TrcPose2D STARTPOS_RED_AMP              = new TrcPose2D();  //TODO: Need updating
+    public static final TrcPose2D STARTPOS_RED_SW_AMP_SIDE      = new TrcPose2D();
+    public static final TrcPose2D STARTPOS_RED_SW_CENTER        = new TrcPose2D();
+    public static final TrcPose2D STARTPOS_RED_SW_SOURCE_SIDE   = new TrcPose2D();
+    public static final TrcPose2D STARTPOS_BLUE_AMP             = new TrcPose2D();
+    public static final TrcPose2D STARTPOS_BLUE_SW_AMP_SIDE     = new TrcPose2D();
+    public static final TrcPose2D STARTPOS_BLUE_SW_CENTER       = new TrcPose2D();
+    public static final TrcPose2D STARTPOS_BLUE_SW_SOURCE_SIDE  = new TrcPose2D();
     public static final TrcPose2D[][] startPos =
     {
-        {STARTPOS_BLUE_1, STARTPOS_BLUE_2, STARTPOS_BLUE_3},
-        {STARTPOS_RED_1, STARTPOS_RED_2, STARTPOS_RED_3}
+        {STARTPOS_RED_AMP, STARTPOS_RED_SW_AMP_SIDE, STARTPOS_RED_SW_CENTER, STARTPOS_RED_SW_SOURCE_SIDE},
+        {STARTPOS_BLUE_AMP, STARTPOS_BLUE_SW_AMP_SIDE, STARTPOS_BLUE_SW_CENTER, STARTPOS_BLUE_SW_SOURCE_SIDE},
     };
     //
     // Game element locations and dimensions.
@@ -183,7 +180,7 @@ public class RobotParams
     //
     // PDP Channels.
     //
-    public static final int PDP_CHANNEL_LFDRIVE_MOTOR           = 11;
+    public static final int PDP_CHANNEL_LFDRIVE_MOTOR           = 11;   // TODO: Need updating
     public static final int PDP_CHANNEL_RFDRIVE_MOTOR           = 5;
     public static final int PDP_CHANNEL_LBDRIVE_MOTOR           = 13;
     public static final int PDP_CHANNEL_RBDRIVE_MOTOR           = 3;
@@ -202,7 +199,7 @@ public class RobotParams
 
     public static final double BATTERY_CAPACITY_WATT_HOUR       = 18.0*12.0;
     //
-    // Analog Input ports.
+    // Analog Input ports (not used).
     //
     public static final int AIN_PRESSURE_SENSOR                 = 0;
     public static final int AIN_LFSTEER_ENCODER                 = 0;    // Black
@@ -218,7 +215,7 @@ public class RobotParams
     //
     // PWM channels.
     //
-    public static final int NUM_LEDS                            = 5;
+    public static final int NUM_LEDS                            = 30;   //TODO: Need updating
     public static final int PWM_CHANNEL_LED                     = 9;
     //
     // Relay channels.
@@ -239,18 +236,18 @@ public class RobotParams
     //
     public static class Vision
     {
-        public static final int CAMERA_IMAGE_WIDTH              = 320;      // in pixels
-        public static final int CAMERA_IMAGE_HEIGHT             = 240;      // in pixels
+        public static final int CAMERA_IMAGE_WIDTH              = 1280;     // in pixels
+        public static final int CAMERA_IMAGE_HEIGHT             = 800;      // in pixels
         // Camera location on robot.
-        public static final double CAMERA_X_OFFSET              = 0.0;      // Inches to the right from robot center
+        public static final double CAMERA_X_OFFSET              = 0.0;      // Inches to the right from robot center TODO: Need updating
         public static final double CAMERA_Y_OFFSET              = 0.0;      // Inches forward from robot center
-        public static final double CAMERA_HEIGHT                = 23.25;    // Inches up from the floor
+        public static final double CAMERA_Z_OFFSET              = 23.0;     // Inches up from the floor
         public static final double CAMERA_PITCH                 = 33.0;     // degrees up from horizontal
         public static final double CAMERA_YAW                   = 0.0;      // degrees clockwise from robot front
         public static final double CAMERA_ROLL                  = 0.0;
         public static final Transform3d ROBOT_TO_CAMERA         = new Transform3d(
             new Translation3d(CAMERA_Y_OFFSET*TrcUtil.METERS_PER_INCH, -CAMERA_X_OFFSET*TrcUtil.METERS_PER_INCH,
-                              CAMERA_HEIGHT*TrcUtil.METERS_PER_INCH),
+                              CAMERA_Z_OFFSET*TrcUtil.METERS_PER_INCH),
             new Rotation3d(Math.toRadians(CAMERA_ROLL), Math.toRadians(-CAMERA_PITCH), Math.toRadians(-CAMERA_YAW)));
         public static final TrcPose2D ROBOT_TO_CAMERA_POSE      = new TrcPose2D(
             CAMERA_X_OFFSET, CAMERA_Y_OFFSET, CAMERA_YAW);
@@ -262,10 +259,10 @@ public class RobotParams
 
         public static final double CAMERA_DATA_TIMEOUT          = 0.5;      // 500ms
         public static final double VISION_TARGET_HEIGHT         = 104.0;    // Inches from the floor (not used)
-        public static final double APRILTAG_SIZE                = 6.0 / TrcUtil.INCHES_PER_METER;   //  in meters
+        public static final double APRILTAG_SIZE                = 6.5 / TrcUtil.INCHES_PER_METER;   //  in meters
         // Homography measurements.
         // Camera rect in inches.
-        public static final double HOMOGRAPHY_CAMERA_TOPLEFT_X  = 0.0;
+        public static final double HOMOGRAPHY_CAMERA_TOPLEFT_X  = 0.0;      //TODO: Need updating
         public static final double HOMOGRAPHY_CAMERA_TOPLEFT_Y  = 120.0;
         public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_X = CAMERA_IMAGE_WIDTH - 1;
         public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_Y = 120.0;
@@ -316,7 +313,7 @@ public class RobotParams
         public final double DRIVE_KI                            = 0.0;
         public final double DRIVE_KD                            = 0.0013;
         public final double DRIVE_KF                            = 0.0;
-        public final double DRIVE_TOLERANCE                     = 0.1;
+        public final double DRIVE_TOLERANCE                     = 1.0;
 
         public final double TURN_KP                             = 0.012;
         public final double TURN_KI                             = 0.0;
@@ -362,14 +359,14 @@ public class RobotParams
         public final double DRIVE_X_KI                          = 0.0;
         public final double DRIVE_X_KD                          = 0.0013;
         public final double DRIVE_X_KF                          = 0.0;
-        public final double DRIVE_X_TOLERANCE                   = 2.0;
+        public final double DRIVE_X_TOLERANCE                   = 1.0;
 
         public final double DRIVE_Y_INCHES_PER_COUNT            = 2.2421;
         public final double DRIVE_Y_KP                          = 0.011;
         public final double DRIVE_Y_KI                          = 0.0;
         public final double DRIVE_Y_KD                          = 0.0013;
         public final double DRIVE_Y_KF                          = 0.0;
-        public final double DRIVE_Y_TOLERANCE                   = 2.0;
+        public final double DRIVE_Y_TOLERANCE                   = 1.0;
 
         public final double TURN_KP                             = 0.012;
         public final double TURN_KI                             = 0.0;
@@ -451,7 +448,7 @@ public class RobotParams
         public final double TURN_KD                             = 0.0004;
         public final double TURN_KF                             = 0.0;
         public final double TURN_IZONE                          = 10.0;
-        public final double TURN_TOLERANCE                      = 2.0;
+        public final double TURN_TOLERANCE                      = 1.0;
 
         // Not tuned (not used).
         public final double X_TIPPING_KP                        = 0.01;
@@ -467,7 +464,7 @@ public class RobotParams
         public final double Y_TIPPING_SETTLING_TIME             = 0.2;
 
         public final double ROBOT_MAX_VELOCITY                  = 177.1654; // inches per second
-        public final double ROBOT_MAX_ACCELERATION              = 799.1;
+        public final double ROBOT_MAX_ACCELERATION              = 799.1;    // TODO: Need updating
         public final double ROBOT_MAX_TURN_RATE                 = 572.9578;
         public final double ROBOT_VEL_KP                        = 0.0;
         public final double ROBOT_VEL_KI                        = 0.0;
@@ -597,8 +594,8 @@ public class RobotParams
         public static final boolean tiltMotorInverted           = true;
         public static final double tiltGearRatio                = 59.0/18.0;
         public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
-        public static final double tiltPosOffset                = -14.0;    // in degrees
-        public static final double tiltZeroOffset               = 0.035;    // in raw encoder unit
+        public static final double tiltPosOffset                = -14.0;    // in degrees TODO: Retune
+        public static final double tiltZeroOffset               = 0.035;    // in raw encoder unit TODO: Retune
         public static final double tiltPowerLimit               = 0.5;
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.028, 0.0, 0.0012, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
@@ -614,7 +611,7 @@ public class RobotParams
         public static final double ampShooterVelocity           = 20.0;     // in rps.
         public static final double ampTiltAngle                 = 70.0;     // in degrees.
         public static final double sourcePickupShooterVelocity  = -20.0;    // in rps.
-        public static final double tiltSourcePickupAngle        = 88.0;     // in degrees.
+        public static final double sourcePickupTiltAngle        = 88.0;     // in degrees.
         // Talked with Jackson and said that we would most likely not score in trap,
         // so I don't think there is a need to tune ... Will leave it just in case.
         // public static final ShootParamTable.Params stageShootParams = new ShootParamTable.Params(
