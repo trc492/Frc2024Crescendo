@@ -272,7 +272,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                         state + ": RobotFieldPose=" + robot.robotDrive.driveBase.getFieldPosition() +
                         ", RelAprilTagPose=" + relAprilTagPose);
                     sm.addEvent(driveEvent);
-                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.35);
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
                     robot.robotDrive.purePursuitDrive.start(
                         currOwner, driveEvent, 3.0, robot.robotDrive.driveBase.getFieldPosition(), true,
                         relAprilTagPose);

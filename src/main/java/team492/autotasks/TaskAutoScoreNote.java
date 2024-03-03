@@ -308,7 +308,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                         moduleName,
                         state + ": RobotFieldPose=" + robot.robotDrive.driveBase.getFieldPosition() +
                         ", RelAprilTagPose=" + relAprilTagPose);
-                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.35);
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
                     robot.robotDrive.purePursuitDrive.start(
                         currOwner, event, 3.0, robot.robotDrive.driveBase.getFieldPosition(), true, relAprilTagPose);
                     sm.waitForSingleEvent(event, State.SCORE_NOTE);
