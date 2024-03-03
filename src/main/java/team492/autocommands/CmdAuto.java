@@ -113,7 +113,12 @@ public class CmdAuto implements TrcRobot.RobotCommand
              * START:
              *      - Set up robot starting location according to autoChoices.
              *      - Call autoScoreNote to score pre-load: targetType=Speaker/Amp, useVision, relocalize, shootInPlace only for Speaker.
-             *      - goto DRIVE_TO_WING_NOTE.
+             *      - goto DO_DELAY.
+             * DO_DELAY:
+             *      - if there is delay
+             *      -   do delay and goto DRIVE_TO_WING_NOTE.
+             *      - else
+             *      -   goto DRIVE_TO_WING_NOTE.
              * DRIVE_TO_WING_NOTE:
              *      - if autoChoices said yes to score wing note
              *      -   determine which wing note to pick up and drive there then goto PICKUP_WING_NOTE.
