@@ -109,6 +109,37 @@ public class CmdAuto implements TrcRobot.RobotCommand
         {
             robot.dashboard.displayPrintf(8, "State: " + state);
 
+            /*
+             * START:
+             *      - Set up robot starting location according to autoChoices.
+             *      - Call autoScoreNote to score pre-load: targetType=Speaker/Amp, useVision, relocalize, shootInPlace only for Speaker.
+             *      - goto DRIVE_TO_WING_NOTE.
+             * DRIVE_TO_WING_NOTE:
+             *      - if autoChoices said yes to score wing note
+             *      -   determine which wing note to pick up and drive there then goto PICKUP_WING_NOTE.
+             *      - else
+             *      -   goto DRIVE_TO_END_ACTION.
+             * PICKUP_WING_NOTE:
+             *      - Call autoPickupFromGround: useVision or blind???
+             *      - goto DRIVE_TO_SCORE_POINT.
+             * DRIVE_TO_SCORE_POINT:
+             *      - Determine the ScorePoint and drive there.
+             *      - goto SCORE_WING_NOTE.
+             * SCORE_WING_NOTE:
+             *      - Call autoScoreNote to score wing note: targetType=Speaker/Amp, useVision, relocalize, shootInPlace only for Speaker.
+             *      - goto DRIVE_TO_END_ACTION.
+             * DRIVE_TO_END_ACTION:
+             *      - Plan a path to the appropriate location according to End Action and drive there.
+             *      - goto PERFORM_END_ACTION.
+             * PERFORM_END_ACTION:
+             *      - if EndAction is PARK_STARTING_ZONE or PARK_WING_ZONE
+             *      -   goto DONE
+             *      - else
+             *      -   Call autoPickupFromGround to pick up center-line Note: useVision or blind???
+             *      -   goto DONE
+             * DONE:
+             *      - Quit.
+             */
             switch (state)
             {
                 case START:
