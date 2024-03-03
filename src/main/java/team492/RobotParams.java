@@ -239,8 +239,8 @@ public class RobotParams
         public static final int FRONTCAM_IMAGE_WIDTH            = 1280;     // in pixels
         public static final int FRONTCAM_IMAGE_HEIGHT           = 800;      // in pixels
         // Camera location on robot.
-        public static final double FRONTCAM_X_OFFSET            = 0.0;      // Inches to the right from robot center TODO: Need updating
-        public static final double FRONTCAM_Y_OFFSET            = 0.0;      // Inches forward from robot center
+        public static final double FRONTCAM_X_OFFSET            = -2.875;   // Inches to the right from robot center
+        public static final double FRONTCAM_Y_OFFSET            = -3.0;     // Inches forward from robot center
         public static final double FRONTCAM_Z_OFFSET            = 23.0;     // Inches up from the floor
         public static final double FRONTCAM_PITCH               = 33.0;     // degrees up from horizontal
         public static final double FRONTCAM_YAW                 = 0.0;      // degrees clockwise from robot front
@@ -255,10 +255,10 @@ public class RobotParams
         public static final int BACKCAM_IMAGE_WIDTH             = 1280;     // in pixels
         public static final int BACKCAM_IMAGE_HEIGHT            = 800;      // in pixels
         // Camera location on robot.
-        public static final double BACKCAM_X_OFFSET             = 0.0;      // Inches to the right from robot center TODO: Need updating
-        public static final double BACKCAM_Y_OFFSET             = 0.0;      // Inches forward from robot center
-        public static final double BACKCAM_Z_OFFSET             = 23.0;     // Inches up from the floor
-        public static final double BACKCAM_PITCH                = 33.0;     // degrees up from horizontal
+        public static final double BACKCAM_X_OFFSET             = 0.0;      // Inches to the right from robot center
+        public static final double BACKCAM_Y_OFFSET             = -4.5;     // Inches forward from robot center
+        public static final double BACKCAM_Z_OFFSET             = 20.0;     // Inches up from the floor
+        public static final double BACKCAM_PITCH                = -18.0;    // degrees up from horizontal
         public static final double BACKCAM_YAW                  = 0.0;      // degrees clockwise from robot front
         public static final double BACKCAM_ROLL                 = 0.0;
         public static final Transform3d ROBOT_TO_BACKCAM        = new Transform3d(
@@ -278,10 +278,10 @@ public class RobotParams
         public static final double APRILTAG_SIZE                = 6.5 / TrcUtil.INCHES_PER_METER;   //  in meters
         // Homography measurements.
         // Camera rect in inches.
-        public static final double HOMOGRAPHY_CAMERA_TOPLEFT_X  = 0.0;      //TODO: Need updating
-        public static final double HOMOGRAPHY_CAMERA_TOPLEFT_Y  = 120.0;
+        public static final double HOMOGRAPHY_CAMERA_TOPLEFT_X  = 0;      //TODO: Need updating
+        public static final double HOMOGRAPHY_CAMERA_TOPLEFT_Y  = 400.0;
         public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_X = BACKCAM_IMAGE_WIDTH - 1;
-        public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_Y = 120.0;
+        public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_Y = 400.0;
         public static final double HOMOGRAPHY_CAMERA_BOTTOMLEFT_X = 0.0;
         public static final double HOMOGRAPHY_CAMERA_BOTTOMLEFT_Y = BACKCAM_IMAGE_HEIGHT - 1;
         public static final double HOMOGRAPHY_CAMERA_BOTTOMRIGHT_X = BACKCAM_IMAGE_WIDTH - 1;
@@ -292,14 +292,14 @@ public class RobotParams
             HOMOGRAPHY_CAMERA_BOTTOMLEFT_X, HOMOGRAPHY_CAMERA_BOTTOMLEFT_Y,
             HOMOGRAPHY_CAMERA_BOTTOMRIGHT_X, HOMOGRAPHY_CAMERA_BOTTOMRIGHT_Y);
         // World rect in inches.
-        public static final double HOMOGRAPHY_WORLD_TOPLEFT_X   = -12.5625;
-        public static final double HOMOGRAPHY_WORLD_TOPLEFT_Y   = 48.0 - ROBOT_LENGTH/2.0 + BACKCAM_Y_OFFSET;
-        public static final double HOMOGRAPHY_WORLD_TOPRIGHT_X  = 11.4375;
-        public static final double HOMOGRAPHY_WORLD_TOPRIGHT_Y  = 44.75 - ROBOT_LENGTH/2.0 + BACKCAM_Y_OFFSET;
-        public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_X= -2.5625;
-        public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_Y= 21.0 - ROBOT_LENGTH/2.0 + BACKCAM_Y_OFFSET;
-        public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_X = 2.5626;
-        public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y = 21.0 - ROBOT_LENGTH + BACKCAM_Y_OFFSET;
+        public static final double HOMOGRAPHY_WORLD_TOPLEFT_X   = -46.0;
+        public static final double HOMOGRAPHY_WORLD_TOPLEFT_Y   =  76.5 - ROBOT_LENGTH/2.0 + BACKCAM_Y_OFFSET;
+        public static final double HOMOGRAPHY_WORLD_TOPRIGHT_X  = 33.0;
+        public static final double HOMOGRAPHY_WORLD_TOPRIGHT_Y  = 73.5 - ROBOT_LENGTH/2.0 + BACKCAM_Y_OFFSET;
+        public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_X= -17.0;
+        public static final double HOMOGRAPHY_WORLD_BOTTOMLEFT_Y= 42.5 - ROBOT_LENGTH/2.0 + BACKCAM_Y_OFFSET;
+        public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_X = 15.0;
+        public static final double HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y = 41.0 - ROBOT_LENGTH/2.0 + BACKCAM_Y_OFFSET;
         public static final TrcHomographyMapper.Rectangle worldRect = new TrcHomographyMapper.Rectangle(
             HOMOGRAPHY_WORLD_TOPLEFT_X, HOMOGRAPHY_WORLD_TOPLEFT_Y,
             HOMOGRAPHY_WORLD_TOPRIGHT_X, HOMOGRAPHY_WORLD_TOPRIGHT_Y,
@@ -615,7 +615,7 @@ public class RobotParams
         public static final double tiltPowerLimit               = 0.5;
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.028, 0.0, 0.0012, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
-        public static final double tiltMinAngle                 = tiltPosOffset;
+        public static   final double tiltMinAngle                 = tiltPosOffset;
         public static final double tiltMaxAngle                 = 87.0;     // in degrees.
         public static final double tiltAngleMinInc              = 1.0;      // in degrees.
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
