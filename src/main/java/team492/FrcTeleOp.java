@@ -29,7 +29,6 @@ import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcXboxController;
-import team492.autotasks.ShootParamTable;
 import team492.autotasks.TaskAutoScoreNote.TargetType;
 
 /**
