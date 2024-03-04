@@ -586,7 +586,7 @@ public class RobotParams
         public static final boolean entrySensorInverted         = true;
         public static final boolean exitSensorInverted          = true;
 
-        public static final double intakePower                  = 0.7;
+        public static final double intakePower                  = 0.85;
         public static final double ejectForwardPower            = 0.5;
     }   //class Intake
 
@@ -619,7 +619,7 @@ public class RobotParams
         public static final double tiltMaxAngle                 = 87.0;     // in degrees.
         public static final double tiltAngleMinInc              = 1.0;      // in degrees.
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
-        public static final double tiltTurtleAngle              = 70.0;      //TODO: tune
+        public static final double tiltTurtleAngle              = 45.0;
 
         public static final double tiltPresetPosTolerance       = 2.0;              // in degrees.
         public static final double[] tiltPresetPositions        = new double[]
@@ -636,7 +636,7 @@ public class RobotParams
 
         public static final String SPEAKER_PARAM_NAME           = "Speaker0ft";
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
-            .add(SPEAKER_PARAM_NAME,    0.0, 70.0, 80.0)     // TODO: Tune
+            .add(SPEAKER_PARAM_NAME,    0.0, 62.5, 72.0)     // TODO: Tune
             .add("Speaker1ft",      24.0, 50.0, 45.0)    // TODO: Tune
             .add("Speaker2ft",      36.0, 50.0, 45.0)    // TODO: Tune
             .add("Speaker3ft",      48.0, 50.0, 45.0)    // TODO: Tune

@@ -342,6 +342,13 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_B:
+                if (robot.shooter != null && pressed)
+                {
+                    robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+                }
+                break;
+
+            case FrcXboxController.BUTTON_X:
                 if (robot.robotDrive != null && pressed)
                 {
                     boolean gyroAssistEnabled = !robot.robotDrive.driveBase.isGyroAssistEnabled();
@@ -439,14 +446,14 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         if (altFunc)
                         {
                             // Shoot at Amp with no vision.
-                            robot.autoScoreNote.autoAssistScore(TargetType.Amp, false, false, false, null);
-                            // robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                            // robot.autoScoreNote.autoAssistScore(TargetType.Amp, false, false, false, null);
+                            robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
                         }
                         else
                         {
                             // Shoot at Speaker with vision.
-                            robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, true, null);
-                            // robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                            // robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, false, true, null);
+                            robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
                         }
                     }
                     else
