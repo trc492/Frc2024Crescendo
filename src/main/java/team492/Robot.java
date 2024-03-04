@@ -210,8 +210,12 @@ public class Robot extends FrcRobotBase
         {
             if (RobotParams.Preferences.usePhotonVision)
             {
-                photonVisionFront = new PhotonVision("OV9281", ledIndicator);
-                photonVisionBack = new PhotonVision("OV9782", ledIndicator);
+                photonVisionFront = new PhotonVision(
+                    "OV9281", RobotParams.Vision.ROBOT_TO_FRONTCAM, RobotParams.Vision.ROBOT_TO_FRONTCAM_POSE,
+                    ledIndicator);
+                photonVisionBack = new PhotonVision(
+                    "OV9782", RobotParams.Vision.ROBOT_TO_BACKCAM, RobotParams.Vision.ROBOT_TO_BACKCAM_POSE,
+                    ledIndicator);
             }
 
             if (RobotParams.Preferences.usePhotonVisionRaw)
@@ -222,13 +226,13 @@ public class Robot extends FrcRobotBase
             if (RobotParams.Preferences.useOpenCvVision)
             {
                 UsbCamera camera = CameraServer.startAutomaticCapture();
-                camera.setResolution(RobotParams.Vision.CAMERA_IMAGE_WIDTH, RobotParams.Vision.CAMERA_IMAGE_HEIGHT);
+                camera.setResolution(RobotParams.Vision.BACKCAM_IMAGE_WIDTH, RobotParams.Vision.BACKCAM_IMAGE_HEIGHT);
                 camera.setFPS(10);
                 openCvVision = new OpenCvVision(
                     "OpenCvVision", 1, RobotParams.Vision.cameraRect, RobotParams.Vision.worldRect,
                     CameraServer.getVideo(),
                     CameraServer.putVideo(
-                        "UsbWebcam", RobotParams.Vision.CAMERA_IMAGE_WIDTH, RobotParams.Vision.CAMERA_IMAGE_HEIGHT));
+                        "UsbWebcam", RobotParams.Vision.BACKCAM_IMAGE_WIDTH, RobotParams.Vision.BACKCAM_IMAGE_HEIGHT));
             }
 
             if (RobotParams.Preferences.useStreamCamera)
@@ -638,6 +642,16 @@ public class Robot extends FrcRobotBase
             intake.toString(), "power=" + RobotParams.Intake.ejectForwardPower + ", event=" + completionEvent);
         intake.autoEjectForward(0.0, RobotParams.Intake.ejectForwardPower, 0.0, completionEvent, 0.0);
     }   //shoot
+
+    /**
+     * This method is called to cancel all pending auto-assist operations and release the ownership of all subsystems.
+     */
+    public void autoAssistCancel()
+    {
+        autoScoreNote.autoAssistCancel();
+        autoPickupFromGround.autoAssistCancel();
+        autoPickupFromSource.autoAssistCancel();
+    }   //autoAssistCancel
 
     //
     // Getters for sensor data.
