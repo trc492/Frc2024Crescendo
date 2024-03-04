@@ -30,7 +30,6 @@ import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcXboxController;
 import team492.autotasks.ShootParamTable;
-import team492.autotasks.TaskAutoScoreNote;
 import team492.autotasks.TaskAutoScoreNote.TargetType;
 
 /**
@@ -202,10 +201,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.intake.getPower(),
                             robot.intake.isTriggerActive(robot.intake.entryTrigger),
                             robot.intake.isTriggerActive(robot.intake.exitTrigger));
-                        
-                        if (robot.operatorController.getLeftTriggerAxis() > 0.5) {
-                            
-                        }
                     }
 
                     if (robot.shooter != null)
@@ -463,32 +458,39 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_X:
-                /*/if (robot.climber != null && pressed)
+                //Set shooter to Score-Note-to-Amp preset.
+                if (robot.shooter != null)
                 {
-                    robot.climber.extend();
-                }/*/
-
-                //Set RPS and angle to Amp preset
-                if (robot.shooter != null) {
-                    if (pressed) {
-                        robot.shooter.aimShooter(null, RobotParams.Shooter.ampShooterVelocity, RobotParams.Shooter.ampTiltAngle, 0, null, 0, null);
+                    // CodeReview: Why do you want to press and hold for this?
+                    if (pressed)
+                    {
+                        robot.shooter.aimShooter(
+                            null, RobotParams.Shooter.ampShooterVelocity, RobotParams.Shooter.ampTiltAngle,
+                            0, null, 0, null);
                     }
-                    else {
+                    else
+                    {
                         robot.shooter.cancel();
                     }
                 }
                 break;
 
             case FrcXboxController.BUTTON_Y:
-                /*/if (robot.climber != null && pressed)
+                //Set shooter to Score-Note-to-Speaker up close preset.
+                if (robot.shooter != null)
                 {
-                    robot.climber.climb();
-                }/*/
-
-                //Set tilter and rps to params with vision and shooter table
-                if (robot.shooter != null && pressed) {
-                    ShootParamTable.Params shootParams = RobotParams.Shooter.speakerShootParamTable.get("Speaker0ft");
-                    robot.shooter.aimShooter(null, shootParams.shooterVelocity, shootParams.tiltAngle, 0, null, 0, null);
+                    if (pressed)
+                    {
+                        robot.shooter.aimShooter(
+                            null,
+                            RobotParams.Shooter.speakerParams.shooterVelocity,
+                            RobotParams.Shooter.speakerParams.tiltAngle,
+                            0, null, 0, null);
+                    }
+                    else
+                    {
+                        robot.shooter.cancel();
+                    }
                 }
                 break;
 
@@ -507,7 +509,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
             case FrcXboxController.RIGHT_BUMPER:
                 //Turtle mode
-                if (robot.shooter != null && pressed) {
+                if (robot.shooter != null && pressed)
+                {
                     robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
                 }
                 break;
@@ -541,14 +544,16 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.DPAD_LEFT:
-                //Autoscore Amp
-                if (robot.shooter != null && robot.intake != null && pressed) {
-                    robot.autoScoreNote.autoAssistScore(TargetType.Amp, true, false, false, null); 
+                //AutoScore Amp
+                if (robot.shooter != null && robot.intake != null && pressed)
+                {
+                    robot.autoScoreNote.autoAssistScore(TargetType.Amp, true, false, false, null);
                 }
                 break;
 
             case FrcXboxController.DPAD_RIGHT:
-                if (robot.shooter != null && robot.intake != null && pressed) {
+                if (robot.shooter != null && robot.intake != null && pressed)
+                {
                     robot.autoPickupFromSource.autoAssistPickup(true, false, null);
                 }
                 break;

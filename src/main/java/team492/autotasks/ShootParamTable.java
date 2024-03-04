@@ -112,6 +112,27 @@ public class ShootParamTable
     }   //get
 
     /**
+     * This method returns the Shooter velocity and tilt angle from the table entry that matches the given name.
+     *
+     * @param loc specifies the shoot location for the entry.
+     * @return shooter velocity and tilt angle in an array, null if not found.
+     */
+    public double[] getShootParams(String loc)
+    {
+        double[] shootParams = null;
+        Params params = paramMap.get(loc);
+
+        if (params != null)
+        {
+            shootParams = new double[2];
+            shootParams[0] = params.shooterVelocity;
+            shootParams[1] = params.tiltAngle;
+        }
+
+        return shootParams;
+    }   //getShootParams
+
+    /**
      * This method returns the Shoot Param entry with the given distance. If there is no exact match, it will return
      * an entry that linearly interpolates between two entries in the table.
      *

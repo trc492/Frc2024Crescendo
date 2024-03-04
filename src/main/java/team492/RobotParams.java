@@ -634,14 +634,16 @@ public class RobotParams
         // public static final ShootParamTable.Params stageShootParams = new ShootParamTable.Params(
         //     "Stage", 0.0, 30.0, 60.0);
 
+        public static final String SPEAKER_PARAM_NAME           = "Speaker0ft";
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
-            .add("Speaker0ft", 0.0, 70.0, 80.0)     // TODO: Tune
-            .add("Speaker1ft", 24.0, 50.0, 45.0)    // TODO: Tune
-            .add("Speaker2ft", 36.0, 50.0, 45.0)    // TODO: Tune
-            .add("Speaker3ft", 48.0, 50.0, 45.0)    // TODO: Tune
-            .add("Speaker4ft", 60.0, 50.0, 45.0)    // TODO: Tune
-            .add("Speaker5ft", 117.1, 90.0, 54.0)   // Tuned, but distance needs to be recalibrated again from vision
-            .add("Speaker6ft", 128.5, 100.0, 52.0); // Tuned, but distance needs to be recalibrated again from vision
+            .add(SPEAKER_PARAM_NAME,    0.0, 70.0, 80.0)     // TODO: Tune
+            .add("Speaker1ft",      24.0, 50.0, 45.0)    // TODO: Tune
+            .add("Speaker2ft",      36.0, 50.0, 45.0)    // TODO: Tune
+            .add("Speaker3ft",      48.0, 50.0, 45.0)    // TODO: Tune
+            .add("Speaker4ft",      60.0, 50.0, 45.0)    // TODO: Tune
+            .add("Speaker5ft",      117.1, 90.0, 54.0)   // Tuned, but distance needs to be recalibrated again from vision
+            .add("Speaker6ft",      128.5, 100.0, 52.0); // Tuned, but distance needs to be recalibrated again from vision
+        public static final ShootParamTable.Params speakerParams = speakerShootParamTable.get(SPEAKER_PARAM_NAME);
     }   //class Shooter
 
     public static class Climber
