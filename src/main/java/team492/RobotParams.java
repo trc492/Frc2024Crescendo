@@ -650,7 +650,9 @@ public class RobotParams
     {
         public static final int motorCandId                     = CANID_CLIMBER_MOTOR;
         public static final boolean motorInverted               = false;
-        public static final double posScale                     = 1.0;      //TODO: tune
+        public static final double GEAR_RATIO                   = 60.0;
+        public static final double PULLEY_DIAMETER              = 1.88;
+        public static final double posScale                     = PULLEY_DIAMETER * Math.PI / GEAR_RATIO;
         public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);   //TODO: tune
 
         public static final double maxHeight                    = 1.0;  //TODO: tune
