@@ -29,6 +29,8 @@ import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcXboxController;
+import team492.autotasks.ShootParamTable;
+import team492.autotasks.TaskAutoScoreNote;
 import team492.autotasks.TaskAutoScoreNote.TargetType;
 
 /**
@@ -203,6 +205,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.intake.getPower(),
                             robot.intake.isTriggerActive(robot.intake.entryTrigger),
                             robot.intake.isTriggerActive(robot.intake.exitTrigger));
+                        
+                        if (robot.operatorController.getLeftTriggerAxis() > 0.5) {
+                            
+                        }
                     }
 
                     if (robot.shooter != null)
@@ -466,16 +472,32 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_X:
-                if (robot.climber != null && pressed)
+                /*/if (robot.climber != null && pressed)
                 {
                     robot.climber.extend();
+                }/*/
+
+                //Set RPS and angle to Amp preset
+                if (robot.shooter != null) {
+                    if (pressed) {
+                        robot.shooter.aimShooter(null, RobotParams.Shooter.ampShooterVelocity, RobotParams.Shooter.ampTiltAngle, 0, null, 0, null);
+                    }
+                    else {
+                        robot.shooter.cancel();
+                    }
                 }
                 break;
 
             case FrcXboxController.BUTTON_Y:
-                if (robot.climber != null && pressed)
+                /*/if (robot.climber != null && pressed)
                 {
                     robot.climber.climb();
+                }/*/
+
+                //Set tilter and rps to params with vision and shooter table
+                if (robot.shooter != null && pressed) {
+                    ShootParamTable.Params shootParams = RobotParams.Shooter.speakerShootParamTable.get("Speaker0ft");
+                    robot.shooter.aimShooter(null, shootParams.shooterVelocity, shootParams.tiltAngle, 0, null, 0, null);
                 }
                 break;
 
@@ -493,6 +515,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.RIGHT_BUMPER:
+                //Turtle mode
+                if (robot.shooter != null && pressed) {
+                    robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+                }
                 break;
 
             case FrcXboxController.DPAD_UP:
@@ -524,9 +550,16 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.DPAD_LEFT:
+                //Autoscore Amp
+                if (robot.shooter != null && robot.intake != null && pressed) {
+                    robot.autoScoreNote.autoAssistScore(TargetType.Amp, true, false, false, null); 
+                }
                 break;
 
             case FrcXboxController.DPAD_RIGHT:
+                if (robot.shooter != null && robot.intake != null && pressed) {
+                    robot.autoPickupFromSource.autoAssistPickup(true, false, null);
+                }
                 break;
 
             case FrcXboxController.BACK:

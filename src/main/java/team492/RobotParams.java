@@ -606,6 +606,7 @@ public class RobotParams
         public static final double tiltMaxAngle                 = 87.0;     // in degrees.
         public static final double tiltAngleMinInc              = 1.0;      // in degrees.
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
+        public static final double tiltTurtleAngle              = 70.0;      //TODO: tune
 
         public static final double tiltPresetPosTolerance       = 2.0;              // in degrees.
         public static final double[] tiltPresetPositions        = new double[]
