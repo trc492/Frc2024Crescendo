@@ -423,7 +423,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         else
                         {
                             // Intake from ground with no vision.
-                            robot.autoPickupFromGround.autoAssistPickup(true, null);
+                            robot.autoPickupFromGround.autoAssistPickup(null);
                         }
                     }
                     else
