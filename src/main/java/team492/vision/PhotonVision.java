@@ -115,10 +115,21 @@ public class PhotonVision extends FrcPhotonVision
      * @param aprilTagId sepcifies the AprilTag ID to retrieve its field location.
      * @return 3D location of the AprilTag.
      */
-    public TrcPose3D getAprilTagFieldPose(int aprilTagId)
+    public Pose3d getAprilTagFieldPose3d(int aprilTagId)
     {
         Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(aprilTagId);
-        Pose3d pose3d = tagPose.isPresent()? tagPose.get(): null;
+        return tagPose.isPresent()? tagPose.get(): null;
+    }   //getAprilTagFieldPose3d
+
+    /**
+     * This method returns the 3D field location of the AprilTag with its given ID.
+     *
+     * @param aprilTagId sepcifies the AprilTag ID to retrieve its field location.
+     * @return 3D location of the AprilTag.
+     */
+    public TrcPose3D getAprilTagFieldPose(int aprilTagId)
+    {
+        Pose3d pose3d = getAprilTagFieldPose3d(aprilTagId);
         Rotation3d rotation = pose3d != null? pose3d.getRotation(): null;
 
         return pose3d == null? null:
@@ -294,10 +305,10 @@ public class PhotonVision extends FrcPhotonVision
                 {
                     // Even though PhotonVision said detected target, FieldLayout may not give us AprilTagPose.
                     // Check it before access the AprilTag pose.
-                    TrcPose3D aprilTagPose = getAprilTagFieldPose(target.getFiducialId());
+                    Pose3d aprilTagPose = getAprilTagFieldPose3d(target.getFiducialId());
                     if (aprilTagPose != null)
                     {
-                        targetHeight = aprilTagPose.z;
+                        targetHeight = aprilTagPose.getZ();
                     }
                 }
                 break;

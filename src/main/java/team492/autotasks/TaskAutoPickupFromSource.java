@@ -30,6 +30,7 @@ import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcFrcLib.frclib.FrcPhotonVision;
+import edu.wpi.first.math.geometry.Pose3d;
 import team492.Robot;
 import team492.RobotParams;
 
@@ -259,13 +260,14 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                 if (aprilTagPose != null)
                 {
                     TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                    TrcPose2D offset = new TrcPose2D(0.0, -(RobotParams.ROBOT_LENGTH + 1.0), aprilTagId > 2? 120.0: 30.0);
-                    TrcPose2D targetPose = robot.photonVisionFront.getAprilTagFieldPose(aprilTagId).toPose2D().addRelativePose(offset);
+                    double targetAngle = aprilTagId > 2? 120.0: 30.0;
+                    Pose3d aprilTagFieldPose3d = robot.photonVisionFront.getAprilTagFieldPose3d(aprilTagId);
+                    TrcPose2D targetPose = robot.photonVisionFront.getTargetPoseOffsetFromAprilTag(
+                        aprilTagFieldPose3d, 0.0, -RobotParams.ROBOT_LENGTH / 2.0, targetAngle);
                     tracer.traceInfo(
                         moduleName,
                         state + ": RobotFieldPose=" + robotPose +
                         "\n\taprilTagPose=" + aprilTagPose +
-                        "\n\toffset=" + offset +
                         "\n\ttargetPose=" + targetPose);
                     // We are right in front of the target, so we don't need full power to approach it.
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
