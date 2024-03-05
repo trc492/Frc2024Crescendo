@@ -24,7 +24,6 @@ package team492;
 
 import TrcCommonLib.trclib.TrcHomographyMapper;
 import TrcCommonLib.trclib.TrcPose2D;
-import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcPidController.PidCoefficients;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -246,9 +245,10 @@ public class RobotParams
         public static final double FRONTCAM_YAW                 = 0.0;      // degrees clockwise from robot front
         public static final double FRONTCAM_ROLL                = 0.0;
         public static final Transform3d ROBOT_TO_FRONTCAM       = new Transform3d(
-            new Translation3d(FRONTCAM_Y_OFFSET*TrcUtil.METERS_PER_INCH, -FRONTCAM_X_OFFSET*TrcUtil.METERS_PER_INCH,
-                              FRONTCAM_Z_OFFSET*TrcUtil.METERS_PER_INCH),
-            new Rotation3d(Math.toRadians(FRONTCAM_ROLL), Math.toRadians(-FRONTCAM_PITCH), Math.toRadians(-FRONTCAM_YAW)));
+            new Translation3d(Units.inchesToMeters(FRONTCAM_Y_OFFSET), -Units.inchesToMeters(FRONTCAM_X_OFFSET),
+                              Units.inchesToMeters(FRONTCAM_Z_OFFSET)),
+            new Rotation3d(Units.degreesToRadians(FRONTCAM_ROLL), Units.degreesToRadians(-FRONTCAM_PITCH),
+                           Units.degreesToRadians(-FRONTCAM_YAW)));
         public static final TrcPose2D ROBOT_TO_FRONTCAM_POSE    = new TrcPose2D(
             FRONTCAM_X_OFFSET, FRONTCAM_Y_OFFSET, FRONTCAM_YAW);
 
@@ -262,9 +262,10 @@ public class RobotParams
         public static final double BACKCAM_YAW                  = 0.0;      // degrees clockwise from robot front
         public static final double BACKCAM_ROLL                 = 0.0;
         public static final Transform3d ROBOT_TO_BACKCAM        = new Transform3d(
-            new Translation3d(BACKCAM_Y_OFFSET*TrcUtil.METERS_PER_INCH, -BACKCAM_X_OFFSET*TrcUtil.METERS_PER_INCH,
-                              BACKCAM_Z_OFFSET*TrcUtil.METERS_PER_INCH),
-            new Rotation3d(Math.toRadians(BACKCAM_ROLL), Math.toRadians(-BACKCAM_PITCH), Math.toRadians(-BACKCAM_YAW)));
+            new Translation3d(Units.inchesToMeters(BACKCAM_Y_OFFSET), -Units.inchesToMeters(BACKCAM_X_OFFSET),
+                              Units.inchesToMeters(BACKCAM_Z_OFFSET)),
+            new Rotation3d(Units.degreesToRadians(BACKCAM_ROLL), Units.degreesToRadians(-BACKCAM_PITCH),
+            Units.degreesToRadians(-BACKCAM_YAW)));
         public static final TrcPose2D ROBOT_TO_BACKCAM_POSE    = new TrcPose2D(
             BACKCAM_X_OFFSET, BACKCAM_Y_OFFSET, BACKCAM_YAW);
         // Camera: Logitech C310 (not used)
@@ -275,7 +276,7 @@ public class RobotParams
 
         public static final double CAMERA_DATA_TIMEOUT          = 0.5;      // 500ms
         public static final double VISION_TARGET_HEIGHT         = 104.0;    // Inches from the floor (not used)
-        public static final double APRILTAG_SIZE                = 6.5 / TrcUtil.INCHES_PER_METER;   //  in meters
+        public static final double APRILTAG_SIZE                = Units.inchesToMeters(6.5);    //  in meters
         // Homography measurements.
         // Camera rect in inches.
         public static final double HOMOGRAPHY_CAMERA_TOPLEFT_X  = 0;      //TODO: Need updating
