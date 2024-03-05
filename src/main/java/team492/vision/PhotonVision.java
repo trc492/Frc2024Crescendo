@@ -37,7 +37,6 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import team492.autotasks.TaskAutoScoreNote.TargetType;
 import team492.subsystems.LEDIndicator;
 
 /**
@@ -191,12 +190,36 @@ public class PhotonVision extends FrcPhotonVision
     }   //getDetectedAprilTag
 
     /**
-     * This method get the best detected AprilTag matching the specified target type.
+     * This method finds a matching AprilTag ID in the specified array and returns the found index.
      *
-     * @param targetType specifies the target type of the AprilTag to look for.
+     * @param id specifies the AprilTag ID to be matched.
+     * @param aprilTagIds specifies the AprilTag ID array to find the given ID.
+     * @return index in the array that matched the ID, -1 if not found.
+     */
+    private int matchAprilTagId(int id, int[] aprilTagIds)
+    {
+        int matchedIndex = -1;
+
+        for (int i = 0; i < aprilTagIds.length; i++)
+        {
+            if (id == aprilTagIds[i])
+            {
+                matchedIndex = i;
+                break;
+            }
+        }
+
+        return matchedIndex;
+    }   //matchAprilTagId
+
+    /**
+     * This method get the best detected AprilTag matching the specified AprilTag IDs array sorted by most preferred
+     * ID at the top.
+     *
+     * @param aprilTagIds specifies the AprilTag IDs to look for.
      * @return best detected AprilTag.
      */
-    public DetectedObject getBestDetectedAprilTag(TargetType targetType)
+    public DetectedObject getBestDetectedAprilTag(int... aprilTagIds)
     {
         DetectedObject bestObj = null;
 
@@ -206,27 +229,17 @@ public class PhotonVision extends FrcPhotonVision
 
             if (objects != null)
             {
+                int bestIdIndex = -1;
                 for (DetectedObject obj: objects)
                 {
                     int id = obj.target.getFiducialId();
-                    if (targetType == TargetType.Amp && (id == 5 || id == 6))
+                    int idIndex = matchAprilTagId(id, aprilTagIds);
+
+                    if (idIndex != -1 && (bestIdIndex == -1 || idIndex < bestIdIndex))
                     {
+                        // Found first match or a better match.
                         bestObj = obj;
-                        break;
-                    }
-                    else if (targetType == TargetType.Speaker)
-                    {
-                        if (id == 4 || id == 7)
-                        {
-                            // Found preferred AprilTag, we are done.
-                            bestObj = obj;
-                            break;
-                        }
-                        else if (id == 3 || id == 8)
-                        {
-                            // Not the preferred AprilTag, keep looking.
-                            bestObj = obj;
-                        }
+                        bestIdIndex = idIndex;
                     }
                 }
             }

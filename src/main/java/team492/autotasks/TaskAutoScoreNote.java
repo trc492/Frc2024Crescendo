@@ -30,8 +30,6 @@ import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcFrcLib.frclib.FrcPhotonVision;
-import edu.wpi.first.wpilibj.DriverStation;
-import team492.FrcAuto;
 import team492.Robot;
 import team492.RobotParams;
 
@@ -45,8 +43,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     public enum TargetType
     {
         Speaker,
-        Amp,
-        // Stage
+        Amp
     }   //enum TargetType
 
     public enum State
@@ -62,15 +59,11 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     private static class TaskParams
     {
         TargetType targetType;
-        boolean useVision;
-        boolean relocalize;
         boolean shootInPlace;
 
-        TaskParams(TargetType targetType, boolean useVision, boolean relocalize, boolean shootInPlace)
+        TaskParams(TargetType targetType, boolean shootInPlace)
         {
             this.targetType = targetType;
-            this.useVision = useVision;
-            this.relocalize = relocalize;
             this.shootInPlace = shootInPlace;
         }   //TaskParams
 
@@ -82,9 +75,9 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
 
     private String currOwner = null;
     private String driveOwner = null;
-    private int aprilTagId = -1;
-    private TrcPose2D relAprilTagPose = null;
     private Double visionExpiredTime = null;
+    private int aprilTagId = -1;
+    private TrcPose2D aprilTagPose = null;
 
     /**
      * Constructor: Create an instance of the object.
@@ -104,24 +97,17 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
      * This method starts the auto-assist operation.
      *
      * @param targetType specifies the score target type.
-     * @param useVision specifies true to use vision to detect AprilTag, false otherwise.
-     * @param relocalize specifies true to use vision to relocalize robot, false otherwise.
      * @param shootInPlace specifies true to shoot target in-place (not driving to AprilTag).
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
-    public void autoAssistScore(
-        TargetType targetType, boolean useVision, boolean relocalize, boolean shootInPlace, TrcEvent completionEvent)
+    public void autoAssistScore(TargetType targetType, boolean shootInPlace, TrcEvent completionEvent)
     {
         tracer.traceInfo(
             moduleName,
             "targetType=" + targetType +
-            ", useVision=" + useVision +
-            ", relocalize=" + relocalize +
             ", shootInPlace=" + shootInPlace +
             ", event=" + completionEvent);
-        startAutoTask(
-            State.START,
-            new TaskParams(targetType, useVision, relocalize, shootInPlace), completionEvent);
+        startAutoTask(State.START, new TaskParams(targetType, shootInPlace), completionEvent);
     }   //autoAssistScore
 
     /**
@@ -231,8 +217,9 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
         switch (state)
         {
             case START:
-                relAprilTagPose = null;
-                if (taskParams.useVision && robot.photonVisionFront != null)
+                aprilTagId = -1;
+                aprilTagPose = null;
+                if (robot.photonVisionFront != null)
                 {
                     tracer.traceInfo(moduleName, "Using AprilTag Vision.");
                     sm.setState(State.FIND_APRILTAG);
@@ -248,21 +235,21 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
             case FIND_APRILTAG:
                 // Use vision to determine the appropriate AprilTag location.
                 FrcPhotonVision.DetectedObject object =
-                    robot.photonVisionFront.getBestDetectedAprilTag(taskParams.targetType);
+                    robot.photonVisionFront.getBestDetectedAprilTag(
+                        taskParams.targetType == TargetType.Speaker? new int[] {4, 7, 3, 8}: new int[] {5, 6});
 
                 if (object != null)
                 {
-                    if (taskParams.relocalize)
-                    {
-                        TrcPose2D robotFieldPose =
-                            robot.photonVisionFront.getRobotFieldPose(object, true);
-                        // If we see the AprilTag, we can use its location to re-localize the robot.
-                        robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
-                        tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
-                    }
-                    relAprilTagPose = object.targetPose;
+                    aprilTagId = object.target.getFiducialId();
+                    aprilTagPose = object.getObjectPose();
                     tracer.traceInfo(
-                        moduleName, "Vision found AprilTag %d at %s from camera.", aprilTagId, object.targetPose);
+                        moduleName, "Vision found AprilTag %d at %s from camera.", aprilTagId, aprilTagPose);
+                    // Relocalize.
+                    TrcPose2D robotFieldPose =
+                        robot.photonVisionFront.getRobotFieldPose(object, true);
+                    // If we see the AprilTag, we can use its location to re-localize the robot.
+                    robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
+                    tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
                     sm.setState(State.DRIVE_TO_APRILTAG);
                 }
                 else if (visionExpiredTime == null)
@@ -283,34 +270,22 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 {
                     sm.setState(State.AIM_IN_PLACE);
                 }
-                else if (relAprilTagPose != null)
+                else if (aprilTagPose != null)
                 {
-                    // Account for end-effector offset from the camera and heading.
-                    switch (taskParams.targetType)
-                    {
-                        case Speaker:
-                            relAprilTagPose.y -= 5.85;  //TODO: Tune
-                            // Maintain heading to be squared to the Speaker.
-                            relAprilTagPose.angle =
-                                FrcAuto.autoChoices.getAlliance() == DriverStation.Alliance.Red ? 0.0 : 180.0;
-                            break;
-
-                        case Amp:
-                            relAprilTagPose.y -= 5.85;  //TODO: Tune
-                            break;
-
-                        default:
-                            relAprilTagPose.y -= 5.85;  //TODO: Tune
-                            break;
-                    }
-                    // We are right in front of the Speaker, so we don't need full power to approach it.
+                    TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                    TrcPose2D offset = new TrcPose2D(
+                        0.0, -(RobotParams.ROBOT_LENGTH + 1.0),
+                        taskParams.targetType == TargetType.Amp? -90.0: aprilTagId > 5? 180.0: 0.0);
+                    TrcPose2D targetPose = robot.photonVisionFront.getAprilTagFieldPose(aprilTagId).toPose2D().addRelativePose(offset);
                     tracer.traceInfo(
                         moduleName,
-                        state + ": RobotFieldPose=" + robot.robotDrive.driveBase.getFieldPosition() +
-                        ", RelAprilTagPose=" + relAprilTagPose);
+                        state + ": RobotFieldPose=" + robotPose +
+                        "\n\taprilTagPose=" + aprilTagPose +
+                        "\n\toffset=" + offset +
+                        "\n\ttargetPose=" + targetPose);
+                    // We are right in front of the target, so we don't need full power to approach it.
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
-                    robot.robotDrive.purePursuitDrive.start(
-                        currOwner, event, 3.0, robot.robotDrive.driveBase.getFieldPosition(), true, relAprilTagPose);
+                    robot.robotDrive.purePursuitDrive.start(currOwner, event, 3.0, robotPose, false, targetPose);
                     sm.waitForSingleEvent(event, State.SCORE_NOTE);
                 }
                 else
@@ -320,15 +295,15 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     {
                         robot.ledIndicator.setPhotonDetectedObject(null);
                     }
-                    sm.setState(State.SCORE_NOTE);
+                    sm.setState(State.DONE);
                 }
                 break;
 
             case AIM_IN_PLACE:
-                if (relAprilTagPose != null)
+                if (aprilTagPose != null)
                 {
                     robot.robotDrive.pidDrive.setRelativeTarget(
-                        currOwner, 0.0, 0.0, relAprilTagPose.angle, false, event, 0.0);
+                        currOwner, 0.0, 0.0, aprilTagPose.angle, true, event, 0.0);
                     sm.waitForSingleEvent(event, State.SCORE_NOTE);
                 }
                 else
@@ -338,38 +313,32 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     {
                         robot.ledIndicator.setPhotonDetectedObject(null);
                     }
-                    sm.setState(State.SCORE_NOTE);
+                    sm.setState(State.DONE);
                 }
                 break;
 
             case SCORE_NOTE:
                 // Determine shooter speed and tilt angle according to the score target type.
-                Double shooterVel = null;
-                Double tiltAngle = null;
+                double shooterVel, tiltAngle;
 
-                if (taskParams.targetType == TargetType.Amp)
+                switch (taskParams.targetType)
                 {
-                    shooterVel = RobotParams.Shooter.ampShooterVelocity;
-                    tiltAngle = RobotParams.Shooter.ampTiltAngle;
-                }
-                else if (taskParams.targetType == TargetType.Speaker && relAprilTagPose != null)
-                {
-                    // Use vision distance to look up shooter parameters.
-                    ShootParamTable.Params shootParams =
-                        RobotParams.Shooter.speakerShootParamTable.get(relAprilTagPose.y);
-                    shooterVel = shootParams.shooterVelocity;
-                    tiltAngle = shootParams.tiltAngle;
-                }
+                    case Speaker:
+                        // Use vision distance to look up shooter parameters.
+                        ShootParamTable.Params shootParams =
+                            RobotParams.Shooter.speakerShootParamTable.get(aprilTagPose.y);
+                        shooterVel = shootParams.shooterVelocity;
+                        tiltAngle = shootParams.tiltAngle;
+                        break;
 
-                if (shooterVel != null && tiltAngle != null)
-                {
-                    robot.shooter.aimShooter(currOwner, shooterVel, tiltAngle, 0.0, event, 0.0, robot::shoot);
-                    sm.waitForSingleEvent(event, State.DONE);
+                    default:
+                    case Amp:
+                        shooterVel = RobotParams.Shooter.ampShooterVelocity;
+                        tiltAngle = RobotParams.Shooter.ampTiltAngle;
+                        break;
                 }
-                else
-                {
-                    sm.setState(State.DONE);
-                }
+                robot.shooter.aimShooter(currOwner, shooterVel, tiltAngle, 0.0, event, 0.0, robot::shoot);
+                sm.waitForSingleEvent(event, State.DONE);
                 break;
 
             default:

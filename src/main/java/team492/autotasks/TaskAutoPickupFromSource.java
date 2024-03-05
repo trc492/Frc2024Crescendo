@@ -48,17 +48,17 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
         DONE
     }   //enum State
 
-    private static class TaskParams
-    {
-        boolean useVision;
-        boolean relocalize;
+    // private static class TaskParams
+    // {
+    //     boolean useVision;
+    //     boolean relocalize;
 
-        TaskParams(boolean useVision, boolean relocalize)
-        {
-            this.useVision = useVision;
-            this.relocalize = relocalize;
-        }
-    }   //class TaskParams
+    //     TaskParams(boolean useVision, boolean relocalize)
+    //     {
+    //         this.useVision = useVision;
+    //         this.relocalize = relocalize;
+    //     }
+    // }   //class TaskParams
 
     private final String ownerName;
     private final Robot robot;
@@ -67,9 +67,9 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
 
     private String currOwner = null;
     private String driveOwner = null;
-    private int aprilTagId = -1;
-    private TrcPose2D relAprilTagPose = null;
     private Double visionExpiredTime = null;
+    private int aprilTagId = -1;
+    private TrcPose2D aprilTagPose = null;
 
     /**
      * Constructor: Create an instance of the object.
@@ -89,15 +89,12 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     /**
      * This method starts the auto-assist operation.
      *
-     * @param useVision specifies true to use Vision to approach AprilTag, false to do intake in place.
-     * @param relocalize specifies true to use vision to relocalize robot, false otherwise.
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
-    public void autoAssistPickup(boolean useVision, boolean relocalize, TrcEvent completionEvent)
+    public void autoAssistPickup(TrcEvent completionEvent)
     {
-        tracer.traceInfo(
-            moduleName, "useVision=" + useVision + ",relocalize=" + relocalize + ", event=" + completionEvent);
-        startAutoTask(State.START, new TaskParams(useVision, relocalize), completionEvent);
+        tracer.traceInfo(moduleName, "event=" + completionEvent);
+        startAutoTask(State.START, null, completionEvent);
     }   //autoAssistPickup
 
     /**
@@ -203,12 +200,12 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     protected void runTaskState(
         Object params, State state, TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
     {
-        TaskParams taskParams = (TaskParams) params;
-
+        // TaskParams taskParams = (TaskParams) params;
         switch (state)
         {
             case START:
-                relAprilTagPose = null;
+                aprilTagId = -1;
+                aprilTagPose = null;
                 // Shooter takes time to spin up and aim, so start it the first thing.
                 robot.shooter.aimShooter(
                     currOwner, RobotParams.Shooter.sourcePickupShooterVelocity,
@@ -216,7 +213,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                 robot.intake.autoIntakeReverse(
                     currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
                 // Auto pickup from source must use vision. If vision is not available, quit.
-                if (taskParams.useVision && robot.photonVisionFront != null)
+                if (robot.photonVisionFront != null)
                 {
                     tracer.traceInfo(moduleName, "Using AprilTag Vision.");
                     sm.setState(State.FIND_APRILTAG);
@@ -229,23 +226,20 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
 
             case FIND_APRILTAG:
                 // Use vision to look for any AprilTag and determine its location.
-                // Even though there are two AprilTags at the source, we will let Vision pick the best one.
-                FrcPhotonVision.DetectedObject object = robot.photonVisionFront.getDetectedAprilTag(-1);
+                // There are two AprilTags at the source, we will specify preferences of which one to pick.
+                FrcPhotonVision.DetectedObject object = robot.photonVisionFront.getBestDetectedAprilTag(1, 10, 2, 9);
                 if (object != null)
                 {
-                    // We were looking for any AprilTag, get the detected AprilTag ID.
                     aprilTagId = object.target.getFiducialId();
-                    if (taskParams.relocalize)
-                    {
-                        TrcPose2D robotFieldPose =
-                            robot.photonVisionFront.getRobotFieldPose(object, true);
-                        // If we see the AprilTag, we can use its location to re-localize the robot.
-                        robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
-                        tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
-                    }
-                    relAprilTagPose = object.targetPose;
+                    aprilTagPose = object.getObjectPose();
                     tracer.traceInfo(
-                        moduleName, "Vision found AprilTag %d at %s from camera.", aprilTagId, object.targetPose);
+                        moduleName, "Vision found AprilTag %d at %s from camera.", aprilTagId, aprilTagPose);
+                    // Relocalize.
+                    TrcPose2D robotFieldPose =
+                        robot.photonVisionFront.getRobotFieldPose(object, true);
+                    // If we see the AprilTag, we can use its location to re-localize the robot.
+                    robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
+                    tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
                     sm.setState(State.DRIVE_TO_APRILTAG);
                 }
                 else if (visionExpiredTime == null)
@@ -262,20 +256,21 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                 break;
 
             case DRIVE_TO_APRILTAG:
-                if (relAprilTagPose != null)
+                if (aprilTagPose != null)
                 {
-                    // Account for end-effector offset from the camera and heading.
-                    relAprilTagPose.y -= 5.85; //TODO: Tune
-                    // We are right in front of the Speaker, so we don't need full power to approach it.
+                    TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                    TrcPose2D offset = new TrcPose2D(0.0, -(RobotParams.ROBOT_LENGTH + 1.0), aprilTagId > 2? 120.0: 30.0);
+                    TrcPose2D targetPose = robot.photonVisionFront.getAprilTagFieldPose(aprilTagId).toPose2D().addRelativePose(offset);
                     tracer.traceInfo(
                         moduleName,
-                        state + ": RobotFieldPose=" + robot.robotDrive.driveBase.getFieldPosition() +
-                        ", RelAprilTagPose=" + relAprilTagPose);
-                    sm.addEvent(driveEvent);
+                        state + ": RobotFieldPose=" + robotPose +
+                        "\n\taprilTagPose=" + aprilTagPose +
+                        "\n\toffset=" + offset +
+                        "\n\ttargetPose=" + targetPose);
+                    // We are right in front of the target, so we don't need full power to approach it.
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
-                    robot.robotDrive.purePursuitDrive.start(
-                        currOwner, driveEvent, 3.0, robot.robotDrive.driveBase.getFieldPosition(), true,
-                        relAprilTagPose);
+                    robot.robotDrive.purePursuitDrive.start(currOwner, driveEvent, 3.0, robotPose, false, targetPose);
+                    sm.addEvent(driveEvent);
                 }
                 else
                 {

@@ -418,7 +418,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         if (altFunc)
                         {
                             // Intake from source with no vision.
-                            robot.autoPickupFromSource.autoAssistPickup(true, true, null);
+                            robot.autoPickupFromSource.autoAssistPickup(null);
                         }
                         else
                         {
@@ -553,7 +553,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 // Code Review: This is the same as button B
                 if (robot.shooter != null && robot.intake != null && pressed)
                 {
-                    robot.autoScoreNote.autoAssistScore(TargetType.Amp, true, false, false, null);
+                    robot.autoScoreNote.autoAssistScore(TargetType.Amp, false, null);
                 }
                 break;
 
@@ -561,7 +561,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 // Code Review: This is the same as button A
                 if (robot.shooter != null && robot.intake != null && pressed)
                 {
-                    robot.autoPickupFromSource.autoAssistPickup(true, false, null);
+                    robot.autoPickupFromSource.autoAssistPickup(null);
                 }
                 break;
 
