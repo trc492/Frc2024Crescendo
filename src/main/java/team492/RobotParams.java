@@ -659,6 +659,7 @@ public class RobotParams
         public static final double maxHeight                    = 1.0;  //TODO: tune
         public static final double minHeight                    = 0.0;  //TODO: tune
         public static final double climbPowerComp               = 0.3;  //TODO: tune
+        public static final double calPower                     = -0.3;
     }   //class Climber
 
 }   //class RobotParams

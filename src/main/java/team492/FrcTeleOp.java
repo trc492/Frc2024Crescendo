@@ -342,19 +342,18 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_B:
-                if (robot.shooter != null && pressed)
-                {
-                    robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
-                }
-                break;
-
-            case FrcXboxController.BUTTON_X:
                 if (robot.robotDrive != null && pressed)
                 {
                     boolean gyroAssistEnabled = !robot.robotDrive.driveBase.isGyroAssistEnabled();
                     robot.robotDrive.driveBase.setGyroAssistEnabled(
                         gyroAssistEnabled? robot.robotDrive.pidDrive.getTurnPidCtrl(): null);
                 }
+                break;
+
+            case FrcXboxController.BUTTON_X:
+                break;
+
+            case FrcXboxController.BUTTON_Y:
                 break;
 
             case FrcXboxController.LEFT_BUMPER:
@@ -371,12 +370,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.RIGHT_BUMPER:
-                if (robot.robotDrive != null &&
-                    robot.robotDrive.driveBase.getDriveOrientation() == DriveOrientation.ROBOT)
+                if (robot.shooter != null && pressed)
                 {
-                    // Inverted drive only makes sense for robot oriented driving.
-                    robot.robotDrive.driveBase.setDriveOrientation(
-                        pressed? DriveOrientation.INVERTED: DriveOrientation.ROBOT, false);
+                    robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
                 }
                 break;
 
@@ -422,12 +418,12 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         if (altFunc)
                         {
                             // Intake from source with no vision.
-                            robot.autoPickupFromSource.autoAssistPickup(false, false, null);
+                            robot.autoPickupFromSource.autoAssistPickup(true, true, null);
                         }
                         else
                         {
                             // Intake from ground with no vision.
-                            robot.autoPickupFromGround.autoAssistPickup(false, null);
+                            robot.autoPickupFromGround.autoAssistPickup(true, null);
                         }
                     }
                     else
@@ -446,7 +442,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         if (altFunc)
                         {
                             // Shoot at Amp with no vision.
-                            // robot.autoScoreNote.autoAssistScore(TargetType.Amp, false, false, false, null);
+                            // robot.autoScoreNote.autoAssistScore(TargetType.Amp, true, true, false, null);
                             robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
                         }
                         else
@@ -465,10 +461,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
             case FrcXboxController.BUTTON_X:
                 //Set shooter to Score-Note-to-Amp preset.
-                if (robot.shooter != null)
+                if (robot.shooter != null && pressed)
                 {
-                    // CodeReview: Why do you want to press and hold for this?
-                    if (pressed)
+                    boolean shooterActive = !robot.shooter.isActive();
+
+                    if (shooterActive)
                     {
                         robot.shooter.aimShooter(
                             null, RobotParams.Shooter.ampShooterVelocity, RobotParams.Shooter.ampTiltAngle,
@@ -483,9 +480,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
             case FrcXboxController.BUTTON_Y:
                 //Set shooter to Score-Note-to-Speaker up close preset.
-                if (robot.shooter != null)
+                if (robot.shooter != null && pressed)
                 {
-                    if (pressed)
+                    boolean shooterActive = !robot.shooter.isActive();
+
+                    if (shooterActive)
                     {
                         robot.shooter.aimShooter(
                             null,
@@ -551,6 +550,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
             case FrcXboxController.DPAD_LEFT:
                 //AutoScore Amp
+                // Code Review: This is the same as button B
                 if (robot.shooter != null && robot.intake != null && pressed)
                 {
                     robot.autoScoreNote.autoAssistScore(TargetType.Amp, true, false, false, null);
@@ -558,6 +558,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.DPAD_RIGHT:
+                // Code Review: This is the same as button A
                 if (robot.shooter != null && robot.intake != null && pressed)
                 {
                     robot.autoPickupFromSource.autoAssistPickup(true, false, null);
@@ -565,6 +566,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BACK:
+                if (robot.climber != null && pressed)
+                {
+                    robot.climber.zeroCalibrate();
+                }
                 break;
 
             case FrcXboxController.START:

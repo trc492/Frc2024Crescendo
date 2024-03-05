@@ -59,6 +59,11 @@ public class Climber
         return moduleName;
     }   //toString
 
+    public void zeroCalibrate()
+    {
+        climberMotor.zeroCalibrate(RobotParams.Climber.calPower);
+    }
+
     private double getClimbPowerComp(double power)
     {
         TrcDbgTrace.globalTraceDebug(moduleName, "Climbing...");
