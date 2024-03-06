@@ -49,17 +49,15 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
         DONE
     }   //enum State
 
-    // private static class TaskParams
-    // {
-    //     boolean useVision;
-    //     boolean relocalize;
+    private static class TaskParams
+    {
+        boolean useVision;
 
-    //     TaskParams(boolean useVision, boolean relocalize)
-    //     {
-    //         this.useVision = useVision;
-    //         this.relocalize = relocalize;
-    //     }
-    // }   //class TaskParams
+        TaskParams(boolean useVision)
+        {
+            this.useVision = useVision;
+        }
+    }   //class TaskParams
 
     private final String ownerName;
     private final Robot robot;
@@ -90,12 +88,13 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     /**
      * This method starts the auto-assist operation.
      *
+     * @param useVision specifies true to use Vision to detect the target, false otherwise.
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
-    public void autoAssistPickup(TrcEvent completionEvent)
+    public void autoAssistPickup(boolean useVision, TrcEvent completionEvent)
     {
-        tracer.traceInfo(moduleName, "event=" + completionEvent);
-        startAutoTask(State.START, null, completionEvent);
+        tracer.traceInfo(moduleName, "useVision=" + useVision + ", event=" + completionEvent);
+        startAutoTask(State.START, new TaskParams(useVision), completionEvent);
     }   //autoAssistPickup
 
     /**
@@ -201,7 +200,8 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     protected void runTaskState(
         Object params, State state, TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
     {
-        // TaskParams taskParams = (TaskParams) params;
+        TaskParams taskParams = (TaskParams) params;
+
         switch (state)
         {
             case START:
@@ -214,7 +214,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                 robot.intake.autoIntakeReverse(
                     currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
                 // Auto pickup from source must use vision. If vision is not available, quit.
-                if (robot.photonVisionFront != null)
+                if (taskParams.useVision && robot.photonVisionFront != null)
                 {
                     tracer.traceInfo(moduleName, "Using AprilTag Vision.");
                     sm.setState(State.FIND_APRILTAG);

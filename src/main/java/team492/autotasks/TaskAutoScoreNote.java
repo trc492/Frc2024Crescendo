@@ -60,11 +60,13 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     private static class TaskParams
     {
         TargetType targetType;
+        boolean useVision;
         boolean shootInPlace;
 
-        TaskParams(TargetType targetType, boolean shootInPlace)
+        TaskParams(TargetType targetType, boolean useVision, boolean shootInPlace)
         {
             this.targetType = targetType;
+            this.useVision = useVision;
             this.shootInPlace = shootInPlace;
         }   //TaskParams
 
@@ -98,17 +100,20 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
      * This method starts the auto-assist operation.
      *
      * @param targetType specifies the score target type.
+     * @param useVision specifies true to use Vision to detect the target, false otherwise.
      * @param shootInPlace specifies true to shoot target in-place (not driving to AprilTag).
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
-    public void autoAssistScore(TargetType targetType, boolean shootInPlace, TrcEvent completionEvent)
+    public void autoAssistScore(
+        TargetType targetType, boolean useVision, boolean shootInPlace, TrcEvent completionEvent)
     {
         tracer.traceInfo(
             moduleName,
             "targetType=" + targetType +
+            ", useVision=" + useVision +
             ", shootInPlace=" + shootInPlace +
             ", event=" + completionEvent);
-        startAutoTask(State.START, new TaskParams(targetType, shootInPlace), completionEvent);
+        startAutoTask(State.START, new TaskParams(targetType, useVision, shootInPlace), completionEvent);
     }   //autoAssistScore
 
     /**
@@ -220,7 +225,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
             case START:
                 aprilTagId = -1;
                 aprilTagPose = null;
-                if (robot.photonVisionFront != null)
+                if (taskParams.useVision && robot.photonVisionFront != null)
                 {
                     tracer.traceInfo(moduleName, "Using AprilTag Vision.");
                     sm.setState(State.FIND_APRILTAG);
@@ -229,7 +234,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 {
                     // Not using AprilTag vision, skip vision and just score at current location.
                     tracer.traceInfo(moduleName, "Not using AprilTag Vision.");
-                    sm.setState(State.DRIVE_TO_APRILTAG);
+                    sm.setState(State.SCORE_NOTE);
                 }
                 break;
 
@@ -324,11 +329,19 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 switch (taskParams.targetType)
                 {
                     case Speaker:
-                        // Use vision distance to look up shooter parameters.
-                        ShootParamTable.Params shootParams =
-                            RobotParams.Shooter.speakerShootParamTable.get(aprilTagPose.y);
-                        shooterVel = shootParams.shooterVelocity;
-                        tiltAngle = shootParams.tiltAngle;
+                        if (taskParams.useVision)
+                        {
+                            // Use vision distance to look up shooter parameters.
+                            ShootParamTable.Params shootParams =
+                                RobotParams.Shooter.speakerShootParamTable.get(aprilTagPose.y);
+                            shooterVel = shootParams.shooterVelocity;
+                            tiltAngle = shootParams.tiltAngle;
+                        }
+                        else
+                        {
+                            shooterVel = RobotParams.Shooter.shooterSpeakerCloseVelocity;
+                            tiltAngle = RobotParams.Shooter.tiltSpeakerCloseAngle;
+                        }
                         break;
 
                     default:

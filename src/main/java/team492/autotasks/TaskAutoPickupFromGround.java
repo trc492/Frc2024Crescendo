@@ -49,15 +49,15 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         DONE
     }   //enum State
 
-    // private static class TaskParams
-    // {
-    //     boolean useVision;
+    private static class TaskParams
+    {
+        boolean useVision;
 
-    //     TaskParams(boolean useVision)
-    //     {
-    //         this.useVision = useVision;
-    //     }
-    // }   //class TaskParams
+        TaskParams(boolean useVision)
+        {
+            this.useVision = useVision;
+        }
+    }   //class TaskParams
 
     private final String ownerName;
     private final Robot robot;
@@ -87,12 +87,12 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     /**
      * This method starts the auto-assist operation.
      *
-     * @param useVision specifies true to use Vision to approach AprilTag, false to do intake in place.
+     * @param useVision specifies true to use Vision to detect the target, false otherwise.
      */
-    public void autoAssistPickup(TrcEvent completionEvent)
+    public void autoAssistPickup(boolean useVision, TrcEvent completionEvent)
     {
-        tracer.traceInfo(moduleName, "event=" + completionEvent);
-        startAutoTask(State.START, null, completionEvent);
+        tracer.traceInfo(moduleName, "useVision=" + useVision + ", event=" + completionEvent);
+        startAutoTask(State.START, new TaskParams(useVision), completionEvent);
     }   //autoAssistPickup
 
     /**
@@ -192,12 +192,15 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     protected void runTaskState(
         Object params, State state, TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
     {
-        // TaskParams taskParams = (TaskParams) params;
+        TaskParams taskParams = (TaskParams) params;
+
         switch (state)
         {
             case START:
-                // Auto pickup from ground must use vision. If vision is not available, quit.
-                if (robot.photonVisionBack != null)
+                notePose = null;
+                // Auto pickup from ground. If not using vision, just spin up the intake and let the driver manually
+                // drive to it.
+                if (taskParams.useVision && robot.photonVisionBack != null)
                 {
                     tracer.traceInfo(moduleName, "Using Note Vision.");
                     robot.photonVisionBack.setPipeline(PipelineType.NOTE);
