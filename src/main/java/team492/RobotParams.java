@@ -292,9 +292,9 @@ public class RobotParams
         public static final double CAMERA_DATA_TIMEOUT          = 0.5;      // 500ms
         public static final double VISION_TARGET_HEIGHT         = 104.0;    // Inches from the floor (not used)
         public static final double APRILTAG_SIZE                = Units.inchesToMeters(6.5);    //  in meters
-        // Homography measurements.
+        // Homography measurements (not used).
         // Camera rect in inches.
-        public static final double HOMOGRAPHY_CAMERA_TOPLEFT_X  = 0;      //TODO: Need updating
+        public static final double HOMOGRAPHY_CAMERA_TOPLEFT_X  = 0;
         public static final double HOMOGRAPHY_CAMERA_TOPLEFT_Y  = 400.0;
         public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_X = BACKCAM_IMAGE_WIDTH - 1;
         public static final double HOMOGRAPHY_CAMERA_TOPRIGHT_Y = 400.0;
@@ -629,8 +629,8 @@ public class RobotParams
         public static final boolean tiltMotorInverted           = true;
         public static final double tiltGearRatio                = 59.0/18.0;
         public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
-        public static final double tiltPosOffset                = -15.0;    // in degrees TODO: Retune
-        public static final double tiltZeroOffset               = 0.02;    // in raw encoder unit TODO: Retune
+        public static final double tiltPosOffset                = -15.0;    // in degrees
+        public static final double tiltZeroOffset               = 0.02;     // in raw encoder unit
         public static final double tiltPowerLimit               = 0.5;
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.028, 0.0, 0.0012, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
