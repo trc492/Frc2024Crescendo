@@ -329,7 +329,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 switch (taskParams.targetType)
                 {
                     case Speaker:
-                        if (taskParams.useVision)
+                        if (aprilTagPose != null)
                         {
                             // Use vision distance to look up shooter parameters.
                             ShootParamTable.Params shootParams =
