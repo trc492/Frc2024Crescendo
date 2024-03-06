@@ -324,7 +324,8 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
 
             case SCORE_NOTE:
                 // Determine shooter speed and tilt angle according to the score target type.
-                double shooterVel, tiltAngle;
+                double shooterVel = 0.0;
+                double tiltAngle = 0.0;
 
                 switch (taskParams.targetType)
                 {
@@ -337,14 +338,14 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                             shooterVel = shootParams.shooterVelocity;
                             tiltAngle = shootParams.tiltAngle;
                         }
-                        else
+                        else if (!taskParams.useVision)
                         {
+                            // Did not use vision, must be shooting at Speaker close-up.
                             shooterVel = RobotParams.Shooter.shooterSpeakerCloseVelocity;
                             tiltAngle = RobotParams.Shooter.tiltSpeakerCloseAngle;
                         }
                         break;
 
-                    default:
                     case Amp:
                         shooterVel = RobotParams.Shooter.shooterAmpVelocity;
                         tiltAngle = RobotParams.Shooter.tiltAmpAngle;
