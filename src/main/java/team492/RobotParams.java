@@ -258,8 +258,8 @@ public class RobotParams
         public static final double BACKCAM_X_OFFSET             = 0.0;      // Inches to the right from robot center
         public static final double BACKCAM_Y_OFFSET             = -4.5;     // Inches forward from robot center
         public static final double BACKCAM_Z_OFFSET             = 20.0;     // Inches up from the floor
-        public static final double BACKCAM_PITCH                = -18.0;    // degrees up from horizontal
-        public static final double BACKCAM_YAW                  = 0.0;      // degrees clockwise from robot front
+        public static final double BACKCAM_PITCH                = -5.0;     // degrees up from horizontal
+        public static final double BACKCAM_YAW                  = 180.0;    // degrees clockwise from robot front
         public static final double BACKCAM_ROLL                 = 0.0;
         public static final Transform3d ROBOT_TO_BACKCAM        = new Transform3d(
             new Translation3d(Units.inchesToMeters(BACKCAM_Y_OFFSET), -Units.inchesToMeters(BACKCAM_X_OFFSET),
@@ -603,6 +603,8 @@ public class RobotParams
         public static final double shooterVelocityTolerance     = 3.0;      // in rps.
         public static final double shooterVelMinInc             = 1.0;      // in rps.
         public static final double shooterVelMaxInc             = 10.0;     // in rps.
+        public static final double shooterAmpVelocity           = 20.0;     // in rps.
+        public static final double shooterSourcePickupVelocity  = -20.0;    // in rps.
         public static final double shooterPresetVelTolerance    = 5.0;      // in rps.
         public static final double[] shooterPresetVelocities    = new double[]
             {20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0};
@@ -620,16 +622,16 @@ public class RobotParams
         public static final double tiltMaxAngle                 = 87.0;     // in degrees.
         public static final double tiltAngleMinInc              = 1.0;      // in degrees.
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
-        public static final double tiltTurtleAngle              = 45.0;
+        public static final double tiltTurtleAngle              = 45.0;     // in degrees.
+        public static final double tiltSpeakerFarAngle          = 52.0;     // in degrees.
+        public static final double tiltAmpAngle                 = 70.0;     // in degrees.
+        public static final double tiltSpeakerCloseAngle        = 72.0;     // in degrees.
+        public static final double tiltSourcePickupAngle        = 88.0;     // in degrees.
 
-        public static final double tiltPresetPosTolerance       = 2.0;              // in degrees.
+        public static final double tiltPresetPosTolerance       = 2.0;      // in degrees.
         public static final double[] tiltPresetPositions        = new double[]
-            {tiltMinAngle, 0.0, 15.0, 30.0, 45.0, 60.0, 75.0, tiltMaxAngle};
+            {tiltTurtleAngle, tiltSpeakerFarAngle, tiltAmpAngle, tiltSpeakerCloseAngle, tiltSourcePickupAngle};
 
-        public static final double ampShooterVelocity           = 20.0;     // in rps.
-        public static final double ampTiltAngle                 = 70.0;     // in degrees.
-        public static final double sourcePickupShooterVelocity  = -20.0;    // in rps.
-        public static final double sourcePickupTiltAngle        = 88.0;     // in degrees.
         // Talked with Jackson and said that we would most likely not score in trap,
         // so I don't think there is a need to tune ... Will leave it just in case.
         // public static final ShootParamTable.Params stageShootParams = new ShootParamTable.Params(
@@ -637,13 +639,13 @@ public class RobotParams
 
         public static final String SPEAKER_PARAM_NAME           = "Speaker0ft";
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
-            .add(SPEAKER_PARAM_NAME,    0.0, 62.5, 72.0)     // TODO: Tune
+            .add(SPEAKER_PARAM_NAME,    0.0, 62.5, tiltSpeakerCloseAngle)
             .add("Speaker1ft",      24.0, 50.0, 45.0)    // TODO: Tune
             .add("Speaker2ft",      36.0, 50.0, 45.0)    // TODO: Tune
             .add("Speaker3ft",      48.0, 50.0, 45.0)    // TODO: Tune
             .add("Speaker4ft",      60.0, 50.0, 45.0)    // TODO: Tune
             .add("Speaker5ft",      117.1, 90.0, 54.0)   // Tuned, but distance needs to be recalibrated again from vision
-            .add("Speaker6ft",      128.5, 100.0, 52.0); // Tuned, but distance needs to be recalibrated again from vision
+            .add("Speaker6ft",      128.5, 100.0, tiltSpeakerFarAngle);
         public static final ShootParamTable.Params speakerParams = speakerShootParamTable.get(SPEAKER_PARAM_NAME);
     }   //class Shooter
 
@@ -654,10 +656,11 @@ public class RobotParams
         public static final double GEAR_RATIO                   = 60.0;
         public static final double PULLEY_DIAMETER              = 1.88;
         public static final double posScale                     = PULLEY_DIAMETER * Math.PI / GEAR_RATIO;
-        public static final PidCoefficients posPidCoeff         = new PidCoefficients(0.0, 0.0, 0.0);   //TODO: tune
+        public static final PidCoefficients posPidCoeff         = new PidCoefficients(1.0, 0.0, 0.0);
+        public static final double posPidTolerance              = 0.1;  // in inches.
 
-        public static final double maxHeight                    = 1.0;  //TODO: tune
-        public static final double minHeight                    = 0.0;  //TODO: tune
+        public static final double maxHeight                    = 9.5;
+        public static final double minHeight                    = 0.0;
         public static final double climbPowerComp               = 0.3;  //TODO: tune
         public static final double calPower                     = -0.3;
     }   //class Climber

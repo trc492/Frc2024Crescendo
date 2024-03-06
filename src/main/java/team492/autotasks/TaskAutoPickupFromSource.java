@@ -209,8 +209,8 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                 aprilTagPose = null;
                 // Shooter takes time to spin up and aim, so start it the first thing.
                 robot.shooter.aimShooter(
-                    currOwner, RobotParams.Shooter.sourcePickupShooterVelocity,
-                    RobotParams.Shooter.sourcePickupTiltAngle, 0.0, null, 0.0, null);
+                    currOwner, RobotParams.Shooter.shooterSourcePickupVelocity,
+                    RobotParams.Shooter.tiltSourcePickupAngle, 0.0, null, 0.0, null);
                 robot.intake.autoIntakeReverse(
                     currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
                 // Auto pickup from source must use vision. If vision is not available, quit.

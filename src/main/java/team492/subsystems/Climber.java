@@ -43,10 +43,14 @@ public class Climber
         climberMotor.setMotorInverted(RobotParams.Climber.motorInverted);
         climberMotor.setBrakeModeEnabled(true);
         climberMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
-        climberMotor.setPositionSensorScaleAndOffset(RobotParams.Climber.posScale, 0.0);
-        climberMotor.setPositionPidCoefficients(RobotParams.Climber.posPidCoeff);
         climberMotor.enableLowerLimitSwitch(true);
         climberMotor.enableUpperLimitSwitch(true);
+        climberMotor.setPositionSensorScaleAndOffset(RobotParams.Climber.posScale, 0.0);
+        // We are using software position PID control for Climber. So we just enable software PID before setting
+        // PID coefficients.
+        climberMotor.setSoftwarePidEnabled(true);
+        climberMotor.setPositionPidCoefficients(RobotParams.Climber.posPidCoeff);
+        climberMotor.setPositionPidTolerance(RobotParams.Climber.posPidTolerance);
         climberMotor.setPositionPidPowerComp(this::getClimbPowerComp);
     }   //Climber
 
@@ -106,10 +110,9 @@ public class Climber
     }
 
     /**
-     * This method enables/disables manual override for setTiltPower/setPanPower. When manual override is not enabled,
-     * setTiltPower/setPanPower will operate tilt/pan by PID control which means it will slow down the approach when
-     * it's near the upper or lower angle limits. When manul override is enabled, it will simply applied the specified
-     * power as is.
+     * This method enables/disables manual override for setClimberPower. When manual override is not enabled,
+     * setClimberPower will operate by PID control which means it will slow down the approach when it's near the
+     * upper or lower angle limits. When manul override is enabled, it will simply applied the specified power as is.
      *
      * @param enabled specifies true to enable manual override, false to disable.
      */
@@ -122,7 +125,7 @@ public class Climber
      * This method moves climber up and down with the specified power. It is typically used by TeleOp to control
      * the climber by a joystick value. Climber movement is PID controlled when manual override is not enabled.
      *
-     * @param power specifies the power duty cycle used to move tilt (in the range of -1 to 1).
+     * @param power specifies the power duty cycle used to move climber (in the range of -1 to 1).
      */
     public void setClimbPower(double power)
     {
@@ -134,6 +137,6 @@ public class Climber
         {
             climberMotor.setPidPower(null, power, RobotParams.Climber.minHeight, RobotParams.Climber.maxHeight, true);
         }
-    }   //setTiltPower
+    }   //setClimberPower
 
 }   //class Climber

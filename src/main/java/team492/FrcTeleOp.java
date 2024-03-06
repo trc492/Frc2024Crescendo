@@ -468,7 +468,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (shooterActive)
                     {
                         robot.shooter.aimShooter(
-                            null, RobotParams.Shooter.ampShooterVelocity, RobotParams.Shooter.ampTiltAngle,
+                            null, RobotParams.Shooter.shooterAmpVelocity, RobotParams.Shooter.tiltAmpAngle,
                             0, null, 0, null);
                     }
                     else

@@ -371,6 +371,12 @@ public class Robot extends FrcRobotBase
         {
             robotDrive.startMode(runMode, prevMode);
         }
+
+        if (climber != null)
+        {
+            climber.zeroCalibrate();
+        }
+
         ledIndicator.reset();
     }   //robotStartMode
 

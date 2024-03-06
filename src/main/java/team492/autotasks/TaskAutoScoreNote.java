@@ -333,8 +333,8 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
 
                     default:
                     case Amp:
-                        shooterVel = RobotParams.Shooter.ampShooterVelocity;
-                        tiltAngle = RobotParams.Shooter.ampTiltAngle;
+                        shooterVel = RobotParams.Shooter.shooterAmpVelocity;
+                        tiltAngle = RobotParams.Shooter.tiltAmpAngle;
                         break;
                 }
                 robot.shooter.aimShooter(currOwner, shooterVel, tiltAngle, 0.0, event, 0.0, robot::shoot);
