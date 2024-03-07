@@ -393,9 +393,9 @@ public class RobotDrive extends SubsystemBase
 
         if (pose == null)
         {
-            int startPos = FrcAuto.autoChoices.getStartPos();
+            int startPos = FrcAuto.autoChoices.getStartPos().ordinal();
             robotPose = FrcAuto.autoChoices.getAlliance() == Alliance.Blue?
-                RobotParams.startPos[0][startPos]: RobotParams.startPos[1][startPos];
+                RobotParams.startPoses[0][startPos]: RobotParams.startPoses[1][startPos];
         }
         else
         {

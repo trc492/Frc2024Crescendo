@@ -50,6 +50,7 @@ import TrcFrcLib.frclib.FrcXboxController;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -658,6 +659,41 @@ public class Robot extends FrcRobotBase
         autoPickupFromGround.autoAssistCancel();
         autoPickupFromSource.autoAssistCancel();
     }   //autoAssistCancel
+
+    /**
+     * This method adjusts the given pose in the blue alliance to be the specified alliance.
+     *
+     * @param x specifies x position in the blue alliance.
+     * @param y specifies y position in the blue alliance.
+     * @param heading specifies heading in the blue alliance.
+     * @param alliance specifies the alliance to be converted to.
+     * @return pose adjusted to be in the specified alliance in inches.
+     */
+    public TrcPose2D adjustPoseByAlliance(double x, double y, double heading, Alliance alliance)
+    {
+        TrcPose2D newPose = new TrcPose2D(x, y, heading);
+
+        if (alliance == Alliance.Red)
+        {
+            double angleDelta = (newPose.angle - 90.0) * 2.0;
+            newPose.angle -= angleDelta;
+            newPose.y = RobotParams.FIELD_LENGTH - newPose.y;
+        }
+
+        return newPose;
+    }   //adjustPoseByAlliance
+
+    /**
+     * This method adjusts the given pose in the blue alliance to be the specified alliance.
+     *
+     * @param pose specifies pose in the blue alliance in tile unit.
+     * @param alliance specifies the alliance to be converted to.
+     * @return pose adjusted to be in the specified alliance in inches.
+     */
+    public TrcPose2D adjustPoseByAlliance(TrcPose2D pose, Alliance alliance)
+    {
+        return adjustPoseByAlliance(pose.x, pose.y, pose.angle, alliance);
+    }   //adjustPoseByAlliance
 
     //
     // Getters for sensor data.

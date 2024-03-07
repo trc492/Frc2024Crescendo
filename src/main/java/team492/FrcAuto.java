@@ -187,9 +187,9 @@ public class FrcAuto implements TrcRobot.RobotMode
             return autoStrategyMenu.getCurrentChoiceObject();
         }   //getStrategy
 
-        public int getStartPos()
+        public AutoStartPos getStartPos()
         {
-            return autoStartPosMenu.getCurrentChoiceObject().value;
+            return autoStartPosMenu.getCurrentChoiceObject();
         }   //getStartPos
 
         public boolean getScoreWingNote()
