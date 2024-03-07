@@ -218,8 +218,9 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 FrcPhotonVision.DetectedObject object = robot.photonVisionBack.getBestDetectedObject();
                 if (object != null)
                 {
-                    notePose = RobotParams.Vision.ROBOT_TO_BACKCAM_POSE.addRelativePose(object.targetPose);
-                    notePose.y += RobotParams.ROBOT_LENGTH / 2.0;
+                    notePose = object.getObjectPose();
+                    notePose.x = -notePose.x;
+                    notePose.y = -notePose.y;
                     tracer.traceInfo(moduleName, "Vision found Note at %s from robot back.", notePose);
                     sm.setState(State.DRIVE_TO_NOTE);
                 }
@@ -247,7 +248,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     // We are right in front of the Note, so we don't need full power to approach it.
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.5);
                     robot.robotDrive.purePursuitDrive.start(
-                        currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true, notePose);
+                        currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        notePose, new TrcPose2D(0.0, -10.0, 0.0));
                     sm.addEvent(driveEvent);
                 }
                 else
