@@ -367,8 +367,8 @@ public class RobotParams
 
     public static final double DRIVE_SLOW_SCALE                 = 0.3;
     public static final double TURN_SLOW_SCALE                  = 0.3;
-    public static final double DRIVE_NORMAL_SCALE               = 1.0; //0.8;
-    public static final double TURN_NORMAL_SCALE                = 1.0; //0.6
+    public static final double DRIVE_NORMAL_SCALE               = 0.8;
+    public static final double TURN_NORMAL_SCALE                = 0.6;
 
     public static class DifferentialDriveBase
     {
@@ -390,9 +390,9 @@ public class RobotParams
         public final double TURN_IZONE                          = 10.0;
         public final double TURN_TOLERANCE                      = 2.0;
 
-        public final double ROBOT_MAX_VELOCITY                  = 180.0; //177.1654; // inches per second
-        public final double ROBOT_MAX_ACCELERATION              = 14500.0; // 799.1;
-        public final double ROBOT_MAX_TURN_RATE                 = 460.0; //572.9578;
+        public final double ROBOT_MAX_VELOCITY                  = 177.1654; // inches per second
+        public final double ROBOT_MAX_ACCELERATION              = 799.1;
+        public final double ROBOT_MAX_TURN_RATE                 = 572.9578;
         public final double ROBOT_VEL_KP                        = 0.0;
         public final double ROBOT_VEL_KI                        = 0.0;
         public final double ROBOT_VEL_KD                        = 0.0;
@@ -531,9 +531,9 @@ public class RobotParams
         public final double Y_TIPPING_TOLERANCE                 = 10.0;
         public final double Y_TIPPING_SETTLING_TIME             = 0.2;
 
-        public final double ROBOT_MAX_VELOCITY                  = 177.1654; // inches per second
-        public final double ROBOT_MAX_ACCELERATION              = 799.1;    // TODO: Need updating
-        public final double ROBOT_MAX_TURN_RATE                 = 572.9578;
+        public final double ROBOT_MAX_VELOCITY                  = 170.0;    // inches per second
+        public final double ROBOT_MAX_ACCELERATION              = 23000.0;  // inches per second square
+        public final double ROBOT_MAX_TURN_RATE                 = 1450.0;   // degrees per second
         public final double ROBOT_VEL_KP                        = 0.0;
         public final double ROBOT_VEL_KI                        = 0.0;
         public final double ROBOT_VEL_KD                        = 0.0;
