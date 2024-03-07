@@ -362,8 +362,8 @@ public class RobotParams
 
     public static final double DRIVE_SLOW_SCALE                 = 0.3;
     public static final double TURN_SLOW_SCALE                  = 0.3;
-    public static final double DRIVE_NORMAL_SCALE               = 0.8;
-    public static final double TURN_NORMAL_SCALE                = 0.6;
+    public static final double DRIVE_NORMAL_SCALE               = 1.0; //0.8;
+    public static final double TURN_NORMAL_SCALE                = 1.0; //0.6
 
     public static class DifferentialDriveBase
     {
@@ -385,9 +385,9 @@ public class RobotParams
         public final double TURN_IZONE                          = 10.0;
         public final double TURN_TOLERANCE                      = 2.0;
 
-        public final double ROBOT_MAX_VELOCITY                  = 177.1654; // inches per second
-        public final double ROBOT_MAX_ACCELERATION              = 799.1;
-        public final double ROBOT_MAX_TURN_RATE                 = 572.9578;
+        public final double ROBOT_MAX_VELOCITY                  = 180.0; //177.1654; // inches per second
+        public final double ROBOT_MAX_ACCELERATION              = 14500.0; // 799.1;
+        public final double ROBOT_MAX_TURN_RATE                 = 460.0; //572.9578;
         public final double ROBOT_VEL_KP                        = 0.0;
         public final double ROBOT_VEL_KI                        = 0.0;
         public final double ROBOT_VEL_KD                        = 0.0;
@@ -660,8 +660,8 @@ public class RobotParams
         public static final boolean tiltMotorInverted           = true;
         public static final double tiltGearRatio                = 59.0/18.0;
         public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
-        public static final double tiltPosOffset                = -15.0;    // in degrees
-        public static final double tiltZeroOffset               = 0.02;     // in raw encoder unit
+        public static final double tiltPosOffset                = -11.0;//-15.0;    // in degrees
+        public static final double tiltZeroOffset               = 0.00; //0.02;     // in raw encoder unit
         public static final double tiltPowerLimit               = 0.5;
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.028, 0.0, 0.0012, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
