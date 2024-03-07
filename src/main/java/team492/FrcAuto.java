@@ -75,8 +75,9 @@ public class FrcAuto implements TrcRobot.RobotMode
 
     public static enum EndAction
     {
-        PARK_STARTING_ZONE,
-        PARK_WING_ZONE,
+        PARK_STARTING_ZONE, // Don't need this
+        PARK_WING_ZONE, // Don't need this
+        PARK_NEAR_CENTERLINE,
         HOARD_ONE_NOTE,
         HOARD_MULTIPLE_NOTES
     }   //enum EndAction

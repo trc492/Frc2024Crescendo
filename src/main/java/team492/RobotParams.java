@@ -144,6 +144,7 @@ public class RobotParams
         -(FIELD_WIDTH / 2.0 + 57.0) + 41.2 + 20.25 / 2.0 * Math.cos(SW_ANGLE_RADIAN),
         17.085 + (ROBOT_LENGTH / 2.0) * Math.cos(SW_ANGLE_RADIAN), 180.0 + 63.5);
 
+
     public static final TrcPose2D[][] startPos =
     {
         {STARTPOS_RED_AMP, STARTPOS_RED_SW_AMP_SIDE, STARTPOS_RED_SW_CENTER, STARTPOS_RED_SW_SOURCE_SIDE},
@@ -152,6 +153,36 @@ public class RobotParams
     //
     // Game element locations and dimensions.
     //
+
+
+    public static final TrcPose2D WINGNOTE_BLUE_AMP_SIDE        = new TrcPose2D(0, 0, 0); // TODO: Determine Numbers
+    public static final TrcPose2D WINGNOTE_BLUE_SW_SIDE        = new TrcPose2D(0, 0, 0); // TODO: Determine Numbers
+    public static final TrcPose2D WINGNOTE_BLUE_SOURCE_SIDE        = new TrcPose2D(0, 0, 0); // TODO: Determine Numbers
+    public static final TrcPose2D WINGNOTE_RED_AMP_SIDE        = new TrcPose2D(0, 0, 0); // TODO: Determine Numbers
+    public static final TrcPose2D WINGNOTE_RED_SW_SIDE        = new TrcPose2D(0, 0, 0); // TODO: Determine Numbers
+    public static final TrcPose2D WINGNOTE_RED_SOURCE_SIDE        = new TrcPose2D(0, 0, 0); // TODO: Determine Numbers
+
+    public static final TrcPose2D[][] wingNotePoses =
+    {
+        {WINGNOTE_RED_AMP_SIDE, WINGNOTE_RED_SW_SIDE, WINGNOTE_RED_SOURCE_SIDE},
+        {WINGNOTE_BLUE_AMP_SIDE, WINGNOTE_BLUE_SW_SIDE, WINGNOTE_BLUE_SOURCE_SIDE},
+
+    };
+
+
+
+    public static final TrcPose2D CENTERLINE_NOTE_1       = new TrcPose2D(0, 0, 0); // TODO: Determine Numbers
+    public static final TrcPose2D CENTERLINE_NOTE_2        = new TrcPose2D(0, 0, 0); // TODO: Determine Numbers
+    public static final TrcPose2D CENTERLINE_NOTE_3        = new TrcPose2D(0, 0, 0); // TODO: Determine Numbers
+    public static final TrcPose2D CENTERLINE_NOTE_4        = new TrcPose2D(0, 0, 0); // TODO: Determine Numbers
+    public static final TrcPose2D CENTERLINE_NOTE_5       = new TrcPose2D(0, 0, 0); // TODO: Determine Numbers
+
+    public static final TrcPose2D[] centerlineNotePoses =
+    {
+        CENTERLINE_NOTE_1, CENTERLINE_NOTE_2, CENTERLINE_NOTE_3, CENTERLINE_NOTE_4, CENTERLINE_NOTE_5
+        
+    };
+
 
     //
     // Joystick ports.
