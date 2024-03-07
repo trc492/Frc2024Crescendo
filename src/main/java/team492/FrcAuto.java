@@ -61,10 +61,10 @@ public class FrcAuto implements TrcRobot.RobotMode
 
     public static enum AutoStartPos
     {
-        AMP(0),
-        SW_AMP_SIDE(1),
-        SW_CENTER(2),
-        SW_SOURCE_SIDE(3);
+        SW_SOURCE_SIDE(0),
+        SW_CENTER(1),
+        SW_AMP_SIDE(2),
+        AMP(3);
         // The value can be used as index into arrays if necessary.
         int value;
         AutoStartPos(int value)
