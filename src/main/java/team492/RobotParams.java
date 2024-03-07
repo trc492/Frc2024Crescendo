@@ -665,12 +665,12 @@ public class RobotParams
         public static final boolean tiltMotorInverted           = true;
         public static final double tiltGearRatio                = 59.0/18.0;
         public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
-        public static final double tiltPosOffset                = -11.0;//-15.0;    // in degrees
-        public static final double tiltZeroOffset               = 0.00; //0.02;     // in raw encoder unit
+        public static final double tiltPosOffset                = -15.0;    // in degrees
+        public static final double tiltZeroOffset               = 0.018;    // in raw encoder unit
         public static final double tiltPowerLimit               = 0.5;
-        public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.028, 0.0, 0.0012, 0.0);
+        public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.023, 0.0, 0.001, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
-        public static final double tiltMinAngle                 = tiltPosOffset;
+        public static final double tiltMinAngle                 = 0.0;
         public static final double tiltMaxAngle                 = 87.0;     // in degrees.
         public static final double tiltAngleMinInc              = 1.0;      // in degrees.
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
@@ -680,7 +680,7 @@ public class RobotParams
         public static final double tiltSpeakerCloseAngle        = 72.0;     // in degrees.
         public static final double tiltSourcePickupAngle        = 88.0;     // in degrees.
 
-        public static final double tiltPresetPosTolerance       = 2.0;      // in degrees.
+        public static final double tiltPresetPosTolerance       = 1.0;      // in degrees.
         public static final double[] tiltPresetPositions        = new double[]
             {tiltTurtleAngle, tiltSpeakerFarAngle, tiltAmpAngle, tiltSpeakerCloseAngle, tiltSourcePickupAngle};
 

@@ -66,6 +66,7 @@ public class Shooter
         tiltMotor.enableUpperLimitSwitch(true);
         tiltMotor.setPositionSensorScaleAndOffset(
             RobotParams.Shooter.tiltPosScale, RobotParams.Shooter.tiltPosOffset, RobotParams.Shooter.tiltZeroOffset);
+        // tiltMotor.resetPositionOnLowerLimitSwitch();
         // We are using software position PID control for Tilt. So we just enable software PID before setting
         // PID coefficients.
         tiltMotor.setSoftwarePidEnabled(true);
