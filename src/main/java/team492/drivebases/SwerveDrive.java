@@ -265,10 +265,10 @@ public class SwerveDrive extends RobotDrive
         }
         else if (driveBaseParams.steerEncoderType.equals(SteerEncoderType.AnalogEncoder))
         {
-            encoders = new FrcAnalogEncoder[names.length];
+            encoders = new TrcEncoder[names.length];
             for (int i = 0; i < names.length; i++)
             {
-                FrcAnalogEncoder analogEncoder = new FrcAnalogEncoder(names[i], encoderIds[i]);
+                TrcEncoder analogEncoder = new FrcAnalogEncoder(names[i], encoderIds[i]).getAbsoluteEncoder();
                 analogEncoder.setInverted(inverted[i]);
                 // Analog Encoder is already normalized to the range of 0 to 1.0 for a revolution
                 // (revolution per count).
