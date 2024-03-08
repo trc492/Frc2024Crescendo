@@ -263,7 +263,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                     double targetAngle = aprilTagId > 2? 120.0: 30.0;
                     Pose3d aprilTagFieldPose3d = robot.photonVisionFront.getAprilTagFieldPose3d(aprilTagId);
                     TrcPose2D targetPose = robot.photonVisionFront.getTargetPoseOffsetFromAprilTag(
-                        aprilTagFieldPose3d, 0.0, -RobotParams.ROBOT_LENGTH / 2.0, targetAngle);
+                        aprilTagFieldPose3d, 0.0, -RobotParams.Robot.LENGTH / 2.0, targetAngle);
                     tracer.traceInfo(
                         moduleName,
                         state + ": RobotFieldPose=" + robotPose +

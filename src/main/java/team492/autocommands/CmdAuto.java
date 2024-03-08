@@ -170,7 +170,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         if(startPos == AutoStartPos.SW_SOURCE_SIDE || startPos == AutoStartPos.SW_AMP_SIDE)
                         {
                             TrcPose2D wingNotePose =
-                                RobotParams.wingNotePoses[0][startPos == AutoStartPos.SW_SOURCE_SIDE? 0: 2].clone();
+                                RobotParams.Game.wingNotePoses[0][startPos == AutoStartPos.SW_SOURCE_SIDE? 0: 2].clone();
                             wingNotePose.y -= 24.0; // TODO: Find Actual Distance
                             wingNotePose.angle = 180.0;
                             robot.robotDrive.purePursuitDrive.start(
@@ -200,14 +200,14 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case PERFORM_END_ACTION:
-                    TrcPose2D centerlineNotePose = RobotParams.centerlineNotePoses[4].clone();
+                    TrcPose2D centerlineNotePose = RobotParams.Game.centerlineNotePoses[4].clone();
                     centerlineNotePose.y -= 24.0; // TODO: Find Actual Distance
                     centerlineNotePose.angle = 180.0;
                     if (startPos == AutoStartPos.SW_SOURCE_SIDE)
                     {
                         robot.robotDrive.purePursuitDrive.start(
                             event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                            robot.adjustPoseByAlliance(RobotParams.WINGNOTE_BLUE_SW_SIDE, alliance),
+                            robot.adjustPoseByAlliance(RobotParams.Game.WINGNOTE_BLUE_SW_SIDE, alliance),
                             robot.adjustPoseByAlliance(centerlineNotePose, alliance));
                     }
                     else

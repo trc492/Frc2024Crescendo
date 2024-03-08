@@ -137,7 +137,7 @@ public class Robot extends FrcRobotBase
      */
     public Robot()
     {
-        super(RobotParams.ROBOT_NAME);
+        super(RobotParams.Robot.NAME);
     }   //Robot
 
     /**
@@ -157,48 +157,49 @@ public class Robot extends FrcRobotBase
     {
         if (RobotParams.Preferences.useDriverXboxController)
         {
-            driverController = new FrcXboxController("DriverController", RobotParams.XBOX_DRIVER_CONTROLLER);
+            driverController = new FrcXboxController("DriverController", RobotParams.HWConfig.XBOX_DRIVER_CONTROLLER);
             driverController.setLeftYInverted(true);
             driverController.setRightYInverted(true);
         }
         else
         {
-            leftDriveStick = new FrcJoystick("DriverLeftStick", RobotParams.JSPORT_DRIVER_LEFTSTICK);
+            leftDriveStick = new FrcJoystick("DriverLeftStick", RobotParams.HWConfig.JSPORT_DRIVER_LEFTSTICK);
             leftDriveStick.setYInverted(true);
-            rightDriveStick = new FrcJoystick("DriverRightStick", RobotParams.JSPORT_DRIVER_RIGHTSTICK);
+            rightDriveStick = new FrcJoystick("DriverRightStick", RobotParams.HWConfig.JSPORT_DRIVER_RIGHTSTICK);
             rightDriveStick.setYInverted(true);
         }
 
         if (RobotParams.Preferences.useOperatorXboxController)
         {
-            operatorController = new FrcXboxController("OperatorController", RobotParams.XBOX_OPERATOR_CONTROLLER);
+            operatorController = new FrcXboxController(
+                "OperatorController", RobotParams.HWConfig.XBOX_OPERATOR_CONTROLLER);
             operatorController.setLeftYInverted(true);
             operatorController.setRightYInverted(true);
         }
         else
         {
-            operatorStick = new FrcJoystick("operatorStick", RobotParams.JSPORT_OPERATORSTICK);
+            operatorStick = new FrcJoystick("operatorStick", RobotParams.HWConfig.JSPORT_OPERATORSTICK);
             operatorStick.setYInverted(false);
         }
 
         if (RobotParams.Preferences.useButtonPanels)
         {
-            buttonPanel = new FrcJoystick("buttonPanel", RobotParams.JSPORT_BUTTON_PANEL);
-            switchPanel = new FrcJoystick("switchPanel", RobotParams.JSPORT_SWITCH_PANEL);
+            buttonPanel = new FrcJoystick("buttonPanel", RobotParams.HWConfig.JSPORT_BUTTON_PANEL);
+            switchPanel = new FrcJoystick("switchPanel", RobotParams.HWConfig.JSPORT_SWITCH_PANEL);
         }
         //
         // Create and initialize sensors.
         //
         if (RobotParams.Preferences.usePdp)
         {
-            pdp = new FrcPdp(RobotParams.CANID_PDP, ModuleType.kRev);
+            pdp = new FrcPdp(RobotParams.HWConfig.CANID_PDP, ModuleType.kRev);
             pdp.setSwitchableChannel(false);
             battery = new FrcRobotBattery(pdp);
         }
 
         if (RobotParams.Preferences.usePressureSensor)
         {
-            pressureSensor = new AnalogInput(RobotParams.AIN_PRESSURE_SENSOR);
+            pressureSensor = new AnalogInput(RobotParams.HWConfig.AIN_PRESSURE_SENSOR);
         }
         //
         // Create and initialize miscellaneous hardware.
@@ -407,7 +408,7 @@ public class Robot extends FrcRobotBase
             double totalEnergy = battery.getTotalEnergy();
             globalTracer.traceInfo(
                 funcName, "TotalEnergy=%.3fWh (%.2f%%)",
-                totalEnergy, totalEnergy * 100.0 / RobotParams.BATTERY_CAPACITY_WATT_HOUR);
+                totalEnergy, totalEnergy * 100.0 / RobotParams.HWConfig.BATTERY_CAPACITY_WATT_HOUR);
         }
 
         if (runMode != RunMode.DISABLED_MODE)
@@ -677,7 +678,7 @@ public class Robot extends FrcRobotBase
         {
             double angleDelta = (newPose.angle - 90.0) * 2.0;
             newPose.angle -= angleDelta;
-            newPose.y = RobotParams.FIELD_LENGTH - newPose.y;
+            newPose.y = RobotParams.Field.LENGTH - newPose.y;
         }
 
         return newPose;

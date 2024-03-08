@@ -395,7 +395,7 @@ public class RobotDrive extends SubsystemBase
         {
             int startPos = FrcAuto.autoChoices.getStartPos().ordinal();
             robotPose = FrcAuto.autoChoices.getAlliance() == Alliance.Blue?
-                RobotParams.startPoses[0][startPos]: RobotParams.startPoses[1][startPos];
+                RobotParams.Game.startPoses[0][startPos]: RobotParams.Game.startPoses[1][startPos];
         }
         else
         {
@@ -462,7 +462,7 @@ public class RobotDrive extends SubsystemBase
         if (alliance == Alliance.Red)
         {
             // no change on x, change y to the opposite side of the field.
-            pose.y = RobotParams.FIELD_LENGTH - pose.y;
+            pose.y = RobotParams.Field.LENGTH - pose.y;
             pose.angle = (pose.angle + 180.0) % 360.0;
         }
 
