@@ -265,7 +265,7 @@ public class RobotParams
     //
     // PWM channels.
     //
-    public static final int NUM_LEDS                            = 30;   //TODO: Need updating
+    public static final int NUM_LEDS                            = 30;
     public static final int PWM_CHANNEL_LED                     = 9;
     //
     // Relay channels.
