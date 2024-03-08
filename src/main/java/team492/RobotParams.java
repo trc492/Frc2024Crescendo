@@ -307,9 +307,9 @@ public class RobotParams
         public static final int BACKCAM_IMAGE_HEIGHT            = 800;      // in pixels
         // Camera location on robot.
         public static final double BACKCAM_X_OFFSET             = 0.0;      // Inches to the right from robot center
-        public static final double BACKCAM_Y_OFFSET             = -4.5;     // Inches forward from robot center
-        public static final double BACKCAM_Z_OFFSET             = 20.5;     // Inches up from the floor
-        public static final double BACKCAM_PITCH                = -22.0;    // degrees up from horizontal
+        public static final double BACKCAM_Y_OFFSET             = -4.25;    // Inches forward from robot center
+        public static final double BACKCAM_Z_OFFSET             = 19.75;    // Inches up from the floor
+        public static final double BACKCAM_PITCH                = -20.5;    // degrees up from horizontal
         public static final double BACKCAM_YAW                  = 180.0;    // degrees clockwise from robot front
         public static final double BACKCAM_ROLL                 = 0.0;
         public static final Transform3d ROBOT_TO_BACKCAM        = new Transform3d(
