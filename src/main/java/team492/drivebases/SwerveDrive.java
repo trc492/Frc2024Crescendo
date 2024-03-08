@@ -118,7 +118,7 @@ public class SwerveDrive extends RobotDrive
         driveBase = new TrcSwerveDriveBase(
             swerveModules[RobotDrive.INDEX_LEFT_FRONT], swerveModules[RobotDrive.INDEX_LEFT_BACK],
             swerveModules[RobotDrive.INDEX_RIGHT_FRONT], swerveModules[RobotDrive.INDEX_RIGHT_BACK],
-            gyro, RobotParams.ROBOT_WHEELBASE_WIDTH, RobotParams.ROBOT_WHEELBASE_LENGTH);
+            gyro, RobotParams.Robot.WHEELBASE_WIDTH, RobotParams.Robot.WHEELBASE_LENGTH);
         driveBase.setOdometryScales(driveBaseParams.DRIVE_INCHES_PER_ROT, driveBaseParams.DRIVE_INCHES_PER_ROT);
 
         if (RobotParams.Preferences.useAntiTipping)
@@ -136,28 +136,28 @@ public class SwerveDrive extends RobotDrive
         {
             robot.pdp.registerEnergyUsed(
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_LFDRIVE_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_LFDRIVE_MOTOR,
                     driveBaseParams.driveMotorNames[RobotDrive.INDEX_LEFT_FRONT]),
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_LBDRIVE_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_LBDRIVE_MOTOR,
                     driveBaseParams.driveMotorNames[RobotDrive.INDEX_LEFT_BACK]),
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_RFDRIVE_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_RFDRIVE_MOTOR,
                     driveBaseParams.driveMotorNames[RobotDrive.INDEX_RIGHT_FRONT]),
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_RBDRIVE_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_RBDRIVE_MOTOR,
                     driveBaseParams.driveMotorNames[RobotDrive.INDEX_RIGHT_BACK]),
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_LFSTEER_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_LFSTEER_MOTOR,
                     driveBaseParams.steerMotorNames[RobotDrive.INDEX_LEFT_FRONT]),
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_LBSTEER_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_LBSTEER_MOTOR,
                     driveBaseParams.steerMotorNames[RobotDrive.INDEX_LEFT_BACK]),
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_RFSTEER_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_RFSTEER_MOTOR,
                     driveBaseParams.steerMotorNames[RobotDrive.INDEX_RIGHT_FRONT]),
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_RBSTEER_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_RBSTEER_MOTOR,
                     driveBaseParams.steerMotorNames[RobotDrive.INDEX_RIGHT_BACK]));
         }
         //
@@ -540,7 +540,7 @@ public class SwerveDrive extends RobotDrive
     public void saveSteeringCalibrationData(double[] steerZeros)
     {
         try (PrintStream out = new PrintStream(new FileOutputStream(
-            RobotParams.TEAM_FOLDER_PATH + "/" + RobotParams.STEER_ZERO_CAL_FILE)))
+            RobotParams.TEAM_FOLDER_PATH + "/" + RobotParams.SwerveDriveBase.STEER_ZERO_CAL_FILE)))
         {
             for (int i = 0; i < driveBaseParams.steerMotorNames.length; i++)
             {
@@ -568,7 +568,7 @@ public class SwerveDrive extends RobotDrive
         String line = null;
 
         try (Scanner in = new Scanner(new FileReader(
-            RobotParams.TEAM_FOLDER_PATH + "/" + RobotParams.STEER_ZERO_CAL_FILE)))
+            RobotParams.TEAM_FOLDER_PATH + "/" + RobotParams.SwerveDriveBase.STEER_ZERO_CAL_FILE)))
         {
             double[] steerZeros = new double[steerMotors.length];
 

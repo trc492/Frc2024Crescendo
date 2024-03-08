@@ -32,19 +32,19 @@ import team492.vision.PhotonVision;
 public class LEDIndicator
 {
     private static final TrcAddressableLED.Pattern aprilTagPattern =        // Green
-        new TrcAddressableLED.Pattern("AprilTag", new FrcColor(0, 63, 0), RobotParams.NUM_LEDS);
+        new TrcAddressableLED.Pattern("AprilTag", new FrcColor(0, 63, 0), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern notePattern =            // Orange
-        new TrcAddressableLED.Pattern("Note", new FrcColor(63, 32, 0), RobotParams.NUM_LEDS);
+        new TrcAddressableLED.Pattern("Note", new FrcColor(63, 32, 0), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern seeNothingPattern = // Red
-        new TrcAddressableLED.Pattern("SeeNothing", new FrcColor(63, 0, 0), RobotParams.NUM_LEDS);
+        new TrcAddressableLED.Pattern("SeeNothing", new FrcColor(63, 0, 0), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern fieldOrientedPattern =   // Cyan
-        new TrcAddressableLED.Pattern("FieldOriented", new FrcColor(0, 63, 63), RobotParams.NUM_LEDS);
+        new TrcAddressableLED.Pattern("FieldOriented", new FrcColor(0, 63, 63), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern robotOrientedPattern =   // Blue
-        new TrcAddressableLED.Pattern("RobotOriented", new FrcColor(0, 0, 63), RobotParams.NUM_LEDS);
+        new TrcAddressableLED.Pattern("RobotOriented", new FrcColor(0, 0, 63), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern inverseOrientedPattern = // Magenta
-        new TrcAddressableLED.Pattern("InverseOriented", new FrcColor(63, 0, 63), RobotParams.NUM_LEDS);
+        new TrcAddressableLED.Pattern("InverseOriented", new FrcColor(63, 0, 63), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern nominalPattern =         // Black
-        new TrcAddressableLED.Pattern("Nominal", new FrcColor(0, 0, 0), RobotParams.NUM_LEDS);
+        new TrcAddressableLED.Pattern("Nominal", new FrcColor(0, 0, 0), RobotParams.HWConfig.NUM_LEDS);
 
     private static final TrcAddressableLED.Pattern[] priorities =
         new TrcAddressableLED.Pattern[]
@@ -67,7 +67,7 @@ public class LEDIndicator
      */
     public LEDIndicator()
     {
-        led = new FrcAddressableLED("LED", RobotParams.NUM_LEDS, RobotParams.PWM_CHANNEL_LED);
+        led = new FrcAddressableLED("LED", RobotParams.HWConfig.NUM_LEDS, RobotParams.HWConfig.PWM_CHANNEL_LED);
         reset();
     }   //LEDIndicator
 

@@ -282,7 +282,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     double targetAngle = taskParams.targetType == TargetType.Amp? 90.0: aprilTagId > 5? 180.0: 0.0;
                     Pose3d aprilTagFieldPose3d = robot.photonVisionFront.getAprilTagFieldPose3d(aprilTagId);
                     TrcPose2D targetPose = robot.photonVisionFront.getTargetPoseOffsetFromAprilTag(
-                        aprilTagFieldPose3d, 0.0, -RobotParams.ROBOT_LENGTH / 2.0, targetAngle);
+                        aprilTagFieldPose3d, 0.0, -RobotParams.Robot.LENGTH / 2.0, targetAngle);
                     tracer.traceInfo(
                         moduleName,
                         state + ": RobotFieldPose=" + robotPose +

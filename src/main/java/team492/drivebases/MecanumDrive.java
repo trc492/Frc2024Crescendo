@@ -60,16 +60,16 @@ public class MecanumDrive extends RobotDrive
         {
             robot.pdp.registerEnergyUsed(
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_LFDRIVE_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_LFDRIVE_MOTOR,
                     driveBaseParams.driveMotorNames[RobotDrive.INDEX_LEFT_FRONT]),
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_LBDRIVE_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_LBDRIVE_MOTOR,
                     driveBaseParams.driveMotorNames[RobotDrive.INDEX_LEFT_BACK]),
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_RFDRIVE_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_RFDRIVE_MOTOR,
                     driveBaseParams.driveMotorNames[RobotDrive.INDEX_RIGHT_FRONT]),
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_RBDRIVE_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_RBDRIVE_MOTOR,
                     driveBaseParams.driveMotorNames[RobotDrive.INDEX_RIGHT_BACK]));
         }
         //

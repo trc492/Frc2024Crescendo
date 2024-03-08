@@ -58,10 +58,10 @@ public class DifferentialDrive extends RobotDrive
         {
             robot.pdp.registerEnergyUsed(
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_LFDRIVE_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_LFDRIVE_MOTOR,
                     driveBaseParams.driveMotorNames[RobotDrive.INDEX_LEFT_FRONT]),
                 new FrcPdp.Channel(
-                    RobotParams.PDP_CHANNEL_RFDRIVE_MOTOR,
+                    RobotParams.HWConfig.PDP_CHANNEL_RFDRIVE_MOTOR,
                     driveBaseParams.driveMotorNames[RobotDrive.INDEX_RIGHT_FRONT]));
         }
         //
