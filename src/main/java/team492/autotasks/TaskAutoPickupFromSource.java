@@ -29,6 +29,7 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcCommonLib.trclib.TrcTrigger.TriggerMode;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import edu.wpi.first.math.geometry.Pose3d;
 import team492.Robot;
@@ -46,6 +47,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
         START,
         FIND_APRILTAG,
         DRIVE_TO_APRILTAG,
+        CHECK_INTAKE_COMPLETION,
         DONE
     }   //enum State
 
@@ -63,6 +65,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
     private final Robot robot;
     private final TrcEvent intakeEvent;
     private final TrcEvent driveEvent;
+    private final TrcEvent gotNoteEvent;
 
     private String currOwner = null;
     private String driveOwner = null;
@@ -83,6 +86,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
         this.robot = robot;
         this.intakeEvent = new TrcEvent(moduleName + "intakeEvent");
         this.driveEvent = new TrcEvent(moduleName + ".driveEvent");
+        this.gotNoteEvent = new TrcEvent(moduleName + ".gotNoteEvent");
     }   //TaskAutoPickupFromSource
 
     /**
@@ -257,6 +261,9 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                 break;
 
             case DRIVE_TO_APRILTAG:
+                sm.addEvent(intakeEvent);
+                robot.intake.registerExitTriggerNotifyEvent(TriggerMode.OnActive, gotNoteEvent);
+                sm.addEvent(gotNoteEvent);
                 if (aprilTagPose != null)
                 {
                     TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
@@ -279,14 +286,32 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                     // Did not detect AprilTag, release drive ownership to let driver to drive manually.
                     robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
                     driveOwner = null;
-                    // Did not detect AprilTag, tell the drivers so they can drive to the source manually.
                     if (robot.ledIndicator != null)
                     {
                         robot.ledIndicator.setPhotonDetectedObject(null);
                     }
                 }
-                sm.addEvent(intakeEvent);
-                sm.waitForEvents(State.DONE, true);
+                sm.waitForEvents(State.CHECK_INTAKE_COMPLETION, true);
+                break;
+
+            case CHECK_INTAKE_COMPLETION:
+                boolean gotNote = robot.intake.hasObject();
+                if (robot.ledIndicator !=null)
+                {
+                    robot.ledIndicator.setIntakeDetectedObject(gotNote);
+                }
+
+                if (gotNote)
+                {
+                    // Got the Note. Release drive ownership early so drivers can drive away.
+                    robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
+                    driveOwner = null;
+                    sm.waitForSingleEvent(intakeEvent, State.DONE, 1.0);
+                }
+                else
+                {
+                    sm.setState(State.DONE);
+                }
                 break;
 
             default:

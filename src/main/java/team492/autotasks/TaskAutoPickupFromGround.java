@@ -29,6 +29,7 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcCommonLib.trclib.TrcTrigger.TriggerMode;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import team492.Robot;
 import team492.RobotParams;
@@ -46,6 +47,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         START,
         DETECT_NOTE, 
         DRIVE_TO_NOTE,
+        CHECK_INTAKE_COMPLETION,
         DONE
     }   //enum State
 
@@ -63,6 +65,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     private final Robot robot;
     private final TrcEvent intakeEvent;
     private final TrcEvent driveEvent;
+    private final TrcEvent gotNoteEvent;
 
     private String currOwner = null;
     private String driveOwner = null;
@@ -82,6 +85,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         this.robot = robot;
         this.intakeEvent = new TrcEvent(moduleName + ".intakeEvent");
         this.driveEvent = new TrcEvent(moduleName + ".driveEvent");
+        this.gotNoteEvent = new TrcEvent(moduleName + ".gotNoteEvent");
     }   //TaskAutoPickupFromGround
 
     /**
@@ -174,6 +178,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     protected void stopSubsystems()
     {
         tracer.traceInfo(moduleName, "Stopping subsystems.");
+        robot.intake.unregisterEntryTriggerNotifyEvent();
         robot.intake.cancel(currOwner);
         robot.robotDrive.cancel(currOwner);
     }   //stopSubsystems
@@ -243,6 +248,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 robot.intake.autoIntakeForward(
                     currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
                 sm.addEvent(intakeEvent);
+                robot.intake.registerEntryTriggerNotifyEvent(TriggerMode.OnActive, gotNoteEvent);
+                sm.addEvent(gotNoteEvent);
                 if (notePose != null)
                 {
                     // We are right in front of the Note, so we don't need full power to approach it.
@@ -257,22 +264,37 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     // Did not detect Note, release drive ownership to let driver to drive manually.
                     robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
                     driveOwner = null;
-                    // Did not detect Note, tell the drivers so they can drive to the source manually.
                     if (robot.ledIndicator != null)
                     {
                         robot.ledIndicator.setPhotonDetectedObject(null);
                     }
                 }
-                sm.waitForEvents(State.DONE, true);
+                sm.waitForEvents(State.CHECK_INTAKE_COMPLETION, true);
+                break;
+
+            case CHECK_INTAKE_COMPLETION:
+                boolean gotNote = robot.intake.hasObject();
+                if (robot.ledIndicator !=null)
+                {
+                    robot.ledIndicator.setIntakeDetectedObject(gotNote);
+                }
+
+                if (gotNote)
+                {
+                    // Got the Note. Release drive ownership early so drivers can drive away.
+                    robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
+                    driveOwner = null;
+                    sm.waitForSingleEvent(intakeEvent, State.DONE, 1.0);
+                }
+                else
+                {
+                    sm.setState(State.DONE);
+                }
                 break;
 
             default:
             case DONE:
                 // Stop task.
-                if (robot.ledIndicator !=null)
-                {
-                    robot.ledIndicator.setIntakeDetectedObject(robot.intake.hasObject());
-                }
                 stopAutoTask(true);
                 break;
         }
