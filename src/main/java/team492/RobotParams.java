@@ -531,9 +531,9 @@ public class RobotParams
         public final double Y_TIPPING_TOLERANCE                 = 10.0;
         public final double Y_TIPPING_SETTLING_TIME             = 0.2;
 
-        public final double ROBOT_MAX_VELOCITY                  = 170.0;    // inches per second
-        public final double ROBOT_MAX_ACCELERATION              = 23000.0;  // inches per second square
-        public final double ROBOT_MAX_TURN_RATE                 = 1450.0;   // degrees per second
+        public final double ROBOT_MAX_VELOCITY                  = 150.0;    // Out of 170.0 inches per second
+        public final double ROBOT_MAX_ACCELERATION              = 750.0;    // Out of 23000.0 inches per second square
+        public final double ROBOT_MAX_TURN_RATE                 = 700.0;    // Out of 1450.0 degrees per second
         public final double ROBOT_VEL_KP                        = 0.0;
         public final double ROBOT_VEL_KI                        = 0.0;
         public final double ROBOT_VEL_KD                        = 0.0;
