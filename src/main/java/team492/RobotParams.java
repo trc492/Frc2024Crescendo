@@ -174,15 +174,15 @@ public class RobotParams
     };
 
     public static final TrcPose2D CENTERLINE_NOTE_1             = new TrcPose2D(
-        -29.64 + 66.0 * 4, FIELD_LENGTH / 2.0, 0.0);
+        -29.64, FIELD_LENGTH / 2.0, 0.0);
     public static final TrcPose2D CENTERLINE_NOTE_2             = new TrcPose2D(
-        -29.64 + 66.0 * 3, FIELD_LENGTH / 2.0, 0);
+        -29.64 - 66.0 * 1, FIELD_LENGTH / 2.0, 0);
     public static final TrcPose2D CENTERLINE_NOTE_3             = new TrcPose2D(
-        -29.64 + 66.0 * 2, FIELD_LENGTH / 2.0, 0);
+        -29.64 - 66.0 * 2, FIELD_LENGTH / 2.0, 0);
     public static final TrcPose2D CENTERLINE_NOTE_4             = new TrcPose2D(
-        -29.64 + 66.0 * 1, FIELD_LENGTH / 2.0, 0);
+        -29.64 - 66.0 * 3, FIELD_LENGTH / 2.0, 0);
     public static final TrcPose2D CENTERLINE_NOTE_5             = new TrcPose2D(
-        -29.64, FIELD_LENGTH / 2.0, 0);
+        -29.64 - 66.0 * 4, FIELD_LENGTH / 2.0, 0);
 
     public static final TrcPose2D[] centerlineNotePoses =
     {
@@ -531,9 +531,9 @@ public class RobotParams
         public final double Y_TIPPING_TOLERANCE                 = 10.0;
         public final double Y_TIPPING_SETTLING_TIME             = 0.2;
 
-        public final double ROBOT_MAX_VELOCITY                  = 150.0;    // Out of 170.0 inches per second
-        public final double ROBOT_MAX_ACCELERATION              = 750.0;    // Out of 23000.0 inches per second square
-        public final double ROBOT_MAX_TURN_RATE                 = 700.0;    // Out of 1450.0 degrees per second
+        public final double ROBOT_MAX_VELOCITY                  = 157.48;   // Out of 171.0 inches per second
+        public final double ROBOT_MAX_ACCELERATION              = 157.48;   // Out of 23000.0 inches per second square
+        public final double ROBOT_MAX_TURN_RATE                 = 180.0;    // Out of 1450.0 degrees per second
         public final double ROBOT_VEL_KP                        = 0.0;
         public final double ROBOT_VEL_KI                        = 0.0;
         public final double ROBOT_VEL_KD                        = 0.0;
