@@ -292,7 +292,7 @@ public class RobotParams
         public static final double FRONTCAM_X_OFFSET            = -2.875;   // Inches to the right from robot center
         public static final double FRONTCAM_Y_OFFSET            = -3.0;     // Inches forward from robot center
         public static final double FRONTCAM_Z_OFFSET            = 23.0;     // Inches up from the floor
-        public static final double FRONTCAM_PITCH               = 30.0;     // degrees up from horizontal
+        public static final double FRONTCAM_PITCH               = 33.0;     // degrees up from horizontal
         public static final double FRONTCAM_YAW                 = 0.0;      // degrees clockwise from robot front
         public static final double FRONTCAM_ROLL                = 0.0;
         public static final Transform3d ROBOT_TO_FRONTCAM       = new Transform3d(
