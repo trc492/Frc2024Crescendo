@@ -254,8 +254,11 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     TrcPose2D robotFieldPose =
                         robot.photonVisionFront.getRobotFieldPose(object, true);
                     // If we see the AprilTag, we can use its location to re-localize the robot.
-                    robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
-                    tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
+                    if (robotFieldPose != null)
+                    {
+                        robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
+                        tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
+                    }
                     sm.setState(State.DRIVE_TO_APRILTAG);
                 }
                 else if (visionExpiredTime == null)
@@ -289,8 +292,10 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                         "\n\taprilTagPose=" + aprilTagPose +
                         "\n\ttargetPose=" + targetPose);
                     // We are right in front of the target, so we don't need full power to approach it.
-                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
-                    robot.robotDrive.purePursuitDrive.start(currOwner, event, 3.0, robotPose, false, targetPose);
+                    robot.robotDrive.purePursuitDrive.start(
+                        currOwner, event, 3.0, robotPose, false,
+                        RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                        targetPose);
                     sm.waitForSingleEvent(event, State.SCORE_NOTE);
                 }
                 else
@@ -307,8 +312,10 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
             case AIM_IN_PLACE:
                 if (aprilTagPose != null)
                 {
-                    robot.robotDrive.pidDrive.setRelativeTarget(
-                        currOwner, 0.0, 0.0, aprilTagPose.angle, true, event, 0.0);
+                    robot.robotDrive.purePursuitDrive.start(
+                        currOwner, event, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                        new TrcPose2D(0.0, 0.0, aprilTagPose.angle));
                     sm.waitForSingleEvent(event, State.SCORE_NOTE);
                 }
                 else
