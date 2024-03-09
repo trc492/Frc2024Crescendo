@@ -130,7 +130,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         {
             currOwner = ownerName;
             driveOwner = ownerName;
-            tracer.traceInfo(moduleName, "Successfully acquired subsystem ownerships.");
+            tracer.traceInfo(moduleName, "Successfully acquired subsystem ownerships for " + ownerName + ".");
         }
         else
         {

@@ -148,7 +148,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
         {
             currOwner = ownerName;
             driveOwner = ownerName;
-            tracer.traceInfo(moduleName, "Successfully acquired subsystem ownerships.");
+            tracer.traceInfo(moduleName, "Successfully acquired subsystem ownerships for " + ownerName + ".");
         }
         else
         {

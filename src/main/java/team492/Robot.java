@@ -295,9 +295,9 @@ public class Robot extends FrcRobotBase
         //
         // Create Auto-Assists.
         //
-        autoScoreNote = new TaskAutoScoreNote(null, this);
-        autoPickupFromGround = new TaskAutoPickupFromGround(null, this);
-        autoPickupFromSource = new TaskAutoPickupFromSource(null, this);
+        autoScoreNote = new TaskAutoScoreNote("AutoScoreNote", this);
+        autoPickupFromGround = new TaskAutoPickupFromGround("AutoPickupGround", this);
+        autoPickupFromSource = new TaskAutoPickupFromSource("AutoPickupSource", this);
         //
         // Create Robot Modes.
         //

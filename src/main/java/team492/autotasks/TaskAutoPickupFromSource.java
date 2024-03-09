@@ -133,7 +133,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
         {
             currOwner = ownerName;
             driveOwner = ownerName;
-            tracer.traceInfo(moduleName, "Successfully acquired subsystem ownerships.");
+            tracer.traceInfo(moduleName, "Successfully acquired subsystem ownerships for " + ownerName + ".");
         }
         else
         {
