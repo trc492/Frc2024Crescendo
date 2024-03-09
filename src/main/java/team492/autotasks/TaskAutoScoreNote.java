@@ -201,7 +201,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
         tracer.traceInfo(moduleName, "Stopping subsystems.");
         robot.intake.cancel(currOwner);
         robot.shooter.cancel(currOwner);
-        robot.robotDrive.cancel(currOwner);
+        robot.robotDrive.cancel(driveOwner);
     }   //stopSubsystems
 
     /**

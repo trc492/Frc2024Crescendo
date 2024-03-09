@@ -187,7 +187,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
         robot.intake.unregisterExitTriggerNotifyEvent();
         robot.shooter.cancel(currOwner);
         robot.intake.cancel(currOwner);
-        robot.robotDrive.cancel(currOwner);
+        robot.robotDrive.cancel(driveOwner);
     }   //stopSubsystems
 
     /**
