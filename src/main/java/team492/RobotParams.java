@@ -423,8 +423,6 @@ public class RobotParams
         public final double DRIVE_KF                            = 0.0;//0.11;     // BaseFalconSwerve: 0.0
         public final double DRIVE_IZONE                         = 5.0;
         public final double DRIVE_TOLERANCE                     = 1.0;
-        public final PidCoefficients driveCoeffs                =
-            new PidCoefficients(DRIVE_KP, DRIVE_KI, DRIVE_KD, DRIVE_KF);
         // Drive Motor Characterization Values From SYSID
         public final double DRIVE_KS                            = 0.32; //TODO: This must be tuned to specific robot
         public final double DRIVE_KV                            = 1.51;
@@ -496,8 +494,9 @@ public class RobotParams
         public final double STEER_KF                            = 0.0;//1023.0 / STEER_MAX_VEL_COUNT_PER_100MS;
         // iZone set to within 5 steering degrees.
         public final double STEER_IZONE                         = 0.0;//5.0 / STEER_DEGREES_PER_COUNT;
-        public final PidCoefficients steerCoeffs                =
+        public final PidCoefficients steerPosCoeffs             =
             new PidCoefficients(STEER_KP, STEER_KI, STEER_KD, STEER_KF, STEER_IZONE);
+        public final double steerPosTolerance                   = 0.5;      // in degrees.
 
         public final double PPD_FOLLOWING_DISTANCE              = 12.0;
         public final double PPD_POS_TOLERANCE                   = 1.0;
@@ -668,9 +667,9 @@ public class RobotParams
         public static final double shooterGearRatio             = 1.0;
         public static final double shooterPosScale              = 1.0 / shooterGearRatio;   // in rot.
         public static final PidCoefficients shooterVelPidCoeff  = new PidCoefficients(0.38, 0.0, 0.000098, 0.120);
+        public static final double shooterVelTolerance          = 3.0;      // in rps.
         public static final double shooterMaxVelocity           = 100.0;    // in rps.
         public static final double shooterMaxAcceleration       = 100.0;    // in rps square.
-        public static final double shooterVelocityTolerance     = 3.0;      // in rps.
         public static final double shooterVelMinInc             = 1.0;      // in rps.
         public static final double shooterVelMaxInc             = 10.0;     // in rps.
         public static final double shooterSpeakerCloseVelocity  = 67.5;     // in rps.

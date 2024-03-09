@@ -49,8 +49,7 @@ public class Climber
         // We are using software position PID control for Climber. So we just enable software PID before setting
         // PID coefficients.
         climberMotor.setSoftwarePidEnabled(true);
-        climberMotor.setPositionPidCoefficients(RobotParams.Climber.posPidCoeff);
-        climberMotor.setPositionPidTolerance(RobotParams.Climber.posPidTolerance);
+        climberMotor.setPositionPidCoefficients(RobotParams.Climber.posPidCoeff, RobotParams.Climber.posPidTolerance);
         climberMotor.setPositionPidPowerComp(this::getClimbPowerComp);
     }   //Climber
 
