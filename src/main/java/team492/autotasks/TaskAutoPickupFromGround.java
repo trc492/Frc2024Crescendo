@@ -270,7 +270,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                         robot.ledIndicator.setPhotonDetectedObject(null);
                     }
                 }
-                sm.waitForEvents(State.CHECK_INTAKE_COMPLETION, true);
+                sm.waitForEvents(State.CHECK_INTAKE_COMPLETION, false);
                 break;
 
             case CHECK_INTAKE_COMPLETION:
@@ -279,10 +279,17 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 {
                     robot.ledIndicator.setIntakeDetectedObject(gotNote);
                 }
+                tracer.traceInfo(
+                    moduleName,
+                    "intakeEvent=" + intakeEvent +
+                    ", gotNoteEvent=" + gotNoteEvent +
+                    ", driveEvent=" + driveEvent +
+                    ", gotNote=" + gotNote);
 
                 if (gotNote)
                 {
                     // Got the Note. Release drive ownership early so drivers can drive away.
+                    robot.robotDrive.purePursuitDrive.cancel(driveOwner);
                     robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
                     driveOwner = null;
                     sm.waitForSingleEvent(intakeEvent, State.DONE, 1.0);

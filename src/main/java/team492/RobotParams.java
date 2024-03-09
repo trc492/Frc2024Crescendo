@@ -673,7 +673,7 @@ public class RobotParams
         public static final double shooterVelocityTolerance     = 3.0;      // in rps.
         public static final double shooterVelMinInc             = 1.0;      // in rps.
         public static final double shooterVelMaxInc             = 10.0;     // in rps.
-        public static final double shooterSpeakerCloseVelocity  = 62.5;     // in rps.
+        public static final double shooterSpeakerCloseVelocity  = 67.5;     // in rps.
         public static final double shooterAmpVelocity           = 20.0;     // in rps.
         public static final double shooterSourcePickupVelocity  = -20.0;    // in rps.
         public static final double shooterPresetVelTolerance    = 5.0;      // in rps.
@@ -695,8 +695,8 @@ public class RobotParams
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
         public static final double tiltTurtleAngle              = 45.0;     // in degrees.
         public static final double tiltSpeakerFarAngle          = 52.0;     // in degrees.
-        public static final double tiltAmpAngle                 = 70.0;     // in degrees.
-        public static final double tiltSpeakerCloseAngle        = 72.0;     // in degrees.
+        public static final double tiltAmpAngle                 = 60.0;     // in degrees.
+        public static final double tiltSpeakerCloseAngle        = 62.5;     // in degrees.
         public static final double tiltSourcePickupAngle        = 88.0;     // in degrees.
 
         public static final double tiltPresetPosTolerance       = 1.0;      // in degrees.
