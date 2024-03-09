@@ -338,7 +338,7 @@ public class SwerveDrive extends RobotDrive
 
             steerMotors[i].setBrakeModeEnabled(false);
             steerMotors[i].setPositionSensorScaleAndOffset(driveBaseParams.STEER_DEGREES_PER_COUNT, 0.0);
-            steerMotors[i].setPositionPidCoefficients(
+            steerMotors[i].setPositionPidParameters(
                 driveBaseParams.steerPosCoeffs, driveBaseParams.steerPosTolerance);
             steerMotors[i].setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
             syncSteerEncoder(i);

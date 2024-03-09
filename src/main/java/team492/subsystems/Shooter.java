@@ -53,7 +53,7 @@ public class Shooter
         shooterMotor.enableMotionProfile(
             RobotParams.Shooter.shooterMaxVelocity, RobotParams.Shooter.shooterMaxAcceleration, 0.0);
         shooterMotor.setPositionSensorScaleAndOffset(RobotParams.Shooter.shooterPosScale, 0.0);
-        shooterMotor.setVelocityPidCoefficients(
+        shooterMotor.setVelocityPidParameters(
             RobotParams.Shooter.shooterVelPidCoeff, RobotParams.Shooter.shooterVelTolerance);
         shooterMotor.setPresets(
             true, RobotParams.Shooter.shooterPresetVelTolerance, RobotParams.Shooter.shooterPresetVelocities);
@@ -71,7 +71,7 @@ public class Shooter
         // We are using software position PID control for Tilt. So we just enable software PID before setting
         // PID coefficients.
         tiltMotor.setSoftwarePidEnabled(true);
-        tiltMotor.setPositionPidCoefficients(
+        tiltMotor.setPositionPidParameters(
             RobotParams.Shooter.tiltPosPidCoeff, RobotParams.Shooter.tiltPosPidTolerance);
         // Tilt is heavily geared down, so don't really need gravity compensation.
         // tiltMotor.setPositionPidPowerComp(this::getTiltGravityComp);
