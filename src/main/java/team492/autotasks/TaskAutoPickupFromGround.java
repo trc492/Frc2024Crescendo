@@ -253,9 +253,10 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 if (notePose != null)
                 {
                     // We are right in front of the Note, so we don't need full power to approach it.
-                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.5);
+                    // robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.5);
                     robot.robotDrive.purePursuitDrive.start(
                         currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
                         notePose, new TrcPose2D(0.0, -10.0, 0.0));
                     sm.addEvent(driveEvent);
                 }

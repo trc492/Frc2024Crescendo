@@ -31,6 +31,8 @@ import team492.vision.PhotonVision;
 
 public class LEDIndicator
 {
+    private static final TrcAddressableLED.Pattern gotNotePattern =         // Green
+        new TrcAddressableLED.Pattern("GotNote", new FrcColor(0, 63, 0), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern aprilTagPattern =        // Green
         new TrcAddressableLED.Pattern("AprilTag", new FrcColor(0, 63, 0), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern notePattern =            // Orange
@@ -137,7 +139,7 @@ public class LEDIndicator
     {
         if (hasObject)
         {
-            led.setPatternState(notePattern, true, 0.5);
+            led.setPatternState(gotNotePattern, true, 0.5);
         }
         else
         {
