@@ -31,16 +31,16 @@ import team492.vision.PhotonVision;
 
 public class LEDIndicator
 {
-    private static final TrcAddressableLED.Pattern gotNotePattern =         // Yellow
-        new TrcAddressableLED.Pattern("GotNote", new FrcColor(63, 63, 0), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern aprilTagPattern =        // Green
         new TrcAddressableLED.Pattern("AprilTag", new FrcColor(0, 63, 0), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern notePattern =            // Orange
-        new TrcAddressableLED.Pattern("Note", new FrcColor(63, 23, 0), RobotParams.HWConfig.NUM_LEDS);
+        new TrcAddressableLED.Pattern("Note", new FrcColor(80, 15, 0), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern seeNothingPattern =      // Red
         new TrcAddressableLED.Pattern("SeeNothing", new FrcColor(63, 0, 0), RobotParams.HWConfig.NUM_LEDS);
-    private static final TrcAddressableLED.Pattern fieldOrientedPattern =   // Cyan
-        new TrcAddressableLED.Pattern("FieldOriented", new FrcColor(0, 63, 63), RobotParams.HWConfig.NUM_LEDS);
+    private static final TrcAddressableLED.Pattern intakeHasNotePattern =   // Cyan
+        new TrcAddressableLED.Pattern("GotNote", new FrcColor(0, 63, 63), RobotParams.HWConfig.NUM_LEDS);
+    private static final TrcAddressableLED.Pattern fieldOrientedPattern =   // White
+        new TrcAddressableLED.Pattern("FieldOriented", new FrcColor(63, 63, 63), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern robotOrientedPattern =   // Blue
         new TrcAddressableLED.Pattern("RobotOriented", new FrcColor(0, 0, 63), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern inverseOrientedPattern = // Magenta
@@ -52,10 +52,10 @@ public class LEDIndicator
         new TrcAddressableLED.Pattern[]
         {
             // Highest priority.
-            gotNotePattern,
             aprilTagPattern,
             notePattern,
             seeNothingPattern,
+            intakeHasNotePattern,
             fieldOrientedPattern,
             robotOrientedPattern,
             inverseOrientedPattern,
@@ -140,11 +140,11 @@ public class LEDIndicator
     {
         if (hasObject)
         {
-            led.setPatternState(gotNotePattern, true, 0.5);
+            led.setPatternState(intakeHasNotePattern, true);
         }
         else
         {
-            led.setPatternState(seeNothingPattern, true, 0.5);
+            led.setPatternState(intakeHasNotePattern, false);
         }
     }   //setIntakeDetectedObject
 

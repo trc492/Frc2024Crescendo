@@ -27,26 +27,27 @@ import TrcCommonLib.trclib.TrcTriggerDigitalInput;
 import TrcCommonLib.trclib.TrcUtil;
 import TrcFrcLib.frclib.FrcCANSparkMax;
 import TrcFrcLib.frclib.FrcDigitalInput;
+import team492.Robot;
 import team492.RobotParams;
 
 public class Intake
 {
     private static final String moduleName = Intake.class.getSimpleName();
 
+    private final Robot robot;
     public final FrcCANSparkMax intakeMotor;
     private final FrcDigitalInput entrySensor, exitSensor;
     private final TrcTriggerDigitalInput entryTrigger, exitTrigger;
     public final TrcIntake intake;
 
-    public Intake()
+    public Intake(Robot robot)
     {
+        this.robot = robot;
         intakeMotor = new FrcCANSparkMax(moduleName + ".motor", RobotParams.Intake.motorCandId, true);
         intakeMotor.resetFactoryDefault();
         intakeMotor.setMotorInverted(RobotParams.Intake.motorInverted);
         intakeMotor.setBrakeModeEnabled(true);
         intakeMotor.setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
-        // intakeMotor.setPositionSensorScaleAndOffset(RobotParams.Intake.posScale, 0.0);
-        // intakeMotor.setPositionPidCoefficients(RobotParams.Intake.posPidCoeff);
 
         entrySensor = new FrcDigitalInput(moduleName + ".entrySensor", RobotParams.Intake.entrySensorChannel);
         entrySensor.setInverted(RobotParams.Intake.entrySensorInverted);
@@ -57,7 +58,8 @@ public class Intake
         exitTrigger = new TrcTriggerDigitalInput(moduleName + ".exitTrigger", exitSensor);
 
         intake = new TrcIntake(
-            moduleName, intakeMotor, new TrcIntake.Trigger(entryTrigger), new TrcIntake.Trigger(exitTrigger));
+            moduleName, intakeMotor, new TrcIntake.Trigger(entryTrigger, this::checkNote),
+            new TrcIntake.Trigger(exitTrigger, this::checkNote));
     }   //Intake
 
     /**
@@ -78,5 +80,18 @@ public class Intake
     {
         return intake;
     }   //getIntake
+
+    /**
+     * This method is called when a trigger occurred to check if we got a Note.
+     *
+     * @param context not used.
+     */
+    private void checkNote(Object context)
+    {
+        if (robot.ledIndicator != null)
+        {
+            robot.ledIndicator.setIntakeDetectedObject(intake.hasObject());
+        }
+    }   //checkNote
 
 }   //class Intake

@@ -275,17 +275,13 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
 
             case CHECK_INTAKE_COMPLETION:
                 boolean gotNote = robot.intake.hasObject();
-                if (robot.ledIndicator !=null)
-                {
-                    robot.ledIndicator.setIntakeDetectedObject(gotNote);
-                }
+
                 tracer.traceInfo(
                     moduleName,
                     "intakeEvent=" + intakeEvent +
                     ", gotNoteEvent=" + gotNoteEvent +
                     ", driveEvent=" + driveEvent +
                     ", gotNote=" + gotNote);
-
                 if (gotNote)
                 {
                     // Got the Note. Release drive ownership early so drivers can drive away.

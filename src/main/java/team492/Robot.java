@@ -255,7 +255,7 @@ public class Robot extends FrcRobotBase
         {
             if (RobotParams.Preferences.useIntake)
             {
-                intake = new Intake().getIntake();
+                intake = new Intake(this).getIntake();
                 if (RobotParams.Preferences.useShooter)
                 {
                     shooter = new Shooter(this::shoot).getShooter();
