@@ -126,11 +126,11 @@ public class LEDIndicator
             switch (pipelineType)
             {
                 case APRILTAG:
-                    led.setPatternState(aprilTagPattern, true);
+                    led.setPatternState(aprilTagPattern, true, 0.5);
                     break;
 
                 case NOTE:
-                    led.setPatternState(notePattern, true);
+                    led.setPatternState(notePattern, true, 0.5);
                     break;
             }
         }
