@@ -90,10 +90,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         //
         // Initialize subsystems for TeleOp mode if necessary.
         //
-        if (robot.robotDrive != null)
-        {
-            robot.robotDrive.driveBase.setDriveOrientation(DriveOrientation.FIELD, true);
-        }
+        robot.setDriveOrientation(DriveOrientation.FIELD, true);
 
         if (RobotParams.Preferences.hybridMode)
         {
@@ -334,11 +331,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     if (robot.robotDrive.driveBase.getDriveOrientation() != DriveOrientation.FIELD)
                     {
-                        robot.robotDrive.driveBase.setDriveOrientation(DriveOrientation.FIELD, true);
+                        robot.setDriveOrientation(DriveOrientation.FIELD, true);
                     }
                     else
                     {
-                        robot.robotDrive.driveBase.setDriveOrientation(DriveOrientation.ROBOT, false);
+                        robot.setDriveOrientation(DriveOrientation.ROBOT, false);
                     }
                 }
                 break;
@@ -682,11 +679,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     if (robot.robotDrive.driveBase.getDriveOrientation() != DriveOrientation.FIELD)
                     {
-                        robot.robotDrive.driveBase.setDriveOrientation(DriveOrientation.FIELD, true);
+                        robot.setDriveOrientation(DriveOrientation.FIELD, true);
                     }
                     else
                     {
-                        robot.robotDrive.driveBase.setDriveOrientation(DriveOrientation.ROBOT, false);
+                        robot.setDriveOrientation(DriveOrientation.ROBOT, false);
                     }
                 }
                 break;
@@ -696,7 +693,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 if (robot.robotDrive != null &&
                     robot.robotDrive.driveBase.getDriveOrientation() == DriveOrientation.ROBOT)
                 {
-                    robot.robotDrive.driveBase.setDriveOrientation(
+                    robot.setDriveOrientation(
                         pressed? DriveOrientation.INVERTED: DriveOrientation.ROBOT, false);
                 }
                 break;

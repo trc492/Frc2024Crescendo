@@ -36,6 +36,7 @@ import TrcCommonLib.trclib.TrcShooter;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcCommonLib.trclib.TrcVisionTargetInfo;
+import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcCommonLib.trclib.TrcTaskMgr.TaskType;
 import TrcFrcLib.frclib.FrcDashboard;
@@ -646,6 +647,24 @@ public class Robot extends FrcRobotBase
             TrcDbgTrace.setTraceLogEnabled(enabled);
         }
     }   //setTraceLogEnabled
+
+    /**
+     * This method sets the drive orientation mode and update the LEDs if necessary.
+     *
+     * @param orientation specifies the drive orientation.
+     * @param resetHeading specifies true to also reset the robot heading, only valid for FIELD mode.
+     */
+    public void setDriveOrientation(DriveOrientation orientation, boolean resetHeading)
+    {
+        if (robotDrive != null)
+        {
+            robotDrive.driveBase.setDriveOrientation(orientation, resetHeading);
+            if (ledIndicator != null)
+            {
+                ledIndicator.setDriveOrientation(orientation);
+            }
+        }
+    }   //setDriveOrientation
 
     /**
      * This method is called by TrcShooter to shoot an object.
