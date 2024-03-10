@@ -364,26 +364,43 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_Y:
-                if (robot.robotDrive != null && pressed)
+                // if (robot.robotDrive != null && pressed)
+                // {
+                //     boolean gyroAssistEnabled = !robot.robotDrive.driveBase.isGyroAssistEnabled();
+                //     robot.robotDrive.driveBase.setGyroAssistEnabled(
+                //         gyroAssistEnabled? robot.robotDrive.pidDrive.getTurnPidCtrl(): null);
+                // }
+                if (robot.intake != null && robot.shooter != null && pressed)
                 {
-                    boolean gyroAssistEnabled = !robot.robotDrive.driveBase.isGyroAssistEnabled();
-                    robot.robotDrive.driveBase.setGyroAssistEnabled(
-                        gyroAssistEnabled? robot.robotDrive.pidDrive.getTurnPidCtrl(): null);
+                    boolean autoAssistActive = !robot.autoScoreNote.isActive();
+                    if (autoAssistActive)
+                    {
+                        // Press and hold altFunc to not use vision.
+                        robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !driverAltFunc, true, null);
+                        // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
+                        // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
+                    }
+                    else
+                    {
+                        robot.autoAssistCancel();
+                        // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
+                        // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
+                    }
                 }
                 break;
 
             case FrcXboxController.LEFT_BUMPER:
                 driverAltFunc = pressed;
-                if (pressed)
-                {
-                    driveSpeedScale = RobotParams.DRIVE_SLOW_SCALE;
-                    turnSpeedScale = RobotParams.TURN_SLOW_SCALE;
-                }
-                else
-                {
-                    driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
-                    turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
-                }
+                // if (pressed)
+                // {
+                //     driveSpeedScale = RobotParams.DRIVE_SLOW_SCALE;
+                //     turnSpeedScale = RobotParams.TURN_SLOW_SCALE;
+                // }
+                // else
+                // {
+                //     driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
+                //     turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
+                // }
                 break;
 
             case FrcXboxController.RIGHT_BUMPER:
@@ -433,23 +450,24 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         switch (button)
         {
             case FrcXboxController.BUTTON_A:
-                // if (robot.intake != null && robot.shooter != null && pressed)
-                // {
-                //     boolean autoAssistActive = !robot.autoScoreNote.isActive();
-                //     if (autoAssistActive)
-                //     {
-                //         // Press and hold altFunc to not use vision.
-                //         robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !operatorAltFunc, true, null);
-                //         // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
-                //         // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
-                //     }
-                //     else
-                //     {
-                //         robot.autoAssistCancel();
-                //         // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
-                //         // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
-                //     }
-                // }
+                // Shoot at Speaker.
+                if (robot.intake != null && robot.shooter != null && pressed)
+                {
+                    boolean autoAssistActive = !robot.autoScoreNote.isActive();
+                    if (autoAssistActive)
+                    {
+                        // Press and hold altFunc to not use vision.
+                        //robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, null);
+                        robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
+                        robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
+                    }
+                    else
+                    {
+                        //robot.autoScoreNote.autoAssistCancel();
+                        robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
+                        robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
+                    }
+                }
                 break;
 
             case FrcXboxController.BUTTON_B:
@@ -495,22 +513,21 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_Y:
-                // Shoot at Speaker.
                 if (robot.intake != null && robot.shooter != null && pressed)
                 {
                     boolean autoAssistActive = !robot.autoScoreNote.isActive();
                     if (autoAssistActive)
                     {
                         // Press and hold altFunc to not use vision.
-                        robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, null);
-                        //robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
-                        //robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
+                        robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !operatorAltFunc, true, null);
+                        // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
+                        // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
                     }
                     else
                     {
-                        robot.autoScoreNote.autoAssistCancel();
-                        //robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
-                        //robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
+                        robot.autoAssistCancel();
+                        // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
+                        // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
                     }
                 }
                 break;

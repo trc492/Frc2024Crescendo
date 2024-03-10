@@ -27,6 +27,7 @@ import java.util.Locale;
 import TrcCommonLib.command.CmdPidDrive;
 import TrcCommonLib.command.CmdPurePursuitDrive;
 import TrcCommonLib.command.CmdTimedDrive;
+import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
@@ -34,6 +35,7 @@ import TrcFrcLib.frclib.FrcChoiceMenu;
 import TrcFrcLib.frclib.FrcMatchInfo;
 import TrcFrcLib.frclib.FrcUserChoices;
 import edu.wpi.first.wpilibj.DriverStation;
+import team492.autocommands.CmdAuto;
 import team492.commandbased.exampleAuto;
 
 /**
@@ -330,6 +332,13 @@ public class FrcAuto implements TrcRobot.RobotMode
         //
         switch (autoChoices.getStrategy())
         {
+            case CRESCENDO_AUTO:
+                if (robot.robotDrive != null)
+                {
+                    autoCommand = new CmdAuto(robot, autoChoices);
+                }
+                break;
+
             case HYBRID_MODE_AUTO:
                 robot.m_autonomousCommand = new exampleAuto(robot.robotDrive);
                 // schedule the autonomous command (example)

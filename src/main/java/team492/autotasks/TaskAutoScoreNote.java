@@ -229,7 +229,8 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 {
                     tracer.traceInfo(moduleName, "Using AprilTag Vision.");
                     // Get the Tilter out of the way of the camera.
-                    robot.shooter.setTiltAngle(currOwner, RobotParams.Shooter.tiltTurtleAngle);
+                    robot.shooter.setTiltAngle(currOwner, RobotParams.Shooter.tiltTurtleAngle, null, 0.0);
+                    //sm.waitForSingleEvent(event, State.FIND_APRILTAG);
                     sm.setState(State.FIND_APRILTAG);
                 }
                 else
@@ -253,20 +254,20 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     tracer.traceInfo(
                         moduleName, "Vision found AprilTag %d at %s from camera.", aprilTagId, aprilTagPose);
                     // Relocalize.
-                    TrcPose2D robotFieldPose =
-                        robot.photonVisionFront.getRobotFieldPose(object, true);
-                    // If we see the AprilTag, we can use its location to re-localize the robot.
-                    if (robotFieldPose != null)
-                    {
-                        robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
-                        tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
-                    }
+                    // TrcPose2D robotFieldPose =
+                    //     robot.photonVisionFront.getRobotFieldPose(object, true);
+                    // // If we see the AprilTag, we can use its location to re-localize the robot.
+                    // if (robotFieldPose != null)
+                    // {
+                    //     robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
+                    //     tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
+                    // }
                     sm.setState(State.DRIVE_TO_APRILTAG);
                 }
                 else if (visionExpiredTime == null)
                 {
                     // Can't find AprilTag, set a timeout and try again.
-                    visionExpiredTime = TrcTimer.getCurrentTime() + 1.0;
+                    visionExpiredTime = TrcTimer.getCurrentTime() + 3.0;//1.0;
                 }
                 else if (TrcTimer.getCurrentTime() >= visionExpiredTime)
                 {
