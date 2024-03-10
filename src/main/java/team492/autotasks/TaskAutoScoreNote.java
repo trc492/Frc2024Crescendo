@@ -313,7 +313,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 if (aprilTagPose != null)
                 {
                     robot.robotDrive.purePursuitDrive.start(
-                        currOwner, event, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        currOwner, event, 0.5, robot.robotDrive.driveBase.getFieldPosition(), true,
                         RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
                         new TrcPose2D(0.0, 0.0, aprilTagPose.angle));
                     sm.waitForSingleEvent(event, State.SCORE_NOTE);
@@ -342,6 +342,8 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                             // Use vision distance to look up shooter parameters.
                             ShootParamTable.Params shootParams =
                                 RobotParams.Shooter.speakerShootParamTable.get(aprilTagPose.y);
+                            tracer.traceInfo(
+                                moduleName, "ShootParams: distance=" + aprilTagPose.y + ", params=" + shootParams);
                             shooterVel = shootParams.shooterVelocity;
                             tiltAngle = shootParams.tiltAngle;
                         }
