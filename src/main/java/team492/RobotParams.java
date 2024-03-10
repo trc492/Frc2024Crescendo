@@ -64,7 +64,7 @@ public class RobotParams
         public static final boolean hybridMode                  = false;
         public static final boolean useTraceLog                 = true;
         // Status Update
-        public static final boolean doStatusUpdate              = true;
+        public static final boolean doStatusUpdate              = !inCompetition;
         public static final boolean showLoopTime                = false;
         public static final boolean showPowerConsumption        = false;
         public static final boolean showDriveBase               = false;
