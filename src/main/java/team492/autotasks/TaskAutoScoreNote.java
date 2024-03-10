@@ -314,6 +314,8 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
             case AIM_IN_PLACE:
                 if (aprilTagPose != null)
                 {
+                    // If we are up against the subwoofer, PurePursuitDrive will get stuck. Set a timeout to get out
+                    // of this situation.
                     robot.robotDrive.purePursuitDrive.start(
                         currOwner, event, 0.5, robot.robotDrive.driveBase.getFieldPosition(), true,
                         RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
@@ -362,7 +364,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                         tiltAngle = RobotParams.Shooter.tiltAmpAngle;
                         break;
                 }
-                robot.shooter.aimShooter(currOwner, shooterVel, tiltAngle, 0.0, event, 0.0, robot::shoot);
+                robot.shooter.aimShooter(currOwner, shooterVel, tiltAngle, 0.0, event, 0.0, robot::shoot, 1.0);
                 sm.waitForSingleEvent(event, State.DONE);
                 break;
 

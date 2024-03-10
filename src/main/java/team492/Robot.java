@@ -131,7 +131,6 @@ public class Robot extends FrcRobotBase
     public TaskAutoScoreNote autoScoreNote;
     public TaskAutoPickupFromGround autoPickupFromGround;
     public TaskAutoPickupFromSource autoPickupFromSource;
-    private final TrcTimer shooterFinishDelayTimer = new TrcTimer("ShooterDelayFinish");
 
     /**
      * Constructor: Create an instance of the object.
@@ -660,14 +659,8 @@ public class Robot extends FrcRobotBase
         shooter.tracer.traceDebug(
             intake.toString(), "owner=" + owner + ", power=" + RobotParams.Intake.ejectForwardPower +
             ", event=" + completionEvent);
-        intake.autoEjectForward(owner, 0.0, RobotParams.Intake.ejectForwardPower, 0.0, null, 0.0);
-        shooterFinishDelayTimer.set(1.0, this::shooterFinishTimeout, completionEvent);
+        intake.autoEjectForward(owner, 0.0, RobotParams.Intake.ejectForwardPower, 0.0, completionEvent, 0.0);
     }   //shoot
-
-    private void shooterFinishTimeout(Object context)
-    {
-        ((TrcEvent) context).signal();
-    }   //shooterFinishTimeout
 
     /**
      * This method is called to cancel all pending auto-assist operations and release the ownership of all subsystems.
