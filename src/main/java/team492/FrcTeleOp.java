@@ -27,8 +27,10 @@ import java.util.Arrays;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
+import TrcFrcLib.frclib.FrcCANSparkMax;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcXboxController;
+import team492.autotasks.TaskAutoScoreNote.TargetType;
 
 /**
  * This class implements the code to run in TeleOp Mode.
@@ -42,7 +44,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     //
     protected final Robot robot;
     private boolean controlsEnabled = false;
-    protected boolean altFunc = false;
+    protected boolean driverAltFunc = false;
+    protected boolean operatorAltFunc = false;
     // DriveBase subsystem.
     private double driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
     private double turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
@@ -354,7 +357,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (autoAssistActive)
                     {
                         // Press and hold altFunc to not use vision.
-                        robot.autoPickupFromGround.autoAssistPickup(!altFunc, null);
+                        robot.autoPickupFromGround.autoAssistPickup(!driverAltFunc, null);
                     }
                     else
                     {
@@ -373,6 +376,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.LEFT_BUMPER:
+                driverAltFunc = pressed;
                 if (pressed)
                 {
                     driveSpeedScale = RobotParams.DRIVE_SLOW_SCALE;
@@ -432,37 +436,44 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         switch (button)
         {
             case FrcXboxController.BUTTON_A:
-                // Intake from ground.
-                if (robot.intake != null && pressed)
+                // if (robot.intake != null && robot.shooter != null && pressed)
+                // {
+                //     boolean autoAssistActive = !robot.autoScoreNote.isActive();
+                //     if (autoAssistActive)
+                //     {
+                //         // Press and hold altFunc to not use vision.
+                //         robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !operatorAltFunc, true, null);
+                //         // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
+                //         // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
+                //     }
+                //     else
+                //     {
+                //         robot.autoAssistCancel();
+                //         // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
+                //         // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
+                //     }
+                // }
+                break;
+
+            case FrcXboxController.BUTTON_B:
+                // Intake from source.
+                if (robot.intake != null && robot.shooter != null && pressed)
                 {
-                    boolean autoAssistActive = !robot.autoPickupFromGround.isActive();
+                    boolean autoAssistActive = !robot.autoPickupFromSource.isActive();
                     if (autoAssistActive)
                     {
                         // Press and hold altFunc to not use vision.
-                        robot.autoPickupFromGround.autoAssistPickup(!altFunc, null);
+                        robot.autoPickupFromSource.autoAssistPickup(!operatorAltFunc, null);
                     }
                     else
                     {
                         robot.autoAssistCancel();
                     }
                 }
-                break;
-
-            case FrcXboxController.BUTTON_B:
-                // Intake from source.
-                // if (robot.intake != null && robot.shooter != null && pressed)
+                // if (robot.intake != null)
                 // {
-                //     boolean autoAssistActive = !robot.autoPickupFromSource.isActive();
-                //     if (autoAssistActive)
-                //     {
-                //         // Press and hold altFunc to not use vision.
-                //         robot.autoPickupFromSource.autoAssistPickup(!altFunc, null);
-                //     }
-                //     else
-                //     {
-                //         robot.autoAssistCancel();
-                //     }
-                // }
+                //     robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                // }               
                 break;
 
             case FrcXboxController.BUTTON_X:
@@ -473,15 +484,15 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (autoAssistActive)
                     {
                         // Press and hold altFunc to not use vision.
-                        // robot.autoScoreNote.autoAssistScore(TargetType.Amp, !altFunc, altFunc, null);
-                        robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
-                        robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
+                        robot.autoScoreNote.autoAssistScore(TargetType.Amp, !operatorAltFunc, operatorAltFunc, null);
+                        // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
+                        // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
                     }
                     else
                     {
-                        // robot.autoAssistCancel();
-                        robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
-                        robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
+                        robot.autoAssistCancel();
+                        // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
+                        // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
                     }
                 }
                 break;
@@ -494,29 +505,29 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (autoAssistActive)
                     {
                         // Press and hold altFunc to not use vision.
-                        // robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !altFunc, true, null);
-                        robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
-                        robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
+                        robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, null);
+                        //robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
+                        //robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
                     }
                     else
                     {
-                        // robot.autoAssistCancel();
-                        robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
-                        robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
+                        robot.autoScoreNote.autoAssistCancel();
+                        //robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
+                        //robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
                     }
                 }
                 break;
 
             case FrcXboxController.LEFT_BUMPER:
-                altFunc = pressed;
+                operatorAltFunc = pressed;
                 if (robot.shooter != null)
                 {
-                    robot.shooter.setManualOverrideEnabled(altFunc);
+                    robot.shooter.setManualOverrideEnabled(operatorAltFunc);
                 }
 
                 if (robot.climber != null)
                 {
-                    robot.climber.setManualOverrideEnabled(altFunc);
+                    robot.climber.setManualOverrideEnabled(operatorAltFunc);
                 }
                 break;
 
@@ -529,46 +540,44 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.DPAD_UP:
-                if (robot.shooter != null && pressed)
+                // Intake from ground with vision.
+                if (robot.intake != null && pressed)
                 {
-                    if (altFunc)
+                    boolean autoAssistActive = !robot.autoPickupFromGround.isActive();
+                    if (autoAssistActive)
                     {
-                        robot.shooter.shooterMotor.presetVelocityUp(null);
+                        // Press and hold altFunc to not use vision.
+                        robot.autoPickupFromGround.autoAssistPickup(true, null);
                     }
                     else
                     {
-                        robot.shooter.tiltMotor.presetPositionUp(null, RobotParams.Shooter.tiltPowerLimit);
+                        robot.autoAssistCancel();
                     }
                 }
                 break;
 
             case FrcXboxController.DPAD_DOWN:
-                if (robot.shooter != null && pressed)
+                // Intake from ground with no vision (aka manual pickup).
+                if (robot.intake != null && pressed)
                 {
-                    if (altFunc)
+                    boolean autoAssistActive = !robot.autoPickupFromGround.isActive();
+                    if (autoAssistActive)
                     {
-                        robot.shooter.shooterMotor.presetVelocityDown(null);
+                        // Press and hold altFunc to not use vision.
+                        robot.autoPickupFromGround.autoAssistPickup(false, null);
                     }
                     else
                     {
-                        robot.shooter.tiltMotor.presetPositionDown(null, RobotParams.Shooter.tiltPowerLimit);
+                        robot.autoAssistCancel();
                     }
                 }
                 break;
 
             case FrcXboxController.DPAD_LEFT:
-                if (robot.intake != null)
-                {
-                    robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
-                }
                 break;
 
+
             case FrcXboxController.DPAD_RIGHT:
-                // TODO: Code review: Why is this duplicating DPAP_LEFT???
-                if (robot.intake != null)
-                {
-                    robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
-                }
                 break;
 
             case FrcXboxController.BACK:

@@ -631,7 +631,7 @@ public class FrcTest extends FrcTeleOp
                 case FrcXboxController.DPAD_UP:
                     if (pressed && robot.shooter != null)
                     {
-                        if (altFunc)
+                        if (operatorAltFunc)
                         {
                             robot.shooter.setShooterVelocity(robot.shooterVelocity.upValue());
                         }
@@ -646,7 +646,7 @@ public class FrcTest extends FrcTeleOp
                 case FrcXboxController.DPAD_DOWN:
                     if (pressed && robot.shooter != null)
                     {
-                        if (altFunc)
+                        if (operatorAltFunc)
                         {
                             robot.shooter.setShooterVelocity(robot.shooterVelocity.downValue());
                         }
@@ -661,7 +661,7 @@ public class FrcTest extends FrcTeleOp
                 case FrcXboxController.DPAD_LEFT:
                     if (pressed && robot.shooter != null)
                     {
-                        if (altFunc)
+                        if (operatorAltFunc)
                         {
                             robot.shooterVelocity.upIncrement();
                         }
@@ -676,7 +676,7 @@ public class FrcTest extends FrcTeleOp
                 case FrcXboxController.DPAD_RIGHT:
                     if (pressed && robot.shooter != null)
                     {
-                        if (altFunc)
+                        if (operatorAltFunc)
                         {
                             robot.shooterVelocity.downIncrement();
                         }
