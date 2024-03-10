@@ -454,17 +454,18 @@ public class RobotParams
         public final double ROBOT_VEL_KP                        = 0.0;
         public final double ROBOT_VEL_KI                        = 0.0;
         public final double ROBOT_VEL_KD                        = 0.0;
-        // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance), units: sec./in.
+        // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance),
+        // units: sec./in.
         public final double ROBOT_VEL_KF                        = 1.0 / ROBOT_MAX_VELOCITY;
 
         public final double DRIVE_MAX_XPID_POWER                = 0.5;
-        public final double DRIVE_MAX_XPID_RAMP_RATE            = 0.5;  // percentPower per sec
+        public final double DRIVE_MAX_XPID_RAMP_RATE            = 0.5;      // percentPower per sec
 
         public final double DRIVE_MAX_YPID_POWER                = 0.6;
-        public final double DRIVE_MAX_YPID_RAMP_RATE            = 0.5;  // percentPower per sec
+        public final double DRIVE_MAX_YPID_RAMP_RATE            = 0.5;      // percentPower per sec
 
         public final double DRIVE_MAX_TURNPID_POWER             = 1.0;
-        public final double DRIVE_MAX_TURNPID_RAMP_RATE         = 1.0;  // percentPower per sec
+        public final double DRIVE_MAX_TURNPID_RAMP_RATE         = 1.0;      // percentPower per sec
 
         // Applicable only for Swerve Drive.
         public final double CANCODER_CPR                        = 4096.0;
@@ -491,9 +492,9 @@ public class RobotParams
         public final double STEER_KI                            = 0.0;
         public final double STEER_KD                            = 0.0;
         // kF set to Motion Magic recommendation.
-        public final double STEER_KF                            = 0.0;//1023.0 / STEER_MAX_VEL_COUNT_PER_100MS;
+        public final double STEER_KF                            = 0.0;
         // iZone set to within 5 steering degrees.
-        public final double STEER_IZONE                         = 0.0;//5.0 / STEER_DEGREES_PER_COUNT;
+        public final double STEER_IZONE                         = 0.0;
         public final PidCoefficients steerPosCoeffs             =
             new PidCoefficients(STEER_KP, STEER_KI, STEER_KD, STEER_KF, STEER_IZONE);
         public final double steerPosTolerance                   = 0.5;      // in degrees.
