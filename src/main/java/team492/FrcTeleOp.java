@@ -579,6 +579,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.START:
+                if (robot.shooter != null && pressed)
+                {
+                    ((FrcCANSparkMax) robot.shooter.tiltMotor).resetMotorPosition(false);
+                }
                 break;
 
             case FrcXboxController.LEFT_STICK_BUTTON:
