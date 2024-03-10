@@ -59,8 +59,8 @@ public class RobotParams
     public static class Preferences
     {
         // Global config
-        public static RobotType robotType                       = RobotType.SwerveRobot;
-        public static boolean inCompetition                     = false;
+        public static final RobotType robotType                 = RobotType.SwerveRobot;
+        public static final boolean inCompetition               = false;
         public static final boolean hybridMode                  = false;
         public static final boolean useTraceLog                 = true;
         // Status Update
@@ -307,12 +307,12 @@ public class RobotParams
         public static final double FRONTCAM_PITCH               = 33.0;     // degrees up from horizontal
         public static final double FRONTCAM_YAW                 = 0.0;      // degrees clockwise from robot front
         public static final double FRONTCAM_ROLL                = 0.0;
-        public static final Transform3d ROBOT_TO_FRONTCAM       = new Transform3d(
+        public static final Transform3d robotToFrontCam         = new Transform3d(
             new Translation3d(Units.inchesToMeters(FRONTCAM_Y_OFFSET), -Units.inchesToMeters(FRONTCAM_X_OFFSET),
                               Units.inchesToMeters(FRONTCAM_Z_OFFSET)),
             new Rotation3d(Units.degreesToRadians(FRONTCAM_ROLL), Units.degreesToRadians(-FRONTCAM_PITCH),
                            Units.degreesToRadians(-FRONTCAM_YAW)));
-        public static final TrcPose2D ROBOT_TO_FRONTCAM_POSE    = new TrcPose2D(
+        public static final TrcPose2D robotToFrontCamPose       = new TrcPose2D(
             FRONTCAM_X_OFFSET, FRONTCAM_Y_OFFSET, FRONTCAM_YAW);
 
         public static final int BACKCAM_IMAGE_WIDTH             = 1280;     // in pixels
@@ -324,12 +324,12 @@ public class RobotParams
         public static final double BACKCAM_PITCH                = -20.5;    // degrees up from horizontal
         public static final double BACKCAM_YAW                  = 180.0;    // degrees clockwise from robot front
         public static final double BACKCAM_ROLL                 = 0.0;
-        public static final Transform3d ROBOT_TO_BACKCAM        = new Transform3d(
+        public static final Transform3d robotToBackCam          = new Transform3d(
             new Translation3d(Units.inchesToMeters(BACKCAM_Y_OFFSET), -Units.inchesToMeters(BACKCAM_X_OFFSET),
                               Units.inchesToMeters(BACKCAM_Z_OFFSET)),
             new Rotation3d(Units.degreesToRadians(BACKCAM_ROLL), Units.degreesToRadians(-BACKCAM_PITCH),
             Units.degreesToRadians(-BACKCAM_YAW)));
-        public static final TrcPose2D ROBOT_TO_BACKCAM_POSE    = new TrcPose2D(
+        public static final TrcPose2D robotToBackCamPose        = new TrcPose2D(
             BACKCAM_X_OFFSET, BACKCAM_Y_OFFSET, BACKCAM_YAW);
         // Camera: Logitech C310 (not used)
         public static final double WEBCAM_FX                    = 821.993;  // in pixels
@@ -420,11 +420,11 @@ public class RobotParams
         public final double DRIVE_KP                            = 0.017;    // BaseFalconSwerve: 0.12
         public final double DRIVE_KI                            = 0.0;
         public final double DRIVE_KD                            = 0.0025;
-        public final double DRIVE_KF                            = 0.0;//0.11;     // BaseFalconSwerve: 0.0
+        public final double DRIVE_KF                            = 0.0;      // BaseFalconSwerve: 0.11
         public final double DRIVE_IZONE                         = 5.0;
         public final double DRIVE_TOLERANCE                     = 1.0;
         // Drive Motor Characterization Values From SYSID
-        public final double DRIVE_KS                            = 0.32; //TODO: This must be tuned to specific robot
+        public final double DRIVE_KS                            = 0.32;     //TODO: This must be tuned to specific robot
         public final double DRIVE_KV                            = 1.51;
         public final double DRIVE_KA                            = 0.27;
 
@@ -557,9 +557,9 @@ public class RobotParams
         public final double TURN_IZONE                          = 10.0;
         public final double TURN_TOLERANCE                      = 2.0;
 
-        public final double ROBOT_MAX_VELOCITY                  = 177.1654; // inches per second
-        public final double ROBOT_MAX_ACCELERATION              = 799.1;
-        public final double ROBOT_MAX_TURN_RATE                 = 572.9578;
+        public static final double ROBOT_MAX_VELOCITY           = 177.1654; // inches per second
+        public static final double ROBOT_MAX_ACCELERATION       = 799.1;
+        public static final double ROBOT_MAX_TURN_RATE          = 572.9578;
         public final double ROBOT_VEL_KP                        = 0.0;
         public final double ROBOT_VEL_KI                        = 0.0;
         public final double ROBOT_VEL_KD                        = 0.0;
@@ -603,9 +603,9 @@ public class RobotParams
         public final double TURN_IZONE                          = 10.0;
         public final double TURN_TOLERANCE                      = 2.0;
 
-        public final double ROBOT_MAX_VELOCITY                  = 177.1654; // inches per second
-        public final double ROBOT_MAX_ACCELERATION              = 799.1;
-        public final double ROBOT_MAX_TURN_RATE                 = 572.9578;
+        public static final double ROBOT_MAX_VELOCITY           = 177.1654; // inches per second
+        public static final double ROBOT_MAX_ACCELERATION       = 799.1;
+        public static final double ROBOT_MAX_TURN_RATE          = 572.9578;
         public final double ROBOT_VEL_KP                        = 0.0;
         public final double ROBOT_VEL_KI                        = 0.0;
         public final double ROBOT_VEL_KD                        = 0.0;

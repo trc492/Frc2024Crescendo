@@ -214,10 +214,10 @@ public class Robot extends FrcRobotBase
             if (RobotParams.Preferences.usePhotonVision)
             {
                 photonVisionFront = new PhotonVision(
-                    "OV9281", RobotParams.Vision.ROBOT_TO_FRONTCAM, RobotParams.Vision.ROBOT_TO_FRONTCAM_POSE,
+                    "OV9281", RobotParams.Vision.robotToFrontCam, RobotParams.Vision.robotToFrontCamPose,
                     ledIndicator);
                 photonVisionBack = new PhotonVision(
-                    "OV9782", RobotParams.Vision.ROBOT_TO_BACKCAM, RobotParams.Vision.ROBOT_TO_BACKCAM_POSE,
+                    "OV9782", RobotParams.Vision.robotToBackCam, RobotParams.Vision.robotToBackCamPose,
                     ledIndicator);
             }
 
