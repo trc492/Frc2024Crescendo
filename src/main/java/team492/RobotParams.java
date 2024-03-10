@@ -99,7 +99,7 @@ public class RobotParams
     }   //class Preferences
 
     public static final String TEAM_FOLDER_PATH                 = "/home/lvuser/trc492";
-    public static final double DASHBOARD_UPDATE_INTERVAL        = 0.1;          // in msec
+    public static final double DASHBOARD_UPDATE_INTERVAL        = 0.1;      // in msec
 
     public static class Field
     {
