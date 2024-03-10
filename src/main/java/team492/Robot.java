@@ -642,13 +642,16 @@ public class Robot extends FrcRobotBase
     /**
      * This method is called by TrcShooter to shoot an object.
      *
+     * @param owner specifies the ID string of the caller for checking ownership, can be null if caller is not
+     *        ownership aware.
      * @param completionEvent specifies the event to signal when the shoot operation is completed.
      */
-    public void shoot(TrcEvent completionEvent)
+    public void shoot(String owner, TrcEvent completionEvent)
     {
         shooter.tracer.traceDebug(
-            intake.toString(), "power=" + RobotParams.Intake.ejectForwardPower + ", event=" + completionEvent);
-        intake.autoEjectForward(0.0, RobotParams.Intake.ejectForwardPower, 0.0, completionEvent, 0.0);
+            intake.toString(), "owner=" + owner + ", power=" + RobotParams.Intake.ejectForwardPower +
+            ", event=" + completionEvent);
+        intake.autoEjectForward(owner, 0.0, RobotParams.Intake.ejectForwardPower, 0.0, completionEvent, 0.0);
     }   //shoot
 
     /**
