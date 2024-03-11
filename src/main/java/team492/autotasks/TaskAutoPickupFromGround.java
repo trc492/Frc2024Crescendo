@@ -54,10 +54,12 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     private static class TaskParams
     {
         boolean useVision;
+        boolean inAuto;
 
-        TaskParams(boolean useVision)
+        TaskParams(boolean useVision, boolean inAuto)
         {
             this.useVision = useVision;
+            this.inAuto = inAuto;
         }
     }   //class TaskParams
 
@@ -92,11 +94,12 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
      * This method starts the auto-assist operation.
      *
      * @param useVision specifies true to use Vision to detect the target, false otherwise.
+     * @param inAuto specifies true if called by Autonomous, false otherwise.
      */
-    public void autoAssistPickup(boolean useVision, TrcEvent completionEvent)
+    public void autoAssistPickup(boolean useVision, boolean inAuto, TrcEvent completionEvent)
     {
-        tracer.traceInfo(moduleName, "useVision=" + useVision + ", event=" + completionEvent);
-        startAutoTask(State.START, new TaskParams(useVision), completionEvent);
+        tracer.traceInfo(moduleName, "useVision=" + useVision + ", inAuto=" + inAuto + ", event=" + completionEvent);
+        startAutoTask(State.START, new TaskParams(useVision, inAuto), completionEvent);
     }   //autoAssistPickup
 
     /**
@@ -243,39 +246,51 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 break;
 
             case DRIVE_TO_NOTE:
-                // Even if Vision did not see the Note, turn on Intake regardless, so that driver can just manually move
-                // forward to pick up the Note.
-                robot.intake.autoIntakeForward(
-                    currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
-                sm.addEvent(intakeEvent);
-                robot.intake.registerEntryTriggerNotifyEvent(TriggerMode.OnActive, gotNoteEvent);
-                sm.addEvent(gotNoteEvent);
-                if (notePose != null)
+                if ((notePose == null || Math.abs(notePose.y) > RobotParams.Intake.noteDistanceThreshold) &&
+                    taskParams.inAuto)
                 {
-                    // We are right in front of the Note, so we don't need full power to approach it.
-                    // robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.5);
-                    robot.robotDrive.purePursuitDrive.start(
-                        currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
-                        RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
-                        notePose, new TrcPose2D(0.0, -10.0, 0.0));
-                    sm.addEvent(driveEvent);
-                }
-                else
-                {
-                    // Did not detect Note, release drive ownership to let driver to drive manually.
-                    robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
-                    driveOwner = null;
+                    // We are in auto and vision did not see any Note, quit.
                     if (robot.ledIndicator != null)
                     {
                         robot.ledIndicator.setPhotonDetectedObject(null);
                     }
+                    sm.setState(State.DONE);
                 }
-                sm.waitForEvents(State.CHECK_INTAKE_COMPLETION, false);
+                else
+                {
+                    // Even if Vision did not see the Note, turn on Intake regardless, so that driver can just
+                    // manually move forward to pick up the Note.
+                    robot.intake.autoIntakeForward(
+                        currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
+                    sm.addEvent(intakeEvent);
+                    // Register entry trigger to release drive ownership early.
+                    robot.intake.registerEntryTriggerNotifyEvent(TriggerMode.OnActive, gotNoteEvent);
+                    sm.addEvent(gotNoteEvent);
+                    if (notePose != null)
+                    {
+                        robot.robotDrive.purePursuitDrive.start(
+                            currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
+                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                            notePose, new TrcPose2D(0.0, -10.0, 0.0));
+                        sm.addEvent(driveEvent);
+                    }
+                    else
+                    {
+                        // Did not detect Note, release drive ownership to let driver to drive manually.
+                        robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
+                        driveOwner = null;
+                        if (robot.ledIndicator != null)
+                        {
+                            robot.ledIndicator.setPhotonDetectedObject(null);
+                        }
+                    }
+                    sm.waitForEvents(State.CHECK_INTAKE_COMPLETION, false);
+                }
                 break;
 
             case CHECK_INTAKE_COMPLETION:
                 boolean gotNote = robot.intake.hasObject();
-
                 tracer.traceInfo(
                     moduleName,
                     "intakeEvent=" + intakeEvent +
@@ -288,6 +303,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     robot.robotDrive.purePursuitDrive.cancel(driveOwner);
                     robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
                     driveOwner = null;
+                    // Entry trigger caused early drive ownership release doesn't mean we are done.
+                    // Keep waiting for Intake to complete the operation.
                     sm.waitForSingleEvent(intakeEvent, State.DONE, 1.0);
                 }
                 else

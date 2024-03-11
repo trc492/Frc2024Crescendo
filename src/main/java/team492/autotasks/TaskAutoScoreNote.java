@@ -326,7 +326,6 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                         state + ": RobotFieldPose=" + robotPose +
                         "\n\taprilTagPose=" + aprilTagPose +
                         "\n\ttargetPose=" + targetPose);
-                    // We are right in front of the target, so we don't need full power to approach it.
                     robot.robotDrive.purePursuitDrive.start(
                         currOwner, event, 0.0, robotPose, false,
                         RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
@@ -355,7 +354,8 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     // If we are in auto and did not see AprilTag, just align to the field and shoot blind.
                     robot.robotDrive.purePursuitDrive.start(
                         currOwner, event, 0.5, robot.robotDrive.driveBase.getFieldPosition(), true,
-                        RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                        RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
+                        RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
                         new TrcPose2D(0.0, 0.0,
                             aprilTagPose != null? aprilTagPose.angle:
                             FrcAuto.autoChoices.getAlliance() == Alliance.Red? 0.0: 180.0));

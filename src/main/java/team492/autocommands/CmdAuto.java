@@ -54,6 +54,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
         TURN_TO_WING_NOTES,
         DRIVE_TO_CENTER_LINE,
         PICKUP_CENTERLINE_NOTE,
+        PARK,
         DONE
     }   //enum State
 
@@ -66,6 +67,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private AutoStartPos startPos;
     private boolean scoreWingNotes;
     private EndAction endAction;
+    private boolean relocalize;
     private int numWingNotesScored = 0;
 
     /**
@@ -140,9 +142,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     startPos = FrcAuto.autoChoices.getStartPos();
                     scoreWingNotes = FrcAuto.autoChoices.getScoreWingNotes();
                     endAction = FrcAuto.autoChoices.getEndAction();
+                    relocalize = FrcAuto.autoChoices.getRelocalize();
 
                     robot.autoScoreNote.autoAssistScore(
-                        startPos == AutoStartPos.AMP? TargetType.Amp: TargetType.Speaker, true, true, false, event);
+                        startPos == AutoStartPos.AMP? TargetType.Amp: TargetType.Speaker, true, true, relocalize, event);
                     sm.waitForSingleEvent(event, State.DO_DELAY);
                     break;
 
@@ -171,13 +174,15 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         // see the Note.
                         if(startPos == AutoStartPos.SW_SOURCE_SIDE || startPos == AutoStartPos.SW_AMP_SIDE)
                         {
+                            robotPose = robot.robotDrive.driveBase.getFieldPosition();
                             TrcPose2D wingNotePose =
                                 RobotParams.Game.wingNotePoses[0][startPos == AutoStartPos.SW_SOURCE_SIDE? 0: 2].clone();
                             wingNotePose.y -= 24.0;
                             wingNotePose.angle = 180.0;
                             robot.robotDrive.purePursuitDrive.start(
-                                event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                                RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                                event, robotPose, false,
+                                RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
+                                RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
                                 robot.adjustPoseByAlliance(wingNotePose, alliance));
                             sm.waitForSingleEvent(event, State.PICKUP_WING_NOTE);
                         }
@@ -189,19 +194,25 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case PICKUP_WING_NOTE:
-                    robot.autoPickupFromGround.autoAssistPickup(true, event);
+                    robot.autoPickupFromGround.autoAssistPickup(true, true, event);
                     sm.waitForSingleEvent(event, State.TURN_TO_SPEAKER);
                     break;
 
                 case TURN_TO_SPEAKER:
-                    if (numWingNotesScored > 0 || startPos == AutoStartPos.AMP)
+                    if (!robot.intake.hasObject())
+                    {
+                        // Failed to pick up a Note, probably vision failed, move to EndAction.
+                        sm.setState(State.DRIVE_TO_CENTER_LINE);
+                    }
+                    else if (numWingNotesScored > 0 || startPos == AutoStartPos.AMP)
                     {
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         targetPose = robotPose.clone();
                         targetPose.angle = alliance == Alliance.Red? 0.0: 180.0;
                         robot.robotDrive.purePursuitDrive.start(
                             event, robotPose, false,
-                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
                             targetPose);
                         sm.waitForSingleEvent(event, State.SCORE_WING_NOTE);
                     }
@@ -226,7 +237,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             startPos == AutoStartPos.SW_SOURCE_SIDE? 90.0: -90.0;
                         robot.robotDrive.purePursuitDrive.start(
                             event, robotPose, false,
-                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
                             targetPose);
                         sm.waitForSingleEvent(event, State.PICKUP_WING_NOTE);
                     }
@@ -237,31 +249,54 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case DRIVE_TO_CENTER_LINE:
-                    TrcPose2D centerlineNotePose = RobotParams.Game.centerlineNotePoses[4].clone();
+                    robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                    int centerlineNoteIndex = Math.abs(robotPose.x) < RobotParams.Field.WIDTH / 2.0? 0: 4;
+                    TrcPose2D centerlineNotePose =
+                        RobotParams.Game.centerlineNotePoses[centerlineNoteIndex].clone();
                     centerlineNotePose.y -= 72.0;
                     centerlineNotePose.angle = 180.0;
-                    if (startPos == AutoStartPos.SW_AMP_SIDE)
-                    {
-                        robot.robotDrive.purePursuitDrive.start(
-                            event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
-                            robot.adjustPoseByAlliance(RobotParams.Game.WINGNOTE_BLUE_SW_SIDE, alliance),
-                            robot.adjustPoseByAlliance(centerlineNotePose, alliance));
-                    }
-                    else
-                    {
-                        robot.robotDrive.purePursuitDrive.start(
-                            event, robot.robotDrive.driveBase.getFieldPosition(), false,
-                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
-                            robot.adjustPoseByAlliance(centerlineNotePose, alliance));
-                    }
+                    robot.robotDrive.purePursuitDrive.start(
+                        event, robotPose, false,
+                        RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
+                        RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                        robot.adjustPoseByAlliance(centerlineNotePose, alliance));
                     sm.waitForSingleEvent(event, endAction == EndAction.PARK? State.DONE: State.PICKUP_CENTERLINE_NOTE);
                     break;
 
                 case PICKUP_CENTERLINE_NOTE:
-                    // TODO: Need safe guard.
-                    robot.autoPickupFromGround.autoAssistPickup(true, event);
-                    sm.waitForSingleEvent(event, State.DONE);
+                    robot.autoPickupFromGround.autoAssistPickup(true, true, event);
+                    sm.waitForSingleEvent(event, State.PARK);
+                    break;
+
+                case PARK:
+                    // Make sure we are back on our side if we went over just a little.
+                    robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                    double halfFieldLength = RobotParams.Field.LENGTH / 2.0;
+                    double halfRobotLength = RobotParams.Robot.LENGTH / 2.0;
+                    double robotSafeY = 0.0;
+
+                    if (alliance == Alliance.Red && robotPose.y - halfRobotLength < halfFieldLength)
+                    {
+                        robotSafeY = halfFieldLength + halfRobotLength + 24.0;
+                    }
+                    else if (alliance == Alliance.Blue && robotPose.y + halfRobotLength > halfFieldLength)
+                    {
+                        robotSafeY = halfFieldLength - halfRobotLength - 24.0;
+                    }
+
+                    if (robotSafeY != 0.0)
+                    {
+                        robot.robotDrive.purePursuitDrive.start(
+                            event, robotPose, false,
+                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                            new TrcPose2D(robotPose.x, robotSafeY, robotPose.angle));
+                        sm.waitForSingleEvent(event, State.DONE);
+                    }
+                    else
+                    {
+                        sm.setState(State.DONE);
+                    }
                     break;
 
                 default:

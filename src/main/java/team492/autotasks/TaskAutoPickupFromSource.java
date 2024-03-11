@@ -279,9 +279,11 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                         state + ": RobotFieldPose=" + robotPose +
                         "\n\taprilTagPose=" + aprilTagPose +
                         "\n\ttargetPose=" + targetPose);
-                    // We are right in front of the target, so we don't need full power to approach it.
-                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
-                    robot.robotDrive.purePursuitDrive.start(currOwner, driveEvent, 3.0, robotPose, false, targetPose);
+                    robot.robotDrive.purePursuitDrive.start(
+                        currOwner, driveEvent, 3.0, robotPose, false,
+                        RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
+                        RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                        targetPose);
                     sm.addEvent(driveEvent);
                 }
                 else

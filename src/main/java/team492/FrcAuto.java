@@ -99,6 +99,7 @@ public class FrcAuto implements TrcRobot.RobotMode
         private static final String DBKEY_AUTO_START_POS = "Auto/StartPos";
         private static final String DBKEY_AUTO_SCORE_WING_NOTES = "Auto/ScoreWingNotes";
         private static final String DBKEY_AUTO_END_ACTION = "Auto/EndAction";
+        private static final String DBKEY_AUTO_RELOCALIZE = "Auto/Relocalize";
 
         private static final String DBKEY_AUTO_START_DELAY = "Auto/StartDelay";
         private static final String DBKEY_AUTO_PATHFILE = "Auto/PathFile";
@@ -157,6 +158,7 @@ public class FrcAuto implements TrcRobot.RobotMode
             userChoices.addChoiceMenu(DBKEY_AUTO_START_POS, startPosMenu);
             userChoices.addBoolean(DBKEY_AUTO_SCORE_WING_NOTES, true);
             userChoices.addChoiceMenu(DBKEY_AUTO_END_ACTION, endActionMenu);
+            userChoices.addBoolean(DBKEY_AUTO_RELOCALIZE, false);
 
             userChoices.addNumber(DBKEY_AUTO_START_DELAY, 0.0);
             userChoices.addString(DBKEY_AUTO_PATHFILE, "DrivePath.csv");
@@ -197,6 +199,11 @@ public class FrcAuto implements TrcRobot.RobotMode
         {
             return endActionMenu.getCurrentChoiceObject();
         }   //getEndAction
+
+        public boolean getRelocalize()
+        {
+            return userChoices.getUserBoolean(DBKEY_AUTO_RELOCALIZE);
+        }   //getRelocalize
 
         public double getStartDelay()
         {
@@ -243,6 +250,7 @@ public class FrcAuto implements TrcRobot.RobotMode
                 "startPos=\"%s\" " +
                 "scoreWingNotes=\"%s\" " +
                 "endAction=\"%s\" " +
+                "relocalize=\"%s\" " +
                 "startDelay=%.0f sec " +
                 "pathFile=\"%s\" " +
                 "xDistance=%.1f ft " +
@@ -250,9 +258,9 @@ public class FrcAuto implements TrcRobot.RobotMode
                 "turnDegrees=%.0f deg " +
                 "driveTime=%.0f sec " +
                 "drivePower=%.1f",
-                getAlliance(), getStrategy(), getStartPos(), getScoreWingNotes(), getEndAction(), getStartDelay(),
-                getPathFile(), getXDriveDistance(), getYDriveDistance(), getTurnAngle(), getDriveTime(),
-                getDrivePower());
+                getAlliance(), getStrategy(), getStartPos(), getScoreWingNotes(), getEndAction(), getRelocalize(),
+                getStartDelay(), getPathFile(), getXDriveDistance(), getYDriveDistance(), getTurnAngle(),
+                getDriveTime(), getDrivePower());
         }   //toString
 
     }   //class AutoChoices

@@ -356,7 +356,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (active)
                     {
                         // Press and hold altFunc for manual intake (no vision).
-                        robot.autoPickupFromGround.autoAssistPickup(!driverAltFunc, null);
+                        robot.autoPickupFromGround.autoAssistPickup(!driverAltFunc, false, null);
                     }
                     else
                     {
@@ -524,7 +524,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     boolean active = !robot.autoPickupFromGround.isActive();
                     if (active)
                     {
-                        robot.autoPickupFromGround.autoAssistPickup(true, null);
+                        robot.autoPickupFromGround.autoAssistPickup(true, false, null);
                     }
                     else
                     {
@@ -546,7 +546,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         boolean active = !robot.autoPickupFromGround.isActive();
                         if (active)
                         {
-                            robot.autoPickupFromGround.autoAssistPickup(false, null);
+                            robot.autoPickupFromGround.autoAssistPickup(false, false, null);
                         }
                         else
                         {
