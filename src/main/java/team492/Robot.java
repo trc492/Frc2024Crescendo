@@ -50,6 +50,7 @@ import TrcFrcLib.frclib.FrcRobotBattery;
 import TrcFrcLib.frclib.FrcXboxController;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -110,6 +111,8 @@ public class Robot extends FrcRobotBase
     public PhotonVision photonVisionBack;
     public PhotonVisionRaw photonVisionRaw;
     public OpenCvVision openCvVision;
+    public Transform3d aprilTag3To4Transform;
+    public Transform3d aprilTag8To7Transform;
     //
     // DriveBase subsystem.
     //
@@ -219,6 +222,8 @@ public class Robot extends FrcRobotBase
                 photonVisionBack = new PhotonVision(
                     "OV9782", RobotParams.Vision.robotToBackCam, RobotParams.Vision.robotToBackCamPose,
                     ledIndicator);
+                aprilTag3To4Transform = photonVisionFront.getMultiTagTransform(3, 4);
+                aprilTag8To7Transform = photonVisionFront.getMultiTagTransform(8, 7);
             }
 
             if (RobotParams.Preferences.usePhotonVisionRaw)

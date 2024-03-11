@@ -31,6 +31,8 @@ import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import team492.FrcAuto;
 import team492.Robot;
 import team492.RobotParams;
 
@@ -61,13 +63,15 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     {
         TargetType targetType;
         boolean useVision;
-        boolean shootInPlace;
+        boolean inAuto;
+        boolean relocalize;
 
-        TaskParams(TargetType targetType, boolean useVision, boolean shootInPlace)
+        TaskParams(TargetType targetType, boolean useVision, boolean inAuto, boolean relocalize)
         {
             this.targetType = targetType;
             this.useVision = useVision;
-            this.shootInPlace = shootInPlace;
+            this.inAuto = inAuto;
+            this.relocalize = relocalize;
         }   //TaskParams
 
     }   //class TaskParams
@@ -101,20 +105,35 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
      *
      * @param targetType specifies the score target type.
      * @param useVision specifies true to use Vision to detect the target, false otherwise.
-     * @param shootInPlace specifies true to shoot target in-place (not driving to AprilTag).
+     * @param inAuto specifies true if called by Autonomous, false otherwise.
+     * @param relocalize specifies true to use AprilTag to relocalize, only valid if useVision is true.
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
     public void autoAssistScore(
-        TargetType targetType, boolean useVision, boolean shootInPlace, TrcEvent completionEvent)
+        TargetType targetType, boolean useVision, boolean inAuto, boolean relocalize,
+        TrcEvent completionEvent)
     {
         tracer.traceInfo(
             moduleName,
             "targetType=" + targetType +
             ", useVision=" + useVision +
-            ", shootInPlace=" + shootInPlace +
+            ", inAuto=" + inAuto +
+            ", relocalize=" + relocalize +
             ", event=" + completionEvent);
-        startAutoTask(State.START, new TaskParams(targetType, useVision, shootInPlace), completionEvent);
+        startAutoTask(
+            State.START, new TaskParams(targetType, useVision, inAuto, relocalize), completionEvent);
     }   //autoAssistScore
+
+    /**
+     * This method starts the auto-assist operation.
+     *
+     * @param targetType specifies the score target type.
+     * @param useVision specifies true to use Vision to detect the target, false otherwise.
+     */
+    public void autoAssistScore(TargetType targetType, boolean useVision)
+    {
+        autoAssistScore(targetType, useVision, false, false, null);
+    }   //autoAsistScore
 
     /**
      * This method cancels an in progress auto-assist operation if any.
@@ -229,9 +248,9 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 {
                     tracer.traceInfo(moduleName, "Using AprilTag Vision.");
                     // Get the Tilter out of the way of the camera.
-                    robot.shooter.setTiltAngle(currOwner, RobotParams.Shooter.tiltTurtleAngle, null, 0.0);
-                    //sm.waitForSingleEvent(event, State.FIND_APRILTAG);
-                    sm.setState(State.FIND_APRILTAG);
+                    // TODO: debug why event is not firing?!
+                    robot.shooter.setTiltAngle(currOwner, RobotParams.Shooter.tiltTurtleAngle, event, 1.0);
+                    sm.waitForSingleEvent(event, State.FIND_APRILTAG);
                 }
                 else
                 {
@@ -246,27 +265,41 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 FrcPhotonVision.DetectedObject object =
                     robot.photonVisionFront.getBestDetectedAprilTag(
                         taskParams.targetType == TargetType.Speaker? new int[] {4, 7, 3, 8}: new int[] {5, 6});
-
                 if (object != null)
                 {
                     aprilTagId = object.target.getFiducialId();
-                    aprilTagPose = object.getObjectPose();
                     tracer.traceInfo(
-                        moduleName, "Vision found AprilTag %d at %s from camera.", aprilTagId, aprilTagPose);
+                        moduleName, "Vision found AprilTag %d at %s from camera.", aprilTagId, object.targetPose);
+                    if (aprilTagId == 3 || aprilTagId == 8)
+                    {
+                        aprilTagPose = object.addTransformToTarget(
+                            object.target, RobotParams.Vision.robotToFrontCam,
+                            aprilTagId == 3? robot.aprilTag3To4Transform: robot.aprilTag8To7Transform);
+                        tracer.traceInfo(
+                            moduleName, "Translated AprilTag target at %s from camera.", aprilTagPose);
+                    }
+                    else
+                    {
+                        aprilTagPose = object.getObjectPose();
+                    }
                     // Relocalize.
-                    // TrcPose2D robotFieldPose =
-                    //     robot.photonVisionFront.getRobotFieldPose(object, true);
-                    // // If we see the AprilTag, we can use its location to re-localize the robot.
-                    // if (robotFieldPose != null)
-                    // {
-                    //     robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
-                    //     tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
-                    // }
+                    if (taskParams.relocalize)
+                    {
+                        TrcPose2D robotFieldPose =
+                            robot.photonVisionFront.getRobotFieldPose(object, true);
+                        // If we see the AprilTag, we can use its location to re-localize the robot.
+                        if (robotFieldPose != null)
+                        {
+                            robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
+                            tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
+                        }
+                    }
                     sm.setState(State.DRIVE_TO_APRILTAG);
                 }
                 else if (visionExpiredTime == null)
                 {
                     // Can't find AprilTag, set a timeout and try again.
+                    // TODO: re-evaluate timeout!
                     visionExpiredTime = TrcTimer.getCurrentTime() + 3.0;//1.0;
                 }
                 else if (TrcTimer.getCurrentTime() >= visionExpiredTime)
@@ -278,17 +311,16 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 break;
 
             case DRIVE_TO_APRILTAG:
-                if (taskParams.shootInPlace)
+                if (taskParams.targetType == TargetType.Speaker)
                 {
                     sm.setState(State.AIM_IN_PLACE);
                 }
                 else if (aprilTagPose != null)
                 {
                     TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                    double targetAngle = taskParams.targetType == TargetType.Amp? 90.0: aprilTagId > 5? 180.0: 0.0;
                     Pose3d aprilTagFieldPose3d = robot.photonVisionFront.getAprilTagFieldPose3d(aprilTagId);
                     TrcPose2D targetPose = robot.photonVisionFront.getTargetPoseOffsetFromAprilTag(
-                        aprilTagFieldPose3d, 0.0, -RobotParams.Robot.LENGTH / 2.0, targetAngle);
+                        aprilTagFieldPose3d, 0.0, -RobotParams.Robot.LENGTH / 2.0, -90.0);
                     tracer.traceInfo(
                         moduleName,
                         state + ": RobotFieldPose=" + robotPose +
@@ -296,31 +328,37 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                         "\n\ttargetPose=" + targetPose);
                     // We are right in front of the target, so we don't need full power to approach it.
                     robot.robotDrive.purePursuitDrive.start(
-                        currOwner, event, 3.0, robotPose, false,
-                        RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                        currOwner, event, 0.0, robotPose, false,
+                        RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
+                        RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
                         targetPose);
                     sm.waitForSingleEvent(event, State.SCORE_NOTE);
                 }
                 else
                 {
                     // Did not detect AprilTag, tell the drivers so they can score manually if in TeleOp and quit.
+                    // If in Auto, shoot it to get rid of the Note anyway or we won't be able to get the Wing Notes.
+                    // We could also shoot it to Speaker, but it complicates the logic a lot.
                     if (robot.ledIndicator != null)
                     {
                         robot.ledIndicator.setPhotonDetectedObject(null);
                     }
-                    sm.setState(State.DONE);
+                    sm.setState(taskParams.inAuto? State.SCORE_NOTE: State.DONE);
                 }
                 break;
 
             case AIM_IN_PLACE:
-                if (aprilTagPose != null)
+                if (aprilTagPose != null || taskParams.inAuto)
                 {
                     // If we are up against the subwoofer, PurePursuitDrive will get stuck. Set a timeout to get out
                     // of this situation.
+                    // If we are in auto and did not see AprilTag, just align to the field and shoot blind.
                     robot.robotDrive.purePursuitDrive.start(
                         currOwner, event, 0.5, robot.robotDrive.driveBase.getFieldPosition(), true,
                         RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
-                        new TrcPose2D(0.0, 0.0, aprilTagPose.angle));
+                        new TrcPose2D(0.0, 0.0,
+                            aprilTagPose != null? aprilTagPose.angle:
+                            FrcAuto.autoChoices.getAlliance() == Alliance.Red? 0.0: 180.0));
                     sm.waitForSingleEvent(event, State.SCORE_NOTE);
                 }
                 else

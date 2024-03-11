@@ -142,6 +142,18 @@ public class PhotonVision extends FrcPhotonVision
     }   //getAprilTagFieldPose
 
     /**
+     * This method returns the transform between two adjacent AprilTags.
+     *
+     * @param fromAprilTagId specifies the From AprilTag ID.
+     * @param toAprilTagId specifies the To AprilTag ID.
+     * @return transform between two adjacent AprilTags.
+     */
+    public Transform3d getMultiTagTransform(int fromAprilTagId, int toAprilTagId)
+    {
+        return getAprilTagFieldPose3d(toAprilTagId).minus(getAprilTagFieldPose3d(fromAprilTagId));
+    }   //getMultiTagTransform
+
+    /**
      * This method returns the robot's field position.
      *
      * @param aprilTagInfo specifies the detected AprilTag info.

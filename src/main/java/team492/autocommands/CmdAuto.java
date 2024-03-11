@@ -33,6 +33,7 @@ import team492.Robot;
 import team492.RobotParams;
 import team492.FrcAuto.AutoChoices;
 import team492.FrcAuto.AutoStartPos;
+import team492.FrcAuto.EndAction;
 import team492.autotasks.TaskAutoScoreNote.TargetType;
 
 /**
@@ -48,8 +49,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
         DO_DELAY,
         DRIVE_TO_WING_NOTE,
         PICKUP_WING_NOTE,
+        TURN_TO_SPEAKER,
         SCORE_WING_NOTE,
-        PERFORM_END_ACTION,
+        TURN_TO_WING_NOTES,
+        DRIVE_TO_CENTER_LINE,
         PICKUP_CENTERLINE_NOTE,
         DONE
     }   //enum State
@@ -61,6 +64,9 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private final TrcStateMachine<State> sm;
     private Alliance alliance;
     private AutoStartPos startPos;
+    private boolean scoreWingNotes;
+    private EndAction endAction;
+    private int numWingNotesScored = 0;
 
     /**
      * Constructor: Create an instance of the object.
@@ -121,8 +127,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
         }
         else
         {
-            robot.dashboard.displayPrintf(8, "State: " + state);
+            TrcPose2D robotPose;
+            TrcPose2D targetPose;
 
+            robot.dashboard.displayPrintf(8, "State: " + state);
             switch (state)
             {
                 case START:
@@ -130,21 +138,11 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.robotDrive.setFieldPosition(false);
                     alliance = FrcAuto.autoChoices.getAlliance();
                     startPos = FrcAuto.autoChoices.getStartPos();
+                    scoreWingNotes = FrcAuto.autoChoices.getScoreWingNotes();
+                    endAction = FrcAuto.autoChoices.getEndAction();
 
-                    TargetType targetType;
-                    boolean shootInPlace;
-                    if (startPos == AutoStartPos.AMP)
-                    {
-                        targetType = TargetType.Amp;
-                        shootInPlace = false;
-                    }
-                    else
-                    {
-                        targetType = TargetType.Speaker;
-                        shootInPlace = true;
-                    } 
-
-                    robot.autoScoreNote.autoAssistScore(targetType, true, shootInPlace, event);
+                    robot.autoScoreNote.autoAssistScore(
+                        startPos == AutoStartPos.AMP? TargetType.Amp: TargetType.Speaker, true, true, false, event);
                     sm.waitForSingleEvent(event, State.DO_DELAY);
                     break;
 
@@ -163,7 +161,11 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case DRIVE_TO_WING_NOTE:
-                    if (FrcAuto.autoChoices.getScoreWingNote())
+                    if (!scoreWingNotes)
+                    {
+                        sm.setState(State.DRIVE_TO_CENTER_LINE);
+                    }
+                    else
                     {
                         // For SW_AMP_SIDE or SW_SOURCE_SIDE, we need to get to the position where the camera can
                         // see the Note.
@@ -171,7 +173,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         {
                             TrcPose2D wingNotePose =
                                 RobotParams.Game.wingNotePoses[0][startPos == AutoStartPos.SW_SOURCE_SIDE? 0: 2].clone();
-                            wingNotePose.y -= 24.0; // TODO: Find Actual Distance
+                            wingNotePose.y -= 24.0;
                             wingNotePose.angle = 180.0;
                             robot.robotDrive.purePursuitDrive.start(
                                 event, robot.robotDrive.driveBase.getFieldPosition(), false,
@@ -184,27 +186,61 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             sm.setState(State.PICKUP_WING_NOTE);
                         }
                     }
-                    else
-                    {
-                        sm.setState(State.PERFORM_END_ACTION);
-                    }
                     break;
 
                 case PICKUP_WING_NOTE:
                     robot.autoPickupFromGround.autoAssistPickup(true, event);
-                    sm.waitForSingleEvent(event, State.SCORE_WING_NOTE);
+                    sm.waitForSingleEvent(event, State.TURN_TO_SPEAKER);
+                    break;
+
+                case TURN_TO_SPEAKER:
+                    if (numWingNotesScored > 0 || startPos == AutoStartPos.AMP)
+                    {
+                        robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                        targetPose = robotPose.clone();
+                        targetPose.angle = alliance == Alliance.Red? 0.0: 180.0;
+                        robot.robotDrive.purePursuitDrive.start(
+                            event, robotPose, false,
+                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                            targetPose);
+                        sm.waitForSingleEvent(event, State.SCORE_WING_NOTE);
+                    }
+                    else
+                    {
+                        sm.setState(State.SCORE_WING_NOTE);
+                    }
                     break;
 
                 case SCORE_WING_NOTE:
-                    robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, event);
-                    sm.waitForSingleEvent(event, State.PERFORM_END_ACTION);
+                    robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, false, event);
+                    numWingNotesScored++;
+                    sm.waitForSingleEvent(event, State.TURN_TO_WING_NOTES);
                     break;
 
-                case PERFORM_END_ACTION:
+                case TURN_TO_WING_NOTES:
+                    if (startPos != AutoStartPos.SW_CENTER && numWingNotesScored < 3)
+                    {
+                        robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                        targetPose = robotPose.clone();
+                        targetPose.angle =
+                            startPos == AutoStartPos.SW_SOURCE_SIDE? 90.0: -90.0;
+                        robot.robotDrive.purePursuitDrive.start(
+                            event, robotPose, false,
+                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                            targetPose);
+                        sm.waitForSingleEvent(event, State.PICKUP_WING_NOTE);
+                    }
+                    else
+                    {
+                        sm.setState(State.DRIVE_TO_CENTER_LINE);
+                    }
+                    break;
+
+                case DRIVE_TO_CENTER_LINE:
                     TrcPose2D centerlineNotePose = RobotParams.Game.centerlineNotePoses[4].clone();
-                    centerlineNotePose.y -= 72.0; // TODO: Find Actual Distance
+                    centerlineNotePose.y -= 72.0;
                     centerlineNotePose.angle = 180.0;
-                    if (startPos == AutoStartPos.SW_SOURCE_SIDE)
+                    if (startPos == AutoStartPos.SW_AMP_SIDE)
                     {
                         robot.robotDrive.purePursuitDrive.start(
                             event, robot.robotDrive.driveBase.getFieldPosition(), false,
@@ -219,20 +255,13 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY, RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
                             robot.adjustPoseByAlliance(centerlineNotePose, alliance));
                     }
-                    sm.waitForSingleEvent(event, State.PICKUP_CENTERLINE_NOTE);
+                    sm.waitForSingleEvent(event, endAction == EndAction.PARK? State.DONE: State.PICKUP_CENTERLINE_NOTE);
                     break;
 
                 case PICKUP_CENTERLINE_NOTE:
-                    FrcAuto.EndAction endAction = FrcAuto.autoChoices.getEndAction();
-                    if (endAction == FrcAuto.EndAction.PARK_NEAR_CENTERLINE)
-                    {
-                        sm.setState(State.DONE);
-                    }
-                    else
-                    {
-                        robot.autoPickupFromGround.autoAssistPickup(true, event);
-                        sm.waitForSingleEvent(event, State.DONE);
-                    }
+                    // TODO: Need safe guard.
+                    robot.autoPickupFromGround.autoAssistPickup(true, event);
+                    sm.waitForSingleEvent(event, State.DONE);
                     break;
 
                 default:

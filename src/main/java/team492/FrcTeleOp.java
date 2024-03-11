@@ -373,7 +373,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (active)
                     {
                         // Press and hold altFunc for manual shooting (no vision).
-                        robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !driverAltFunc, true, null);
+                        robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !driverAltFunc);
                     }
                     else
                     {
@@ -487,7 +487,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (active)
                     {
                         // Press and hold altFunc for manual shooting (no vision).
-                        robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !driverAltFunc, true, null);
+                        robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !driverAltFunc);
                     }
                     else
                     {
