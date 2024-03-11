@@ -53,9 +53,9 @@ public class LEDIndicator
         {
             // Highest priority.
             aprilTagPattern,
+            intakeHasNotePattern,
             notePattern,
             seeNothingPattern,
-            intakeHasNotePattern,
             fieldOrientedPattern,
             robotOrientedPattern,
             inverseOrientedPattern,
