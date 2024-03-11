@@ -140,7 +140,7 @@ public class LEDIndicator
     {
         if (hasObject)
         {
-            led.setPatternState(intakeHasNotePattern, true);
+            led.setPatternState(intakeHasNotePattern, true, 0.25, 0.25);
         }
         else
         {

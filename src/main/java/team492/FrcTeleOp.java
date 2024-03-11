@@ -472,23 +472,23 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
             case FrcXboxController.BUTTON_B:
                 // Intake from source.
-                if (robot.intake != null && robot.shooter != null && pressed)
-                {
-                    boolean autoAssistActive = !robot.autoPickupFromSource.isActive();
-                    if (autoAssistActive)
-                    {
-                        // Press and hold altFunc to not use vision.
-                        robot.autoPickupFromSource.autoAssistPickup(!operatorAltFunc, null);
-                    }
-                    else
-                    {
-                        robot.autoAssistCancel();
-                    }
-                }
-                // if (robot.intake != null)
+                // if (robot.intake != null && robot.shooter != null && pressed)
                 // {
-                //     robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
-                // }               
+                //     boolean autoAssistActive = !robot.autoPickupFromSource.isActive();
+                //     if (autoAssistActive)
+                //     {
+                //         // Press and hold altFunc to not use vision.
+                //         robot.autoPickupFromSource.autoAssistPickup(!operatorAltFunc, null);
+                //     }
+                //     else
+                //     {
+                //         robot.autoAssistCancel();
+                //     }
+                // }
+                if (robot.intake != null)
+                {
+                    robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                }               
                 break;
 
             case FrcXboxController.BUTTON_X:
@@ -499,15 +499,15 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (autoAssistActive)
                     {
                         // Press and hold altFunc to not use vision.
-                        robot.autoScoreNote.autoAssistScore(TargetType.Amp, !operatorAltFunc, operatorAltFunc, null);
-                        // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
-                        // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
+                        // robot.autoScoreNote.autoAssistScore(TargetType.Amp, !operatorAltFunc, operatorAltFunc, null);
+                        robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
+                        robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
                     }
                     else
                     {
-                        robot.autoAssistCancel();
-                        // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
-                        // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
+                        // robot.autoAssistCancel();
+                        robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
+                        robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
                     }
                 }
                 break;

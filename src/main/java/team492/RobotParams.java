@@ -301,9 +301,9 @@ public class RobotParams
         public static final int FRONTCAM_IMAGE_WIDTH            = 1280;     // in pixels
         public static final int FRONTCAM_IMAGE_HEIGHT           = 800;      // in pixels
         // Camera location on robot.
-        public static final double FRONTCAM_X_OFFSET            = -2.875;   // Inches to the right from robot center
-        public static final double FRONTCAM_Y_OFFSET            = -3.0;     // Inches forward from robot center
-        public static final double FRONTCAM_Z_OFFSET            = 23.0;     // Inches up from the floor
+        public static final double FRONTCAM_X_OFFSET            = -3.5;   // Inches to the right from robot center
+        public static final double FRONTCAM_Y_OFFSET            = -2.375;     // Inches forward from robot center
+        public static final double FRONTCAM_Z_OFFSET            = 23.125;     // Inches up from the floor
         public static final double FRONTCAM_PITCH               = 33.0;     // degrees up from horizontal
         public static final double FRONTCAM_YAW                 = 0.0;      // degrees clockwise from robot front
         public static final double FRONTCAM_ROLL                = 0.0;
@@ -318,10 +318,10 @@ public class RobotParams
         public static final int BACKCAM_IMAGE_WIDTH             = 1280;     // in pixels
         public static final int BACKCAM_IMAGE_HEIGHT            = 800;      // in pixels
         // Camera location on robot.
-        public static final double BACKCAM_X_OFFSET             = 0.0;      // Inches to the right from robot center
-        public static final double BACKCAM_Y_OFFSET             = -4.25;    // Inches forward from robot center
-        public static final double BACKCAM_Z_OFFSET             = 19.75;    // Inches up from the floor
-        public static final double BACKCAM_PITCH                = -20.5;    // degrees up from horizontal
+        public static final double BACKCAM_X_OFFSET             = -0.5;      // Inches to the right from robot center
+        public static final double BACKCAM_Y_OFFSET             = -5.375;    // Inches forward from robot center
+        public static final double BACKCAM_Z_OFFSET             = 20.0;    // Inches up from the floor
+        public static final double BACKCAM_PITCH                = -17.5;    // degrees up from horizontal
         public static final double BACKCAM_YAW                  = 180.0;    // degrees clockwise from robot front
         public static final double BACKCAM_ROLL                 = 0.0;
         public static final Transform3d robotToBackCam          = new Transform3d(
@@ -693,9 +693,9 @@ public class RobotParams
         public static final double tiltMaxAngle                 = 87.0;     // in degrees.
         public static final double tiltAngleMinInc              = 1.0;      // in degrees.
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
-        public static final double tiltTurtleAngle              = 45.0;     // in degrees.
+        public static final double tiltTurtleAngle              = 35.0;     // in degrees.
         public static final double tiltSpeakerFarAngle          = 52.0;     // in degrees.
-        public static final double tiltAmpAngle                 = 60.0;     // in degrees.
+        public static final double tiltAmpAngle                 = 57.5;     // in degrees.
         public static final double tiltSpeakerCloseAngle        = 60.0;     // in degrees.
         public static final double tiltSourcePickupAngle        = 88.0;     // in degrees.
 
@@ -711,9 +711,9 @@ public class RobotParams
         public static final String SPEAKER_PARAM_NAME           = "Speaker0ft";
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
             .add(SPEAKER_PARAM_NAME,    55.0, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
-            .add("Speaker1ft",          67.4, 90.0, 55.0)    // TODO: Tune
-            .add("Speaker2ft",          79.6, 90.0, 50.0)    // TODO: Tune
-            .add("Speaker3ft",          92.0, 90.0, 44.0)    // TODO: Tune
+            .add("Speaker1ft",          67.4, 90.0, 55.0)    
+            .add("Speaker2ft",          79.6, 90.0, 50.0)    
+            .add("Speaker3ft",          92.0, 90.0, 44.0)    
             .add("Speaker4ft",          103.0, 90.0, 42.0)    // TODO: Tune
             .add("Speaker5ft",          116.0, 90.0, 39.0)   // Tuned, but distance needs to be recalibrated again from vision
             .add("Speaker6ft",          127.0, 90.0, 37.0)
