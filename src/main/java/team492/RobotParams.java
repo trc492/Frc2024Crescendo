@@ -721,6 +721,7 @@ public class RobotParams
             .add("Speaker4ft",          104.0, 90.0, 40.0)   
             .add("Speaker5ft",          117.2, 90.0, 37.0)   
             .add("Speaker6ft",          129.4, 90.0, 35.0)
+            // TODO: CodeReview: This entry looks wrong. The angle is going into the wrong direction.
             .add("Speaker7ft",          139.0, 90.0, 38.0);
         public static final ShootParamTable.Params speakerParams = speakerShootParamTable.get(SPEAKER_PARAM_NAME);
     }   //class Shooter

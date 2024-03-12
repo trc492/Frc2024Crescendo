@@ -298,7 +298,6 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 else if (visionExpiredTime == null)
                 {
                     // Can't find AprilTag, set a timeout and try again.
-                    // TODO: re-evaluate timeout!
                     visionExpiredTime = TrcTimer.getCurrentTime() + 2.0;
                 }
                 else if (TrcTimer.getCurrentTime() >= visionExpiredTime)

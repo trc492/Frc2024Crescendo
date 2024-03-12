@@ -46,6 +46,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     private boolean controlsEnabled = false;
     protected boolean driverAltFunc = false;
     protected boolean operatorAltFunc = false;
+    private boolean subsystemStatusOn = true;
     // DriveBase subsystem.
     private double driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
     private double turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
@@ -157,42 +158,54 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.robotDrive.driveBase.holonomicDrive(
                                 null, driveInputs[0], driveInputs[1], driveInputs[2],
                                 robot.robotDrive.driveBase.getDriveGyroAngle());
-                            robot.dashboard.displayPrintf(
-                                lineNum++, "Holonomic: x=%.3f, y=%.3f, rot=%.3f",
-                                driveInputs[0], driveInputs[1], driveInputs[2]);
+                            if (subsystemStatusOn)
+                            {
+                                robot.dashboard.displayPrintf(
+                                    lineNum++, "Holonomic: x=%.3f, y=%.3f, rot=%.3f",
+                                    driveInputs[0], driveInputs[1], driveInputs[2]);
+                            }
                         }
                         else if (RobotParams.Preferences.useTankDrive)
                         {
                             robot.robotDrive.driveBase.tankDrive(driveInputs[0], driveInputs[1]);
-                            robot.dashboard.displayPrintf(
-                                lineNum++, "Tank: left=%.3f, right=%.3f, rot=%.3f",
-                                driveInputs[0], driveInputs[1], driveInputs[2]);
+                            if (subsystemStatusOn)
+                            {
+                                robot.dashboard.displayPrintf(
+                                    lineNum++, "Tank: left=%.3f, right=%.3f, rot=%.3f",
+                                    driveInputs[0], driveInputs[1], driveInputs[2]);
+                            }
                         }
                         else
                         {
                             robot.robotDrive.driveBase.arcadeDrive(driveInputs[1], driveInputs[2]);
-                            robot.dashboard.displayPrintf(
-                                lineNum++, "Arcade: x=%.3f, y=%.3f, rot=%.3f",
-                                driveInputs[0], driveInputs[1], driveInputs[2]);
+                            if (subsystemStatusOn)
+                            {
+                                robot.dashboard.displayPrintf(
+                                    lineNum++, "Arcade: x=%.3f, y=%.3f, rot=%.3f",
+                                    driveInputs[0], driveInputs[1], driveInputs[2]);
+                            }
                         }
                     }
-                    else
+                    else if (subsystemStatusOn)
                     {
                         lineNum++;
                     }
                     prevDriveInputs = driveInputs;
-                    robot.dashboard.displayPrintf(
-                        lineNum++, "RobotPose=%s, Orient=%s, GyroAssist=%s",
-                        robot.robotDrive.driveBase.getFieldPosition(),
-                        robot.robotDrive.driveBase.getDriveOrientation(),
-                        robot.robotDrive.driveBase.isGyroAssistEnabled());;
+                    if (subsystemStatusOn)
+                    {
+                        robot.dashboard.displayPrintf(
+                            lineNum++, "RobotPose=%s, Orient=%s, GyroAssist=%s",
+                            robot.robotDrive.driveBase.getFieldPosition(),
+                            robot.robotDrive.driveBase.getDriveOrientation(),
+                            robot.robotDrive.driveBase.isGyroAssistEnabled());
+                    }
                 }
                 //
                 // Analog control of subsystem is done here if necessary.
                 //
                 if (RobotParams.Preferences.useSubsystems)
                 {
-                    if (robot.intake != null)
+                    if (robot.intake != null && subsystemStatusOn)
                     {
                         robot.dashboard.displayPrintf(
                             lineNum++, "Intake: power=%.2f, entry/exit=%s/%s",
@@ -220,10 +233,14 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             }
                             prevShooterVel = shooterVel;
                         }
-                        robot.dashboard.displayPrintf(
-                            lineNum++, "Shooter: vel=%.0f/%.0f, preset=%.0f, inc=%.0f",
-                            shooterVel, robot.shooter.getShooterVelocity(), robot.shooterVelocity.getValue(),
-                            robot.shooterVelocity.getIncrement());
+
+                        if (subsystemStatusOn)
+                        {
+                            robot.dashboard.displayPrintf(
+                                lineNum++, "Shooter: vel=%.0f/%.0f, preset=%.0f, inc=%.0f",
+                                shooterVel, robot.shooter.getShooterVelocity(), robot.shooterVelocity.getValue(),
+                                robot.shooterVelocity.getIncrement());
+                        }
 
                         double tiltPower = robot.operatorController.getLeftYWithDeadband(true);
                         // Only set tilt power if it is different from previous value.
@@ -232,12 +249,16 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.shooter.setTiltPower(tiltPower);
                             prevTiltPower = tiltPower;
                         }
-                        robot.dashboard.displayPrintf(
-                            lineNum++, "Tilt: power=%.2f/%.2f, angle=%.2f/%.2f/%f, inc=%.0f, limits=%s/%s",
-                            tiltPower, robot.shooter.getTiltPower(), robot.shooter.getTiltAngle(),
-                            robot.shooter.tiltMotor.getPidTarget(), robot.shooter.tiltMotor.getMotorPosition(),
-                            robot.shooterTiltAngle.getIncrement(), robot.shooter.tiltLowerLimitSwitchActive(),
-                            robot.shooter.tiltUpperLimitSwitchActive());
+
+                        if (subsystemStatusOn)
+                        {
+                            robot.dashboard.displayPrintf(
+                                lineNum++, "Tilt: power=%.2f/%.2f, angle=%.2f/%.2f/%f, inc=%.0f, limits=%s/%s",
+                                tiltPower, robot.shooter.getTiltPower(), robot.shooter.getTiltAngle(),
+                                robot.shooter.tiltMotor.getPidTarget(), robot.shooter.tiltMotor.getMotorPosition(),
+                                robot.shooterTiltAngle.getIncrement(), robot.shooter.tiltLowerLimitSwitchActive(),
+                                robot.shooter.tiltUpperLimitSwitchActive());
+                        }
                     }
 
                     if (robot.climber != null)
@@ -248,15 +269,31 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.climber.setClimbPower(climbPower);
                             prevClimbPower = climbPower;
                         }
-                        robot.dashboard.displayPrintf(
-                            lineNum++, "Climber: power=%.2f/%.2f, current=%.3f, pos=%.2f/%.2f/%f, limits=%s/%s",
-                            climbPower, robot.climber.climberMotor.getPower(), robot.climber.climberMotor.getCurrent(),
-                            robot.climber.getPosition(), robot.climber.climberMotor.getPidTarget(),
-                            robot.climber.climberMotor.getMotorPosition(),
-                            robot.climber.climberMotor.isLowerLimitSwitchActive(),
-                            robot.climber.climberMotor.isUpperLimitSwitchActive());
+
+                        if (subsystemStatusOn)
+                        {
+                            robot.dashboard.displayPrintf(
+                                lineNum++, "Climber: power=%.2f/%.2f, current=%.3f, pos=%.2f/%.2f/%f, limits=%s/%s",
+                                climbPower, robot.climber.climberMotor.getPower(), robot.climber.climberMotor.getCurrent(),
+                                robot.climber.getPosition(), robot.climber.climberMotor.getPidTarget(),
+                                robot.climber.climberMotor.getMotorPosition(),
+                                robot.climber.climberMotor.isLowerLimitSwitchActive(),
+                                robot.climber.climberMotor.isUpperLimitSwitchActive());
+                        }
                     }
                 }
+            }
+            //
+            // Update Vision LEDs.
+            //
+            if (robot.photonVisionFront != null)
+            {
+                robot.photonVisionFront.getBestDetectedObject();
+            }
+
+            if (robot.photonVisionBack != null)
+            {
+                robot.photonVisionBack.getBestDetectedObject();
             }
             //
             // Update robot status.
@@ -403,6 +440,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.START:
+                if (pressed)
+                {
+                    subsystemStatusOn = !subsystemStatusOn;
+                }
                 break;
 
             case FrcXboxController.LEFT_STICK_BUTTON:
@@ -483,15 +524,24 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 // AutoShoot at Speaker with Vision, hold AltFunc for no vision.
                 if (robot.intake != null && robot.shooter != null && pressed)
                 {
-                    boolean active = !robot.autoScoreNote.isActive();
-                    if (active)
+                    if (robot.shooter.shooterMotor.getVelocity() == 0.0)
                     {
-                        // Press and hold altFunc for manual shooting (no vision).
-                        robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !driverAltFunc);
+                        robot.shooter.aimShooter(
+                            RobotParams.Shooter.shooterSpeakerCloseVelocity, robot.shooter.getTiltAngle(), 0.0);
                     }
                     else
                     {
-                        robot.autoAssistCancel();
+                        boolean active = robot.autoScoreNote.isActive();
+                        if (robot.shooter.isActive())
+                        if (active)
+                        {
+                            // Press and hold altFunc for manual shooting (no vision).
+                            robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !driverAltFunc);
+                        }
+                        else
+                        {
+                            robot.autoAssistCancel();
+                        }
                     }
                 }
                 break;

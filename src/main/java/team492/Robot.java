@@ -543,7 +543,6 @@ public class Robot extends FrcRobotBase
                     if (object == null)
                     {
                         object = photonVisionFront.getBestDetectedAprilTag(new int[] {5, 6});
-
                     }
 
                     if (object != null)
