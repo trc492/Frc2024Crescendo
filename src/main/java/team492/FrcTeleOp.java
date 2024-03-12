@@ -24,12 +24,15 @@ package team492;
 
 import java.util.Arrays;
 
+import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcCANSparkMax;
 import TrcFrcLib.frclib.FrcJoystick;
+import TrcFrcLib.frclib.FrcPhotonVision;
 import TrcFrcLib.frclib.FrcXboxController;
+import team492.autotasks.ShootParamTable;
 import team492.autotasks.TaskAutoScoreNote.TargetType;
 
 /**
@@ -142,6 +145,20 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
         if (slowPeriodicLoop)
         {
+            FrcPhotonVision.DetectedObject aprilTagObj = null;
+            //
+            // Update Vision LEDs.
+            //
+            if (robot.photonVisionFront != null)
+            {
+                aprilTagObj = robot.photonVisionFront.getBestDetectedAprilTag(new int[] {4, 7, 5, 6, 3, 8});
+            }
+
+            if (robot.photonVisionBack != null)
+            {
+                robot.photonVisionBack.getBestDetectedObject();
+            }
+
             if (controlsEnabled)
             {
                 //
@@ -151,18 +168,59 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     double[] driveInputs = robot.robotDrive.getDriveInputs(
                         RobotParams.ROBOT_DRIVE_MODE, true, driveSpeedScale, turnSpeedScale);
+                    double gyroAngle;
+                    Double shooterVel, tiltAngle;
+
+                    if (driverAltFunc && aprilTagObj != null && robot.shooter != null)
+                    {
+                        int aprilTagId = aprilTagObj.target.getFiducialId();
+                        TrcPose2D aprilTagPose;
+
+                        if (aprilTagId == 3 || aprilTagId == 8)
+                        {
+                            aprilTagPose = aprilTagObj.addTransformToTarget(
+                                aprilTagObj.target, RobotParams.Vision.robotToFrontCam,
+                                aprilTagId == 3? robot.aprilTag3To4Transform: robot.aprilTag8To7Transform);
+                        }
+                        else
+                        {
+                            aprilTagPose = aprilTagObj.targetPose;
+                        }
+
+                        if (aprilTagId == 5 || aprilTagId == 6)
+                        {
+                            shooterVel = RobotParams.Shooter.shooterAmpVelocity;
+                            tiltAngle = RobotParams.Shooter.tiltAmpAngle;
+                        }
+                        else
+                        {
+                            ShootParamTable.Params shootParams =
+                                RobotParams.Shooter.speakerShootParamTable.get(aprilTagPose.y);
+                            shooterVel = shootParams.shooterVelocity;
+                            tiltAngle = shootParams.tiltAngle;
+                        }
+                        gyroAngle = aprilTagObj.targetPose.angle;
+                        robot.shooter.aimShooter(shooterVel, tiltAngle, 0.0);
+                    }
+                    else
+                    {
+                        gyroAngle = robot.robotDrive.driveBase.getDriveGyroAngle();
+                        shooterVel = null;
+                        tiltAngle = null;
+                    }
+
                     if (!Arrays.equals(driveInputs, prevDriveInputs))
                     {
                         if (robot.robotDrive.driveBase.supportsHolonomicDrive())
                         {
                             robot.robotDrive.driveBase.holonomicDrive(
-                                null, driveInputs[0], driveInputs[1], driveInputs[2],
-                                robot.robotDrive.driveBase.getDriveGyroAngle());
+                                null, driveInputs[0], driveInputs[1], driveInputs[2], gyroAngle);
                             if (subsystemStatusOn)
                             {
                                 robot.dashboard.displayPrintf(
-                                    lineNum++, "Holonomic: x=%.3f, y=%.3f, rot=%.3f",
-                                    driveInputs[0], driveInputs[1], driveInputs[2]);
+                                    lineNum++,
+                                    "Holonomic: x=%.3f, y=%.3f, rot=%.3f, angle=%.3f, shooterVel=%.1f, tilt=%.1f",
+                                    driveInputs[0], driveInputs[1], driveInputs[2], gyroAngle, shooterVel, tiltAngle);
                             }
                         }
                         else if (RobotParams.Preferences.useTankDrive)
@@ -284,18 +342,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 }
             }
             //
-            // Update Vision LEDs.
-            //
-            if (robot.photonVisionFront != null)
-            {
-                robot.photonVisionFront.getBestDetectedObject();
-            }
-
-            if (robot.photonVisionBack != null)
-            {
-                robot.photonVisionBack.getBestDetectedObject();
-            }
-            //
             // Update robot status.
             //
             if (RobotParams.Preferences.doStatusUpdate)
@@ -406,16 +452,17 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 // AutoShoot at Speaker with Vision, hold AltFunc for no vision.
                 if (robot.intake != null && robot.shooter != null && pressed)
                 {
-                    boolean active = !robot.autoScoreNote.isActive();
-                    if (active)
-                    {
-                        // Press and hold altFunc for manual shooting (no vision).
-                        robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !driverAltFunc);
-                    }
-                    else
-                    {
-                        robot.autoAssistCancel();
-                    }
+                    robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                    // boolean active = !robot.autoScoreNote.isActive();
+                    // if (active)
+                    // {
+                    //     // Press and hold altFunc for manual shooting (no vision).
+                    //     robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !driverAltFunc);
+                    // }
+                    // else
+                    // {
+                    //     robot.autoAssistCancel();
+                    // }
                 }
                 break;
 
@@ -524,24 +571,15 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 // AutoShoot at Speaker with Vision, hold AltFunc for no vision.
                 if (robot.intake != null && robot.shooter != null && pressed)
                 {
-                    if (robot.shooter.shooterMotor.getVelocity() == 0.0)
+                    boolean active = robot.autoScoreNote.isActive();
+                    if (active)
                     {
-                        robot.shooter.aimShooter(
-                            RobotParams.Shooter.shooterSpeakerCloseVelocity, robot.shooter.getTiltAngle(), 0.0);
+                        // Press and hold altFunc for manual shooting (no vision).
+                        robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !operatorAltFunc);
                     }
                     else
                     {
-                        boolean active = robot.autoScoreNote.isActive();
-                        if (robot.shooter.isActive())
-                        if (active)
-                        {
-                            // Press and hold altFunc for manual shooting (no vision).
-                            robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !driverAltFunc);
-                        }
-                        else
-                        {
-                            robot.autoAssistCancel();
-                        }
+                        robot.autoAssistCancel();
                     }
                 }
                 break;
