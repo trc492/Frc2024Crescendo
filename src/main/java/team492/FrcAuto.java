@@ -136,12 +136,12 @@ public class FrcAuto implements TrcRobot.RobotMode
             }
             else
             {
-                strategyMenu.addChoice("Crescendo Auto", AutoStrategy.CRESCENDO_AUTO);
+                strategyMenu.addChoice("Crescendo Auto", AutoStrategy.CRESCENDO_AUTO, true, false);
                 strategyMenu.addChoice("Pure Pursuit Drive", AutoStrategy.PP_DRIVE);
                 strategyMenu.addChoice("PID Drive", AutoStrategy.PID_DRIVE);
                 strategyMenu.addChoice("Timed Drive", AutoStrategy.TIMED_DRIVE);
             }
-            strategyMenu.addChoice("Do Nothing", AutoStrategy.DO_NOTHING, true, true);
+            strategyMenu.addChoice("Do Nothing", AutoStrategy.DO_NOTHING, false, true);
 
             startPosMenu.addChoice("Start Position: Amp", AutoStartPos.AMP, true, false);
             startPosMenu.addChoice("Start Position: Subwoofer amp-side", AutoStartPos.SW_AMP_SIDE);
