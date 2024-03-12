@@ -229,7 +229,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         {
                             double gyroAngle = robot.robotDrive.driveBase.getDriveGyroAngle();
                             robot.robotDrive.driveBase.holonomicDrive(
-                                null, driveInputs[0], driveInputs[1], driveInputs[2], gyroAngle);
+                                null, driveInputs[0], driveInputs[1], rotPower, gyroAngle);
                             if (subsystemStatusOn)
                             {
                                 String s = String.format(
