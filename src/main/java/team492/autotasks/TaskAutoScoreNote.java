@@ -338,7 +338,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     // If in Auto, shoot it to get rid of the Note anyway or we won't be able to get the Wing Notes.
                     // We could also shoot it to Speaker, but it complicates the logic a lot.
                     if (robot.ledIndicator != null)
-                    {
+                    {   
                         robot.ledIndicator.setPhotonDetectedObject(null);
                     }
                     sm.setState(taskParams.inAuto? State.SCORE_NOTE: State.DONE);
