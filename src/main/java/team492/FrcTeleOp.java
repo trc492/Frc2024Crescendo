@@ -23,6 +23,7 @@
 package team492;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
@@ -170,12 +171,13 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         RobotParams.ROBOT_DRIVE_MODE, true, driveSpeedScale, turnSpeedScale);
                     double gyroAngle;
                     Double shooterVel, tiltAngle;
+                    int aprilTagId;
 
                     if (driverAltFunc && aprilTagObj != null && robot.shooter != null)
                     {
-                        int aprilTagId = aprilTagObj.target.getFiducialId();
                         TrcPose2D aprilTagPose;
 
+                        aprilTagId = aprilTagObj.target.getFiducialId();
                         if (aprilTagId == 3 || aprilTagId == 8)
                         {
                             aprilTagPose = aprilTagObj.addTransformToTarget(
@@ -205,8 +207,13 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     else
                     {
                         gyroAngle = robot.robotDrive.driveBase.getDriveGyroAngle();
+                        aprilTagId = -1;
                         shooterVel = null;
                         tiltAngle = null;
+                        if (driverAltFunc && robot.shooter != null)
+                        {
+                            robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+                        }
                     }
 
                     if (!Arrays.equals(driveInputs, prevDriveInputs))
@@ -217,10 +224,15 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                                 null, driveInputs[0], driveInputs[1], driveInputs[2], gyroAngle);
                             if (subsystemStatusOn)
                             {
-                                robot.dashboard.displayPrintf(
-                                    lineNum++,
-                                    "Holonomic: x=%.3f, y=%.3f, rot=%.3f, angle=%.3f, shooterVel=%.1f, tilt=%.1f",
-                                    driveInputs[0], driveInputs[1], driveInputs[2], gyroAngle, shooterVel, tiltAngle);
+                                String s = String.format(
+                                    Locale.US, "Holonomic: x=%.3f, y=%.3f, rot=%.3f, angle=%.3f",
+                                    driveInputs[0], driveInputs[1], driveInputs[2], gyroAngle);
+                                if (aprilTagId != -1)
+                                {
+                                    s += String.format(
+                                        ", Id=%d, shooterVel=%.1f, tilt=%.1f", aprilTagId, shooterVel, tiltAngle);
+                                }
+                                robot.dashboard.displayPrintf(lineNum++, s);
                             }
                         }
                         else if (RobotParams.Preferences.useTankDrive)
@@ -468,6 +480,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
             case FrcXboxController.LEFT_BUMPER:
                 driverAltFunc = pressed;
+                if (!driverAltFunc && robot.shooter != null)
+                {
+                    robot.shooter.stopShooter();
+                }
                 break;
 
             case FrcXboxController.RIGHT_BUMPER:

@@ -60,7 +60,7 @@ public class RobotParams
     {
         // Global config
         public static final RobotType robotType                 = RobotType.SwerveRobot;
-        public static final boolean inCompetition               = false;
+        public static final boolean inCompetition               = true;
         public static final boolean hybridMode                  = false;
         public static final boolean useTraceLog                 = true;
         // Status Update
