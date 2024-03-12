@@ -660,7 +660,7 @@ public class RobotParams
         public static final double intakePower                  = 0.85;
         public static final double ejectForwardPower            = 0.5;
         public static final double noteDistanceThreshold        = 72.0;
-    }   //class Intake
+        }   //class Intake
 
     public static class Shooter
     {
@@ -674,7 +674,7 @@ public class RobotParams
         public static final double shooterMaxAcceleration       = 100.0;    // in rps square.
         public static final double shooterVelMinInc             = 1.0;      // in rps.
         public static final double shooterVelMaxInc             = 10.0;     // in rps.
-        public static final double shooterSpeakerCloseVelocity  = 80.0;     // in rps.
+        public static final double shooterSpeakerCloseVelocity  = 90.0;     // in rps.
         public static final double shooterAmpVelocity           = 20.0;     // in rps.
         public static final double shooterSourcePickupVelocity  = -20.0;    // in rps.
         public static final double shooterPresetVelTolerance    = 5.0;      // in rps.
@@ -687,7 +687,7 @@ public class RobotParams
         public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
         public static final double tiltPosOffset                = -15.0;    // in degrees
         public static final double tiltZeroOffset               = 0.018;    // in raw encoder unit
-        public static final double tiltPowerLimit               = 0.8;
+        public static final double tiltPowerLimit               = 0.5;
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.023, 0.0, 0.001, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
         public static final double tiltMinAngle                 = 0.0;
@@ -711,13 +711,13 @@ public class RobotParams
 
         public static final String SPEAKER_PARAM_NAME           = "Speaker0ft";
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
-            .add(SPEAKER_PARAM_NAME,    55.0, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
-            .add("Speaker1ft",          67.4, 90.0, 55.0)    
-            .add("Speaker2ft",          79.6, 90.0, 50.0)    
-            .add("Speaker3ft",          92.0, 90.0, 44.0)    
-            .add("Speaker4ft",          103.0, 90.0, 42.0)    // TODO: Tune
-            .add("Speaker5ft",          116.0, 90.0, 39.0)   // Tuned, but distance needs to be recalibrated again from vision
-            .add("Speaker6ft",          127.0, 90.0, 37.0)
+            .add(SPEAKER_PARAM_NAME,    55.7, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
+            .add("Speaker1ft",          68.2, 90.0, 60.0)    
+            .add("Speaker2ft",          80.0, 90.0, 46.0)    
+            .add("Speaker3ft",          92.0, 90.0, 43.0)    
+            .add("Speaker4ft",          104.0, 90.0, 40.0)   
+            .add("Speaker5ft",          117.2, 90.0, 37.0)   
+            .add("Speaker6ft",          129.4, 90.0, 35.0)
             .add("Speaker7ft",          139.0, 90.0, 38.0);
         public static final ShootParamTable.Params speakerParams = speakerShootParamTable.get(SPEAKER_PARAM_NAME);
     }   //class Shooter
