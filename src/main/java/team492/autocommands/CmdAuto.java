@@ -181,8 +181,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             wingNotePose.angle = 180.0;
                             robot.robotDrive.purePursuitDrive.start(
                                 event, robotPose, false,
-                                RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
-                                RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                                 robot.adjustPoseByAlliance(wingNotePose, alliance));
                             sm.waitForSingleEvent(event, State.PICKUP_WING_NOTE);
                         }
@@ -211,8 +211,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         targetPose.angle = alliance == Alliance.Red? 0.0: 180.0;
                         robot.robotDrive.purePursuitDrive.start(
                             event, robotPose, false,
-                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
-                            RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             targetPose);
                         sm.waitForSingleEvent(event, State.SCORE_WING_NOTE);
                     }
@@ -237,8 +237,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             startPos == AutoStartPos.SW_SOURCE_SIDE? 90.0: -90.0;
                         robot.robotDrive.purePursuitDrive.start(
                             event, robotPose, false,
-                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
-                            RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             targetPose);
                         sm.waitForSingleEvent(event, State.PICKUP_WING_NOTE);
                     }
@@ -257,8 +257,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     centerlineNotePose.angle = 180.0;
                     robot.robotDrive.purePursuitDrive.start(
                         event, robotPose, false,
-                        RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
-                        RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                         robot.adjustPoseByAlliance(centerlineNotePose, alliance));
                     sm.waitForSingleEvent(event, endAction == EndAction.PARK? State.DONE: State.PICKUP_CENTERLINE_NOTE);
                     break;
@@ -288,8 +288,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     {
                         robot.robotDrive.purePursuitDrive.start(
                             event, robotPose, false,
-                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
-                            RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             new TrcPose2D(robotPose.x, robotSafeY, robotPose.angle));
                         sm.waitForSingleEvent(event, State.DONE);
                     }

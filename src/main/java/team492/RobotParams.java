@@ -448,15 +448,18 @@ public class RobotParams
         public final double Y_TIPPING_TOLERANCE                 = 10.0;
         public final double Y_TIPPING_SETTLING_TIME             = 0.2;
 
-        public static final double ROBOT_MAX_VELOCITY           = 157.48;   // Out of 171.0 inches per second
-        public static final double ROBOT_MAX_ACCELERATION       = 157.48;   // Out of 23000.0 inches per second square
-        public static final double ROBOT_MAX_TURN_RATE          = 180.0;    // Out of 1450.0 degrees per second
+        public static final double ROBOT_MAX_VELOCITY           = 171.0;    // inches per second
+        public static final double ROBOT_MAX_ACCELERATION       = 23000.0;  // inches per second square
+        public static final double ROBOT_MAX_TURN_RATE          = 1450.0;   // degrees per second
+        public static final double PROFILED_MAX_VELOCITY        = 157.48;   // inches per second
+        public static final double PROFILED_MAX_ACCELERATION    = 157.48;   // inches per second square
+        public static final double PROFILED_MAX_TURN_RATE       = 180.0;    // degrees per second
         public final double ROBOT_VEL_KP                        = 0.0;
         public final double ROBOT_VEL_KI                        = 0.0;
         public final double ROBOT_VEL_KD                        = 0.0;
         // KF should be set to the reciprocal of max tangential velocity (time to travel unit distance),
         // units: sec./in.
-        public final double ROBOT_VEL_KF                        = 1.0 / ROBOT_MAX_VELOCITY;
+        public final double ROBOT_VEL_KF                        = 1.0 / PROFILED_MAX_VELOCITY;
 
         public final double DRIVE_MAX_XPID_POWER                = 0.5;
         public final double DRIVE_MAX_XPID_RAMP_RATE            = 0.5;      // percentPower per sec
@@ -521,9 +524,9 @@ public class RobotParams
             new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
         // Meters per Second
-        public final double maxSpeed = Units.inchesToMeters(ROBOT_MAX_VELOCITY);
+        public final double maxSpeed = Units.inchesToMeters(PROFILED_MAX_VELOCITY);
         // Radians per Second
-        public final double maxAngularVelocity = Units.degreesToRadians(ROBOT_MAX_TURN_RATE);
+        public final double maxAngularVelocity = Units.degreesToRadians(PROFILED_MAX_TURN_RATE);
     }   //class SwerveDriveBase
 
     public static class MecanumDriveBase

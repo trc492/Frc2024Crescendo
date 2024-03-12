@@ -270,8 +270,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     {
                         robot.robotDrive.purePursuitDrive.start(
                             currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
-                            RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
-                            RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             notePose, new TrcPose2D(0.0, -10.0, 0.0));
                         sm.addEvent(driveEvent);
                     }

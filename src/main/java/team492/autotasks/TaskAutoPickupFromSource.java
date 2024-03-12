@@ -281,8 +281,8 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                         "\n\ttargetPose=" + targetPose);
                     robot.robotDrive.purePursuitDrive.start(
                         currOwner, driveEvent, 3.0, robotPose, false,
-                        RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
-                        RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                         targetPose);
                     sm.addEvent(driveEvent);
                 }
