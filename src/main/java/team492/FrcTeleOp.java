@@ -25,6 +25,7 @@ package team492;
 import java.util.Arrays;
 import java.util.Locale;
 
+import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
@@ -52,6 +53,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     protected boolean operatorAltFunc = false;
     private boolean subsystemStatusOn = true;
     // DriveBase subsystem.
+    private TrcPidController trackingPidCtrl;
     private double driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
     private double turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
     private double[] prevDriveInputs = null;
@@ -96,6 +98,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         // Initialize subsystems for TeleOp mode if necessary.
         //
         robot.setDriveOrientation(DriveOrientation.FIELD, true);
+        // trackingPidCtrl should have same PID coefficients as the PurePursuit turn PID controller.
+        trackingPidCtrl = robot.robotDrive == null? null:
+            new TrcPidController(
+                "trackingPidCtrl", robot.robotDrive.purePursuitDrive.getTurnPidCtrl().getPidCoefficients(), null);
+        trackingPidCtrl.setInverted(true);
 
         if (RobotParams.Preferences.hybridMode)
         {
@@ -169,9 +176,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     double[] driveInputs = robot.robotDrive.getDriveInputs(
                         RobotParams.ROBOT_DRIVE_MODE, true, driveSpeedScale, turnSpeedScale);
-                    double gyroAngle;
-                    Double shooterVel, tiltAngle;
                     int aprilTagId;
+                    Double shooterVel, tiltAngle;
+                    double rotPower;
 
                     if (driverAltFunc && aprilTagObj != null && robot.shooter != null)
                     {
@@ -201,15 +208,15 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             shooterVel = shootParams.shooterVelocity;
                             tiltAngle = shootParams.tiltAngle;
                         }
-                        gyroAngle = aprilTagObj.targetPose.angle;
-                        robot.shooter.aimShooter(shooterVel, tiltAngle, 0.0);
+                        rotPower = trackingPidCtrl.getOutput(aprilTagPose.angle, 0.0);
+                        // robot.shooter.aimShooter(shooterVel, tiltAngle, 0.0);
                     }
                     else
                     {
-                        gyroAngle = robot.robotDrive.driveBase.getDriveGyroAngle();
                         aprilTagId = -1;
                         shooterVel = null;
                         tiltAngle = null;
+                        rotPower = driveInputs[2];
                         if (driverAltFunc && robot.shooter != null)
                         {
                             robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
@@ -220,13 +227,15 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     {
                         if (robot.robotDrive.driveBase.supportsHolonomicDrive())
                         {
+                            double gyroAngle = robot.robotDrive.driveBase.getDriveGyroAngle();
                             robot.robotDrive.driveBase.holonomicDrive(
                                 null, driveInputs[0], driveInputs[1], driveInputs[2], gyroAngle);
                             if (subsystemStatusOn)
                             {
                                 String s = String.format(
                                     Locale.US, "Holonomic: x=%.3f, y=%.3f, rot=%.3f, angle=%.3f",
-                                    driveInputs[0], driveInputs[1], driveInputs[2], gyroAngle);
+                                    driveInputs[0], driveInputs[1], aprilTagId == -1? driveInputs[2]: rotPower,
+                                    gyroAngle);
                                 if (aprilTagId != -1)
                                 {
                                     s += String.format(
