@@ -248,8 +248,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 {
                     tracer.traceInfo(moduleName, "Using AprilTag Vision.");
                     // Get the Tilter out of the way of the camera.
-                    // TODO: debug why event is not firing?!
-                    robot.shooter.setTiltAngle(currOwner, RobotParams.Shooter.tiltTurtleAngle, event, 1.0);
+                    robot.shooter.setTiltAngle(currOwner, RobotParams.Shooter.tiltTurtleAngle, event, 0.0);
                     sm.waitForSingleEvent(event, State.FIND_APRILTAG);
                 }
                 else
@@ -300,7 +299,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 {
                     // Can't find AprilTag, set a timeout and try again.
                     // TODO: re-evaluate timeout!
-                    visionExpiredTime = TrcTimer.getCurrentTime() + 3.0;//1.0;
+                    visionExpiredTime = TrcTimer.getCurrentTime() + 2.0;
                 }
                 else if (TrcTimer.getCurrentTime() >= visionExpiredTime)
                 {
@@ -353,7 +352,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     // of this situation.
                     // If we are in auto and did not see AprilTag, just align to the field and shoot blind.
                     robot.robotDrive.purePursuitDrive.start(
-                        currOwner, event, 0.5, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        currOwner, event, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
                         RobotParams.SwerveDriveBase.ROBOT_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.ROBOT_MAX_ACCELERATION,
                         new TrcPose2D(0.0, 0.0,
