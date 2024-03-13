@@ -128,27 +128,27 @@ public class RobotParams
         public static final double SW_ANGLE_RADIAN              = Math.toRadians(63.5);
 
         public static final TrcPose2D STARTPOS_BLUE_SW_SOURCE_SIDE= new TrcPose2D(
-            -(Field.WIDTH / 2.0 + 57.0) + (20.25 + Robot.WIDTH / 2.0 / Math.cos(SW_ANGLE_RADIAN)),
-            (40.5 - Robot.WIDTH / 2.0) * Math.sin(SW_ANGLE_RADIAN),
+            -(Field.WIDTH / 2.0 + 57.0) + (20.25 + Robot.WIDTH / 2.0 * Math.cos(SW_ANGLE_RADIAN)),
+            34.17 - Robot.WIDTH / 2.0 * Math.sin(SW_ANGLE_RADIAN),
             180.0 + 63.5);
         public static final TrcPose2D STARTPOS_BLUE_SW_CENTER   = new TrcPose2D(
             -(Field.WIDTH / 2.0 + 57.0), 34.17 + Robot.LENGTH / 2.0, 180.0);
         public static final TrcPose2D STARTPOS_BLUE_SW_AMP_SIDE = new TrcPose2D(
-            -(Field.WIDTH / 2.0 + 57.0) - (20.25 + Robot.WIDTH / 2.0 / Math.cos(SW_ANGLE_RADIAN)),
-            (40.5 - Robot.WIDTH / 2.0) * Math.sin(SW_ANGLE_RADIAN),
+            -(Field.WIDTH / 2.0 + 57.0) - (20.25 + Robot.WIDTH / 2.0 * Math.cos(SW_ANGLE_RADIAN)),
+            34.17 - Robot.WIDTH / 2.0 * Math.sin(SW_ANGLE_RADIAN),
             180.0 - 63.5);
         public static final TrcPose2D STARTPOS_BLUE_AMP         = new TrcPose2D(
             -Field.WIDTH + 17.75 + Robot.LENGTH / 2.0, 74.1 - Robot.WIDTH / 2.0, -90.0);
 
         public static final TrcPose2D STARTPOS_RED_SW_SOURCE_SIDE= new TrcPose2D(
-            -(Field.WIDTH / 2.0 + 57.0) + (20.25 + Robot.WIDTH / 2.0 / Math.cos(SW_ANGLE_RADIAN)),
-            Field.LENGTH - (40.5 - Robot.WIDTH / 2.0) * Math.sin(SW_ANGLE_RADIAN),
+            -(Field.WIDTH / 2.0 + 57.0) + (20.25 + Robot.WIDTH / 2.0 * Math.cos(SW_ANGLE_RADIAN)),
+            Field.LENGTH - (34.17 - Robot.WIDTH / 2.0 * Math.sin(SW_ANGLE_RADIAN)),
             -63.5);
         public static final TrcPose2D STARTPOS_RED_SW_CENTER    = new TrcPose2D(
             -(Field.WIDTH / 2.0 + 57.0), Field.LENGTH - (34.7 + Robot.LENGTH / 2.0), 0.0);
         public static final TrcPose2D STARTPOS_RED_SW_AMP_SIDE  = new TrcPose2D(
-            -(Field.WIDTH / 2.0 + 57.0) - (20.25 + Robot.WIDTH / 2.0 / Math.cos(SW_ANGLE_RADIAN)),
-            Field.LENGTH - (40.5 - Robot.WIDTH / 2.0) * Math.sin(SW_ANGLE_RADIAN),
+            -(Field.WIDTH / 2.0 + 57.0) - (20.25 + Robot.WIDTH / 2.0 * Math.cos(SW_ANGLE_RADIAN)),
+            Field.LENGTH - (34.17 - Robot.WIDTH / 2.0 * Math.sin(SW_ANGLE_RADIAN)),
             63.5);
         public static final TrcPose2D STARTPOS_RED_AMP          = new TrcPose2D(
             -Field.WIDTH + 17.75 + Robot.LENGTH / 2.0, Field.LENGTH - (74.1 - Robot.WIDTH / 2.0), -90.0);

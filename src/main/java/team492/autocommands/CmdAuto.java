@@ -22,6 +22,7 @@
 
 package team492.autocommands;
 
+import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
@@ -177,6 +178,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     scoreWingNotes = FrcAuto.autoChoices.getScoreWingNotes();
                     endAction = FrcAuto.autoChoices.getEndAction();
                     relocalize = FrcAuto.autoChoices.getRelocalize();
+                    robot.shooter.tracer.setTraceLevel(TrcDbgTrace.MsgLevel.DEBUG);
 
                     robot.shooter.aimShooter(
                         null, RobotParams.Shooter.shooterSpeakerCloseVelocity,
