@@ -252,7 +252,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         targetPose = robotPose.clone();
                         targetPose.angle = alliance == Alliance.Red? 0.0: 180.0;
-                        if (Math.abs(targetPose.x) < 24.0)
+                        if (Math.abs(targetPose.x) < 20.0)
                         {
                             TrcPose2D intermediatePose = targetPose.clone();
                             intermediatePose.y += alliance == Alliance.Red? 12.0: -12.0;
