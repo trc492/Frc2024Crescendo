@@ -252,11 +252,26 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         targetPose = robotPose.clone();
                         targetPose.angle = alliance == Alliance.Red? 0.0: 180.0;
-                        robot.robotDrive.purePursuitDrive.start(
-                            event, robotPose, false,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                            targetPose);
+                        if (Math.abs(targetPose.x) < 24.0)
+                        {
+                            TrcPose2D intermediatePose = targetPose.clone();
+                            intermediatePose.y += alliance == Alliance.Red? 12.0: -12.0;
+                            robot.globalTracer.traceInfo(
+                                moduleName, "Too close to the stage post at " + targetPose + ", move a bit forward.");
+                            robot.robotDrive.purePursuitDrive.start(
+                                event, robotPose, false,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                                intermediatePose, targetPose);
+                        }
+                        else
+                        {
+                            robot.robotDrive.purePursuitDrive.start(
+                                event, robotPose, false,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                                targetPose);
+                        }
                         sm.addEvent(event);
                         aprilTagVisionEnabled = true;
                         sm.addEvent(aprilTagEvent);
