@@ -29,6 +29,7 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcCommonLib.trclib.TrcUtil;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -382,7 +383,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                         {
                             // Use vision distance to look up shooter parameters.
                             ShootParamTable.Params shootParams =
-                                RobotParams.Shooter.speakerShootParamTable.get(aprilTagPose.y);
+                                RobotParams.Shooter.speakerShootParamTable.get(TrcUtil.magnitude(aprilTagPose.x, aprilTagPose.y));
                             tracer.traceInfo(
                                 moduleName, "ShootParams: distance=" + aprilTagPose.y + ", params=" + shootParams);
                             shooterVel = shootParams.shooterVelocity;

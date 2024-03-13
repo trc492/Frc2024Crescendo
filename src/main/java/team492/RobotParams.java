@@ -661,7 +661,7 @@ public class RobotParams
         public static final boolean exitSensorInverted          = true;
 
         public static final double intakePower                  = 0.85;
-        public static final double ejectForwardPower            = 0.5;
+        public static final double ejectForwardPower            = 1.0;
         public static final double noteDistanceThreshold        = 72.0;
     }   //class Intake
 
