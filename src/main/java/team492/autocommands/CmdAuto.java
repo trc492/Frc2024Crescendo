@@ -143,7 +143,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
             DetectedObject noteObj = robot.photonVisionBack.getBestDetectedObject(noteEvent);
             if (noteObj != null)
             {
-                if (noteObj.targetPose.y > 144.0 || Math.abs(noteObj.targetPose.angle) > 20.0)
+                if (noteObj.targetPose.y > RobotParams.Intake.noteDistanceThreshold ||
+                    Math.abs(noteObj.targetPose.angle) > RobotParams.Intake.noteAngleThreshold)
                 {
                     robot.globalTracer.traceInfo(
                         moduleName, "Vision found note too far or not turn enough at " + noteObj + ".");
@@ -252,7 +253,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         targetPose = robotPose.clone();
                         targetPose.angle = alliance == Alliance.Red? 0.0: 180.0;
-                        if (Math.abs(targetPose.x) < 20.0)
+                        if (Math.abs(targetPose.x + RobotParams.Field.WIDTH) < RobotParams.Field.MIDFIELD_THRESHOLD)
                         {
                             TrcPose2D intermediatePose = targetPose.clone();
                             intermediatePose.y += alliance == Alliance.Red? 12.0: -12.0;
@@ -320,13 +321,29 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     int centerlineNoteIndex = Math.abs(robotPose.x) < RobotParams.Field.WIDTH / 2.0? 0: 4;
                     TrcPose2D centerlineNotePose =
                         RobotParams.Game.centerlineNotePoses[centerlineNoteIndex].clone();
-                    centerlineNotePose.y -= 72.0;
+                    centerlineNotePose.y -= 60.0;
                     centerlineNotePose.angle = 180.0;
-                    robot.robotDrive.purePursuitDrive.start(
-                        event, robotPose, false,
-                        RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
-                        RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                        robot.adjustPoseByAlliance(centerlineNotePose, alliance));
+
+                    if (centerlineNoteIndex == 0)
+                    {
+                        TrcPose2D intermediatePose = robotPose.clone();
+                        intermediatePose.x += 24.0;
+                        robot.robotDrive.purePursuitDrive.start(
+                            event, robotPose, false,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                            robot.adjustPoseByAlliance(intermediatePose, alliance),
+                            robot.adjustPoseByAlliance(centerlineNotePose, alliance));
+                    }
+                    else
+                    {
+                        robot.robotDrive.purePursuitDrive.start(
+                            event, robotPose, false,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                            robot.adjustPoseByAlliance(centerlineNotePose, alliance));
+                    }
+
                     sm.waitForSingleEvent(event, endAction == EndAction.PARK? State.DONE: State.PICKUP_CENTERLINE_NOTE);
                     break;
 

@@ -106,6 +106,7 @@ public class RobotParams
         // Field dimensions in inches.
         public static final double LENGTH                       = 651.2;    //54.0*12.0;
         public static final double WIDTH                        = 323.28;   //27.0*12.0;
+        public static final double MIDFIELD_THRESHOLD           = 20.0;
     }   //class Field
 
     public static class Robot
@@ -660,7 +661,8 @@ public class RobotParams
 
         public static final double intakePower                  = 0.85;
         public static final double ejectForwardPower            = 1.0;
-        public static final double noteDistanceThreshold        = 72.0;
+        public static final double noteDistanceThreshold        = 144.0;
+        public static final double noteAngleThreshold           = 20.0;
     }   //class Intake
 
     public static class Shooter
