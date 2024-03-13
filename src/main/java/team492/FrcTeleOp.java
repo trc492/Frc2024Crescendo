@@ -22,7 +22,6 @@
 
 package team492;
 
-import java.util.Arrays;
 import java.util.Locale;
 
 import TrcCommonLib.trclib.TrcPidController;
@@ -56,7 +55,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     private TrcPidController trackingPidCtrl;
     private double driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
     private double turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
-    private double[] prevDriveInputs = null;
+    // private double[] prevDriveInputs = null;
     // Shooter subsystem.
     private double prevShooterVel = 0.0;
     private double prevTiltPower = 0.0;
@@ -210,8 +209,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             tiltAngle = shootParams.tiltAngle;
                         }
                         rotPower = trackingPidCtrl.getOutput(aprilTagPose.angle, 0.0);
-                        // robot.globalTracer.traceInfo(moduleName, "aprilTagAngle=" + aprilTagPose.angle + ", rotPower=" + rotPower);
                         robot.shooter.aimShooter(shooterVel, tiltAngle, 0.0);
+                        // robot.globalTracer.traceInfo(moduleName, "aprilTagAngle=" + aprilTagPose.angle + ", rotPower=" + rotPower);
                     }
                     else
                     {
@@ -225,8 +224,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         }
                     }
 
-                    if (!Arrays.equals(driveInputs, prevDriveInputs))
-                    {
+                    // if (!Arrays.equals(driveInputs, prevDriveInputs))
+                    // {
                         if (robot.robotDrive.driveBase.supportsHolonomicDrive())
                         {
                             double gyroAngle = robot.robotDrive.driveBase.getDriveGyroAngle();
@@ -266,12 +265,12 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                                     driveInputs[0], driveInputs[1], driveInputs[2]);
                             }
                         }
-                    }
-                    else if (subsystemStatusOn)
-                    {
-                        lineNum++;
-                    }
-                    prevDriveInputs = driveInputs;
+                    // }
+                    // else if (subsystemStatusOn)
+                    // {
+                    //     lineNum++;
+                    // }
+                    // prevDriveInputs = driveInputs;
                     if (subsystemStatusOn)
                     {
                         robot.dashboard.displayPrintf(
