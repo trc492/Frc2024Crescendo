@@ -27,6 +27,7 @@ import java.util.Optional;
 
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcPose3D;
 import TrcCommonLib.trclib.TrcTimer;
@@ -173,19 +174,38 @@ public class PhotonVision extends FrcPhotonVision
     /**
      * This method returns the best detected object.
      *
+     * @param detectionEvent specifies the event to signal when it detects the target.
+     * @return best detected object.
+     */
+    public DetectedObject getBestDetectedObject(TrcEvent detectionEvent)
+    {
+        DetectedObject bestDetectedObj = super.getBestDetectedObject();
+
+        if (bestDetectedObj != null)
+        {
+            if (detectionEvent != null)
+            {
+                detectionEvent.signal();
+            }
+
+            if (ledIndicator != null)
+            {
+                ledIndicator.setPhotonDetectedObject(getPipeline());
+            }
+        }
+
+        return bestDetectedObj;
+    }   //getBestDetectedObject
+
+    /**
+     * This method returns the best detected object.
+     *
      * @return best detected object.
      */
     @Override
     public DetectedObject getBestDetectedObject()
     {
-        DetectedObject bestDetectedObj = super.getBestDetectedObject();
-
-        if (bestDetectedObj != null && ledIndicator != null)
-        {
-            ledIndicator.setPhotonDetectedObject(getPipeline());
-        }
-
-        return bestDetectedObj;
+        return getBestDetectedObject(null);
     }   //getBestDetectedObject
 
     /**
@@ -215,10 +235,11 @@ public class PhotonVision extends FrcPhotonVision
      * This method get the best detected AprilTag matching the specified AprilTag IDs array sorted by most preferred
      * ID at the top.
      *
+     * @param detectionEvent specifies the event to signal when it detects the target.
      * @param aprilTagIds specifies the AprilTag IDs to look for.
      * @return best detected AprilTag.
      */
-    public DetectedObject getBestDetectedAprilTag(int... aprilTagIds)
+    public DetectedObject getBestDetectedAprilTag(TrcEvent detectionEvent, int... aprilTagIds)
     {
         DetectedObject bestObj = null;
 
@@ -244,12 +265,32 @@ public class PhotonVision extends FrcPhotonVision
             }
         }
 
-        if (bestObj != null && ledIndicator != null)
+        if (bestObj != null)
         {
-            ledIndicator.setPhotonDetectedObject(currPipeline);
+            if (detectionEvent != null)
+            {
+                detectionEvent.signal();
+            }
+
+            if  (ledIndicator != null)
+            {
+                ledIndicator.setPhotonDetectedObject(currPipeline);
+            }
         }
 
         return bestObj;
+    }   //getBestDetectedAprilTag
+
+    /**
+     * This method get the best detected AprilTag matching the specified AprilTag IDs array sorted by most preferred
+     * ID at the top.
+     *
+     * @param aprilTagIds specifies the AprilTag IDs to look for.
+     * @return best detected AprilTag.
+     */
+    public DetectedObject getBestDetectedAprilTag(int... aprilTagIds)
+    {
+        return getBestDetectedAprilTag(null, aprilTagIds);
     }   //getBestDetectedAprilTag
 
     /**

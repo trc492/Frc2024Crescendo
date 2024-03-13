@@ -62,6 +62,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private final AutoChoices autoChoices;
     private final TrcTimer timer;
     private final TrcEvent event;
+    private final TrcEvent aprilTagEvent;
+    private final TrcEvent noteEvent;
     private final TrcStateMachine<State> sm;
     private Alliance alliance;
     private AutoStartPos startPos;
@@ -69,6 +71,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private EndAction endAction;
     private boolean relocalize;
     private int numWingNotesScored = 0;
+    private boolean aprilTagVisionEnabled = false;
+    private boolean noteVisionEnabled = false;
+    // private DetectedObject aprilTagObj = null;
+    // private DetectedObject noteObj = null;
 
     /**
      * Constructor: Create an instance of the object.
@@ -83,6 +89,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
         timer = new TrcTimer(moduleName);
         event = new TrcEvent(moduleName);
+        aprilTagEvent = new TrcEvent(moduleName + ".aprilTagEvent");
+        noteEvent = new TrcEvent(moduleName + ".noteEvent");
         sm = new TrcStateMachine<>(moduleName);
         sm.start(State.START);
     }   //CmdAuto
@@ -123,6 +131,17 @@ public class CmdAuto implements TrcRobot.RobotCommand
     {
         State state = sm.checkReadyAndGetState();
 
+        // Must have vision to perform this autonomous.
+        if (aprilTagVisionEnabled)
+        {
+            robot.photonVisionFront.getBestDetectedAprilTag(aprilTagEvent, new int[] {4, 8});
+        }
+
+        if (noteVisionEnabled)
+        {
+            robot.photonVisionBack.getBestDetectedObject(noteEvent);
+        }
+
         if (state == null)
         {
             robot.dashboard.displayPrintf(8, "State: disabled or waiting (nextState=" + sm.getNextState() + ")...");
@@ -144,13 +163,18 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     endAction = FrcAuto.autoChoices.getEndAction();
                     relocalize = FrcAuto.autoChoices.getRelocalize();
 
-                    robot.autoScoreNote.autoAssistScore(
-                        startPos == AutoStartPos.AMP? TargetType.Amp: TargetType.Speaker, true, true, relocalize, event);
+                    robot.shooter.aimShooter(
+                        null, RobotParams.Shooter.shooterSpeakerCloseVelocity,
+                        RobotParams.Shooter.tiltSpeakerCloseAngle, 0.0, event, 0.0, robot::shoot, 0.0);
                     sm.waitForSingleEvent(event, State.DO_DELAY);
                     break;
 
                 case DO_DELAY:
                     // Do delay if there is one.
+                    robot.shooter.aimShooter(
+                        RobotParams.Shooter.wingNotePresetParams.shooterVelocity,
+                        RobotParams.Shooter.wingNotePresetParams.tiltAngle, 0.0);
+
                     double startDelay = autoChoices.getStartDelay();
                     if (startDelay > 0.0)
                     {
@@ -184,7 +208,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                                 robot.adjustPoseByAlliance(wingNotePose, alliance));
-                            sm.waitForSingleEvent(event, State.PICKUP_WING_NOTE);
+                            sm.addEvent(event);
+                            noteVisionEnabled = true;
+                            sm.addEvent(noteEvent);
+                            sm.waitForEvents(State.PICKUP_WING_NOTE, false);
                         }
                         else
                         {
@@ -194,6 +221,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case PICKUP_WING_NOTE:
+                    robot.robotDrive.purePursuitDrive.cancel();
+                    noteVisionEnabled = false;
                     robot.autoPickupFromGround.autoAssistPickup(true, true, event);
                     sm.waitForSingleEvent(event, State.TURN_TO_SPEAKER);
                     break;
@@ -214,7 +243,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             targetPose);
-                        sm.waitForSingleEvent(event, State.SCORE_WING_NOTE);
+                        sm.addEvent(event);
+                        aprilTagVisionEnabled = true;
+                        sm.addEvent(aprilTagEvent);
+                        sm.waitForEvents(State.SCORE_WING_NOTE, false);
                     }
                     else
                     {
@@ -223,7 +255,9 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case SCORE_WING_NOTE:
-                    robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, false, event);
+                    robot.robotDrive.purePursuitDrive.cancel();
+                    aprilTagVisionEnabled = false;
+                    robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, relocalize, event);
                     numWingNotesScored++;
                     sm.waitForSingleEvent(event, State.TURN_TO_WING_NOTES);
                     break;
@@ -240,7 +274,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             targetPose);
-                        sm.waitForSingleEvent(event, State.PICKUP_WING_NOTE);
+                        sm.addEvent(event);
+                        noteVisionEnabled = true;
+                        sm.addEvent(noteEvent);
+                        sm.waitForEvents(State.PICKUP_WING_NOTE, false);
                     }
                     else
                     {

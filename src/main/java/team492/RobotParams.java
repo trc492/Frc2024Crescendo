@@ -712,18 +712,18 @@ public class RobotParams
         // public static final ShootParamTable.Params stageShootParams = new ShootParamTable.Params(
         //     "Stage", 0.0, 30.0, 60.0);
 
-        public static final String SPEAKER_PARAM_NAME           = "Speaker0ft";
+        public static final String SPEAKER_UPCLOSE_ENTRY        = "Speaker0ft";
+        public static final String WING_NOTE_ENTRY              = "Speaker5ft";
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
-            .add(SPEAKER_PARAM_NAME,    55.7, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
+            .add(SPEAKER_UPCLOSE_ENTRY, 55.7, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
             .add("Speaker1ft",          68.2, 90.0, 60.0)    
             .add("Speaker2ft",          80.0, 90.0, 46.0)    
             .add("Speaker3ft",          92.0, 90.0, 43.0)    
             .add("Speaker4ft",          104.0, 90.0, 40.0)   
             .add("Speaker5ft",          117.2, 90.0, 37.0)   
             .add("Speaker6ft",          129.4, 90.0, 35.0)
-            // TODO: CodeReview: This entry looks wrong. The angle is going into the wrong direction.
-            .add("Speaker7ft",          139.0, 90.0, 38.0);
-        public static final ShootParamTable.Params speakerParams = speakerShootParamTable.get(SPEAKER_PARAM_NAME);
+            .add("Speaker7ft",          139.0, 90.0, 35.0);
+        public static final ShootParamTable.Params wingNotePresetParams = speakerShootParamTable.get(WING_NOTE_ENTRY);
     }   //class Shooter
 
     public static class Climber
