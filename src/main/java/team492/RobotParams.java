@@ -60,7 +60,7 @@ public class RobotParams
     {
         // Global config
         public static final RobotType robotType                 = RobotType.SwerveRobot;
-        public static final boolean inCompetition               = true;
+        public static final boolean inCompetition               = false;
         public static final boolean hybridMode                  = false;
         public static final boolean useTraceLog                 = true;
         // Status Update
@@ -689,7 +689,7 @@ public class RobotParams
         public static final double tiltGearRatio                = 59.0/18.0;
         public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
         public static final double tiltPosOffset                = -15.0;    // in degrees
-        public static final double tiltZeroOffset               = 0.018;    // in raw encoder unit
+        public static final double tiltZeroOffset               = 0.0;//0.018;    // in raw encoder unit
         public static final double tiltPowerLimit               = 0.5;
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.023, 0.0, 0.001, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
@@ -715,13 +715,13 @@ public class RobotParams
         public static final String SPEAKER_UPCLOSE_ENTRY        = "Speaker0ft";
         public static final String WING_NOTE_ENTRY              = "Speaker5ft";
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
-            .add(SPEAKER_UPCLOSE_ENTRY, 55.7, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
-            .add("Speaker1ft",          68.2, 90.0, 60.0)    
-            .add("Speaker2ft",          80.0, 90.0, 46.0)    
-            .add("Speaker3ft",          92.0, 90.0, 43.0)    
-            .add("Speaker4ft",          104.0, 90.0, 40.0)   
-            .add("Speaker5ft",          117.2, 90.0, 37.0)   
-            .add("Speaker6ft",          129.4, 90.0, 35.0)
+            .add(SPEAKER_UPCLOSE_ENTRY, 56.1, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
+            .add("Speaker1ft",          67.2, 90.0, 58.0)
+            .add("Speaker2ft",          78.4, 90.0, 47.0)
+            .add("Speaker3ft",          90.0, 90.0, 45.0)
+            .add("Speaker4ft",          102.1, 90.0, 43.0)
+            .add("Speaker5ft",          114.1, 90.0, 39.0)
+            .add("Speaker6ft",          126.7, 90.0, 37.0)
             .add("Speaker7ft",          139.0, 90.0, 35.0);
         public static final ShootParamTable.Params wingNotePresetParams = speakerShootParamTable.get(WING_NOTE_ENTRY);
     }   //class Shooter
