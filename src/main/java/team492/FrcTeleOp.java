@@ -211,7 +211,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         }
                         rotPower = trackingPidCtrl.getOutput(aprilTagPose.angle, 0.0);
                         // robot.globalTracer.traceInfo(moduleName, "aprilTagAngle=" + aprilTagPose.angle + ", rotPower=" + rotPower);
-                        // robot.shooter.aimShooter(shooterVel, tiltAngle, 0.0);
+                        robot.shooter.aimShooter(shooterVel, tiltAngle, 0.0);
                     }
                     else
                     {
@@ -598,7 +598,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 // AutoShoot at Speaker with Vision, hold AltFunc for no vision.
                 if (robot.intake != null && robot.shooter != null && pressed)
                 {
-                    boolean active = robot.autoScoreNote.isActive();
+                    boolean active = !robot.autoScoreNote.isActive();
                     if (active)
                     {
                         // Press and hold altFunc for manual shooting (no vision).
