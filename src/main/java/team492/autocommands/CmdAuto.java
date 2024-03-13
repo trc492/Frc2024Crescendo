@@ -143,7 +143,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
             DetectedObject noteObj = robot.photonVisionBack.getBestDetectedObject(noteEvent);
             if (noteObj != null)
             {
-                if (noteObj.targetPose.y > 120.0 || Math.abs(noteObj.targetPose.angle) > 20.0)
+                if (noteObj.targetPose.y > 144.0 || Math.abs(noteObj.targetPose.angle) > 20.0)
                 {
                     robot.globalTracer.traceInfo(
                         moduleName, "Vision found note too far or not turn enough at " + noteObj + ".");
