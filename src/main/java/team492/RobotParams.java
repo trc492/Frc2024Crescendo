@@ -433,7 +433,7 @@ public class RobotParams
         public final double TURN_KD                             = 0.0004;
         public final double TURN_KF                             = 0.0;
         public final double TURN_IZONE                          = 10.0;
-        public final double TURN_TOLERANCE                      = 1.0;
+        public final double TURN_TOLERANCE                      = 2.0;
 
         // Not tuned (not used).
         public final double X_TIPPING_KP                        = 0.01;

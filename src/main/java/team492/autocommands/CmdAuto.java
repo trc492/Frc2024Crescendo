@@ -27,6 +27,7 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcStateMachine;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcFrcLib.frclib.FrcPhotonVision.DetectedObject;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import team492.FrcAuto;
 import team492.Robot;
@@ -139,7 +140,20 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
         if (noteVisionEnabled)
         {
-            robot.photonVisionBack.getBestDetectedObject(noteEvent);
+            DetectedObject noteObj = robot.photonVisionBack.getBestDetectedObject(noteEvent);
+            if (noteObj != null)
+            {
+                if (noteObj.targetPose.y > 120.0 || Math.abs(noteObj.targetPose.angle) > 20.0)
+                {
+                    robot.globalTracer.traceInfo(
+                        moduleName, "Vision found note too far or not turn enough at " + noteObj + ".");
+                    noteEvent.clear();
+                }
+                else
+                {
+                    robot.globalTracer.traceInfo(moduleName, "Vision found note at " + noteObj + ".");
+                }
+            }
         }
 
         if (state == null)
@@ -259,6 +273,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     aprilTagVisionEnabled = false;
                     robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, relocalize, event);
                     numWingNotesScored++;
+                    robot.globalTracer.traceInfo(moduleName, "Scoring Wing Note " + numWingNotesScored);
                     sm.waitForSingleEvent(event, State.TURN_TO_WING_NOTES);
                     break;
 
