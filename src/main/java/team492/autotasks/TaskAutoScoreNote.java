@@ -80,6 +80,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     private final String ownerName;
     private final Robot robot;
     private final TrcEvent event;
+    private final TrcEvent driveEvent;
 
     private String currOwner = null;
     private String driveOwner = null;
@@ -99,6 +100,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
         this.ownerName = ownerName;
         this.robot = robot;
         this.event = new TrcEvent(moduleName + ".event");
+        this.driveEvent = new TrcEvent(moduleName + ".driveEvent");
     }   //TaskAutoScoreNote
 
     /**
@@ -248,15 +250,16 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 if (taskParams.useVision && robot.photonVisionFront != null)
                 {
                     tracer.traceInfo(moduleName, "Using AprilTag Vision.");
-                    // Get the Tilter out of the way of the camera.
-                    robot.shooter.setTiltAngle(currOwner, RobotParams.Shooter.tiltTurtleAngle, event, 0.0);
-                    sm.waitForSingleEvent(event, State.FIND_APRILTAG);
+                    sm.setState(State.FIND_APRILTAG);
+                    // // Get the Tilter out of the way of the camera.
+                    // robot.shooter.setTiltAngle(currOwner, RobotParams.Shooter.tiltTurtleAngle, event, 0.0);
+                    // sm.waitForSingleEvent(event, State.FIND_APRILTAG);
                 }
                 else
                 {
                     // Not using AprilTag vision, skip vision and just score at current location.
                     tracer.traceInfo(moduleName, "Not using AprilTag Vision.");
-                    sm.setState(State.SCORE_NOTE);
+                    sm.setState(State.DRIVE_TO_APRILTAG);
                 }
                 break;
 
@@ -299,7 +302,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 else if (visionExpiredTime == null)
                 {
                     // Can't find AprilTag, set a timeout and try again.
-                    visionExpiredTime = TrcTimer.getCurrentTime() + 2.0;
+                    visionExpiredTime = TrcTimer.getCurrentTime() + 1.0;
                 }
                 else if (TrcTimer.getCurrentTime() >= visionExpiredTime)
                 {
@@ -312,97 +315,107 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
             case DRIVE_TO_APRILTAG:
                 if (taskParams.targetType == TargetType.Speaker)
                 {
+                    // Score to Speaker.
                     sm.setState(State.AIM_IN_PLACE);
-                }
-                else if (aprilTagPose != null)
-                {
-                    TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                    Pose3d aprilTagFieldPose3d = robot.photonVisionFront.getAprilTagFieldPose3d(aprilTagId);
-                    TrcPose2D targetPose = robot.photonVisionFront.getTargetPoseOffsetFromAprilTag(
-                        aprilTagFieldPose3d, 0.0, -RobotParams.Robot.LENGTH / 2.0, -90.0);
-                    tracer.traceInfo(
-                        moduleName,
-                        state + ": RobotFieldPose=" + robotPose +
-                        "\n\taprilTagPose=" + aprilTagPose +
-                        "\n\ttargetPose=" + targetPose);
-                    robot.robotDrive.purePursuitDrive.start(
-                        currOwner, event, 0.0, robotPose, false,
-                        RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
-                        RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                        targetPose);
-                    sm.waitForSingleEvent(event, State.SCORE_NOTE);
                 }
                 else
                 {
-                    // Did not detect AprilTag, tell the drivers so they can score manually if in TeleOp and quit.
-                    // If in Auto, shoot it to get rid of the Note anyway or we won't be able to get the Wing Notes.
-                    // We could also shoot it to Speaker, but it complicates the logic a lot.
-                    if (robot.ledIndicator != null)
+                    // Score to Amp.
+                    robot.shooter.aimShooter(
+                        currOwner, RobotParams.Shooter.shooterAmpVelocity, RobotParams.Shooter.tiltAmpAngle, 0.0,
+                        event, 0.0);
+                    sm.addEvent(event);
+
+                    if (taskParams.inAuto && aprilTagPose != null)
                     {
-                        robot.ledIndicator.setPhotonDetectedObject(null);
+                        // Drive and align to the Amp using Vision.
+                        TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                        Pose3d aprilTagFieldPose3d = robot.photonVisionFront.getAprilTagFieldPose3d(aprilTagId);
+                        TrcPose2D targetPose = robot.photonVisionFront.getTargetPoseOffsetFromAprilTag(
+                            aprilTagFieldPose3d, 0.0, -RobotParams.Robot.LENGTH / 2.0, -90.0);
+                        tracer.traceInfo(
+                            moduleName,
+                            state + ": RobotFieldPose=" + robotPose +
+                            "\n\taprilTagPose=" + aprilTagPose +
+                            "\n\ttargetPose=" + targetPose);
+                        robot.robotDrive.purePursuitDrive.start(
+                            currOwner, driveEvent, 0.0, robotPose, false,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                            targetPose);
+                        sm.addEvent(driveEvent);
                     }
-                    sm.setState(taskParams.inAuto? State.SCORE_NOTE: State.DONE);
+                    // If score to Amp in Auto but vision doesn't see anything, get rid of the Note anyway.
+                    // If score to Amp in TeleOp, quit so the driver can score manually.
+                    sm.waitForEvents(taskParams.inAuto? State.SCORE_NOTE: State.DONE, true);
                 }
                 break;
 
             case AIM_IN_PLACE:
+                // Score to Speaker.
+                Double shooterVel = null;
+                Double tiltAngle = null;
+                // Determine shooter speed and tilt angle according to the score target type.
+                if (aprilTagPose != null)
+                {
+                    // Use vision distance to look up shooter parameters.
+                    double aprilTagDistance = TrcUtil.magnitude(aprilTagPose.x, aprilTagPose.y);
+                    ShootParamTable.Params shootParams =
+                        RobotParams.Shooter.speakerShootParamTable.get(aprilTagDistance);
+                    tracer.traceInfo(
+                        moduleName, "ShootParams: distance=" + aprilTagDistance + ", params=" + shootParams);
+                    shooterVel = shootParams.shooterVelocity;
+                    tiltAngle = shootParams.tiltAngle;
+                }
+                else if (!taskParams.useVision)
+                {
+                    // Did not use vision, must be shooting at Speaker up close.
+                    shooterVel = RobotParams.Shooter.shooterSpeakerCloseVelocity;
+                    tiltAngle = RobotParams.Shooter.tiltSpeakerCloseAngle;
+                    tracer.traceInfo(moduleName, "Not using vision: shoot at speakere up close.");
+                }
+                else if (taskParams.inAuto)
+                {
+                    // In Auto, using vision but did not see target, shoot it out anyway to get rid of it.
+                    shooterVel = RobotParams.Shooter.shooterAmpVelocity;
+                    tiltAngle = RobotParams.Shooter.tiltAmpAngle;
+                    tracer.traceInfo(moduleName, "In auto but vision see nothing: get rid of the Note.");
+                }
+
+                if (shooterVel != null && tiltAngle != null)
+                {
+                    robot.shooter.aimShooter(currOwner, shooterVel, tiltAngle, 0.0, event, 0.0);
+                    sm.addEvent(event);
+                }
+                // Align in-place with Speaker.
+                State nextState;
                 if (aprilTagPose != null || taskParams.inAuto)
                 {
-                    // If we are up against the subwoofer, PurePursuitDrive will get stuck. Set a timeout to get out
-                    // of this situation.
                     // If we are in auto and did not see AprilTag, just align to the field and shoot blind.
                     robot.robotDrive.purePursuitDrive.start(
-                        currOwner, event, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                         new TrcPose2D(0.0, 0.0,
                             aprilTagPose != null? aprilTagPose.angle:
                             FrcAuto.autoChoices.getAlliance() == Alliance.Red? 0.0: 180.0));
-                    sm.waitForSingleEvent(event, State.SCORE_NOTE);
+                    sm.addEvent(driveEvent);
+                    nextState = State.SCORE_NOTE;
                 }
                 else
                 {
-                    // Did not detect AprilTag, tell the drivers so they can score manually if in TeleOp and quit.
+                    // In TeleOp and vision did not see AprilTag, quit and tell drivers so they can score manually.
                     if (robot.ledIndicator != null)
                     {
                         robot.ledIndicator.setPhotonDetectedObject(null);
                     }
-                    sm.setState(State.DONE);
+                    nextState = State.DONE;
                 }
+                sm.waitForEvents(nextState, true);
                 break;
 
             case SCORE_NOTE:
-                // Determine shooter speed and tilt angle according to the score target type.
-                double shooterVel = 0.0;
-                double tiltAngle = 0.0;
-
-                switch (taskParams.targetType)
-                {
-                    case Speaker:
-                        if (aprilTagPose != null)
-                        {
-                            // Use vision distance to look up shooter parameters.
-                            ShootParamTable.Params shootParams =
-                                RobotParams.Shooter.speakerShootParamTable.get(TrcUtil.magnitude(aprilTagPose.x, aprilTagPose.y));
-                            tracer.traceInfo(
-                                moduleName, "ShootParams: distance=" + aprilTagPose.y + ", params=" + shootParams);
-                            shooterVel = shootParams.shooterVelocity;
-                            tiltAngle = shootParams.tiltAngle;
-                        }
-                        else if (!taskParams.useVision)
-                        {
-                            // Did not use vision, must be shooting at Speaker close-up.
-                            shooterVel = RobotParams.Shooter.shooterSpeakerCloseVelocity;
-                            tiltAngle = RobotParams.Shooter.tiltSpeakerCloseAngle;
-                        }
-                        break;
-
-                    case Amp:
-                        shooterVel = RobotParams.Shooter.shooterAmpVelocity;
-                        tiltAngle = RobotParams.Shooter.tiltAmpAngle;
-                        break;
-                }
-                robot.shooter.aimShooter(currOwner, shooterVel, tiltAngle, 0.0, event, 0.0, robot::shoot, 1.0);
+                robot.shoot(currOwner, event);
                 sm.waitForSingleEvent(event, State.DONE);
                 break;
 

@@ -102,6 +102,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         trackingPidCtrl = robot.robotDrive == null? null:
             new TrcPidController(
                 "trackingPidCtrl", robot.robotDrive.purePursuitDrive.getTurnPidCtrl().getPidCoefficients(), null);
+        trackingPidCtrl.setAbsoluteSetPoint(true);
         trackingPidCtrl.setInverted(true);
 
         if (RobotParams.Preferences.hybridMode)
@@ -209,6 +210,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             tiltAngle = shootParams.tiltAngle;
                         }
                         rotPower = trackingPidCtrl.getOutput(aprilTagPose.angle, 0.0);
+                        // robot.globalTracer.traceInfo(moduleName, "aprilTagAngle=" + aprilTagPose.angle + ", rotPower=" + rotPower);
                         // robot.shooter.aimShooter(shooterVel, tiltAngle, 0.0);
                     }
                     else
