@@ -27,6 +27,7 @@ import java.util.Locale;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
+import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcCANSparkMax;
@@ -211,7 +212,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                                 else
                                 {
                                     ShootParamTable.Params shootParams =
-                                        RobotParams.Shooter.speakerShootParamTable.get(aprilTagPose.y);
+                                        RobotParams.Shooter.speakerShootParamTable.get(
+                                            TrcUtil.magnitude(aprilTagPose.x, aprilTagPose.y));
                                     shooterVel = shootParams.shooterVelocity;
                                     tiltAngle = shootParams.tiltAngle;
                                 }
