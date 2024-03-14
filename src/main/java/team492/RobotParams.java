@@ -688,8 +688,8 @@ public class RobotParams
         public static final boolean tiltMotorInverted           = true;
         public static final double tiltGearRatio                = 59.0/18.0;
         public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
-        public static final double tiltPosOffset                = -15.0;    // in degrees
-        public static final double tiltZeroOffset               = 0.0;//0.018;    // in raw encoder unit
+        public static final double tiltPosOffset                = -17.0;    // in degrees
+        public static final double tiltZeroOffset               = 0.02;     // in raw encoder unit
         public static final double tiltPowerLimit               = 0.5;
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.023, 0.0, 0.001, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
