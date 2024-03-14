@@ -377,8 +377,8 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 else if (taskParams.inAuto)
                 {
                     // In Auto, using vision but did not see target, shoot it out anyway to get rid of it.
-                    shooterVel = RobotParams.Shooter.shooterAmpVelocity;
-                    tiltAngle = RobotParams.Shooter.tiltAmpAngle;
+                    shooterVel = RobotParams.Shooter.shooterDumpVelocity;
+                    tiltAngle = RobotParams.Shooter.tiltDumpAngle;
                     tracer.traceInfo(moduleName, "In auto but vision see nothing: get rid of the Note.");
                 }
 
