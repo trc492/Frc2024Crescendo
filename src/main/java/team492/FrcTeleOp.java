@@ -50,6 +50,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     private boolean controlsEnabled = false;
     protected boolean driverAltFunc = false;
     protected boolean operatorAltFunc = false;
+    private boolean trackingModeOn = false;
     private boolean subsystemStatusOn = true;
     // DriveBase subsystem.
     private TrcPidController trackingPidCtrl;
@@ -180,7 +181,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     Double shooterVel, tiltAngle;
                     double rotPower;
 
-                    if (driverAltFunc && aprilTagObj != null && robot.shooter != null)
+                    trackingModeOn = robot.driverController.getRightTriggerAxis() > 0.5;
+                    if (trackingModeOn && aprilTagObj != null && robot.shooter != null)
                     {
                         TrcPose2D aprilTagPose;
 
@@ -218,7 +220,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         shooterVel = null;
                         tiltAngle = null;
                         rotPower = driveInputs[2];
-                        if (driverAltFunc && robot.shooter != null)
+                        if (trackingModeOn && robot.shooter != null)
                         {
                             robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
                         }
