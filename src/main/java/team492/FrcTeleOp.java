@@ -477,21 +477,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_Y:
-                // AutoShoot at Speaker with Vision, hold AltFunc for no vision.
-                if (robot.intake != null && robot.shooter != null && pressed)
-                {
-                    robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
-                    // boolean active = !robot.autoScoreNote.isActive();
-                    // if (active)
-                    // {
-                    //     // Press and hold altFunc for manual shooting (no vision).
-                    //     robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !driverAltFunc);
-                    // }
-                    // else
-                    // {
-                    //     robot.autoAssistCancel();
-                    // }
-                }
+                driverTracking = pressed;
                 break;
 
             case FrcXboxController.LEFT_BUMPER:
@@ -516,7 +502,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.DPAD_RIGHT:
-                driverTracking = pressed;
+                // Manual shoot.
+                if (robot.intake != null && pressed)
+                {
+                    robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                }
                 break;
 
             case FrcXboxController.BACK:

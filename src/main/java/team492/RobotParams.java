@@ -659,7 +659,7 @@ public class RobotParams
         public static final boolean entrySensorInverted         = true;
         public static final boolean exitSensorInverted          = true;
 
-        public static final double intakePower                  = 0.85;
+        public static final double intakePower                  = 1.0;
         public static final double ejectForwardPower            = 1.0;
         public static final double noteDistanceThreshold        = 144.0;
         public static final double noteAngleThreshold           = 20.0;
@@ -721,8 +721,8 @@ public class RobotParams
             .add("Speaker3ft",          90.0, 90.0, 45.0)
             .add("Speaker4ft",          102.1, 90.0, 43.0)
             .add("Speaker5ft",          114.1, 90.0, 39.0)
-            .add("Speaker6ft",          126.7, 90.0, 37.0)
-            .add("Speaker7ft",          139.0, 90.0, 35.0);
+            .add("Speaker6ft",          126.7, 90.0, 38.0)
+            .add("Speaker7ft",          139.0, 90.0, 36.0);
         public static final ShootParamTable.Params wingNotePresetParams = speakerShootParamTable.get(WING_NOTE_ENTRY);
     }   //class Shooter
 
