@@ -34,7 +34,6 @@ import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import TrcFrcLib.frclib.FrcXboxController;
 import team492.autotasks.ShootParamTable;
-import team492.autotasks.TaskAutoScoreNote.TargetType;
 
 /**
  * This class implements the code to run in TeleOp Mode.
@@ -49,8 +48,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     protected final Robot robot;
     private boolean controlsEnabled = false;
     protected boolean driverAltFunc = false;
+    private boolean driverTracking = false;
+    private boolean operatorTracking = false;
+    private boolean prevTrackingModeOn = false;
     protected boolean operatorAltFunc = false;
-    private boolean trackingModeOn = false;
     private boolean subsystemStatusOn = true;
     // DriveBase subsystem.
     private TrcPidController trackingPidCtrl;
@@ -177,53 +178,55 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     double[] driveInputs = robot.robotDrive.getDriveInputs(
                         RobotParams.ROBOT_DRIVE_MODE, true, driveSpeedScale, turnSpeedScale);
-                    int aprilTagId;
-                    Double shooterVel, tiltAngle;
-                    double rotPower;
+                    double rotPower = driveInputs[2];
+                    int aprilTagId = -1;
+                    Double shooterVel = null, tiltAngle = null;
 
-                    trackingModeOn = robot.driverController.getRightTriggerAxis() > 0.5;
-                    if (trackingModeOn && aprilTagObj != null && robot.shooter != null)
+                    if (robot.shooter != null)
                     {
-                        TrcPose2D aprilTagPose;
+                        boolean trackingModeOn = driverTracking || operatorTracking;
+                        if (trackingModeOn)
+                        {
+                            if (aprilTagObj != null)
+                            {
+                                TrcPose2D aprilTagPose;
+                                aprilTagId = aprilTagObj.target.getFiducialId();
 
-                        aprilTagId = aprilTagObj.target.getFiducialId();
-                        if (aprilTagId == 3 || aprilTagId == 8)
-                        {
-                            aprilTagPose = aprilTagObj.addTransformToTarget(
-                                aprilTagObj.target, RobotParams.Vision.robotToFrontCam,
-                                aprilTagId == 3? robot.aprilTag3To4Transform: robot.aprilTag8To7Transform);
-                        }
-                        else
-                        {
-                            aprilTagPose = aprilTagObj.targetPose;
-                        }
+                                if (aprilTagId == 3 || aprilTagId == 8)
+                                {
+                                    aprilTagPose = aprilTagObj.addTransformToTarget(
+                                        aprilTagObj.target, RobotParams.Vision.robotToFrontCam,
+                                        aprilTagId == 3? robot.aprilTag3To4Transform: robot.aprilTag8To7Transform);
+                                }
+                                else
+                                {
+                                    aprilTagPose = aprilTagObj.targetPose;
+                                }
 
-                        if (aprilTagId == 5 || aprilTagId == 6)
-                        {
-                            shooterVel = RobotParams.Shooter.shooterAmpVelocity;
-                            tiltAngle = RobotParams.Shooter.tiltAmpAngle;
+                                if (aprilTagId == 5 || aprilTagId == 6)
+                                {
+                                    shooterVel = RobotParams.Shooter.shooterAmpVelocity;
+                                    tiltAngle = RobotParams.Shooter.tiltAmpAngle;
+                                }
+                                else
+                                {
+                                    ShootParamTable.Params shootParams =
+                                        RobotParams.Shooter.speakerShootParamTable.get(aprilTagPose.y);
+                                    shooterVel = shootParams.shooterVelocity;
+                                    tiltAngle = shootParams.tiltAngle;
+                                }
+                                rotPower = trackingPidCtrl.getOutput(aprilTagPose.angle, 0.0);
+                                robot.shooter.aimShooter(shooterVel, tiltAngle, 0.0);
+                                // robot.globalTracer.traceInfo(moduleName, "aprilTagAngle=" + aprilTagPose.angle + ", rotPower=" + rotPower);
+
+                            }
                         }
-                        else
-                        {
-                            ShootParamTable.Params shootParams =
-                                RobotParams.Shooter.speakerShootParamTable.get(aprilTagPose.y);
-                            shooterVel = shootParams.shooterVelocity;
-                            tiltAngle = shootParams.tiltAngle;
-                        }
-                        rotPower = trackingPidCtrl.getOutput(aprilTagPose.angle, 0.0);
-                        robot.shooter.aimShooter(shooterVel, tiltAngle, 0.0);
-                        // robot.globalTracer.traceInfo(moduleName, "aprilTagAngle=" + aprilTagPose.angle + ", rotPower=" + rotPower);
-                    }
-                    else
-                    {
-                        aprilTagId = -1;
-                        shooterVel = null;
-                        tiltAngle = null;
-                        rotPower = driveInputs[2];
-                        if (trackingModeOn && robot.shooter != null)
+                        else if (prevTrackingModeOn)
                         {
                             robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+                            robot.shooter.stopShooter();
                         }
+                        prevTrackingModeOn = trackingModeOn;
                     }
 
                     // if (!Arrays.equals(driveInputs, prevDriveInputs))
@@ -237,8 +240,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             {
                                 String s = String.format(
                                     Locale.US, "Holonomic: x=%.3f, y=%.3f, rot=%.3f, angle=%.3f",
-                                    driveInputs[0], driveInputs[1], aprilTagId == -1? driveInputs[2]: rotPower,
-                                    gyroAngle);
+                                    driveInputs[0], driveInputs[1], rotPower, gyroAngle);
                                 if (aprilTagId != -1)
                                 {
                                     s += String.format(
@@ -511,6 +513,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 }
                 break;
 
+            case FrcXboxController.DPAD_RIGHT:
+                driverTracking = pressed;
+                break;
+
             case FrcXboxController.BACK:
                 break;
 
@@ -596,20 +602,21 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BUTTON_Y:
-                // AutoShoot at Speaker with Vision, hold AltFunc for no vision.
-                if (robot.intake != null && robot.shooter != null && pressed)
-                {
-                    boolean active = !robot.autoScoreNote.isActive();
-                    if (active)
-                    {
-                        // Press and hold altFunc for manual shooting (no vision).
-                        robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !operatorAltFunc);
-                    }
-                    else
-                    {
-                        robot.autoAssistCancel();
-                    }
-                }
+                operatorTracking = pressed;
+                // // AutoShoot at Speaker with Vision, hold AltFunc for no vision.
+                // if (robot.intake != null && robot.shooter != null && pressed)
+                // {
+                //     boolean active = !robot.autoScoreNote.isActive();
+                //     if (active)
+                //     {
+                //         // Press and hold altFunc for manual shooting (no vision).
+                //         robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !operatorAltFunc);
+                //     }
+                //     else
+                //     {
+                //         robot.autoAssistCancel();
+                //     }
+                // }
                 break;
 
             case FrcXboxController.LEFT_BUMPER:
