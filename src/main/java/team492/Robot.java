@@ -24,40 +24,51 @@ package team492;
 
 import java.util.Locale;
 import TrcCommonLib.trclib.TrcDbgTrace;
+import TrcCommonLib.trclib.TrcDiscreteValue;
+import TrcCommonLib.trclib.TrcEvent;
+import TrcCommonLib.trclib.TrcIntake;
 import TrcCommonLib.trclib.TrcOpenCvDetector;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcRobotBattery;
+import TrcCommonLib.trclib.TrcShooter;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcCommonLib.trclib.TrcVisionTargetInfo;
+import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcCommonLib.trclib.TrcTaskMgr.TaskType;
-import TrcFrcLib.frclib.FrcAHRSGyro;
 import TrcFrcLib.frclib.FrcDashboard;
 import TrcFrcLib.frclib.FrcJoystick;
-import TrcFrcLib.frclib.FrcLimeLightVision;
 import TrcFrcLib.frclib.FrcMatchInfo;
 import TrcFrcLib.frclib.FrcPdp;
 import TrcFrcLib.frclib.FrcPhotonVision;
+import TrcFrcLib.frclib.FrcPhotonVisionRaw;
 import TrcFrcLib.frclib.FrcRobotBase;
 import TrcFrcLib.frclib.FrcRobotBattery;
 import TrcFrcLib.frclib.FrcXboxController;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import team492.RobotParams.RobotType;
+import team492.autotasks.TaskAutoPickupFromGround;
+import team492.autotasks.TaskAutoPickupFromSource;
+import team492.autotasks.TaskAutoScoreNote;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
-import team492.robot.CTREConfigs;
-import team492.robot.RobotContainer;
+import team492.subsystems.Climber;
+import team492.subsystems.Intake;
 import team492.subsystems.LEDIndicator;
-import team492.vision.LimeLightVision;
+import team492.subsystems.Shooter;
 import team492.vision.OpenCvVision;
 import team492.vision.PhotonVision;
+import team492.vision.PhotonVisionRaw;
 
 /**
  * The Main class is configured to instantiate and automatically run this class,
@@ -72,18 +83,13 @@ public class Robot extends FrcRobotBase
     //
     public final FrcDashboard dashboard = FrcDashboard.getInstance();
     public final TrcDbgTrace globalTracer = TrcDbgTrace.getGlobalTracer();
-    private double nextDashboardUpdateTime = TrcTimer.getModeElapsedTime();
+    private double nextDashboardUpdateTime = TrcTimer.getCurrentTime();
     private boolean traceLogOpened = false;
-    //
-    // Hybrid mode objects.
-    //
-    public static CTREConfigs ctreConfigs;
-    public RobotContainer m_robotContainer;
-    public Command m_autonomousCommand;
     //
     // Inputs.
     //
     public FrcXboxController driverController;
+    public FrcXboxController operatorController;
     public FrcJoystick leftDriveStick, rightDriveStick;
     public FrcJoystick operatorStick;
     public FrcJoystick buttonPanel;
@@ -101,9 +107,12 @@ public class Robot extends FrcRobotBase
     //
     // Vision subsystem.
     //
-    public LimeLightVision limeLightVision;
-    public PhotonVision photonVision;
+    public PhotonVision photonVisionFront;
+    public PhotonVision photonVisionBack;
+    public PhotonVisionRaw photonVisionRaw;
     public OpenCvVision openCvVision;
+    public Transform3d aprilTag3To4Transform;
+    public Transform3d aprilTag8To7Transform;
     //
     // DriveBase subsystem.
     //
@@ -111,13 +120,28 @@ public class Robot extends FrcRobotBase
     //
     // Other subsystems.
     //
+    public TrcIntake intake;
+    public TrcShooter shooter;
+    public TrcDiscreteValue shooterVelocity;
+    public TrcDiscreteValue shooterTiltAngle;
+    public Climber climber;
+    //
+    // Hybrid mode objects.
+    //
+    public Command m_autonomousCommand;
+    //
+    // Auto-Assists.
+    //
+    public TaskAutoScoreNote autoScoreNote;
+    public TaskAutoPickupFromGround autoPickupFromGround;
+    public TaskAutoPickupFromSource autoPickupFromSource;
 
     /**
      * Constructor: Create an instance of the object.
      */
     public Robot()
     {
-        super(RobotParams.ROBOT_NAME);
+        super(RobotParams.Robot.NAME);
     }   //Robot
 
     /**
@@ -135,59 +159,51 @@ public class Robot extends FrcRobotBase
     @Override
     public void robotInit()
     {
-        if (RobotParams.Preferences.hybridMode)
+        if (RobotParams.Preferences.useDriverXboxController)
         {
-            ctreConfigs = new CTREConfigs();
-            // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-            // autonomous chooser on the dashboard.
-            m_robotContainer = new RobotContainer();
+            driverController = new FrcXboxController("DriverController", RobotParams.HWConfig.XBOX_DRIVER_CONTROLLER);
+            driverController.setLeftYInverted(true);
+            driverController.setRightYInverted(true);
         }
-        //
-        // Create and initialize global objects.
-        //
-
-        //
-        // Create and initialize inputs.
-        //
-        // Give driver control to command-based if Hybrid Mode is ON.
-        if (!RobotParams.Preferences.hybridMode)
+        else
         {
-            if (RobotParams.Preferences.useDriverXboxController)
-            {
-                driverController = new FrcXboxController("DriverController", RobotParams.XBOX_DRIVER_CONTROLLER);
-                driverController.setLeftYInverted(true);
-                driverController.setRightYInverted(true);
-            }
-            else
-            {
-                leftDriveStick = new FrcJoystick("DriverLeftStick", RobotParams.JSPORT_DRIVER_LEFTSTICK);
-                leftDriveStick.setYInverted(true);
-                rightDriveStick = new FrcJoystick("DriverRightStick", RobotParams.JSPORT_DRIVER_RIGHTSTICK);
-                rightDriveStick.setYInverted(true);
-            }
+            leftDriveStick = new FrcJoystick("DriverLeftStick", RobotParams.HWConfig.JSPORT_DRIVER_LEFTSTICK);
+            leftDriveStick.setYInverted(true);
+            rightDriveStick = new FrcJoystick("DriverRightStick", RobotParams.HWConfig.JSPORT_DRIVER_RIGHTSTICK);
+            rightDriveStick.setYInverted(true);
         }
 
-        operatorStick = new FrcJoystick("operatorStick", RobotParams.JSPORT_OPERATORSTICK);
-        operatorStick.setYInverted(false);
+        if (RobotParams.Preferences.useOperatorXboxController)
+        {
+            operatorController = new FrcXboxController(
+                "OperatorController", RobotParams.HWConfig.XBOX_OPERATOR_CONTROLLER);
+            operatorController.setLeftYInverted(true);
+            operatorController.setRightYInverted(true);
+        }
+        else
+        {
+            operatorStick = new FrcJoystick("operatorStick", RobotParams.HWConfig.JSPORT_OPERATORSTICK);
+            operatorStick.setYInverted(false);
+        }
 
         if (RobotParams.Preferences.useButtonPanels)
         {
-            buttonPanel = new FrcJoystick("buttonPanel", RobotParams.JSPORT_BUTTON_PANEL);
-            switchPanel = new FrcJoystick("switchPanel", RobotParams.JSPORT_SWITCH_PANEL);
+            buttonPanel = new FrcJoystick("buttonPanel", RobotParams.HWConfig.JSPORT_BUTTON_PANEL);
+            switchPanel = new FrcJoystick("switchPanel", RobotParams.HWConfig.JSPORT_SWITCH_PANEL);
         }
         //
         // Create and initialize sensors.
         //
         if (RobotParams.Preferences.usePdp)
         {
-            pdp = new FrcPdp(RobotParams.CANID_PDP, ModuleType.kRev);
+            pdp = new FrcPdp(RobotParams.HWConfig.CANID_PDP, ModuleType.kRev);
             pdp.setSwitchableChannel(false);
             battery = new FrcRobotBattery(pdp);
         }
 
         if (RobotParams.Preferences.usePressureSensor)
         {
-            pressureSensor = new AnalogInput(RobotParams.AIN_PRESSURE_SENSOR);
+            pressureSensor = new AnalogInput(RobotParams.HWConfig.AIN_PRESSURE_SENSOR);
         }
         //
         // Create and initialize miscellaneous hardware.
@@ -198,25 +214,33 @@ public class Robot extends FrcRobotBase
         //
         if (RobotParams.Preferences.useVision)
         {
-            if (RobotParams.Preferences.useLimeLightVision)
-            {
-                limeLightVision = new LimeLightVision("limelight");
-            }
-
             if (RobotParams.Preferences.usePhotonVision)
             {
-                photonVision = new PhotonVision("OV5647", ledIndicator);
+                photonVisionFront = new PhotonVision(
+                    "OV9281", RobotParams.Vision.robotToFrontCam, RobotParams.Vision.robotToFrontCamPose,
+                    ledIndicator);
+                photonVisionBack = new PhotonVision(
+                    "OV9782", RobotParams.Vision.robotToBackCam, RobotParams.Vision.robotToBackCamPose,
+                    ledIndicator);
+                aprilTag3To4Transform = photonVisionFront.getMultiTagTransform(3, 4);
+                aprilTag8To7Transform = photonVisionFront.getMultiTagTransform(8, 7);
+            }
+
+            if (RobotParams.Preferences.usePhotonVisionRaw)
+            {
+                photonVisionRaw = new PhotonVisionRaw("photonvision", "OV9782", ledIndicator);
             }
 
             if (RobotParams.Preferences.useOpenCvVision)
             {
                 UsbCamera camera = CameraServer.startAutomaticCapture();
-                camera.setResolution(RobotParams.CAMERA_IMAGE_WIDTH, RobotParams.CAMERA_IMAGE_HEIGHT);
+                camera.setResolution(RobotParams.Vision.BACKCAM_IMAGE_WIDTH, RobotParams.Vision.BACKCAM_IMAGE_HEIGHT);
                 camera.setFPS(10);
                 openCvVision = new OpenCvVision(
-                    "OpenCvVision", 1, RobotParams.cameraRect, RobotParams.worldRect, CameraServer.getVideo(),
-                    CameraServer.putVideo("UsbWebcam", RobotParams.CAMERA_IMAGE_WIDTH,
-                    RobotParams.CAMERA_IMAGE_HEIGHT));
+                    "OpenCvVision", 1, RobotParams.Vision.cameraRect, RobotParams.Vision.worldRect,
+                    CameraServer.getVideo(),
+                    CameraServer.putVideo(
+                        "UsbWebcam", RobotParams.Vision.BACKCAM_IMAGE_WIDTH, RobotParams.Vision.BACKCAM_IMAGE_HEIGHT));
             }
 
             if (RobotParams.Preferences.useStreamCamera)
@@ -229,15 +253,35 @@ public class Robot extends FrcRobotBase
         //
         // Create and initialize RobotDrive subsystem.
         //
-        if (!RobotParams.Preferences.hybridMode)
-        {
-            robotDrive = new SwerveDrive(this);
-        }
+        robotDrive = new SwerveDrive(this, getSwerveDriveBaseParams());
         //
         // Create and initialize other subsystems.
         //
         if (RobotParams.Preferences.useSubsystems)
         {
+            if (RobotParams.Preferences.useIntake)
+            {
+                intake = new Intake(this).getIntake();
+                if (RobotParams.Preferences.useShooter)
+                {
+                    shooter = new Shooter(this::shoot).getShooter();
+                    shooterVelocity = new TrcDiscreteValue(
+                        "ShooterVelocity",
+                        -RobotParams.Shooter.shooterMaxVelocity, RobotParams.Shooter.shooterMaxVelocity,
+                        RobotParams.Shooter.shooterVelMinInc, RobotParams.Shooter.shooterVelMaxInc,
+                        0.0, 10.0);
+                    shooterTiltAngle = new TrcDiscreteValue(
+                        "ShooterTiltAngle",
+                        RobotParams.Shooter.tiltMinAngle, RobotParams.Shooter.tiltMaxAngle,
+                        RobotParams.Shooter.tiltAngleMinInc, RobotParams.Shooter.tiltAngleMaxInc,
+                        0.0, 10.0);
+                }
+            }
+
+            if (RobotParams.Preferences.useClimber)
+            {
+                climber = new Climber();
+            }
         }
         //
         // Miscellaneous.
@@ -255,10 +299,36 @@ public class Robot extends FrcRobotBase
             robotPeriodicTask.registerTask(TaskType.POST_PERIODIC_TASK);
         }
         //
+        // Create Auto-Assists.
+        //
+        autoScoreNote = new TaskAutoScoreNote("AutoScoreNote", this);
+        autoPickupFromGround = new TaskAutoPickupFromGround("AutoPickupGround", this);
+        autoPickupFromSource = new TaskAutoPickupFromSource("AutoPickupSource", this);
+        //
         // Create Robot Modes.
         //
         setupRobotModes(new FrcTeleOp(this), new FrcAuto(this), new FrcTest(this), new FrcDisabled(this));
     }   //robotInit
+
+    /**
+     * This method checks the Swerve Robot Type and makes adjustments to the DriveBase parameters if necessary.
+     *
+     * @return adjusted swerve drive base parameters.
+     */
+    private RobotParams.SwerveDriveBase getSwerveDriveBaseParams()
+    {
+        RobotParams.SwerveDriveBase driveBaseParams = new RobotParams.SwerveDriveBase();
+
+        if (RobotParams.Preferences.robotType.equals(RobotType.ChadRobot))
+        {
+            driveBaseParams.steerEncoderType = RobotParams.SteerEncoderType.CANCoder;
+            driveBaseParams.steerEncoderCanIds = new int[] {7, 8, 9, 10};
+            driveBaseParams.STEER_GEAR_RATIO = (24.0/12.0) * (72.0/14.0);
+            driveBaseParams.DRIVE_GEAR_RATIO = 6.55;
+        }
+
+        return driveBaseParams;
+    }   //getSwerveDriveBaseParams
 
     /**
      * This method is called periodically after mode specific periodic method is called. This is to simulate the
@@ -309,6 +379,12 @@ public class Robot extends FrcRobotBase
         {
             robotDrive.startMode(runMode, prevMode);
         }
+
+        if (climber != null)
+        {
+            climber.zeroCalibrate();
+        }
+
         ledIndicator.reset();
     }   //robotStartMode
 
@@ -338,7 +414,7 @@ public class Robot extends FrcRobotBase
             double totalEnergy = battery.getTotalEnergy();
             globalTracer.traceInfo(
                 funcName, "TotalEnergy=%.3fWh (%.2f%%)",
-                totalEnergy, totalEnergy * 100.0 / RobotParams.BATTERY_CAPACITY_WATT_HOUR);
+                totalEnergy, totalEnergy * 100.0 / RobotParams.HWConfig.BATTERY_CAPACITY_WATT_HOUR);
         }
 
         if (runMode != RunMode.DISABLED_MODE)
@@ -360,12 +436,12 @@ public class Robot extends FrcRobotBase
     public void updateStatus()
     {
         final String funcName = "updateStatus";
-        double currTime = TrcTimer.getModeElapsedTime();
+        double currTime = TrcTimer.getCurrentTime();
         RunMode runMode = getCurrentRunMode();
 
         if (currTime >= nextDashboardUpdateTime)
         {
-            int lineNum = 8;
+            int lineNum = 9;
 
             nextDashboardUpdateTime = currTime + RobotParams.DASHBOARD_UPDATE_INTERVAL;
             if (RobotParams.Preferences.showPowerConsumption)
@@ -391,16 +467,16 @@ public class Robot extends FrcRobotBase
                 {
                     TrcPose2D robotPose = robotDrive.driveBase.getFieldPosition();
 
-                    dashboard.putNumber("DriveBase/xPos", robotPose.x);
-                    dashboard.putNumber("DriveBase/yPos", robotPose.y);
-                    dashboard.putData("DriveBase/heading", ((FrcAHRSGyro) robotDrive.gyro).getGyroSendable());
-                    dashboard.putNumber("DriveBase/Yaw", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getYaw());
-                    dashboard.putNumber("DriveBase/Pitch", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getPitch());
-                    dashboard.putNumber("DriveBase/Roll", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getRoll());
-                    dashboard.putNumber("DriveBase/AccelX", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getWorldLinearAccelX());
-                    dashboard.putNumber("DriveBase/AccelY", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getWorldLinearAccelY());
-                    dashboard.putNumber("DriveBase/AccelZ", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getWorldLinearAccelZ());
-                    dashboard.putNumber("DriverBase/Compass", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getCompassHeading());
+                    // dashboard.putNumber("DriveBase/xPos", robotPose.x);
+                    // dashboard.putNumber("DriveBase/yPos", robotPose.y);
+                    // dashboard.putData("DriveBase/heading", ((FrcAHRSGyro) robotDrive.gyro).getGyroSendable());
+                    // dashboard.putNumber("DriveBase/Yaw", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getYaw());
+                    // dashboard.putNumber("DriveBase/Pitch", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getPitch());
+                    // dashboard.putNumber("DriveBase/Roll", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getRoll());
+                    // dashboard.putNumber("DriveBase/AccelX", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getWorldLinearAccelX());
+                    // dashboard.putNumber("DriveBase/AccelY", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getWorldLinearAccelY());
+                    // dashboard.putNumber("DriveBase/AccelZ", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getWorldLinearAccelZ());
+                    // dashboard.putNumber("DriverBase/Compass", ((FrcAHRSGyro) robotDrive.gyro).ahrs.getCompassHeading());
                     //
                     // DriveBase debug info.
                     //
@@ -421,15 +497,23 @@ public class Robot extends FrcRobotBase
                         SwerveDrive swerveDrive = (SwerveDrive) robotDrive;
 
                         dashboard.displayPrintf(
-                            lineNum++, "SteerAngle: lf=%.1f/%.1f, rf=%.1f/%.1f, lb=%.1f/%.1f, rb=%.1f/%.1f",
+                            lineNum++,
+                            "FrontSteer(angle/motorEnc/absEnc): lf=%.1f/%.3f/%.3f, rf=%.1f/%.3f/%.3f",
                             swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_FRONT].getSteerAngle(),
-                            swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_FRONT].steerMotor.getMotorPosition(),
+                            swerveDrive.steerMotors[RobotDrive.INDEX_LEFT_FRONT].getMotorPosition(),
+                            swerveDrive.steerEncoders[RobotDrive.INDEX_LEFT_FRONT].getRawPosition(),
                             swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_FRONT].getSteerAngle(),
-                            swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_FRONT].steerMotor.getMotorPosition(),
+                            swerveDrive.steerMotors[RobotDrive.INDEX_RIGHT_FRONT].getMotorPosition(),
+                            swerveDrive.steerEncoders[RobotDrive.INDEX_RIGHT_FRONT].getRawPosition());
+                        dashboard.displayPrintf(
+                            lineNum++,
+                            "BackSteer(angle/motorEnc/absEnc): lb=%.1f/%.3f/%.3f, rb=%.1f/%.3f/%.3f",
                             swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_BACK].getSteerAngle(),
-                            swerveDrive.swerveModules[RobotDrive.INDEX_LEFT_BACK].steerMotor.getMotorPosition(),
+                            swerveDrive.steerMotors[RobotDrive.INDEX_LEFT_BACK].getMotorPosition(),
+                            swerveDrive.steerEncoders[RobotDrive.INDEX_LEFT_BACK].getRawPosition(),
                             swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_BACK].getSteerAngle(),
-                            swerveDrive.swerveModules[RobotDrive.INDEX_RIGHT_BACK].steerMotor.getMotorPosition());
+                            swerveDrive.steerMotors[RobotDrive.INDEX_RIGHT_BACK].getMotorPosition(),
+                            swerveDrive.steerEncoders[RobotDrive.INDEX_RIGHT_BACK].getRawPosition());
                     }
                     dashboard.displayPrintf(lineNum++, "DriveBase: pose=%s", robotPose);
 
@@ -451,16 +535,53 @@ public class Robot extends FrcRobotBase
 
             if (RobotParams.Preferences.showVision)
             {
-                if (limeLightVision != null)
+                if (photonVisionFront != null)
                 {
-                    FrcLimeLightVision.DetectedObject object = limeLightVision.getDetectedObject();
-                    dashboard.displayPrintf(lineNum++, "LimeLight: obj=%s", object);
+                    FrcPhotonVision.DetectedObject object =
+                        photonVisionFront.getBestDetectedAprilTag(new int[] {4, 7, 3, 8});
+
+                    if (object == null)
+                    {
+                        object = photonVisionFront.getBestDetectedAprilTag(new int[] {5, 6});
+                    }
+
+                    if (object != null)
+                    {
+                        dashboard.displayPrintf(
+                            lineNum++, "PhotonFront: pipeline=%s, Id=%d, pose=%s",
+                            photonVisionFront.getPipeline(), object.target.getFiducialId(), object.targetPose);
+                        dashboard.displayPrintf(
+                            lineNum++, "PhotonFront: robotEstimatedPose=%s",
+                            photonVisionFront.getRobotFieldPose(object, true));
+                        dashboard.displayPrintf(
+                            lineNum++, "PhotonFront: RobotFieldPose=%s",
+                            photonVisionFront.getRobotFieldPose(object, false));
+                    }
+                    else
+                    {
+                        lineNum += 3;
+                    }
                 }
 
-                if (photonVision != null)
+                if (photonVisionBack != null)
                 {
-                    FrcPhotonVision.DetectedObject object = photonVision.getBestDetectedObject();
-                    dashboard.displayPrintf(lineNum++, "Photon: obj=%s", object);
+                    FrcPhotonVision.DetectedObject object = photonVisionBack.getBestDetectedObject();
+                    if (object != null)
+                    {
+                        dashboard.displayPrintf(
+                            lineNum++, "PhotonBack: pipeline=%s, pose=%s",
+                            photonVisionBack.getPipeline(), object.targetPose);
+                    }
+                    else
+                    {
+                        lineNum++;
+                    }
+                }
+
+                if (photonVisionRaw != null)
+                {
+                    FrcPhotonVisionRaw.DetectedObject object = photonVisionRaw.getDetectedObject();
+                    dashboard.displayPrintf(lineNum++, "PhotonRaw: obj=%s", object);
                 }
 
                 if (openCvVision != null)
@@ -473,6 +594,16 @@ public class Robot extends FrcRobotBase
 
             if (RobotParams.Preferences.showSubsystems)
             {
+                if (shooter != null)
+                {
+                    dashboard.displayPrintf(
+                        lineNum++, "Shooter: power=%.3f, vel=%.3f",
+                        shooter.shooterMotor.getPower(), shooter.getShooterVelocity());
+                    dashboard.displayPrintf(
+                        lineNum++, "Tilt: power=%.3f, pos=%.1f, limitSw=%s/%s",
+                        shooter.getTiltPower(), shooter.getTiltAngle(),
+                        shooter.tiltLowerLimitSwitchActive(), shooter.tiltUpperLimitSwitchActive());
+                }
             }
         }
     }   //updateStatus
@@ -520,6 +651,84 @@ public class Robot extends FrcRobotBase
             TrcDbgTrace.setTraceLogEnabled(enabled);
         }
     }   //setTraceLogEnabled
+
+    /**
+     * This method sets the drive orientation mode and update the LEDs if necessary.
+     *
+     * @param orientation specifies the drive orientation.
+     * @param resetHeading specifies true to also reset the robot heading, only valid for FIELD mode.
+     */
+    public void setDriveOrientation(DriveOrientation orientation, boolean resetHeading)
+    {
+        if (robotDrive != null)
+        {
+            robotDrive.driveBase.setDriveOrientation(orientation, resetHeading);
+            if (ledIndicator != null)
+            {
+                ledIndicator.setDriveOrientation(orientation);
+            }
+        }
+    }   //setDriveOrientation
+
+    /**
+     * This method is called by TrcShooter to shoot an object.
+     *
+     * @param owner specifies the ID string of the caller for checking ownership, can be null if caller is not
+     *        ownership aware.
+     * @param completionEvent specifies the event to signal when the shoot operation is completed.
+     */
+    public void shoot(String owner, TrcEvent completionEvent)
+    {
+        shooter.tracer.traceDebug(
+            intake.toString(), "owner=" + owner + ", power=" + RobotParams.Intake.ejectForwardPower +
+            ", event=" + completionEvent);
+        intake.autoEjectForward(owner, 0.0, RobotParams.Intake.ejectForwardPower, 0.0, completionEvent, 0.0);
+    }   //shoot
+
+    /**
+     * This method is called to cancel all pending auto-assist operations and release the ownership of all subsystems.
+     */
+    public void autoAssistCancel()
+    {
+        autoScoreNote.autoAssistCancel();
+        autoPickupFromGround.autoAssistCancel();
+        autoPickupFromSource.autoAssistCancel();
+    }   //autoAssistCancel
+
+    /**
+     * This method adjusts the given pose in the blue alliance to be the specified alliance.
+     *
+     * @param x specifies x position in the blue alliance.
+     * @param y specifies y position in the blue alliance.
+     * @param heading specifies heading in the blue alliance.
+     * @param alliance specifies the alliance to be converted to.
+     * @return pose adjusted to be in the specified alliance in inches.
+     */
+    public TrcPose2D adjustPoseByAlliance(double x, double y, double heading, Alliance alliance)
+    {
+        TrcPose2D newPose = new TrcPose2D(x, y, heading);
+
+        if (alliance == Alliance.Red)
+        {
+            double angleDelta = (newPose.angle - 90.0) * 2.0;
+            newPose.angle -= angleDelta;
+            newPose.y = RobotParams.Field.LENGTH - newPose.y;
+        }
+
+        return newPose;
+    }   //adjustPoseByAlliance
+
+    /**
+     * This method adjusts the given pose in the blue alliance to be the specified alliance.
+     *
+     * @param pose specifies pose in the blue alliance in tile unit.
+     * @param alliance specifies the alliance to be converted to.
+     * @return pose adjusted to be in the specified alliance in inches.
+     */
+    public TrcPose2D adjustPoseByAlliance(TrcPose2D pose, Alliance alliance)
+    {
+        return adjustPoseByAlliance(pose.x, pose.y, pose.angle, alliance);
+    }   //adjustPoseByAlliance
 
     //
     // Getters for sensor data.

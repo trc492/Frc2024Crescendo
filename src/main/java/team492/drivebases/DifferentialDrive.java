@@ -37,55 +37,57 @@ import team492.RobotParams;
  */
 public class DifferentialDrive extends RobotDrive
 {
-    private final String[] driveMotorNames = {
-        RobotParams.LFDRIVE_MOTOR_NAME, RobotParams.RFDRIVE_MOTOR_NAME};
-    private final int[] driveMotorIds = {
-        RobotParams.CANID_LFDRIVE_MOTOR, RobotParams.CANID_RFDRIVE_MOTOR};
-    private final boolean[] driveMotorInverted = {
-        RobotParams.LFDRIVE_MOTOR_INVERTED, RobotParams.RFDRIVE_MOTOR_INVERTED};
-
     /**
      * Constructor: Create an instance of the object.
      *
      * @param robot specifies the robot object.
+     * @param driveBaseParams specifies the drivebase parameters.
      */
-    public DifferentialDrive(Robot robot)
+    public DifferentialDrive(Robot robot, RobotParams.DifferentialDriveBase driveBaseParams)
     {
         super(robot);
 
-        driveMotors = createMotors(MotorType.CanSparkMax, true, driveMotorNames, driveMotorIds, driveMotorInverted);
-        driveBase = new TrcSimpleDriveBase(driveMotors[INDEX_LEFT_FRONT], driveMotors[INDEX_RIGHT_FRONT], gyro);
-        driveBase.setOdometryScales(RobotParams.WCD_INCHES_PER_ENCODER_UNIT);
+        driveMotors = createMotors(
+            MotorType.CanSparkMax, true, driveBaseParams.driveMotorNames, driveBaseParams.driveMotorIds,
+            driveBaseParams.driveMotorInverted);
+        driveBase = new TrcSimpleDriveBase(
+            driveMotors[RobotDrive.INDEX_LEFT_FRONT], driveMotors[RobotDrive.INDEX_RIGHT_FRONT], gyro);
+        driveBase.setOdometryScales(driveBaseParams.DRIVE_INCHES_PER_COUNT);
 
         if (robot.pdp != null)
         {
             robot.pdp.registerEnergyUsed(
-                new FrcPdp.Channel(RobotParams.PDP_CHANNEL_LFDRIVE_MOTOR, driveMotorNames[INDEX_LEFT_FRONT]),
-                new FrcPdp.Channel(RobotParams.PDP_CHANNEL_RFDRIVE_MOTOR, driveMotorNames[INDEX_RIGHT_FRONT]));
+                new FrcPdp.Channel(
+                    RobotParams.HWConfig.PDP_CHANNEL_LFDRIVE_MOTOR,
+                    driveBaseParams.driveMotorNames[RobotDrive.INDEX_LEFT_FRONT]),
+                new FrcPdp.Channel(
+                    RobotParams.HWConfig.PDP_CHANNEL_RFDRIVE_MOTOR,
+                    driveBaseParams.driveMotorNames[RobotDrive.INDEX_RIGHT_FRONT]));
         }
         //
         // Create and initialize PID controllers.
         //
         xPosPidCoeff = null;
         yPosPidCoeff = new TrcPidController.PidCoefficients(
-            RobotParams.WCD_KP, RobotParams.WCD_KI, RobotParams.WCD_KD, RobotParams.WCD_KF);
+            driveBaseParams.DRIVE_KP, driveBaseParams.DRIVE_KI, driveBaseParams.DRIVE_KD, driveBaseParams.DRIVE_KF);
         turnPidCoeff = new TrcPidController.PidCoefficients(
-            RobotParams.GYRO_TURN_KP, RobotParams.GYRO_TURN_KI, RobotParams.GYRO_TURN_KD, RobotParams.GYRO_TURN_KF);
+            driveBaseParams.TURN_KP, driveBaseParams.TURN_KI, driveBaseParams.TURN_KD, driveBaseParams.TURN_KF);
         velPidCoeff = new TrcPidController.PidCoefficients(
-            RobotParams.ROBOT_VEL_KP, RobotParams.ROBOT_VEL_KI, RobotParams.ROBOT_VEL_KD, RobotParams.ROBOT_VEL_KF);
+            driveBaseParams.ROBOT_VEL_KP, driveBaseParams.ROBOT_VEL_KI, driveBaseParams.ROBOT_VEL_KD,
+            driveBaseParams.ROBOT_VEL_KF);
 
         pidDrive = new TrcPidDrive(
             "pidDrive", driveBase,
-            yPosPidCoeff, RobotParams.WCD_TOLERANCE, driveBase::getYPosition,
-            turnPidCoeff, RobotParams.GYRO_TURN_TOLERANCE, driveBase::getHeading);
+            yPosPidCoeff, driveBaseParams.DRIVE_TOLERANCE, driveBase::getYPosition,
+            turnPidCoeff, driveBaseParams.TURN_TOLERANCE, driveBase::getHeading);
 
         TrcPidController yPidCtrl = pidDrive.getYPidCtrl();
-        yPidCtrl.setOutputLimit(RobotParams.DRIVE_MAX_YPID_POWER);
-        yPidCtrl.setRampRate(RobotParams.DRIVE_MAX_YPID_RAMP_RATE);
+        yPidCtrl.setOutputLimit(driveBaseParams.DRIVE_MAX_PID_POWER);
+        yPidCtrl.setRampRate(driveBaseParams.DRIVE_MAX_PID_RAMP_RATE);
 
         TrcPidController turnPidCtrl = pidDrive.getTurnPidCtrl();
-        turnPidCtrl.setOutputLimit(RobotParams.DRIVE_MAX_TURNPID_POWER);
-        turnPidCtrl.setRampRate(RobotParams.DRIVE_MAX_TURNPID_RAMP_RATE);
+        turnPidCtrl.setOutputLimit(driveBaseParams.TURN_MAX_PID_POWER);
+        turnPidCtrl.setRampRate(driveBaseParams.TURN_MAX_PID_RAMP_RATE);
         turnPidCtrl.setAbsoluteSetPoint(true);
 
         // AbsoluteTargetMode eliminates cumulative errors on multi-segment runs because drive base is keeping track
@@ -95,11 +97,12 @@ public class DifferentialDrive extends RobotDrive
         pidDrive.setTraceLevel(MsgLevel.INFO, false, false, false);
 
         purePursuitDrive = new TrcPurePursuitDrive(
-            "purePursuitDrive", driveBase, RobotParams.PPD_FOLLOWING_DISTANCE, RobotParams.PPD_POS_TOLERANCE,
-            RobotParams.PPD_TURN_TOLERANCE, xPosPidCoeff, yPosPidCoeff, turnPidCoeff, velPidCoeff);
+            "purePursuitDrive", driveBase,
+            driveBaseParams.PPD_FOLLOWING_DISTANCE, driveBaseParams.PPD_POS_TOLERANCE,
+            driveBaseParams.PPD_TURN_TOLERANCE, xPosPidCoeff, yPosPidCoeff, turnPidCoeff, velPidCoeff);
         purePursuitDrive.setStallDetectionEnabled(true);
-        purePursuitDrive.setMoveOutputLimit(RobotParams.PPD_MOVE_DEF_OUTPUT_LIMIT);
-        purePursuitDrive.setRotOutputLimit(RobotParams.PPD_ROT_DEF_OUTPUT_LIMIT);
+        purePursuitDrive.setMoveOutputLimit(driveBaseParams.PPD_MOVE_DEF_OUTPUT_LIMIT);
+        purePursuitDrive.setRotOutputLimit(driveBaseParams.PPD_ROT_DEF_OUTPUT_LIMIT);
         purePursuitDrive.setFastModeEnabled(true);
         purePursuitDrive.setTraceLevel(MsgLevel.INFO, false, false, false);
     }   //DifferentialDrive

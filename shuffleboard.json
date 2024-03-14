@@ -109,7 +109,7 @@
         "tiles": {
           "0,0": {
             "size": [
-              31,
+              32,
               12
             ],
             "content": {
@@ -253,7 +253,7 @@
           "0,0": {
             "size": [
               3,
-              2
+              3
             ],
             "content": {
               "_type": "Text View",
@@ -266,7 +266,7 @@
           "3,0": {
             "size": [
               3,
-              2
+              3
             ],
             "content": {
               "_type": "ComboBox Chooser",
@@ -279,7 +279,7 @@
           "6,0": {
             "size": [
               6,
-              2
+              3
             ],
             "content": {
               "_type": "ComboBox Chooser",
@@ -289,10 +289,10 @@
               "_showGlyph": false
             }
           },
-          "0,2": {
+          "0,3": {
             "size": [
               6,
-              2
+              3
             ],
             "content": {
               "_type": "Text View",
@@ -302,10 +302,10 @@
               "_showGlyph": false
             }
           },
-          "6,2": {
+          "6,3": {
             "size": [
               6,
-              2
+              3
             ],
             "content": {
               "_type": "ComboBox Chooser",
@@ -315,10 +315,10 @@
               "_showGlyph": false
             }
           },
-          "0,4": {
+          "0,6": {
             "size": [
               3,
-              2
+              3
             ],
             "content": {
               "_type": "Text View",
@@ -328,10 +328,10 @@
               "_showGlyph": false
             }
           },
-          "3,4": {
+          "3,6": {
             "size": [
               3,
-              2
+              3
             ],
             "content": {
               "_type": "Text View",
@@ -341,10 +341,10 @@
               "_showGlyph": false
             }
           },
-          "6,4": {
+          "6,6": {
             "size": [
               3,
-              2
+              3
             ],
             "content": {
               "_type": "Text View",
@@ -354,10 +354,10 @@
               "_showGlyph": false
             }
           },
-          "9,4": {
+          "9,6": {
             "size": [
               3,
-              2
+              3
             ],
             "content": {
               "_type": "Text View",
@@ -367,15 +367,54 @@
               "_showGlyph": false
             }
           },
-          "12,4": {
+          "12,6": {
             "size": [
               3,
-              2
+              3
             ],
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Auto/DriveTime",
               "_title": "SmartDashboard/Auto/DriveTime",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "12,0": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Auto/ScoreWingNotes",
+              "_title": "SmartDashboard/Auto/ScoreWingNotes",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "15,0": {
+            "size": [
+              4,
+              3
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto/EndAction",
+              "_title": "/SmartDashboard/Auto/EndAction",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "12,3": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Toggle Switch",
+              "_source0": "network_table:///SmartDashboard/Auto/Relocalize",
+              "_title": "SmartDashboard/Auto/Relocalize",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -527,25 +566,46 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "0,0": {
+          "4,0": {
             "size": [
-              31,
-              14
+              14,
+              12
             ],
             "content": {
               "_type": "Camera Stream",
-              "_source0": "camera_server://trc-photonvision_Port_1182_MJPEG_Server",
-              "_title": "trc-photonvision",
+              "_source0": "camera_server://photonvision_Port_1184_Output_MJPEG_Server",
+              "_title": "photonvision_Port_1182_Output_MJPEG_Server",
               "_glyph": 148,
               "_showGlyph": false,
               "Crosshair/Show crosshair": true,
               "Crosshair/Crosshair color": "#FFFFFFFF",
-              "Controls/Show controls": false,
+              "Controls/Show controls": true,
               "Controls/Rotation": "NONE",
-              "compression": 50.0,
-              "fps": 10,
-              "imageWidth": 320,
-              "imageHeight": 240
+              "compression": -1.0,
+              "fps": -1,
+              "imageWidth": 0,
+              "imageHeight": 0
+            }
+          },
+          "18,0": {
+            "size": [
+              14,
+              12
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_source0": "camera_server://photonvision_Port_1186_Output_MJPEG_Server",
+              "_title": "photonvision_Port_1184_Output_MJPEG_Server",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "NONE",
+              "compression": -1.0,
+              "fps": -1,
+              "imageWidth": 0,
+              "imageHeight": 0
             }
           }
         }
@@ -566,9 +626,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -5.5,
-    "y": 1.5,
-    "width": 1530.0,
-    "height": 815.0
+    "x": -8.0,
+    "y": 0.0,
+    "width": 1550.4000244140625,
+    "height": 724.7999877929688
   }
 }

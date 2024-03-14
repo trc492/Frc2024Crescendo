@@ -38,11 +38,12 @@ import TrcCommonLib.trclib.TrcPurePursuitDrive;
 import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcAHRSGyro;
-import TrcFrcLib.frclib.FrcCANFalcon;
+import TrcFrcLib.frclib.FrcCANTalonFX;
 import TrcFrcLib.frclib.FrcCANSparkMax;
-import TrcFrcLib.frclib.FrcCANTalon;
+import TrcFrcLib.frclib.FrcCANTalonSRX;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import team492.FrcAuto;
 import team492.Robot;
 import team492.RobotParams;
@@ -50,19 +51,20 @@ import team492.RobotParams;
 /**
  * This class is intended to be extended by subclasses implementing different robot drive bases.
  */
-public class RobotDrive
+public class RobotDrive extends SubsystemBase
 {
     private static final String moduleName = RobotDrive.class.getSimpleName();
+    private static final String FIELD_ZERO_HEADING_FILE = "FieldZeroHeading.txt";
+
     public static final int INDEX_LEFT_FRONT = 0;
     public static final int INDEX_RIGHT_FRONT = 1;
     public static final int INDEX_LEFT_BACK = 2;
     public static final int INDEX_RIGHT_BACK = 3;
-    private static final String FIELD_ZERO_HEADING_FILE = "FieldZeroHeading.txt";
 
     public enum MotorType
     {
-        CanFalcon,
-        CanTalon,
+        CanTalonFx,
+        CanTalonSrx,
         CanSparkMax
     }   //enum MotorType
 
@@ -112,6 +114,7 @@ public class RobotDrive
      */
     public RobotDrive(Robot robot)
     {
+        super();
         this.robot = robot;
         gyro = RobotParams.Preferences.useNavX ? new FrcAHRSGyro("NavX", SPI.Port.kMXP) : null;
     }   //RobotDrive
@@ -141,11 +144,6 @@ public class RobotDrive
                     driveBase.setFieldPosition(endOfAutoRobotPose);
                     endOfAutoRobotPose = null;
                 }
-
-                if (RobotParams.Preferences.useGyroAssist)
-                {
-                    driveBase.setGyroAssistEnabled(pidDrive.getTurnPidCtrl());
-                }
             }
         }
     }   //startMode
@@ -167,6 +165,7 @@ public class RobotDrive
                 endOfAutoRobotPose = driveBase.getFieldPosition();
             }
             driveBase.setOdometryEnabled(false);
+            pidDrive.pidDriveTaskProfiler.printPerformanceMetrics(robot.globalTracer);
         }
     }   //stopMode
 
@@ -201,7 +200,7 @@ public class RobotDrive
     /**
      * This method create an array of motors and configure them (can be drive motor or steer motor for Swerve Drive).
      *
-     * @param motorType specifies the motor type (CAN_FALCON, CAN_TALON or CAN_SPARKMAX).
+     * @param motorType specifies the motor type (CanTalonFx, CanTalonSrx or CanSparkMax).
      * @param brushless specifies true if motor is brushless, false if brushed (only applicable for SparkMax).
      * @param names specifies an array of names for each motor.
      * @param motorCanIds specifies an array of CAN IDs for each motor.
@@ -217,12 +216,12 @@ public class RobotDrive
         {
             switch (motorType)
             {
-                case CanFalcon:
-                    motors[i] = new FrcCANFalcon(names[i], motorCanIds[i]);
+                case CanTalonFx:
+                    motors[i] = new FrcCANTalonFX(names[i], motorCanIds[i]);
                     break;
 
-                case CanTalon:
-                    motors[i] = new FrcCANTalon(names[i], motorCanIds[i]);
+                case CanTalonSrx:
+                    motors[i] = new FrcCANTalonSRX(names[i], motorCanIds[i]);
                     break;
 
                 case CanSparkMax:
@@ -230,8 +229,6 @@ public class RobotDrive
                     break;
             }
             motors[i].resetFactoryDefault();
-            motors[i].setVoltageCompensationEnabled(RobotParams.BATTERY_NOMINAL_VOLTAGE);
-            motors[i].setBrakeModeEnabled(true);
             motors[i].setMotorInverted(inverted[i]);
         }
 
@@ -396,9 +393,9 @@ public class RobotDrive
 
         if (pose == null)
         {
-            int startPos = FrcAuto.autoChoices.getStartPos();
+            int startPos = FrcAuto.autoChoices.getStartPos().ordinal();
             robotPose = FrcAuto.autoChoices.getAlliance() == Alliance.Blue?
-                RobotParams.startPos[0][startPos]: RobotParams.startPos[1][startPos];
+                RobotParams.Game.startPoses[0][startPos]: RobotParams.Game.startPoses[1][startPos];
         }
         else
         {
@@ -465,7 +462,7 @@ public class RobotDrive
         if (alliance == Alliance.Red)
         {
             // no change on x, change y to the opposite side of the field.
-            pose.y = RobotParams.FIELD_LENGTH - pose.y;
+            pose.y = RobotParams.Field.LENGTH - pose.y;
             pose.angle = (pose.angle + 180.0) % 360.0;
         }
 

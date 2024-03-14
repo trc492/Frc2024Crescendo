@@ -32,21 +32,30 @@ import team492.vision.PhotonVision;
 public class LEDIndicator
 {
     private static final TrcAddressableLED.Pattern aprilTagPattern =        // Green
-        new TrcAddressableLED.Pattern("AprilTag", new FrcColor(0, 63, 0), RobotParams.NUM_LEDS);
-    private static final TrcAddressableLED.Pattern fieldOrientedPattern =   // Cyan
-        new TrcAddressableLED.Pattern("FieldOriented", new FrcColor(0, 63, 63), RobotParams.NUM_LEDS);
-    private static final TrcAddressableLED.Pattern robotOrientedPattern =   // Red
-        new TrcAddressableLED.Pattern("RobotOriented", new FrcColor(63, 0, 0), RobotParams.NUM_LEDS);
+        new TrcAddressableLED.Pattern("AprilTag", new FrcColor(0, 63, 0), RobotParams.HWConfig.NUM_LEDS);
+    private static final TrcAddressableLED.Pattern notePattern =            // Orange
+        new TrcAddressableLED.Pattern("Note", new FrcColor(80, 15, 0), RobotParams.HWConfig.NUM_LEDS);
+    private static final TrcAddressableLED.Pattern seeNothingPattern =      // Red
+        new TrcAddressableLED.Pattern("SeeNothing", new FrcColor(63, 0, 0), RobotParams.HWConfig.NUM_LEDS);
+    private static final TrcAddressableLED.Pattern intakeHasNotePattern =   // Cyan
+        new TrcAddressableLED.Pattern("GotNote", new FrcColor(0, 63, 63), RobotParams.HWConfig.NUM_LEDS);
+    private static final TrcAddressableLED.Pattern fieldOrientedPattern =   // White
+        new TrcAddressableLED.Pattern("FieldOriented", new FrcColor(63, 63, 63), RobotParams.HWConfig.NUM_LEDS);
+    private static final TrcAddressableLED.Pattern robotOrientedPattern =   // Blue
+        new TrcAddressableLED.Pattern("RobotOriented", new FrcColor(0, 0, 63), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern inverseOrientedPattern = // Magenta
-        new TrcAddressableLED.Pattern("InverseOriented", new FrcColor(63, 0, 63), RobotParams.NUM_LEDS);
+        new TrcAddressableLED.Pattern("InverseOriented", new FrcColor(63, 0, 63), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern nominalPattern =         // Black
-        new TrcAddressableLED.Pattern("Nominal", new FrcColor(0, 0, 0), RobotParams.NUM_LEDS);
+        new TrcAddressableLED.Pattern("Nominal", new FrcColor(0, 0, 0), RobotParams.HWConfig.NUM_LEDS);
 
     private static final TrcAddressableLED.Pattern[] priorities =
         new TrcAddressableLED.Pattern[]
         {
             // Highest priority.
             aprilTagPattern,
+            intakeHasNotePattern,
+            notePattern,
+            seeNothingPattern,
             fieldOrientedPattern,
             robotOrientedPattern,
             inverseOrientedPattern,
@@ -61,7 +70,7 @@ public class LEDIndicator
      */
     public LEDIndicator()
     {
-        led = new FrcAddressableLED("LED", RobotParams.NUM_LEDS, RobotParams.PWM_CHANNEL_LED);
+        led = new FrcAddressableLED("LED", RobotParams.HWConfig.NUM_LEDS, RobotParams.HWConfig.PWM_CHANNEL_LED);
         reset();
     }   //LEDIndicator
 
@@ -108,12 +117,35 @@ public class LEDIndicator
 
     public void setPhotonDetectedObject(PhotonVision.PipelineType pipelineType)
     {
-        switch (pipelineType)
+        if (pipelineType == null)
         {
-            case APRILTAG:
-                led.setPatternState(aprilTagPattern, true);
-                break;
+            led.setPatternState(seeNothingPattern, true, 0.5);
+        }
+        else
+        {
+            switch (pipelineType)
+            {
+                case APRILTAG:
+                    led.setPatternState(aprilTagPattern, true, 0.5);
+                    break;
+
+                case NOTE:
+                    led.setPatternState(notePattern, true, 0.5);
+                    break;
+            }
         }
     }   //setPhotonDetectedObject
+
+    public void setIntakeDetectedObject(boolean hasObject)
+    {
+        if (hasObject)
+        {
+            led.setPatternState(intakeHasNotePattern, true, 0.25, 0.25);
+        }
+        else
+        {
+            led.setPatternState(intakeHasNotePattern, false);
+        }
+    }   //setIntakeDetectedObject
 
 }   //class LEDIndicator

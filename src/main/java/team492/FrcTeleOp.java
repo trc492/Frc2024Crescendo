@@ -22,25 +22,48 @@
 
 package team492;
 
+import java.util.Locale;
+
+import TrcCommonLib.trclib.TrcPidController;
+import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
+import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
+import TrcFrcLib.frclib.FrcCANSparkMax;
 import TrcFrcLib.frclib.FrcJoystick;
+import TrcFrcLib.frclib.FrcPhotonVision;
 import TrcFrcLib.frclib.FrcXboxController;
+import team492.autotasks.ShootParamTable;
 
 /**
  * This class implements the code to run in TeleOp Mode.
  */
 public class FrcTeleOp implements TrcRobot.RobotMode
 {
+    private static final String moduleName = FrcTeleOp.class.getSimpleName();
     private static final boolean traceButtonEvents = true;
     //
     // Global objects.
     //
     protected final Robot robot;
     private boolean controlsEnabled = false;
+    protected boolean driverAltFunc = false;
+    private boolean driverTracking = false;
+    private boolean operatorTracking = false;
+    private boolean prevTrackingModeOn = false;
+    protected boolean operatorAltFunc = false;
+    private boolean subsystemStatusOn = true;
+    // DriveBase subsystem.
+    private TrcPidController trackingPidCtrl;
     private double driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
     private double turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
+    // private double[] prevDriveInputs = null;
+    // Shooter subsystem.
+    private double prevShooterVel = 0.0;
+    private double prevTiltPower = 0.0;
+    // Climber subsystem.
+    private double prevClimbPower = 0.0;
 
     /**
      * Constructor: Create an instance of the object.
@@ -76,10 +99,13 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         //
         // Initialize subsystems for TeleOp mode if necessary.
         //
-        if (robot.robotDrive != null)
-        {
-            robot.robotDrive.driveBase.setDriveOrientation(DriveOrientation.FIELD, true);
-        }
+        robot.setDriveOrientation(DriveOrientation.FIELD, true);
+        // trackingPidCtrl should have same PID coefficients as the PurePursuit turn PID controller.
+        trackingPidCtrl = robot.robotDrive == null? null:
+            new TrcPidController(
+                "trackingPidCtrl", robot.robotDrive.purePursuitDrive.getTurnPidCtrl().getPidCoefficients(), null);
+        trackingPidCtrl.setAbsoluteSetPoint(true);
+        trackingPidCtrl.setInverted(true);
 
         if (RobotParams.Preferences.hybridMode)
         {
@@ -111,7 +137,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
         //
         // Disable subsystems before exiting if necessary.
         //
-        releaseAutoAssistAndSubsystems();
+        robot.autoAssistCancel();
     }   //stopMode
 
     /**
@@ -126,8 +152,24 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     @Override
     public void periodic(double elapsedTime, boolean slowPeriodicLoop)
     {
+        int lineNum = 1;
+
         if (slowPeriodicLoop)
         {
+            FrcPhotonVision.DetectedObject aprilTagObj = null;
+            //
+            // Update Vision LEDs.
+            //
+            if (robot.photonVisionFront != null)
+            {
+                aprilTagObj = robot.photonVisionFront.getBestDetectedAprilTag(new int[] {4, 7, 5, 6, 3, 8});
+            }
+
+            if (robot.photonVisionBack != null)
+            {
+                robot.photonVisionBack.getBestDetectedObject();
+            }
+
             if (controlsEnabled)
             {
                 //
@@ -135,27 +177,113 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 //
                 if (robot.robotDrive != null)
                 {
-                    double[] inputs = robot.robotDrive.getDriveInputs(
+                    double[] driveInputs = robot.robotDrive.getDriveInputs(
                         RobotParams.ROBOT_DRIVE_MODE, true, driveSpeedScale, turnSpeedScale);
+                    double rotPower = driveInputs[2];
+                    int aprilTagId = -1;
+                    Double shooterVel = null, tiltAngle = null;
 
-                    if (robot.robotDrive.driveBase.supportsHolonomicDrive())
+                    if (robot.shooter != null)
                     {
-                        robot.robotDrive.driveBase.holonomicDrive(
-                            null, inputs[0], inputs[1], inputs[2], robot.robotDrive.driveBase.getDriveGyroAngle());
-                        robot.dashboard.displayPrintf(
-                            1, "Holonomic: x=%.3f, y=%.3f, rot=%.3f", inputs[0], inputs[1], inputs[2]);
+                        boolean trackingModeOn = driverTracking || operatorTracking;
+                        if (trackingModeOn)
+                        {
+                            if (aprilTagObj != null)
+                            {
+                                TrcPose2D aprilTagPose;
+                                aprilTagId = aprilTagObj.target.getFiducialId();
+
+                                if (aprilTagId == 3 || aprilTagId == 8)
+                                {
+                                    aprilTagPose = aprilTagObj.addTransformToTarget(
+                                        aprilTagObj.target, RobotParams.Vision.robotToFrontCam,
+                                        aprilTagId == 3? robot.aprilTag3To4Transform: robot.aprilTag8To7Transform);
+                                }
+                                else
+                                {
+                                    aprilTagPose = aprilTagObj.targetPose;
+                                }
+
+                                if (aprilTagId == 5 || aprilTagId == 6)
+                                {
+                                    shooterVel = RobotParams.Shooter.shooterAmpVelocity;
+                                    tiltAngle = RobotParams.Shooter.tiltAmpAngle;
+                                }
+                                else
+                                {
+                                    ShootParamTable.Params shootParams =
+                                        RobotParams.Shooter.speakerShootParamTable.get(
+                                            TrcUtil.magnitude(aprilTagPose.x, aprilTagPose.y));
+                                    shooterVel = shootParams.shooterVelocity;
+                                    tiltAngle = shootParams.tiltAngle;
+                                }
+                                rotPower = trackingPidCtrl.getOutput(aprilTagPose.angle, 0.0);
+                                robot.shooter.aimShooter(shooterVel, tiltAngle, 0.0);
+                                // robot.globalTracer.traceInfo(moduleName, "aprilTagAngle=" + aprilTagPose.angle + ", rotPower=" + rotPower);
+
+                            }
+                        }
+                        else if (prevTrackingModeOn)
+                        {
+                            robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+                            robot.shooter.stopShooter();
+                        }
+                        prevTrackingModeOn = trackingModeOn;
                     }
-                    else if (RobotParams.Preferences.useTankDrive)
+
+                    // if (!Arrays.equals(driveInputs, prevDriveInputs))
+                    // {
+                        if (robot.robotDrive.driveBase.supportsHolonomicDrive())
+                        {
+                            double gyroAngle = robot.robotDrive.driveBase.getDriveGyroAngle();
+                            robot.robotDrive.driveBase.holonomicDrive(
+                                null, driveInputs[0], driveInputs[1], rotPower, gyroAngle);
+                            if (subsystemStatusOn)
+                            {
+                                String s = String.format(
+                                    Locale.US, "Holonomic: x=%.3f, y=%.3f, rot=%.3f, angle=%.3f",
+                                    driveInputs[0], driveInputs[1], rotPower, gyroAngle);
+                                if (aprilTagId != -1)
+                                {
+                                    s += String.format(
+                                        ", Id=%d, shooterVel=%.1f, tilt=%.1f", aprilTagId, shooterVel, tiltAngle);
+                                }
+                                robot.dashboard.displayPrintf(lineNum++, s);
+                            }
+                        }
+                        else if (RobotParams.Preferences.useTankDrive)
+                        {
+                            robot.robotDrive.driveBase.tankDrive(driveInputs[0], driveInputs[1]);
+                            if (subsystemStatusOn)
+                            {
+                                robot.dashboard.displayPrintf(
+                                    lineNum++, "Tank: left=%.3f, right=%.3f, rot=%.3f",
+                                    driveInputs[0], driveInputs[1], driveInputs[2]);
+                            }
+                        }
+                        else
+                        {
+                            robot.robotDrive.driveBase.arcadeDrive(driveInputs[1], driveInputs[2]);
+                            if (subsystemStatusOn)
+                            {
+                                robot.dashboard.displayPrintf(
+                                    lineNum++, "Arcade: x=%.3f, y=%.3f, rot=%.3f",
+                                    driveInputs[0], driveInputs[1], driveInputs[2]);
+                            }
+                        }
+                    // }
+                    // else if (subsystemStatusOn)
+                    // {
+                    //     lineNum++;
+                    // }
+                    // prevDriveInputs = driveInputs;
+                    if (subsystemStatusOn)
                     {
-                        robot.robotDrive.driveBase.tankDrive(inputs[0], inputs[1]);
                         robot.dashboard.displayPrintf(
-                            1, "Tank: left=%.3f, right=%.3f, rot=%.3f", inputs[0], inputs[1], inputs[2]);
-                    }
-                    else
-                    {
-                        robot.robotDrive.driveBase.arcadeDrive(inputs[1], inputs[2]);
-                        robot.dashboard.displayPrintf(
-                            1, "Arcade: x=%.3f, y=%.3f, rot=%.3f", inputs[0], inputs[1], inputs[2]);
+                            lineNum++, "RobotPose=%s, Orient=%s, GyroAssist=%s",
+                            robot.robotDrive.driveBase.getFieldPosition(),
+                            robot.robotDrive.driveBase.getDriveOrientation(),
+                            robot.robotDrive.driveBase.isGyroAssistEnabled());
                     }
                 }
                 //
@@ -163,6 +291,82 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 //
                 if (RobotParams.Preferences.useSubsystems)
                 {
+                    if (robot.intake != null && subsystemStatusOn)
+                    {
+                        robot.dashboard.displayPrintf(
+                            lineNum++, "Intake: power=%.2f, entry/exit=%s/%s",
+                            robot.intake.getPower(),
+                            robot.intake.isTriggerActive(robot.intake.entryTrigger),
+                            robot.intake.isTriggerActive(robot.intake.exitTrigger));
+                    }
+
+                    if (robot.shooter != null)
+                    {
+                        double shooterVel =
+                            (robot.operatorController.getRightTriggerAxis() -
+                             robot.operatorController.getLeftTriggerAxis()) * RobotParams.Shooter.shooterMaxVelocity;
+                        // Only set shooter velocity if it is different from previous value.
+                        if (prevShooterVel != shooterVel)
+                        {
+                            if (shooterVel == 0.0)
+                            {
+                                // Don't abruptly stop the shooter, gently spin down.
+                                robot.shooter.stopShooter();
+                            }
+                            else
+                            {
+                                robot.shooter.setShooterVelocity(shooterVel);
+                            }
+                            prevShooterVel = shooterVel;
+                        }
+
+                        if (subsystemStatusOn)
+                        {
+                            robot.dashboard.displayPrintf(
+                                lineNum++, "Shooter: vel=%.0f/%.0f, preset=%.0f, inc=%.0f",
+                                shooterVel, robot.shooter.getShooterVelocity(), robot.shooterVelocity.getValue(),
+                                robot.shooterVelocity.getIncrement());
+                        }
+
+                        double tiltPower = robot.operatorController.getLeftYWithDeadband(true);
+                        // Only set tilt power if it is different from previous value.
+                        if (prevTiltPower != tiltPower)
+                        {
+                            robot.shooter.setTiltPower(tiltPower);
+                            prevTiltPower = tiltPower;
+                        }
+
+                        if (subsystemStatusOn)
+                        {
+                            robot.dashboard.displayPrintf(
+                                lineNum++, "Tilt: power=%.2f/%.2f, angle=%.2f/%.2f/%f, inc=%.0f, limits=%s/%s",
+                                tiltPower, robot.shooter.getTiltPower(), robot.shooter.getTiltAngle(),
+                                robot.shooter.tiltMotor.getPidTarget(), robot.shooter.tiltMotor.getMotorPosition(),
+                                robot.shooterTiltAngle.getIncrement(), robot.shooter.tiltLowerLimitSwitchActive(),
+                                robot.shooter.tiltUpperLimitSwitchActive());
+                        }
+                    }
+
+                    if (robot.climber != null)
+                    {
+                        double climbPower = robot.operatorController.getRightYWithDeadband(true);
+                        if (prevClimbPower != climbPower)
+                        {
+                            robot.climber.setClimbPower(climbPower);
+                            prevClimbPower = climbPower;
+                        }
+
+                        if (subsystemStatusOn)
+                        {
+                            robot.dashboard.displayPrintf(
+                                lineNum++, "Climber: power=%.2f/%.2f, current=%.3f, pos=%.2f/%.2f/%f, limits=%s/%s",
+                                climbPower, robot.climber.climberMotor.getPower(), robot.climber.climberMotor.getCurrent(),
+                                robot.climber.getPosition(), robot.climber.climberMotor.getPidTarget(),
+                                robot.climber.climberMotor.getMotorPosition(),
+                                robot.climber.climberMotor.isLowerLimitSwitchActive(),
+                                robot.climber.climberMotor.isUpperLimitSwitchActive());
+                        }
+                    }
                 }
             }
             //
@@ -184,20 +388,24 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     {
         controlsEnabled = enabled;
 
-        if (!RobotParams.Preferences.hybridMode)
+        if (RobotParams.Preferences.useDriverXboxController)
         {
-            if (RobotParams.Preferences.useDriverXboxController)
-            {
-                robot.driverController.setButtonHandler(enabled? this::driverControllerButtonEvent: null);
-            }
-            else
-            {
-                robot.leftDriveStick.setButtonHandler(enabled? this::leftDriveStickButtonEvent: null);
-                robot.rightDriveStick.setButtonHandler(enabled? this::rightDriveStickButtonEvent: null);
-            }
+            robot.driverController.setButtonHandler(enabled? this::driverControllerButtonEvent: null);
+        }
+        else
+        {
+            robot.leftDriveStick.setButtonHandler(enabled? this::leftDriveStickButtonEvent: null);
+            robot.rightDriveStick.setButtonHandler(enabled? this::rightDriveStickButtonEvent: null);
         }
 
-        robot.operatorStick.setButtonHandler(enabled? this::operatorStickButtonEvent: null);
+        if (RobotParams.Preferences.useOperatorXboxController)
+        {
+            robot.operatorController.setButtonHandler(enabled? this::operatorControllerButtonEvent: null);
+        }
+        else
+        {
+            robot.operatorStick.setButtonHandler(enabled? this::operatorStickButtonEvent: null);
+        }
 
         if (RobotParams.Preferences.useButtonPanels)
         {
@@ -211,18 +419,16 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     //
 
     /**
-     * This method is called when a driver stick button event is detected.
+     * This method is called when a driver controller button event is detected.
      *
      * @param button specifies the button ID that generates the event.
      * @param pressed specifies true if the button is pressed, false otherwise.
      */
-    private void driverControllerButtonEvent(int button, boolean pressed)
+    protected void driverControllerButtonEvent(int button, boolean pressed)
     {
-        final String funcName = "driverControllerButtonEvent";
-
         if (traceButtonEvents)
         {
-            robot.globalTracer.traceInfo(funcName, ">>>>> button=%d, pressed=%s", button, pressed);
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
         }
 
         robot.dashboard.displayPrintf(
@@ -236,25 +442,53 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     if (robot.robotDrive.driveBase.getDriveOrientation() != DriveOrientation.FIELD)
                     {
-                        robot.robotDrive.driveBase.setDriveOrientation(DriveOrientation.FIELD, true);
+                        robot.setDriveOrientation(DriveOrientation.FIELD, true);
                     }
                     else
                     {
-                        robot.robotDrive.driveBase.setDriveOrientation(DriveOrientation.ROBOT, false);
+                        robot.setDriveOrientation(DriveOrientation.ROBOT, false);
                     }
                 }
                 break;
 
             case FrcXboxController.BUTTON_B:
+                // Turtle mode.
+                if (robot.shooter != null && pressed)
+                {
+                    robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+                }
                 break;
 
             case FrcXboxController.BUTTON_X:
+                // AutoIntake from ground with Vision, hold AltFunc for no vision.
+                if (robot.intake != null && pressed)
+                {
+                    boolean active = !robot.autoPickupFromGround.isActive();
+                    if (active)
+                    {
+                        // Press and hold altFunc for manual intake (no vision).
+                        robot.autoPickupFromGround.autoAssistPickup(!driverAltFunc, false, null);
+                    }
+                    else
+                    {
+                        robot.autoAssistCancel();
+                    }
+                }
                 break;
 
             case FrcXboxController.BUTTON_Y:
+                driverTracking = pressed;
                 break;
 
             case FrcXboxController.LEFT_BUMPER:
+                driverAltFunc = pressed;
+                if (!driverAltFunc && robot.shooter != null)
+                {
+                    robot.shooter.stopShooter();
+                }
+                break;
+
+            case FrcXboxController.RIGHT_BUMPER:
                 if (pressed)
                 {
                     driveSpeedScale = RobotParams.DRIVE_SLOW_SCALE;
@@ -267,21 +501,22 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 }
                 break;
 
-            case FrcXboxController.RIGHT_BUMPER:
-                if (robot.robotDrive != null &&
-                    robot.robotDrive.driveBase.getDriveOrientation() == DriveOrientation.ROBOT)
+            case FrcXboxController.DPAD_RIGHT:
+                // Manual shoot.
+                if (robot.intake != null && pressed)
                 {
-                    // Inverted drive only makes sense for robot oriented driving.
-                    robot.robotDrive.driveBase.setDriveOrientation(
-                        pressed? DriveOrientation.INVERTED: DriveOrientation.ROBOT, false);
+                    robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
                 }
                 break;
 
             case FrcXboxController.BACK:
-                // Code review: Need to add zero calibrate code here for titler.
                 break;
 
             case FrcXboxController.START:
+                if (pressed)
+                {
+                    subsystemStatusOn = !subsystemStatusOn;
+                }
                 break;
 
             case FrcXboxController.LEFT_STICK_BUTTON:
@@ -293,18 +528,188 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     }   //driverControllerButtonEvent
 
     /**
+     * This method is called when an operator controller button event is detected.
+     *
+     * @param button specifies the button ID that generates the event.
+     * @param pressed specifies true if the button is pressed, false otherwise.
+     */
+    protected void operatorControllerButtonEvent(int button, boolean pressed)
+    {
+        if (traceButtonEvents)
+        {
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
+        }
+
+        robot.dashboard.displayPrintf(
+            8, "OperatorController: button=0x%04x %s", button, pressed ? "pressed" : "released");
+
+        switch (button)
+        {
+            case FrcXboxController.BUTTON_A:
+                // Aim at Speaker up-close.
+                if (robot.shooter != null && pressed)
+                {
+                    boolean active = !robot.shooter.isActive();
+                    if (active)
+                    {
+                        robot.shooter.aimShooter(
+                            RobotParams.Shooter.shooterSpeakerCloseVelocity,
+                            RobotParams.Shooter.tiltSpeakerCloseAngle, 0.0);
+                        // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterSpeakerCloseVelocity);
+                        // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltSpeakerCloseAngle);
+                    }
+                    else
+                    {
+                        robot.shooter.cancel();
+                    }
+                }
+                break;
+
+            case FrcXboxController.BUTTON_B:
+                // Shoot manually.
+                if (robot.intake != null && pressed)
+                {
+                    robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                }               
+                break;
+
+            case FrcXboxController.BUTTON_X:
+                // Aim at Amp.
+                if (robot.intake != null && robot.shooter != null && pressed)
+                {
+                    boolean active = !robot.shooter.isActive();
+                    if (active)
+                    {
+                        robot.shooter.aimShooter(
+                            RobotParams.Shooter.shooterAmpVelocity,
+                            RobotParams.Shooter.tiltAmpAngle, 0.0);
+                        // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
+                        // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
+                    }
+                    else
+                    {
+                        robot.shooter.cancel();
+                    }
+                }
+                break;
+
+            case FrcXboxController.BUTTON_Y:
+                operatorTracking = pressed;
+                // // AutoShoot at Speaker with Vision, hold AltFunc for no vision.
+                // if (robot.intake != null && robot.shooter != null && pressed)
+                // {
+                //     boolean active = !robot.autoScoreNote.isActive();
+                //     if (active)
+                //     {
+                //         // Press and hold altFunc for manual shooting (no vision).
+                //         robot.autoScoreNote.autoAssistScore(TargetType.Speaker, !operatorAltFunc);
+                //     }
+                //     else
+                //     {
+                //         robot.autoAssistCancel();
+                //     }
+                // }
+                break;
+
+            case FrcXboxController.LEFT_BUMPER:
+                operatorAltFunc = pressed;
+                if (robot.shooter != null)
+                {
+                    robot.shooter.setManualOverrideEnabled(operatorAltFunc);
+                }
+
+                if (robot.climber != null)
+                {
+                    robot.climber.setManualOverrideEnabled(operatorAltFunc);
+                }
+                break;
+
+            case FrcXboxController.RIGHT_BUMPER:
+                //Turtle mode
+                if (robot.shooter != null && pressed)
+                {
+                    robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+                }
+                break;
+
+            case FrcXboxController.DPAD_UP:
+                // AutoIntake from ground with Vision.
+                if (robot.intake != null && pressed)
+                {
+                    boolean active = !robot.autoPickupFromGround.isActive();
+                    if (active)
+                    {
+                        robot.autoPickupFromGround.autoAssistPickup(true, false, null);
+                    }
+                    else
+                    {
+                        robot.autoAssistCancel();
+                    }
+                }
+                break;
+
+            case FrcXboxController.DPAD_DOWN:
+                // AutoIntake from ground with no Vision (manual pickup), hold AltFunc for ReverseIntake.
+                if (robot.intake != null && pressed)
+                {
+                    if (operatorAltFunc)
+                    {
+                        robot.intake.autoIntakeReverse(RobotParams.Intake.intakePower, 0.0, 0.0);
+                    }
+                    else
+                    {
+                        boolean active = !robot.autoPickupFromGround.isActive();
+                        if (active)
+                        {
+                            robot.autoPickupFromGround.autoAssistPickup(false, false, null);
+                        }
+                        else
+                        {
+                            robot.autoAssistCancel();
+                        }
+                    }
+                }
+                break;
+
+            case FrcXboxController.DPAD_LEFT:
+                break;
+
+            case FrcXboxController.DPAD_RIGHT:
+                break;
+
+            case FrcXboxController.BACK:
+                if (robot.climber != null && pressed)
+                {
+                    robot.climber.zeroCalibrate();
+                }
+                break;
+
+            case FrcXboxController.START:
+                if (robot.shooter != null && pressed)
+                {
+                    ((FrcCANSparkMax) robot.shooter.tiltMotor).resetMotorPosition(false);
+                }
+                break;
+
+            case FrcXboxController.LEFT_STICK_BUTTON:
+                break;
+
+            case FrcXboxController.RIGHT_STICK_BUTTON:
+                break;
+        }
+    }   //operatorControllerButtonEvent
+
+    /**
      * This method is called when a right driver stick button event is detected.
      *
      * @param button specifies the button ID that generates the event
      * @param pressed specifies true if the button is pressed, false otherwise.
      */
-    private void leftDriveStickButtonEvent(int button, boolean pressed)
+    protected void leftDriveStickButtonEvent(int button, boolean pressed)
     {
-        final String funcName = "leftDriveStickButtonEvent";
-
         if (traceButtonEvents)
         {
-            robot.globalTracer.traceInfo(funcName, ">>>>> button=%d, pressed=%s", button, pressed);
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
         }
 
         robot.dashboard.displayPrintf(
@@ -356,13 +761,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
      * @param button specifies the button ID that generates the event
      * @param pressed specifies true if the button is pressed, false otherwise.
      */
-    private void rightDriveStickButtonEvent(int button, boolean pressed)
+    protected void rightDriveStickButtonEvent(int button, boolean pressed)
     {
-        final String funcName = "rightDriveStickButtonEvent";
-
         if (traceButtonEvents)
         {
-            robot.globalTracer.traceInfo(funcName, ">>>>> button=%d, pressed=%s", button, pressed);
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
         }
 
         robot.dashboard.displayPrintf(
@@ -376,11 +779,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     if (robot.robotDrive.driveBase.getDriveOrientation() != DriveOrientation.FIELD)
                     {
-                        robot.robotDrive.driveBase.setDriveOrientation(DriveOrientation.FIELD, true);
+                        robot.setDriveOrientation(DriveOrientation.FIELD, true);
                     }
                     else
                     {
-                        robot.robotDrive.driveBase.setDriveOrientation(DriveOrientation.ROBOT, false);
+                        robot.setDriveOrientation(DriveOrientation.ROBOT, false);
                     }
                 }
                 break;
@@ -390,7 +793,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 if (robot.robotDrive != null &&
                     robot.robotDrive.driveBase.getDriveOrientation() == DriveOrientation.ROBOT)
                 {
-                    robot.robotDrive.driveBase.setDriveOrientation(
+                    robot.setDriveOrientation(
                         pressed? DriveOrientation.INVERTED: DriveOrientation.ROBOT, false);
                 }
                 break;
@@ -403,13 +806,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
      * @param button specifies the button ID that generates the event
      * @param pressed specifies true if the button is pressed, false otherwise.
      */
-    private void operatorStickButtonEvent(int button, boolean pressed)
+    protected void operatorStickButtonEvent(int button, boolean pressed)
     {
-        final String funcName = "operatorStickButtonEvent";
-
         if (traceButtonEvents)
         {
-            robot.globalTracer.traceInfo(funcName, ">>>>> button=%d, pressed=%s", button, pressed);
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
         }
 
         robot.dashboard.displayPrintf(
@@ -461,13 +862,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
      * @param button specifies the button ID that generates the event
      * @param pressed specifies true if the button is pressed, false otherwise.
      */
-    private void buttonPanelButtonEvent(int button, boolean pressed)
+    protected void buttonPanelButtonEvent(int button, boolean pressed)
     {
-        final String funcName = "buttonPanelButtonEvent";
-
         if (traceButtonEvents)
         {
-            robot.globalTracer.traceInfo(funcName, ">>>>> button=%d, pressed=%s", button, pressed);
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
         }
 
         robot.dashboard.displayPrintf(
@@ -513,13 +912,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
      * @param button specifies the button ID that generates the event
      * @param pressed specifies true if the button is pressed, false otherwise.
      */
-    private void switchPanelButtonEvent(int button, boolean pressed)
+    protected void switchPanelButtonEvent(int button, boolean pressed)
     {
-        final String funcName = "switchPanelButtonEvent";
-
         if (traceButtonEvents)
         {
-            robot.globalTracer.traceInfo(funcName, ">>>>> button=%d, pressed=%s", button, pressed);
+            robot.globalTracer.traceInfo(moduleName, ">>>>> button=%d, pressed=%s", button, pressed);
         }
 
         robot.dashboard.displayPrintf(
@@ -558,12 +955,5 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
         }
     }   //switchPanelButtonEvent
-
-    /**
-     * This method is called to cancel all pending auto-assist operations and release the ownership of all subsystems.
-     */
-    private void releaseAutoAssistAndSubsystems()
-    {
-    }   //releaseAutoAssistAndSubsystems
 
 }   //class FrcTeleOp

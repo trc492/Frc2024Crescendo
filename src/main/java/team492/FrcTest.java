@@ -31,8 +31,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
+import team492.vision.PhotonVision.PipelineType;
 import TrcFrcLib.frclib.FrcChoiceMenu;
+import TrcFrcLib.frclib.FrcPhotonVision;
 import TrcFrcLib.frclib.FrcUserChoices;
+import TrcFrcLib.frclib.FrcXboxController;
 import TrcCommonLib.trclib.TrcMotor;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
@@ -58,6 +61,7 @@ public class FrcTest extends FrcTeleOp
     {
         SENSORS_TEST,
         SUBSYSTEMS_TEST,
+        VISION_TEST,
         SWERVE_CALIBRATION,
         DRIVE_SPEED_TEST,
         DRIVE_MOTORS_TEST,
@@ -110,8 +114,9 @@ public class FrcTest extends FrcTeleOp
             //
             testMenu.addChoice("Sensors Test", Test.SENSORS_TEST, true, false);
             testMenu.addChoice("Subsystems Test", Test.SUBSYSTEMS_TEST);
-            if (!RobotParams.Preferences.hybridMode)
-            {
+            testMenu.addChoice("Vision Test", Test.VISION_TEST);
+            // if (!RobotParams.Preferences.hybridMode)
+            // {
                 testMenu.addChoice("Swerve Calibration", Test.SWERVE_CALIBRATION);
                 testMenu.addChoice("Drive Speed Test", Test.DRIVE_SPEED_TEST);
                 testMenu.addChoice("Drive Motors Test", Test.DRIVE_MOTORS_TEST);
@@ -122,7 +127,7 @@ public class FrcTest extends FrcTeleOp
                 testMenu.addChoice("Tune X PID", Test.TUNE_X_PID);
                 testMenu.addChoice("Tune Y PID", Test.TUNE_Y_PID);
                 testMenu.addChoice("Tune Turn PID", Test.TUNE_TURN_PID);
-            }
+            // }
             testMenu.addChoice("Live Window", Test.LIVE_WINDOW, false, true);
             //
             // Initialize dashboard with default choice values.
@@ -210,6 +215,8 @@ public class FrcTest extends FrcTeleOp
     private double maxTurnRate = 0.0;
     private double prevTime = 0.0;
     private double prevVelocity = 0.0;
+    private PipelineType frontPipeline = PipelineType.APRILTAG;
+    private PipelineType backPipeline = PipelineType.NOTE;
 
     public FrcTest(Robot robot)
     {
@@ -251,22 +258,30 @@ public class FrcTest extends FrcTeleOp
         switch (testChoices.getTest())
         {
             case SENSORS_TEST:
-                //
                 // Make sure no joystick controls on sensors test.
-                //
                 setControlsEnabled(false);
-                //
                 // Sensors Test is the same as Subsystems Test without joystick control.
                 // So let it flow to the next case.
-                //
             case SUBSYSTEMS_TEST:
+                break;
+
+            case VISION_TEST:
+                if (robot.photonVisionFront != null)
+                {
+                    robot.photonVisionFront.setPipeline(frontPipeline);
+                }
+
+                if (robot.photonVisionBack != null)
+                {
+                    robot.photonVisionBack.setPipeline(backPipeline);
+                }
                 break;
 
             case SWERVE_CALIBRATION:
                 if (robot.robotDrive != null && robot.robotDrive instanceof SwerveDrive)
                 {
                     setControlsEnabled(false);
-                    // ((SwerveDrive) robot.robotDrive).startSteerCalibrate();
+                    ((SwerveDrive) robot.robotDrive).startSteeringCalibration();
                 }
                 break;
 
@@ -290,6 +305,11 @@ public class FrcTest extends FrcTeleOp
             case X_TIMED_DRIVE:
                 if (robot.robotDrive != null && robot.robotDrive.driveBase.supportsHolonomicDrive())
                 {
+                    for (TrcMotor motor: robot.robotDrive.driveMotors)
+                    {
+                        motor.resetMotorPosition();
+                    }
+                    robot.robotDrive.driveBase.setGyroAssistEnabled(robot.robotDrive.pidDrive.getTurnPidCtrl());
                     testCommand = new CmdTimedDrive(
                         robot.robotDrive.driveBase, 0.0, testChoices.getDriveTime(), testChoices.getDrivePower(),
                         0.0, 0.0);
@@ -299,6 +319,11 @@ public class FrcTest extends FrcTeleOp
             case Y_TIMED_DRIVE:
                 if (robot.robotDrive != null)
                 {
+                    for (TrcMotor motor: robot.robotDrive.driveMotors)
+                    {
+                        motor.resetMotorPosition();
+                    }
+                    robot.robotDrive.driveBase.setGyroAssistEnabled(robot.robotDrive.pidDrive.getTurnPidCtrl());
                     testCommand = new CmdTimedDrive(
                         robot.robotDrive.driveBase, 0.0, testChoices.getDriveTime(), 0.0, testChoices.getDrivePower(),
                         0.0);
@@ -376,6 +401,18 @@ public class FrcTest extends FrcTeleOp
     public void stopMode(RunMode prevMode, RunMode nextMode)
     {
         super.stopMode(prevMode, nextMode);
+        switch (testChoices.getTest())
+        {
+            case SWERVE_CALIBRATION:
+                if (robot.robotDrive != null && robot.robotDrive instanceof SwerveDrive)
+                {
+                    ((SwerveDrive) robot.robotDrive).stopSteeringCalibration();
+                }
+                break;
+
+            default:
+                break;
+        }
     }   //stopMode
 
     //
@@ -468,13 +505,14 @@ public class FrcTest extends FrcTeleOp
             {
                 case SENSORS_TEST:
                 case SUBSYSTEMS_TEST:
+                case VISION_TEST:
                     displaySensorStates(lineNum);
                     break;
 
                 case SWERVE_CALIBRATION:
                     if (robot.robotDrive != null && robot.robotDrive instanceof SwerveDrive)
                     {
-                        // robot.robotDrive.steerCalibratePeriodic();
+                        ((SwerveDrive) robot.robotDrive).runSteeringCalibration();
                         displaySensorStates(lineNum);
                     }
                     break;
@@ -483,14 +521,18 @@ public class FrcTest extends FrcTeleOp
                 case Y_TIMED_DRIVE:
                     if (robot.robotDrive != null)
                     {
-                        double lfEnc = robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_FRONT].getPosition();
-                        double rfEnc = robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_FRONT].getPosition();
-                        double lbEnc = robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK] != null?
-                                        robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK].getPosition(): 0.0;
-                        double rbEnc = robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK] != null?
-                                        robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK].getPosition(): 0.0;
-                        robot.dashboard.displayPrintf(lineNum++, "Enc:lf=%.0f,rf=%.0f", lfEnc, rfEnc);
-                        robot.dashboard.displayPrintf(lineNum++, "Enc:lb=%.0f,rb=%.0f", lbEnc, rbEnc);
+                        double lfEnc = Math.abs(
+                            robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_FRONT].getMotorPosition());
+                        double rfEnc = Math.abs(
+                            robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_FRONT].getMotorPosition());
+                        double lbEnc = Math.abs(
+                            robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK] != null?
+                                robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK].getMotorPosition(): 0.0);
+                        double rbEnc = Math.abs(
+                            robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK] != null?
+                                robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK].getMotorPosition(): 0.0);
+                        robot.dashboard.displayPrintf(lineNum++, "Enc:lf=%f,rf=%f", lfEnc, rfEnc);
+                        robot.dashboard.displayPrintf(lineNum++, "Enc:lb=%f,rb=%f", lbEnc, rbEnc);
                         robot.dashboard.displayPrintf(lineNum++, "EncAverage=%f", (lfEnc + rfEnc + lbEnc + rbEnc) / 4.0);
                         robot.dashboard.displayPrintf(
                             lineNum++, "RobotPose=%s", robot.robotDrive.driveBase.getFieldPosition());
@@ -540,12 +582,133 @@ public class FrcTest extends FrcTeleOp
     {
         Test test = testChoices.getTest();
 
-        return test == Test.SUBSYSTEMS_TEST || test == Test.DRIVE_SPEED_TEST;
+        return test == Test.SUBSYSTEMS_TEST || test == Test.VISION_TEST || test == Test.DRIVE_SPEED_TEST;
     }   //allowTeleOp
 
     //
     // Overriding ButtonEvent here if necessary.
     //
+
+    /**
+     * This method is called when an operator controller button event is detected.
+     *
+     * @param button specifies the button ID that generates the event.
+     * @param pressed specifies true if the button is pressed, false otherwise.
+     */
+    @Override
+    protected void operatorControllerButtonEvent(int button, boolean pressed)
+    {
+        if (allowTeleOp())
+        {
+            boolean processed = false;
+            //
+            // In addition to or instead of the button controls handled by FrcTeleOp, we can add to or override the
+            // FrcTeleOp button actions.
+            //
+            robot.dashboard.displayPrintf(
+                8, "OperatorController: button=0x%04x %s", button, pressed ? "pressed" : "released");
+
+            switch (button)
+            {
+                case FrcXboxController.BUTTON_A:
+                    break;
+
+                case FrcXboxController.BUTTON_B:
+                    break;
+
+                case FrcXboxController.BUTTON_X:
+                    break;
+
+                case FrcXboxController.BUTTON_Y:
+                    break;
+
+                case FrcXboxController.LEFT_BUMPER:
+                    break;
+
+                case FrcXboxController.RIGHT_BUMPER:
+                    break;
+
+                case FrcXboxController.DPAD_UP:
+                    if (pressed && robot.shooter != null)
+                    {
+                        if (operatorAltFunc)
+                        {
+                            robot.shooter.setShooterVelocity(robot.shooterVelocity.upValue());
+                        }
+                        else
+                        {
+                            robot.shooter.setTiltAngle(robot.shooterTiltAngle.upValue());
+                        }
+                    }
+                    processed = true;
+                    break;
+
+                case FrcXboxController.DPAD_DOWN:
+                    if (pressed && robot.shooter != null)
+                    {
+                        if (operatorAltFunc)
+                        {
+                            robot.shooter.setShooterVelocity(robot.shooterVelocity.downValue());
+                        }
+                        else
+                        {
+                            robot.shooter.setTiltAngle(robot.shooterTiltAngle.downValue());
+                        }
+                    }
+                    processed = true;
+                    break;
+
+                case FrcXboxController.DPAD_LEFT:
+                    if (pressed && robot.shooter != null)
+                    {
+                        if (operatorAltFunc)
+                        {
+                            robot.shooterVelocity.upIncrement();
+                        }
+                        else
+                        {
+                            robot.shooterTiltAngle.upIncrement();
+                        }
+                    }
+                    processed = true;
+                    break;
+
+                case FrcXboxController.DPAD_RIGHT:
+                    if (pressed && robot.shooter != null)
+                    {
+                        if (operatorAltFunc)
+                        {
+                            robot.shooterVelocity.downIncrement();
+                        }
+                        else
+                        {
+                            robot.shooterTiltAngle.downIncrement();
+                        }
+                    }
+                    processed = true;
+                    break;
+
+                case FrcXboxController.BACK:
+                    break;
+
+                case FrcXboxController.START:
+                    break;
+
+                case FrcXboxController.LEFT_STICK_BUTTON:
+                    break;
+
+                case FrcXboxController.RIGHT_STICK_BUTTON:
+                    break;
+            }
+            //
+            // If the control was not processed by this method, pass it back to TeleOp.
+            //
+            if (!processed)
+            {
+                super.operatorControllerButtonEvent(button, pressed);
+            }
+        }
+    }   //operatorControllerButtonEvent
 
     //
     // Implement tests.
@@ -575,13 +738,6 @@ public class FrcTest extends FrcTeleOp
             robot.dashboard.displayPrintf(
                 lineNum++, "DriveBase: Pose=%s,Vel=%s", robot.robotDrive.driveBase.getFieldPosition(),
                 robot.robotDrive.driveBase.getFieldVelocity());
-            robot.dashboard.displayPrintf(lineNum++, "DriveEncoders: lf=%.1f,rf=%.1f,lb=%.1f,rb=%.1f",
-                robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_FRONT].getPosition(),
-                robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_FRONT].getPosition(),
-                robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK] != null?
-                    robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK].getPosition(): 0.0,
-                robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK] != null?
-                    robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK].getPosition(): 0.0);
             robot.dashboard.displayPrintf(lineNum++, "DrivePower: lf=%.2f,rf=%.2f,lb=%.2f,rb=%.2f",
                 robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_FRONT].getMotorPower(),
                 robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_FRONT].getMotorPower(),
@@ -589,6 +745,50 @@ public class FrcTest extends FrcTeleOp
                     robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK].getMotorPower(): 0.0,
                 robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK] != null?
                     robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK].getMotorPower(): 0.0);
+            robot.dashboard.displayPrintf(lineNum++, "DriveEnc: lf=%.1f,rf=%.1f,lb=%.1f,rb=%.1f",
+                robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_FRONT].getPosition(),
+                robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_FRONT].getPosition(),
+                robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK] != null?
+                    robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK].getPosition(): 0.0,
+                robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK] != null?
+                    robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_BACK].getPosition(): 0.0);
+            if (robot.robotDrive instanceof SwerveDrive)
+            {
+                SwerveDrive swerveDrive = (SwerveDrive) robot.robotDrive;
+                robot.dashboard.displayPrintf(lineNum++, "SteerEnc: lf=%f, rf=%f, lb=%f, rb=%f",
+                    swerveDrive.steerEncoders[RobotDrive.INDEX_LEFT_FRONT].getRawPosition(),
+                    swerveDrive.steerEncoders[RobotDrive.INDEX_RIGHT_FRONT].getRawPosition(),
+                    swerveDrive.steerEncoders[RobotDrive.INDEX_LEFT_BACK].getRawPosition(),
+                    swerveDrive.steerEncoders[RobotDrive.INDEX_RIGHT_BACK].getRawPosition());
+            }
+        }
+
+        if (robot.photonVisionFront != null)
+        {
+            FrcPhotonVision.DetectedObject object = robot.photonVisionFront.getBestDetectedObject();
+            if (object != null)
+            {
+                robot.dashboard.displayPrintf(
+                    lineNum++, "PhotonFront: pipeline=%s, pose=%s", frontPipeline, object.targetPose);
+            }
+            else
+            {
+                lineNum++;
+            }
+        }
+
+        if (robot.photonVisionBack != null)
+        {
+            FrcPhotonVision.DetectedObject object = robot.photonVisionBack.getBestDetectedObject();
+            if (object != null)
+            {
+                robot.dashboard.displayPrintf(
+                    lineNum++, "PhotonBack: pipeline=%s, pose=%s", backPipeline, object.targetPose);
+            }
+            else
+            {
+                lineNum++;
+            }
         }
         //
         // Display other subsystems and sensor info.

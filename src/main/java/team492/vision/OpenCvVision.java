@@ -119,8 +119,8 @@ public class OpenCvVision extends FrcOpenCvDetector
 
         aprilTagPipeline = new FrcOpenCvAprilTagPipeline(
             "tag16h5", null, new AprilTagPoseEstimator.Config(
-                RobotParams.APRILTAG_SIZE, RobotParams.WEBCAM_FX, RobotParams.WEBCAM_FY, RobotParams.WEBCAM_CX,
-                RobotParams.WEBCAM_CY));
+                RobotParams.Vision.APRILTAG_SIZE, RobotParams.Vision.WEBCAM_FX, RobotParams.Vision.WEBCAM_FY,
+                RobotParams.Vision.WEBCAM_CX, RobotParams.Vision.WEBCAM_CY));
         redBlobPipeline = new TrcOpenCvColorBlobPipeline(
             "redBlobPipeline", colorConversion, redBlobColorThresholds, redBlobFilterContourParams, true);
         blueBlobPipeline = new TrcOpenCvColorBlobPipeline(
@@ -224,7 +224,8 @@ public class OpenCvVision extends FrcOpenCvDetector
         FilterTarget filter, Comparator<? super TrcVisionTargetInfo<DetectedObject<?>>> comparator)
     {
         TrcVisionTargetInfo<TrcOpenCvDetector.DetectedObject<?>>[] targets =
-            getDetectedTargetsInfo(filter, comparator, RobotParams.VISION_TARGET_HEIGHT, RobotParams.CAMERA_HEIGHT);
+            getDetectedTargetsInfo(filter, comparator, RobotParams.Vision.VISION_TARGET_HEIGHT,
+            RobotParams.Vision.BACKCAM_Z_OFFSET);
 
         return targets != null? targets[0]: null;
     }   //getDetectedTargetInfo

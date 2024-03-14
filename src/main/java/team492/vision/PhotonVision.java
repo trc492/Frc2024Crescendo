@@ -22,21 +22,22 @@
 
 package team492.vision;
 
-import java.io.UncheckedIOException;
+import java.io.IOException;
 import java.util.Optional;
 
-import org.photonvision.EstimatedRobotPose;
-import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcPose2D;
+import TrcCommonLib.trclib.TrcPose3D;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcCommonLib.trclib.TrcUtil;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
-import team492.RobotParams;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import team492.subsystems.LEDIndicator;
 
 /**
@@ -46,7 +47,8 @@ public class PhotonVision extends FrcPhotonVision
 {
     public enum PipelineType
     {
-        APRILTAG(0);
+        APRILTAG(0),
+        NOTE(1);
 
         public int pipelineIndex;
 
@@ -72,57 +74,41 @@ public class PhotonVision extends FrcPhotonVision
 
     }   //enum PipelineType
 
+    private final Transform3d robotToCam;
+    private final TrcPose2D robotToCamPose;
     private final LEDIndicator ledIndicator;
     private final AprilTagFieldLayout aprilTagFieldLayout;
-    private final PhotonPoseEstimator poseEstimator;
-    private PipelineType currPipeline;
+    private PipelineType currPipeline = PipelineType.APRILTAG;
 
     /**
      * Constructor: Create an instance of the object.
      *
-     * @param cameraName specifies the photon vision camera name.
+     * @param cameraName specifies the network table name that PhotonVision is broadcasting information over.
+     * @param robotToCam specifies the 3D transform location of the camera from robot center.
+     * @param robotToCamPose specifies the 2D camera pose from robot center.
      * @param ledIndicator specifies the LEDIndicator object, can be null if none provided.
      */
-    public PhotonVision(String cameraName, LEDIndicator ledIndicator)
+    public PhotonVision(String cameraName, Transform3d robotToCam, TrcPose2D robotToCamPose, LEDIndicator ledIndicator)
     {
-        super(cameraName, RobotParams.CAMERA_HEIGHT, RobotParams.CAMERA_PITCH);
+        super(cameraName, robotToCam);
+        this.robotToCam = robotToCam;
+        this.robotToCamPose = robotToCamPose;
         this.ledIndicator = ledIndicator;
 
-        double startTime = TrcTimer.getModeElapsedTime();
+        double startTime = TrcTimer.getCurrentTime();
         try
         {
-            aprilTagFieldLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
-            poseEstimator = new PhotonPoseEstimator(
-                aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_RIO, this, RobotParams.CAMERA_TRANSFORM3D);
-            poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+            aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.kDefaultField.m_resourceFile);
         }
-        catch (UncheckedIOException e)
+        catch (IOException e)
         {
             throw new RuntimeException("Failed to load AprilTag field layout info.");
         }
-        double endTime = TrcTimer.getModeElapsedTime();
-
+        double endTime = TrcTimer.getCurrentTime();
         tracer.traceDebug(instanceName, "Loading AprilTag field layout took " + (endTime - startTime) + " sec.");
-        setPipeline(PipelineType.APRILTAG);
+
+        setPipeline(currPipeline);
     }   //PhotonVision
-
-    /**
-     * This method returns the best detected object and set the LED to indicate type detected object type.
-     *
-     * @return best detected object.
-     */
-    @Override
-    public DetectedObject getBestDetectedObject()
-    {
-        DetectedObject detectedObject = super.getBestDetectedObject();
-
-        if (detectedObject != null && ledIndicator != null)
-        {
-            ledIndicator.setPhotonDetectedObject(getPipeline());
-        }
-
-        return detectedObject;
-    }   //getBestDetectedObject
 
     /**
      * This method returns the 3D field location of the AprilTag with its given ID.
@@ -130,67 +116,182 @@ public class PhotonVision extends FrcPhotonVision
      * @param aprilTagId sepcifies the AprilTag ID to retrieve its field location.
      * @return 3D location of the AprilTag.
      */
-    public Pose3d getAprilTagPose(int aprilTagId)
+    public Pose3d getAprilTagFieldPose3d(int aprilTagId)
     {
         Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(aprilTagId);
         return tagPose.isPresent()? tagPose.get(): null;
-    }   //getAprilTagPose
+    }   //getAprilTagFieldPose3d
 
     /**
-     * This method returns the absolute field location of the camera with the given detected AprilTag object.
+     * This method returns the 3D field location of the AprilTag with its given ID.
      *
-     * @param detectedObj specifies the AprilTag object detected by the camera.
-     * @return camera's absolute field location.
+     * @param aprilTagId sepcifies the AprilTag ID to retrieve its field location.
+     * @return 3D location of the AprilTag.
      */
-    public TrcPose2D getRobotFieldPosition(DetectedObject detectedObj)
+    public TrcPose3D getAprilTagFieldPose(int aprilTagId)
     {
-        TrcPose2D robotPose = null;
-        int aprilTagId = detectedObj.target.getFiducialId();
-        // aprilTagPose is the absolute field position of the AprilTag.
-        Pose3d aprilTagPose = getAprilTagPose(aprilTagId);
+        Pose3d pose3d = getAprilTagFieldPose3d(aprilTagId);
+        Rotation3d rotation = pose3d != null? pose3d.getRotation(): null;
 
-        if (aprilTagPose != null)
-        {
-            // camPose3d is the absolute field position of the camera.
-            Pose3d camPose3d = aprilTagPose.transformBy(detectedObj.target.getBestCameraToTarget().inverse());
-            // robotPose3d is the absolute 3D field position of the robot centroid on the ground.
-            Pose3d robotPose3d = camPose3d.transformBy(RobotParams.CAMERA_TRANSFORM3D.inverse());
-            // robotPose is the absolute field position of the robot adjusted to the robot coordinate system.
-            robotPose = DetectedObject.pose3dToTrcPose2D(robotPose3d);
-            tracer.traceDebug(
-                instanceName,
-                "[" + aprilTagId + "] camPose3d=" + camPose3d +
-                ", robotPose3d=" + robotPose3d +
-                ", RobotPose=" + robotPose);
-        }
-
-        return robotPose;
-    }   //getRobotFieldPosition
+        return pose3d == null? null:
+                new TrcPose3D(-pose3d.getY() * TrcUtil.INCHES_PER_METER,
+                              pose3d.getX() * TrcUtil.INCHES_PER_METER,
+                              pose3d.getZ() * TrcUtil.INCHES_PER_METER,
+                              -Math.toDegrees(rotation.getZ()),
+                              -Math.toDegrees(rotation.getY()),
+                              Math.toDegrees(rotation.getX()));
+    }   //getAprilTagFieldPose
 
     /**
-     * This method uses the PhotonVision Pose Estimator to get an estimated absolute field position of the robot.
+     * This method returns the transform between two adjacent AprilTags.
      *
-     * @return absolute robot field position, can be null if not provided.
+     * @param fromAprilTagId specifies the From AprilTag ID.
+     * @param toAprilTagId specifies the To AprilTag ID.
+     * @return transform between two adjacent AprilTags.
      */
-    public TrcPose2D getEstimatedFieldPosition(TrcPose2D robotPose)
+    public Transform3d getMultiTagTransform(int fromAprilTagId, int toAprilTagId)
     {
-        TrcPose2D estimatedRobotPose = null;
+        return getAprilTagFieldPose3d(toAprilTagId).minus(getAprilTagFieldPose3d(fromAprilTagId));
+    }   //getMultiTagTransform
 
-        if (poseEstimator != null)
+    /**
+     * This method returns the robot's field position.
+     *
+     * @param aprilTagInfo specifies the detected AprilTag info.
+     * @param usePoseEstimator specifies true to use PhotonVision Lib pose estimator, false to use the AprilTag field
+     *        pose to calculate it ourselves.
+     * @return robot's field location.
+     */
+    public TrcPose2D getRobotFieldPose(DetectedObject aprilTagInfo, boolean usePoseEstimator)
+    {
+        return usePoseEstimator? getRobotEstimatedPose(robotToCam):
+                                 getRobotPoseFromAprilTagFieldPose(
+                                    getAprilTagFieldPose(aprilTagInfo.target.getFiducialId()).toPose2D(),
+                                    aprilTagInfo.targetPose,
+                                    robotToCamPose);
+    }   //getRobotFieldPose
+
+    /**
+     * This method returns the best detected object.
+     *
+     * @param detectionEvent specifies the event to signal when it detects the target.
+     * @return best detected object.
+     */
+    public DetectedObject getBestDetectedObject(TrcEvent detectionEvent)
+    {
+        DetectedObject bestDetectedObj = super.getBestDetectedObject();
+
+        if (bestDetectedObj != null)
         {
-            if (robotPose != null)
+            if (detectionEvent != null)
             {
-                poseEstimator.setReferencePose(DetectedObject.trcPose2DToPose3d(robotPose));
+                detectionEvent.signal();
             }
-            Optional<EstimatedRobotPose> optionalPose = poseEstimator.update();
-            if (optionalPose.isPresent())
+
+            if (ledIndicator != null)
             {
-                estimatedRobotPose = DetectedObject.pose3dToTrcPose2D(optionalPose.get().estimatedPose);
+                ledIndicator.setPhotonDetectedObject(getPipeline());
             }
         }
 
-        return estimatedRobotPose;
-    }   //getEstimatedFieldPosition
+        return bestDetectedObj;
+    }   //getBestDetectedObject
+
+    /**
+     * This method returns the best detected object.
+     *
+     * @return best detected object.
+     */
+    @Override
+    public DetectedObject getBestDetectedObject()
+    {
+        return getBestDetectedObject(null);
+    }   //getBestDetectedObject
+
+    /**
+     * This method finds a matching AprilTag ID in the specified array and returns the found index.
+     *
+     * @param id specifies the AprilTag ID to be matched.
+     * @param aprilTagIds specifies the AprilTag ID array to find the given ID.
+     * @return index in the array that matched the ID, -1 if not found.
+     */
+    private int matchAprilTagId(int id, int[] aprilTagIds)
+    {
+        int matchedIndex = -1;
+
+        for (int i = 0; i < aprilTagIds.length; i++)
+        {
+            if (id == aprilTagIds[i])
+            {
+                matchedIndex = i;
+                break;
+            }
+        }
+
+        return matchedIndex;
+    }   //matchAprilTagId
+
+    /**
+     * This method get the best detected AprilTag matching the specified AprilTag IDs array sorted by most preferred
+     * ID at the top.
+     *
+     * @param detectionEvent specifies the event to signal when it detects the target.
+     * @param aprilTagIds specifies the AprilTag IDs to look for.
+     * @return best detected AprilTag.
+     */
+    public DetectedObject getBestDetectedAprilTag(TrcEvent detectionEvent, int... aprilTagIds)
+    {
+        DetectedObject bestObj = null;
+
+        if (currPipeline == PipelineType.APRILTAG)
+        {
+            DetectedObject objects[] = super.getDetectedObjects();
+
+            if (objects != null)
+            {
+                int bestIdIndex = -1;
+                for (DetectedObject obj: objects)
+                {
+                    int id = obj.target.getFiducialId();
+                    int idIndex = matchAprilTagId(id, aprilTagIds);
+
+                    if (idIndex != -1 && (bestIdIndex == -1 || idIndex < bestIdIndex))
+                    {
+                        // Found first match or a better match.
+                        bestObj = obj;
+                        bestIdIndex = idIndex;
+                    }
+                }
+            }
+        }
+
+        if (bestObj != null)
+        {
+            if (detectionEvent != null)
+            {
+                detectionEvent.signal();
+            }
+
+            if  (ledIndicator != null)
+            {
+                ledIndicator.setPhotonDetectedObject(currPipeline);
+            }
+        }
+
+        return bestObj;
+    }   //getBestDetectedAprilTag
+
+    /**
+     * This method get the best detected AprilTag matching the specified AprilTag IDs array sorted by most preferred
+     * ID at the top.
+     *
+     * @param aprilTagIds specifies the AprilTag IDs to look for.
+     * @return best detected AprilTag.
+     */
+    public DetectedObject getBestDetectedAprilTag(int... aprilTagIds)
+    {
+        return getBestDetectedAprilTag(null, aprilTagIds);
+    }   //getBestDetectedAprilTag
 
     /**
      * This method sets the active pipeline type used in the LimeLight.
@@ -202,8 +303,7 @@ public class PhotonVision extends FrcPhotonVision
         if (pipelineType != currPipeline)
         {
             currPipeline = pipelineType;
-            setPipelineIndex(pipelineType.pipelineIndex);
-            // setLED(VisionLEDMode.kOff);
+            super.setPipelineIndex(pipelineType.pipelineIndex);
         }
     }   //setPipeline
 
@@ -227,7 +327,7 @@ public class PhotonVision extends FrcPhotonVision
      *
      * @return target ground offset.
      */
-    public double getTargetHeight(PhotonTrackedTarget target)
+    public double getTargetGroundOffset(PhotonTrackedTarget target)
     {
         double targetHeight = 0.0;
         PipelineType pipelineType = getPipeline();
@@ -239,16 +339,20 @@ public class PhotonVision extends FrcPhotonVision
                 {
                     // Even though PhotonVision said detected target, FieldLayout may not give us AprilTagPose.
                     // Check it before access the AprilTag pose.
-                    Pose3d aprilTagPose = getAprilTagPose(target.getFiducialId());
+                    Pose3d aprilTagPose = getAprilTagFieldPose3d(target.getFiducialId());
                     if (aprilTagPose != null)
                     {
                         targetHeight = aprilTagPose.getZ();
                     }
                 }
                 break;
+
+            case NOTE:
+                targetHeight = 0.0;
+                break;
         }
 
         return targetHeight;
-    }   //getTargetHeight
+    }   //getTargetGroundOffset
 
 }   //class PhotonVision
