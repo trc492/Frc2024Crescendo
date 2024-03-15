@@ -162,6 +162,7 @@ public class FrcAuto implements TrcRobot.RobotMode
 
             scoreWingNotesMenu.addChoice("Score None", ScoreWingNotes.SCORE_NONE);
             scoreWingNotesMenu.addChoice("Score One", ScoreWingNotes.SCORE_ONE);
+            scoreWingNotesMenu.addChoice("Score Two", ScoreWingNotes.SCORE_TWO);
             scoreWingNotesMenu.addChoice("Score Three", ScoreWingNotes.SCORE_THREE, true, true);
 
             endActionMenu.addChoice("Just Stop", EndAction.JUST_STOP);
