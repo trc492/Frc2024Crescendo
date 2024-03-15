@@ -297,8 +297,9 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case TURN_TO_WING_NOTES:
-                    if (scoreWingNotes == ScoreWingNotes.SCORE_THREE &&
-                        startPos != AutoStartPos.SW_CENTER && numWingNotesScored < 3)
+                    if (startPos != AutoStartPos.SW_CENTER &&
+                        (scoreWingNotes == ScoreWingNotes.SCORE_TWO && numWingNotesScored < 2 ||
+                         scoreWingNotes == ScoreWingNotes.SCORE_THREE && numWingNotesScored < 3))
                     {
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         targetPose = robotPose.clone();
