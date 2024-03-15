@@ -83,7 +83,8 @@ public class FrcAuto implements TrcRobot.RobotMode
 
     public enum EndAction
     {
-        PARK,
+        JUST_STOP,
+        PARK_NEAR_CENTER_LINE,
         HOARD_ONE_NOTE
     }   //enum EndAction
 
@@ -161,8 +162,9 @@ public class FrcAuto implements TrcRobot.RobotMode
             scoreWingNotesMenu.addChoice("Score One", ScoreWingNotes.SCORE_ONE);
             scoreWingNotesMenu.addChoice("Score Three", ScoreWingNotes.SCORE_THREE, true, true);
 
-            endActionMenu.addChoice("Park", EndAction.PARK, true, false);
-            endActionMenu.addChoice("Hoard One Note", EndAction.HOARD_ONE_NOTE, false, true);
+            endActionMenu.addChoice("Just Stop", EndAction.JUST_STOP);
+            endActionMenu.addChoice("Park", EndAction.PARK_NEAR_CENTER_LINE);
+            endActionMenu.addChoice("Hoard One Note", EndAction.HOARD_ONE_NOTE, true, true);
             //
             // Initialize dashboard with default choice values.
             //

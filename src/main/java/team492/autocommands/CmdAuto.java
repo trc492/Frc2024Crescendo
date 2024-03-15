@@ -321,34 +321,42 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case DRIVE_TO_CENTER_LINE:
-                    robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                    int centerlineNoteIndex = Math.abs(robotPose.x) < RobotParams.Field.WIDTH / 2.0? 0: 4;
-                    TrcPose2D centerlineNotePose =
-                        RobotParams.Game.centerlineNotePoses[centerlineNoteIndex].clone();
-                    centerlineNotePose.y -= 60.0;
-                    centerlineNotePose.angle = 180.0;
-
-                    if (centerlineNoteIndex == 0)
+                    if (endAction == EndAction.JUST_STOP)
                     {
-                        TrcPose2D intermediatePose = robotPose.clone();
-                        intermediatePose.x += 24.0;
-                        robot.robotDrive.purePursuitDrive.start(
-                            event, robotPose, false,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                            robot.adjustPoseByAlliance(intermediatePose, alliance),
-                            robot.adjustPoseByAlliance(centerlineNotePose, alliance));
+                        sm.setState(State.DONE);
                     }
                     else
                     {
-                        robot.robotDrive.purePursuitDrive.start(
-                            event, robotPose, false,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                            robot.adjustPoseByAlliance(centerlineNotePose, alliance));
-                    }
+                        robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                        int centerlineNoteIndex = Math.abs(robotPose.x) < RobotParams.Field.WIDTH / 2.0? 0: 4;
+                        TrcPose2D centerlineNotePose =
+                            RobotParams.Game.centerlineNotePoses[centerlineNoteIndex].clone();
+                        centerlineNotePose.y -= 60.0;
+                        centerlineNotePose.angle = 180.0;
 
-                    sm.waitForSingleEvent(event, endAction == EndAction.PARK? State.DONE: State.PICKUP_CENTERLINE_NOTE);
+                        if (centerlineNoteIndex == 0)
+                        {
+                            TrcPose2D intermediatePose = robotPose.clone();
+                            intermediatePose.x += 24.0;
+                            robot.robotDrive.purePursuitDrive.start(
+                                event, robotPose, false,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                                robot.adjustPoseByAlliance(intermediatePose, alliance),
+                                robot.adjustPoseByAlliance(centerlineNotePose, alliance));
+                        }
+                        else
+                        {
+                            robot.robotDrive.purePursuitDrive.start(
+                                event, robotPose, false,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                                robot.adjustPoseByAlliance(centerlineNotePose, alliance));
+                        }
+                        sm.waitForSingleEvent(
+                            event, endAction == EndAction.PARK_NEAR_CENTER_LINE?
+                                State.DONE: State.PICKUP_CENTERLINE_NOTE);
+                    }
                     break;
 
                 case PICKUP_CENTERLINE_NOTE:
