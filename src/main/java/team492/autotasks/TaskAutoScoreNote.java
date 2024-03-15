@@ -393,7 +393,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 {
                     // If we are in auto and did not see AprilTag, just align to the field and shoot blind.
                     robot.robotDrive.purePursuitDrive.start(
-                        currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        currOwner, driveEvent, 1.0, robot.robotDrive.driveBase.getFieldPosition(), true,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                         new TrcPose2D(0.0, 0.0,

@@ -401,6 +401,7 @@ public class Robot extends FrcRobotBase
         //
         // Stop subsystems.
         //
+        autoAssistCancel();
         if (robotDrive != null)
         {
             robotDrive.stopMode(runMode, nextMode);
@@ -690,9 +691,9 @@ public class Robot extends FrcRobotBase
      */
     public void autoAssistCancel()
     {
-        autoScoreNote.autoAssistCancel();
-        autoPickupFromGround.autoAssistCancel();
-        autoPickupFromSource.autoAssistCancel();
+        if (autoScoreNote != null) autoScoreNote.autoAssistCancel();
+        if (autoPickupFromGround != null) autoPickupFromGround.autoAssistCancel();
+        if (autoPickupFromSource != null) autoPickupFromSource.autoAssistCancel();
     }   //autoAssistCancel
 
     /**

@@ -52,6 +52,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
         DO_DELAY,
         DRIVE_TO_WING_NOTE,
         PICKUP_WING_NOTE,
+        CLEAR_THE_POST,
         TURN_TO_SPEAKER,
         SCORE_WING_NOTE,
         TURN_TO_WING_NOTES,
@@ -242,6 +243,18 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.robotDrive.purePursuitDrive.cancel();
                     noteVisionEnabled = false;
                     robot.autoPickupFromGround.autoAssistPickup(true, true, event);
+                    sm.waitForSingleEvent(
+                        event,
+                        startPos == AutoStartPos.SW_SOURCE_SIDE && numWingNotesScored == 0?
+                            State.CLEAR_THE_POST: State.TURN_TO_SPEAKER);
+                    break;
+
+                case CLEAR_THE_POST:
+                    robot.robotDrive.purePursuitDrive.start(
+                        event, 0.5, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                        new TrcPose2D(0.0, 12.0, 0.0));
                     sm.waitForSingleEvent(event, State.TURN_TO_SPEAKER);
                     break;
 
