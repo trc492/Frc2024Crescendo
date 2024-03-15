@@ -74,6 +74,13 @@ public class FrcAuto implements TrcRobot.RobotMode
         }   //AutoStartPos
     }   //enum AutoStartPos
 
+    public enum ScoreWingNotes
+    {
+        SCORE_NONE,
+        SCORE_ONE,
+        SCORE_THREE
+    }   //enum ScoreWingNotes
+
     public enum EndAction
     {
         PARK,
@@ -113,6 +120,7 @@ public class FrcAuto implements TrcRobot.RobotMode
         private final FrcChoiceMenu<DriverStation.Alliance> allianceMenu;
         private final FrcChoiceMenu<AutoStrategy> strategyMenu;
         private final FrcChoiceMenu<AutoStartPos> startPosMenu;
+        private final FrcChoiceMenu<ScoreWingNotes> scoreWingNotesMenu;
         private final FrcChoiceMenu<EndAction> endActionMenu;
 
         public AutoChoices()
@@ -123,6 +131,7 @@ public class FrcAuto implements TrcRobot.RobotMode
             allianceMenu = new FrcChoiceMenu<>(DBKEY_AUTO_ALLIANCE);
             strategyMenu = new FrcChoiceMenu<>(DBKEY_AUTO_STRATEGY);
             startPosMenu = new FrcChoiceMenu<>(DBKEY_AUTO_START_POS);
+            scoreWingNotesMenu = new FrcChoiceMenu<>(DBKEY_AUTO_SCORE_WING_NOTES);
             endActionMenu = new FrcChoiceMenu<>(DBKEY_AUTO_END_ACTION);
             //
             // Populate autonomous mode choice menus.
@@ -148,6 +157,10 @@ public class FrcAuto implements TrcRobot.RobotMode
             startPosMenu.addChoice("Start Position: Subwoofer center", AutoStartPos.SW_CENTER);
             startPosMenu.addChoice("Start Position: Subwoofer source-side", AutoStartPos.SW_SOURCE_SIDE, false, true);
 
+            scoreWingNotesMenu.addChoice("Score None", ScoreWingNotes.SCORE_NONE);
+            scoreWingNotesMenu.addChoice("Score One", ScoreWingNotes.SCORE_ONE);
+            scoreWingNotesMenu.addChoice("Score Three", ScoreWingNotes.SCORE_THREE, true, true);
+
             endActionMenu.addChoice("Park", EndAction.PARK, true, false);
             endActionMenu.addChoice("Hoard One Note", EndAction.HOARD_ONE_NOTE, false, true);
             //
@@ -156,7 +169,7 @@ public class FrcAuto implements TrcRobot.RobotMode
             userChoices.addChoiceMenu(DBKEY_AUTO_ALLIANCE, allianceMenu);
             userChoices.addChoiceMenu(DBKEY_AUTO_STRATEGY, strategyMenu);
             userChoices.addChoiceMenu(DBKEY_AUTO_START_POS, startPosMenu);
-            userChoices.addBoolean(DBKEY_AUTO_SCORE_WING_NOTES, true);
+            userChoices.addChoiceMenu(DBKEY_AUTO_SCORE_WING_NOTES, scoreWingNotesMenu);
             userChoices.addChoiceMenu(DBKEY_AUTO_END_ACTION, endActionMenu);
             userChoices.addBoolean(DBKEY_AUTO_RELOCALIZE, false);
 
@@ -190,9 +203,9 @@ public class FrcAuto implements TrcRobot.RobotMode
             return startPosMenu.getCurrentChoiceObject();
         }   //getStartPos
 
-        public boolean getScoreWingNotes()
+        public ScoreWingNotes getScoreWingNotes()
         {
-            return userChoices.getUserBoolean(DBKEY_AUTO_SCORE_WING_NOTES);
+            return scoreWingNotesMenu.getCurrentChoiceObject();
         }   //getScoreWingNotes
 
         public EndAction getEndAction()

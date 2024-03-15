@@ -36,6 +36,7 @@ import team492.RobotParams;
 import team492.FrcAuto.AutoChoices;
 import team492.FrcAuto.AutoStartPos;
 import team492.FrcAuto.EndAction;
+import team492.FrcAuto.ScoreWingNotes;
 import team492.autotasks.TaskAutoScoreNote.TargetType;
 
 /**
@@ -69,7 +70,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private final TrcStateMachine<State> sm;
     private Alliance alliance;
     private AutoStartPos startPos;
-    private boolean scoreWingNotes;
+    private ScoreWingNotes scoreWingNotes;
     private EndAction endAction;
     private boolean relocalize;
     private int numWingNotesScored = 0;
@@ -205,7 +206,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case DRIVE_TO_WING_NOTE:
-                    if (!scoreWingNotes)
+                    if (scoreWingNotes == ScoreWingNotes.SCORE_NONE)
                     {
                         sm.setState(State.DRIVE_TO_CENTER_LINE);
                     }
@@ -296,7 +297,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case TURN_TO_WING_NOTES:
-                    if (startPos != AutoStartPos.SW_CENTER && numWingNotesScored < 3)
+                    if (scoreWingNotes == ScoreWingNotes.SCORE_THREE &&
+                        startPos != AutoStartPos.SW_CENTER && numWingNotesScored < 3)
                     {
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         targetPose = robotPose.clone();
