@@ -608,7 +608,7 @@ public class RobotParams
         public final double TURN_KD                             = 0.0;
         public final double TURN_KF                             = 0.0;
         public final double TURN_IZONE                          = 10.0;
-        public final double TURN_TOLERANCE                      = 2.0;
+        public final double TURN_TOLERANCE                      = 2.0;   
 
         public static final double ROBOT_MAX_VELOCITY           = 177.1654; // inches per second
         public static final double ROBOT_MAX_ACCELERATION       = 799.1;
@@ -682,7 +682,7 @@ public class RobotParams
         public static final double shooterVelMinInc             = 1.0;      // in rps.
         public static final double shooterVelMaxInc             = 10.0;     // in rps.
         public static final double shooterSpeakerCloseVelocity  = 90.0;     // in rps.
-        public static final double shooterAmpVelocity           = 20.0;     // in rps.
+        public static final double shooterAmpVelocity           = 17.5;     // in rps.
         public static final double shooterDumpVelocity          = 90.0;     // in rps.
         public static final double shooterSourcePickupVelocity  = -20.0;    // in rps.
         public static final double shooterPresetVelTolerance    = 5.0;      // in rps.

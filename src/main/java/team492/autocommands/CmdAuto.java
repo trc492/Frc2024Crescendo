@@ -254,7 +254,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         event, 0.5, robot.robotDrive.driveBase.getFieldPosition(), true,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                        new TrcPose2D(0.0, 12.0, 0.0));
+                        new TrcPose2D(0.0, 17.0, 0.0));
                     sm.waitForSingleEvent(event, State.TURN_TO_SPEAKER);
                     break;
 
