@@ -63,6 +63,7 @@ public class FrcTest extends FrcTeleOp
         SUBSYSTEMS_TEST,
         VISION_TEST,
         SWERVE_CALIBRATION,
+        RESET_STEER_ENCODERS,
         DRIVE_SPEED_TEST,
         DRIVE_MOTORS_TEST,
         X_TIMED_DRIVE,
@@ -118,6 +119,7 @@ public class FrcTest extends FrcTeleOp
             // if (!RobotParams.Preferences.hybridMode)
             // {
                 testMenu.addChoice("Swerve Calibration", Test.SWERVE_CALIBRATION);
+                testMenu.addChoice("Reset Steer Encoders", Test.RESET_STEER_ENCODERS);
                 testMenu.addChoice("Drive Speed Test", Test.DRIVE_SPEED_TEST);
                 testMenu.addChoice("Drive Motors Test", Test.DRIVE_MOTORS_TEST);
                 testMenu.addChoice("X Timed Drive", Test.X_TIMED_DRIVE);
@@ -282,6 +284,13 @@ public class FrcTest extends FrcTeleOp
                 {
                     setControlsEnabled(false);
                     ((SwerveDrive) robot.robotDrive).startSteeringCalibration();
+                }
+                break;
+
+            case RESET_STEER_ENCODERS:
+                if (robot.robotDrive != null && robot.robotDrive instanceof SwerveDrive)
+                {
+                    ((SwerveDrive) robot.robotDrive).resetSteerEncoders();
                 }
                 break;
 

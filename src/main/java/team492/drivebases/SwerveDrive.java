@@ -83,7 +83,6 @@ public class SwerveDrive extends RobotDrive
 
     private double[] steerZeros = new double[4];
     private int steerZeroCalibrationCount = 0;
-    private String antiDefenseOwner = null;
     private boolean steerEncodersSynced = false;
 
     /**
@@ -312,6 +311,25 @@ public class SwerveDrive extends RobotDrive
                 "Steer encoder out-of-sync (expected=" + motorEncoderPos + ", actual=" + actualEncoderPos + ")");
         }
     }   //syncSteerEncoder
+
+    /**
+     * This method resets the steer motor encoder for emergency steering alignment in case the absolute encoder is
+     * malfunctioning.
+     */
+    public void resetSteerEncoders()
+    {
+        for (TrcMotor motor: steerMotors)
+        {
+            FrcCANTalonFX steerMotor = (FrcCANTalonFX) motor;
+            StatusCode statusCode = steerMotor.motor.setPosition(0.0);
+            if (statusCode != StatusCode.OK)
+            {
+                robot.globalTracer.traceWarn(
+                    moduleName,
+                    steerMotor.toString() + ": TalonFx.setPosition failed (code=" + statusCode + ").");
+            }
+        }
+    }   //resetSteerEncoders
 
     /**
      * This method creates an array of swerve modules and configure them.
@@ -610,42 +628,15 @@ public class SwerveDrive extends RobotDrive
     }   //readSteeringCalibrationData
 
     /**
-     * This method checks if anti-defense mode is enabled.
+     * This method set all the wheels into an X configuration so that nobody can bump us out of position.
      *
-     * @return true if anti-defense mode is enabled, false if disabled.
+     * @param owner specifies the ID string of the caller for checking ownership, can be null if caller is not
+     *        ownership aware.
      */
-    public boolean isAntiDefenseEnabled()
+    public void setXMode(String owner)
     {
-        return ((TrcSwerveDriveBase) driveBase).isAntiDefenseEnabled();
-    }   //isAntiDefenseEnabled
-
-    /**
-     * This method enables/disables the anti-defense mode where it puts all swerve wheels into an X-formation.
-     * By doing so, it is very difficult for others to push us around.
-     *
-     * @param owner     specifies the ID string of the caller for checking ownership, can be null if caller is not
-     *                  ownership aware.
-     * @param enabled   specifies true to enable anti-defense mode, false to disable.
-     */
-    public void setAntiDefenseEnabled(String owner, boolean enabled)
-    {
-        boolean requireOwnership = owner != null && enabled && !driveBase.hasOwnership(owner);
-
-        if (requireOwnership && driveBase.acquireExclusiveAccess(owner))
-        {
-            antiDefenseOwner = owner;
-        }
-
-        if (!requireOwnership || antiDefenseOwner != null)
-        {
-            ((TrcSwerveDriveBase) driveBase).setAntiDefenseEnabled(owner, enabled);
-            if (antiDefenseOwner != null)
-            {
-                driveBase.releaseExclusiveAccess(antiDefenseOwner);
-                antiDefenseOwner = null;
-            }
-        }
-    }   //setAntiDefenseEnabled
+        ((TrcSwerveDriveBase) driveBase).setXMode(owner);
+    }   //setXMode
 
     //
     // Command-based required methods.

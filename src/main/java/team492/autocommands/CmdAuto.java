@@ -149,7 +149,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 if (noteObj.targetPose.y > RobotParams.Intake.noteDistanceThreshold ||
                     Math.abs(noteObj.targetPose.angle) > RobotParams.Intake.noteAngleThreshold)
                 {
-                    robot.globalTracer.traceInfo(
+                    robot.globalTracer.traceDebug(
                         moduleName, "Vision found note too far or not turn enough at " + noteObj.targetPose + ".");
                     noteEvent.clear();
                 }
