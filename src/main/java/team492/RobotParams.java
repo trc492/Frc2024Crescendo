@@ -128,27 +128,31 @@ public class RobotParams
         public static final double SW_ANGLE_RADIAN              = Math.toRadians(63.5);
 
         public static final TrcPose2D STARTPOS_BLUE_SW_SOURCE_SIDE= new TrcPose2D(
-            -(Field.WIDTH / 2.0 + 57.0) + (20.25 + Robot.WIDTH / 2.0 * Math.cos(SW_ANGLE_RADIAN)),
-            34.17 - Robot.WIDTH / 2.0 * Math.sin(SW_ANGLE_RADIAN),
+            -(Field.WIDTH / 2.0 + 57.0)
+            + (20.25 + Robot.WIDTH / 2.0 * Math.cos(SW_ANGLE_RADIAN) + Robot.LENGTH / 2.0 * Math.sin(SW_ANGLE_RADIAN)),
+            34.17 - Robot.WIDTH / 2.0 * Math.sin(SW_ANGLE_RADIAN) + Robot.LENGTH / 2.0 * Math.sin(SW_ANGLE_RADIAN),
             180.0 + 63.5);
         public static final TrcPose2D STARTPOS_BLUE_SW_CENTER   = new TrcPose2D(
             -(Field.WIDTH / 2.0 + 57.0), 34.17 + Robot.LENGTH / 2.0, 180.0);
         public static final TrcPose2D STARTPOS_BLUE_SW_AMP_SIDE = new TrcPose2D(
-            -(Field.WIDTH / 2.0 + 57.0) - (20.25 + Robot.WIDTH / 2.0 * Math.cos(SW_ANGLE_RADIAN)),
-            34.17 - Robot.WIDTH / 2.0 * Math.sin(SW_ANGLE_RADIAN),
+            -(Field.WIDTH / 2.0 + 57.0)
+            - (20.25 + Robot.WIDTH / 2.0 * Math.cos(SW_ANGLE_RADIAN) + Robot.LENGTH / 2.0 * Math.sin(SW_ANGLE_RADIAN)),
+            34.17 - Robot.WIDTH / 2.0 * Math.sin(SW_ANGLE_RADIAN) + Robot.LENGTH / 2.0 * Math.sin(SW_ANGLE_RADIAN),
             180.0 - 63.5);
         public static final TrcPose2D STARTPOS_BLUE_AMP         = new TrcPose2D(
             -Field.WIDTH + 17.75 + Robot.LENGTH / 2.0, 74.1 - Robot.WIDTH / 2.0, -90.0);
 
         public static final TrcPose2D STARTPOS_RED_SW_SOURCE_SIDE= new TrcPose2D(
-            -(Field.WIDTH / 2.0 + 57.0) + (20.25 + Robot.WIDTH / 2.0 * Math.cos(SW_ANGLE_RADIAN)),
-            Field.LENGTH - (34.17 - Robot.WIDTH / 2.0 * Math.sin(SW_ANGLE_RADIAN)),
+            -(Field.WIDTH / 2.0 + 57.0)
+            + (20.25 + Robot.WIDTH / 2.0 * Math.cos(SW_ANGLE_RADIAN) + Robot.LENGTH / 2.0 * Math.sin(SW_ANGLE_RADIAN)),
+            Field.LENGTH - (34.17 - Robot.WIDTH / 2.0 * Math.sin(SW_ANGLE_RADIAN)) + Robot.LENGTH / 2.0 * Math.sin(SW_ANGLE_RADIAN),
             -63.5);
         public static final TrcPose2D STARTPOS_RED_SW_CENTER    = new TrcPose2D(
             -(Field.WIDTH / 2.0 + 57.0), Field.LENGTH - (34.7 + Robot.LENGTH / 2.0), 0.0);
         public static final TrcPose2D STARTPOS_RED_SW_AMP_SIDE  = new TrcPose2D(
-            -(Field.WIDTH / 2.0 + 57.0) - (20.25 + Robot.WIDTH / 2.0 * Math.cos(SW_ANGLE_RADIAN)),
-            Field.LENGTH - (34.17 - Robot.WIDTH / 2.0 * Math.sin(SW_ANGLE_RADIAN)),
+            -(Field.WIDTH / 2.0 + 57.0)
+            - (20.25 + Robot.WIDTH / 2.0 * Math.cos(SW_ANGLE_RADIAN) + Robot.LENGTH / 2.0 * Math.sin(SW_ANGLE_RADIAN)),
+            Field.LENGTH - (34.17 - Robot.WIDTH / 2.0 * Math.sin(SW_ANGLE_RADIAN)) + Robot.LENGTH / 2.0 * Math.sin(SW_ANGLE_RADIAN),
             63.5);
         public static final TrcPose2D STARTPOS_RED_AMP          = new TrcPose2D(
             -Field.WIDTH + 17.75 + Robot.LENGTH / 2.0, Field.LENGTH - (74.1 - Robot.WIDTH / 2.0), -90.0);
@@ -604,7 +608,7 @@ public class RobotParams
         public final double TURN_KD                             = 0.0;
         public final double TURN_KF                             = 0.0;
         public final double TURN_IZONE                          = 10.0;
-        public final double TURN_TOLERANCE                      = 2.0;
+        public final double TURN_TOLERANCE                      = 2.0;   
 
         public static final double ROBOT_MAX_VELOCITY           = 177.1654; // inches per second
         public static final double ROBOT_MAX_ACCELERATION       = 799.1;
@@ -678,8 +682,8 @@ public class RobotParams
         public static final double shooterVelMinInc             = 1.0;      // in rps.
         public static final double shooterVelMaxInc             = 10.0;     // in rps.
         public static final double shooterSpeakerCloseVelocity  = 90.0;     // in rps.
-        public static final double shooterAmpVelocity           = 20.0;     // in rps.
-        public static final double shooterDumpVelocity          = 40.0;     // in rps.
+        public static final double shooterAmpVelocity           = 17.5;     // in rps.
+        public static final double shooterDumpVelocity          = 90.0;     // in rps.
         public static final double shooterSourcePickupVelocity  = -20.0;    // in rps.
         public static final double shooterPresetVelTolerance    = 5.0;      // in rps.
         public static final double[] shooterPresetVelocities    = new double[]
@@ -701,7 +705,7 @@ public class RobotParams
         public static final double tiltTurtleAngle              = 35.0;     // in degrees.
         public static final double tiltSpeakerFarAngle          = 52.0;     // in degrees.
         public static final double tiltAmpAngle                 = 57.5;     // in degrees.
-        public static final double tiltDumpAngle                = 40.0;     // in degrees.
+        public static final double tiltDumpAngle                = 39.0;     // in degrees.
         public static final double tiltSpeakerCloseAngle        = 60.0;     // in degrees.
         public static final double tiltSourcePickupAngle        = 88.0;     // in degrees.
 

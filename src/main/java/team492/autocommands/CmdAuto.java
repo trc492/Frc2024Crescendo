@@ -36,6 +36,7 @@ import team492.RobotParams;
 import team492.FrcAuto.AutoChoices;
 import team492.FrcAuto.AutoStartPos;
 import team492.FrcAuto.EndAction;
+import team492.FrcAuto.ScoreWingNotes;
 import team492.autotasks.TaskAutoScoreNote.TargetType;
 
 /**
@@ -51,6 +52,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
         DO_DELAY,
         DRIVE_TO_WING_NOTE,
         PICKUP_WING_NOTE,
+        CLEAR_THE_POST,
         TURN_TO_SPEAKER,
         SCORE_WING_NOTE,
         TURN_TO_WING_NOTES,
@@ -69,7 +71,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private final TrcStateMachine<State> sm;
     private Alliance alliance;
     private AutoStartPos startPos;
-    private boolean scoreWingNotes;
+    private ScoreWingNotes scoreWingNotes;
     private EndAction endAction;
     private boolean relocalize;
     private int numWingNotesScored = 0;
@@ -205,7 +207,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case DRIVE_TO_WING_NOTE:
-                    if (!scoreWingNotes)
+                    if (scoreWingNotes == ScoreWingNotes.SCORE_NONE)
                     {
                         sm.setState(State.DRIVE_TO_CENTER_LINE);
                     }
@@ -241,6 +243,18 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.robotDrive.purePursuitDrive.cancel();
                     noteVisionEnabled = false;
                     robot.autoPickupFromGround.autoAssistPickup(true, true, event);
+                    sm.waitForSingleEvent(
+                        event,
+                        startPos == AutoStartPos.SW_SOURCE_SIDE && numWingNotesScored == 0?
+                            State.CLEAR_THE_POST: State.TURN_TO_SPEAKER);
+                    break;
+
+                case CLEAR_THE_POST:
+                    robot.robotDrive.purePursuitDrive.start(
+                        event, 0.5, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                        new TrcPose2D(0.0, 17.0, 0.0));
                     sm.waitForSingleEvent(event, State.TURN_TO_SPEAKER);
                     break;
 
@@ -296,7 +310,9 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case TURN_TO_WING_NOTES:
-                    if (startPos != AutoStartPos.SW_CENTER && numWingNotesScored < 3)
+                    if (startPos != AutoStartPos.SW_CENTER &&
+                        (scoreWingNotes == ScoreWingNotes.SCORE_TWO && numWingNotesScored < 2 ||
+                         scoreWingNotes == ScoreWingNotes.SCORE_THREE && numWingNotesScored < 3))
                     {
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         targetPose = robotPose.clone();
@@ -319,34 +335,42 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case DRIVE_TO_CENTER_LINE:
-                    robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                    int centerlineNoteIndex = Math.abs(robotPose.x) < RobotParams.Field.WIDTH / 2.0? 0: 4;
-                    TrcPose2D centerlineNotePose =
-                        RobotParams.Game.centerlineNotePoses[centerlineNoteIndex].clone();
-                    centerlineNotePose.y -= 60.0;
-                    centerlineNotePose.angle = 180.0;
-
-                    if (centerlineNoteIndex == 0)
+                    if (endAction == EndAction.JUST_STOP)
                     {
-                        TrcPose2D intermediatePose = robotPose.clone();
-                        intermediatePose.x += 24.0;
-                        robot.robotDrive.purePursuitDrive.start(
-                            event, robotPose, false,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                            robot.adjustPoseByAlliance(intermediatePose, alliance),
-                            robot.adjustPoseByAlliance(centerlineNotePose, alliance));
+                        sm.setState(State.DONE);
                     }
                     else
                     {
-                        robot.robotDrive.purePursuitDrive.start(
-                            event, robotPose, false,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                            robot.adjustPoseByAlliance(centerlineNotePose, alliance));
-                    }
+                        robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                        int centerlineNoteIndex = Math.abs(robotPose.x) < RobotParams.Field.WIDTH / 2.0? 0: 4;
+                        TrcPose2D centerlineNotePose =
+                            RobotParams.Game.centerlineNotePoses[centerlineNoteIndex].clone();
+                        centerlineNotePose.y -= 60.0;
+                        centerlineNotePose.angle = 180.0;
 
-                    sm.waitForSingleEvent(event, endAction == EndAction.PARK? State.DONE: State.PICKUP_CENTERLINE_NOTE);
+                        if (centerlineNoteIndex == 0)
+                        {
+                            TrcPose2D intermediatePose = robotPose.clone();
+                            intermediatePose.x += 24.0;
+                            robot.robotDrive.purePursuitDrive.start(
+                                event, robotPose, false,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                                robot.adjustPoseByAlliance(intermediatePose, alliance),
+                                robot.adjustPoseByAlliance(centerlineNotePose, alliance));
+                        }
+                        else
+                        {
+                            robot.robotDrive.purePursuitDrive.start(
+                                event, robotPose, false,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                                robot.adjustPoseByAlliance(centerlineNotePose, alliance));
+                        }
+                        sm.waitForSingleEvent(
+                            event, endAction == EndAction.PARK_NEAR_CENTER_LINE?
+                                State.DONE: State.PICKUP_CENTERLINE_NOTE);
+                    }
                     break;
 
                 case PICKUP_CENTERLINE_NOTE:

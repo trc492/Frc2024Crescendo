@@ -510,6 +510,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case FrcXboxController.BACK:
+                if (pressed)
+                {
+                    robot.autoAssistCancel();
+                }
                 break;
 
             case FrcXboxController.START:
