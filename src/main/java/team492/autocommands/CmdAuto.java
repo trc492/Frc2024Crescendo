@@ -75,6 +75,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private EndAction endAction;
     private boolean relocalize;
     private int numWingNotesScored = 0;
+    private int numCenterlineNotesScored = 0;
     private boolean aprilTagVisionEnabled = false;
     private boolean noteVisionEnabled = false;
     // private DetectedObject aprilTagObj = null;
@@ -335,12 +336,15 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case DRIVE_TO_CENTER_LINE:
-                    if (endAction == EndAction.JUST_STOP)
+                    if (endAction == EndAction.JUST_STOP ||
+                        endAction == EndAction.SCORE_ONE_NOTE && numCenterlineNotesScored == 1 ||
+                        endAction == EndAction.SCORE_TWO_NOTES && numCenterlineNotesScored == 2)
                     {
                         sm.setState(State.DONE);
                     }
                     else
                     {
+                        // Determine which note to go for according to current position? Or StartPos?
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         int centerlineNoteIndex = Math.abs(robotPose.x) < RobotParams.Field.WIDTH / 2.0? 0: 4;
                         TrcPose2D centerlineNotePose =
@@ -375,6 +379,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
                 case PICKUP_CENTERLINE_NOTE:
                     robot.autoPickupFromGround.autoAssistPickup(true, true, event);
+                    // If HOARD_ONE_NOTE, goto PARK, else goto score the note.
                     sm.waitForSingleEvent(event, State.PARK);
                     break;
 

@@ -30,15 +30,12 @@ import TrcCommonLib.trclib.TrcIntake;
 import TrcCommonLib.trclib.TrcOpenCvDetector;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
-import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcRobotBattery;
 import TrcCommonLib.trclib.TrcShooter;
-import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcCommonLib.trclib.TrcVisionTargetInfo;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
-import TrcCommonLib.trclib.TrcTaskMgr.TaskType;
 import TrcFrcLib.frclib.FrcDashboard;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcMatchInfo;
@@ -290,14 +287,6 @@ public class Robot extends FrcRobotBase
         {
             pdp.registerEnergyUsedForAllUnregisteredChannels();
         }
-
-        if (RobotParams.Preferences.hybridMode)
-        {
-            // Hybrid mode uses command-based, let's enable command-based support.
-            TrcTaskMgr.TaskObject robotPeriodicTask = TrcTaskMgr.createTask(
-                "RobotPeriodicTask", this::robotPeriodicTask);
-            robotPeriodicTask.registerTask(TaskType.POST_PERIODIC_TASK);
-        }
         //
         // Create Auto-Assists.
         //
@@ -309,44 +298,6 @@ public class Robot extends FrcRobotBase
         //
         setupRobotModes(new FrcTeleOp(this), new FrcAuto(this), new FrcTest(this), new FrcDisabled(this));
     }   //robotInit
-
-    /**
-     * This method checks the Swerve Robot Type and makes adjustments to the DriveBase parameters if necessary.
-     *
-     * @return adjusted swerve drive base parameters.
-     */
-    private RobotParams.SwerveDriveBase getSwerveDriveBaseParams()
-    {
-        RobotParams.SwerveDriveBase driveBaseParams = new RobotParams.SwerveDriveBase();
-
-        if (RobotParams.Preferences.robotType.equals(RobotType.ChadRobot))
-        {
-            driveBaseParams.steerEncoderType = RobotParams.SteerEncoderType.CANCoder;
-            driveBaseParams.steerEncoderCanIds = new int[] {7, 8, 9, 10};
-            driveBaseParams.STEER_GEAR_RATIO = (24.0/12.0) * (72.0/14.0);
-            driveBaseParams.DRIVE_GEAR_RATIO = 6.55;
-        }
-
-        return driveBaseParams;
-    }   //getSwerveDriveBaseParams
-
-    /**
-     * This method is called periodically after mode specific periodic method is called. This is to simulate the
-     * robotPeriodic method in TimedRobot.
-     *
-     * @param taskType specifies the type of task being run. This may be useful for handling multiple task types.
-     * @param runMode specifies the competition mode (e.g. Autonomous, TeleOp, Test).
-     * @param slowPeriodicLoop specifies true if it is running the slow periodic loop on the main robot thread,
-     *        false otherwise.
-     */
-    private void robotPeriodicTask(TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
-    {
-        // Runs the Command Based Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands, and running
-        // subsystem periodic() methods.  This must be called from the robot's periodic block in order for anything
-        // in the Command-based framework to work.
-        CommandScheduler.getInstance().run();
-    }   //robotPeriodicTask
 
     /**
      * This method is called to prepare the robot before a robot mode is about to start.
@@ -428,6 +379,27 @@ public class Robot extends FrcRobotBase
         setTraceLogEnabled(false);
         closeTraceLog();
     }   //robotStopMode
+
+    /**
+     * This method is called periodically in the specified run mode. This is typically used to execute periodic tasks
+     * that's common to all run modes.
+     *
+     * @param runMode specifies the current run mode.
+     * @param slowPeriodicLoop specifies true if it is running the slow periodic loop on the main robot thread,
+     *        false otherwise.
+     */
+    @Override
+    public void robotPeriodic(RunMode runMode, boolean slowPeriodicLoop)
+    {
+        if (RobotParams.Preferences.hybridMode)
+        {
+            // Runs the Command Based Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+            // commands, running already-scheduled commands, removing finished or interrupted commands, and running
+            // subsystem periodic() methods.  This must be called from the robot's periodic block in order for anything
+            // in the Command-based framework to work.
+            CommandScheduler.getInstance().run();
+        }
+    }   //robotPeriodic
 
     /**
      * This method is called periodically to update various hardware/subsystem status of the robot to the dashboard
@@ -652,6 +624,26 @@ public class Robot extends FrcRobotBase
             TrcDbgTrace.setTraceLogEnabled(enabled);
         }
     }   //setTraceLogEnabled
+
+    /**
+     * This method checks the Swerve Robot Type and makes adjustments to the DriveBase parameters if necessary.
+     *
+     * @return adjusted swerve drive base parameters.
+     */
+    private RobotParams.SwerveDriveBase getSwerveDriveBaseParams()
+    {
+        RobotParams.SwerveDriveBase driveBaseParams = new RobotParams.SwerveDriveBase();
+
+        if (RobotParams.Preferences.robotType.equals(RobotType.ChadRobot))
+        {
+            driveBaseParams.steerEncoderType = RobotParams.SteerEncoderType.CANCoder;
+            driveBaseParams.steerEncoderCanIds = new int[] {7, 8, 9, 10};
+            driveBaseParams.STEER_GEAR_RATIO = (24.0/12.0) * (72.0/14.0);
+            driveBaseParams.DRIVE_GEAR_RATIO = 6.55;
+        }
+
+        return driveBaseParams;
+    }   //getSwerveDriveBaseParams
 
     /**
      * This method sets the drive orientation mode and update the LEDs if necessary.
