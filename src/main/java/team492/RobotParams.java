@@ -666,7 +666,7 @@ public class RobotParams
         public static final double intakePower                  = 1.0;
         public static final double ejectForwardPower            = 1.0;
         public static final double noteDistanceThreshold        = 144.0;
-        public static final double noteAngleThreshold           = 20.0;
+        public static final double noteAngleThreshold           = 5.0;
     }   //class Intake
 
     public static class Shooter

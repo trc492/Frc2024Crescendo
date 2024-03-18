@@ -55,6 +55,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
         SCORE_NOTE_TO_AMP,
         CLEAR_THE_POST,
         TURN_TO_SPEAKER,
+        TURN_TO_CENTERLINE,
         SCORE_NOTE_TO_SPEAKER,
         TURN_TO_WING_NOTES,
         DRIVE_TO_CENTER_LINE,
@@ -232,7 +233,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             TrcPose2D wingNotePose =
                                 RobotParams.Game.wingNotePoses[0][startPos == AutoStartPos.SW_SOURCE_SIDE? 0: 2]
                                 .clone();
-                            wingNotePose.y -= 24.0;
+                            wingNotePose.y -= 36.0;
                             wingNotePose.angle = 180.0;
                             robot.robotDrive.purePursuitDrive.start(
                                 event, robotPose, false,
@@ -287,7 +288,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     {
                         // Failed to pick up a Note, probably vision failed, go to EndAction.
                         robot.globalTracer.traceInfo(moduleName, "***** Failed to pick up a Note.");
-                        sm.setState(State.DRIVE_TO_CENTER_LINE);
+                        sm.setState(State.TURN_TO_CENTERLINE);
                     }
                     else if (numWingNotesScored > 0 || startPos == AutoStartPos.AMP)
                     {
@@ -326,6 +327,18 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     {
                         sm.setState(State.SCORE_NOTE_TO_SPEAKER);
                     }
+                    break;
+
+                case TURN_TO_CENTERLINE:
+                    robot.globalTracer.traceInfo(
+                        moduleName, "***** Turn towards centerline to look for Note.");
+                    robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                    robot.robotDrive.purePursuitDrive.start(
+                        event, robotPose, false,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                        new TrcPose2D(robotPose.x, robotPose.y, alliance == Alliance.Red? 0.0: 180.0));
+                    sm.waitForSingleEvent(event, State.DRIVE_TO_CENTER_LINE);
                     break;
 
                 case SCORE_NOTE_TO_SPEAKER:
@@ -422,6 +435,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                                 robot.adjustPoseByAlliance(centerlineNotePose, alliance));
                         }
                         sm.addEvent(event);
+                        robot.globalTracer.traceInfo(
+                            moduleName, "***** Drive to Centerline Note " + centerlineNoteIndex + ".");
                         if (endAction != EndAction.PARK_NEAR_CENTER_LINE)
                         {
                             noteVisionEnabled = true;

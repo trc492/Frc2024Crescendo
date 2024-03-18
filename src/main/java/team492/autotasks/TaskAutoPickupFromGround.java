@@ -272,11 +272,12 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     if (notePose != null)
                     {
                         tracer.traceInfo(moduleName, "***** Approach Note.");
+                        notePose.y += 6;
                         robot.robotDrive.purePursuitDrive.start(
                             currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                            notePose, new TrcPose2D(0.0, -10.0, 0.0));
+                            notePose, new TrcPose2D(0.0, -16.0, 0.0));
                         sm.addEvent(driveEvent);
                     }
                     else
@@ -298,7 +299,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 boolean gotNote = robot.intake.hasObject();
                 tracer.traceInfo(
                     moduleName,
-                    "**** intakeEvent=" + intakeEvent +
+                    "**** Check Intake: intakeEvent=" + intakeEvent +
                     ", gotNoteEvent=" + gotNoteEvent +
                     ", driveEvent=" + driveEvent +
                     ", gotNote=" + gotNote);
