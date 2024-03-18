@@ -620,6 +620,38 @@ public class FrcTest extends FrcTeleOp
 
             switch (button)
             {
+                case BUTTON_A:
+                    // Intake from ground with no Vision (manual pickup), hold AltFunc for ReverseIntake.
+                    if (robot.intake != null && pressed)
+                    {
+                        if (operatorAltFunc)
+                        {
+                            robot.intake.autoIntakeReverse(RobotParams.Intake.intakePower, 0.0, 0.0);
+                        }
+                        else
+                        {
+                            boolean active = !robot.autoPickupFromGround.isActive();
+                            if (active)
+                            {
+                                robot.autoPickupFromGround.autoAssistPickup(false, false, null);
+                            }
+                            else
+                            {
+                                robot.autoAssistCancel();
+                            }
+                        }
+                    }
+                    processed = true;
+                    break;
+
+                case BUTTON_B:
+                    if (robot.intake != null && pressed)
+                    {
+                        robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                    }
+                    processed = true;
+                    break;
+
                 case DPAD_UP:
                     if (pressed && robot.shooter != null)
                     {
