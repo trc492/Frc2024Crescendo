@@ -210,13 +210,13 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 // drive to it.
                 if (taskParams.useVision && robot.photonVisionBack != null)
                 {
-                    tracer.traceInfo(moduleName, "Using Note Vision.");
+                    tracer.traceInfo(moduleName, "***** Using Note Vision.");
                     robot.photonVisionBack.setPipeline(PipelineType.NOTE);
                     sm.setState(State.DETECT_NOTE);
                 }
                 else
                 {
-                    tracer.traceInfo(moduleName, "Not using Note Vision.");
+                    tracer.traceInfo(moduleName, "***** Not using Note Vision.");
                     sm.setState(State.DRIVE_TO_NOTE);
                 }
                 break;
@@ -229,7 +229,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     notePose = object.getObjectPose();
                     notePose.x = -notePose.x;
                     notePose.y = -notePose.y;
-                    tracer.traceInfo(moduleName, "Vision found Note at %s from robot back.", notePose);
+                    tracer.traceInfo(moduleName, "***** Vision found Note at %s from robot back.", notePose);
                     sm.setState(State.DRIVE_TO_NOTE);
                 }
                 else if (visionExpiredTime == null)
@@ -240,7 +240,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 else if (TrcTimer.getCurrentTime() >= visionExpiredTime)
                 {
                     // Timed out, moving on.
-                    tracer.traceInfo(moduleName, "No Note Found.");
+                    tracer.traceInfo(moduleName, "***** No Note Found.");
                     sm.setState(State.DRIVE_TO_NOTE);
                 }
                 break;
@@ -250,6 +250,9 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     taskParams.inAuto)
                 {
                     // We are in auto and vision did not see any Note, quit.
+                    tracer.traceInfo(
+                        moduleName,
+                        "***** Either Vision doesn't see Note or Note is too far away, notePose=" + notePose + ".");
                     if (robot.ledIndicator != null)
                     {
                         robot.ledIndicator.setPhotonDetectedObject(null);
@@ -268,6 +271,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     sm.addEvent(gotNoteEvent);
                     if (notePose != null)
                     {
+                        tracer.traceInfo(moduleName, "***** Approach Note.");
                         robot.robotDrive.purePursuitDrive.start(
                             currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
@@ -278,6 +282,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     else
                     {
                         // Did not detect Note, release drive ownership to let driver to drive manually.
+                        tracer.traceInfo(moduleName, "***** Did not see Note, release drive ownership.");
                         robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
                         driveOwner = null;
                         if (robot.ledIndicator != null)
@@ -293,7 +298,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 boolean gotNote = robot.intake.hasObject();
                 tracer.traceInfo(
                     moduleName,
-                    "intakeEvent=" + intakeEvent +
+                    "**** intakeEvent=" + intakeEvent +
                     ", gotNoteEvent=" + gotNoteEvent +
                     ", driveEvent=" + driveEvent +
                     ", gotNote=" + gotNote);

@@ -249,7 +249,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 aprilTagPose = null;
                 if (taskParams.useVision && robot.photonVisionFront != null)
                 {
-                    tracer.traceInfo(moduleName, "Using AprilTag Vision.");
+                    tracer.traceInfo(moduleName, "***** Using AprilTag Vision.");
                     sm.setState(State.FIND_APRILTAG);
                     // // Get the Tilter out of the way of the camera.
                     // robot.shooter.setTiltAngle(currOwner, RobotParams.Shooter.tiltTurtleAngle, event, 0.0);
@@ -258,7 +258,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 else
                 {
                     // Not using AprilTag vision, skip vision and just score at current location.
-                    tracer.traceInfo(moduleName, "Not using AprilTag Vision.");
+                    tracer.traceInfo(moduleName, "***** Not using AprilTag Vision.");
                     sm.setState(State.DRIVE_TO_APRILTAG);
                 }
                 break;
@@ -272,14 +272,15 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 {
                     aprilTagId = object.target.getFiducialId();
                     tracer.traceInfo(
-                        moduleName, "Vision found AprilTag %d at %s from camera.", aprilTagId, object.targetPose);
+                        moduleName, "***** Vision found AprilTag %d at %s from camera.",
+                        aprilTagId, object.targetPose);
                     if (aprilTagId == 3 || aprilTagId == 8)
                     {
                         aprilTagPose = object.addTransformToTarget(
                             object.target, RobotParams.Vision.robotToFrontCam,
                             aprilTagId == 3? robot.aprilTag3To4Transform: robot.aprilTag8To7Transform);
                         tracer.traceInfo(
-                            moduleName, "Translated AprilTag target at %s from camera.", aprilTagPose);
+                            moduleName, "***** Translated AprilTag target at %s from camera.", aprilTagPose);
                     }
                     else
                     {
@@ -294,7 +295,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                         if (robotFieldPose != null)
                         {
                             robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
-                            tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
+                            tracer.traceInfo(moduleName, "***** Using AprilTag to re-localize to " + robotFieldPose);
                         }
                     }
                     sm.setState(State.DRIVE_TO_APRILTAG);
@@ -307,7 +308,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 else if (TrcTimer.getCurrentTime() >= visionExpiredTime)
                 {
                     // Timed out, moving on.
-                    tracer.traceInfo(moduleName, "No AprilTag found.");
+                    tracer.traceInfo(moduleName, "***** No AprilTag found.");
                     sm.setState(State.DRIVE_TO_APRILTAG);
                 }
                 break;
@@ -321,6 +322,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 else
                 {
                     // Score to Amp.
+                    tracer.traceInfo(moduleName, "***** Prep shooter to score to Amp.");
                     robot.shooter.aimShooter(
                         currOwner, RobotParams.Shooter.shooterAmpVelocity, RobotParams.Shooter.tiltAmpAngle, 0.0,
                         event, 0.0);
@@ -335,7 +337,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                             aprilTagFieldPose3d, 0.0, -RobotParams.Robot.LENGTH / 2.0, -90.0);
                         tracer.traceInfo(
                             moduleName,
-                            state + ": RobotFieldPose=" + robotPose +
+                            state + "***** Approach Amp in Auto:\n\tRobotFieldPose=" + robotPose +
                             "\n\taprilTagPose=" + aprilTagPose +
                             "\n\ttargetPose=" + targetPose);
                         robot.robotDrive.purePursuitDrive.start(
@@ -355,6 +357,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 // Score to Speaker.
                 Double shooterVel = null;
                 Double tiltAngle = null;
+                int numEventsToWait = 0;
                 // Determine shooter speed and tilt angle according to the score target type.
                 if (aprilTagPose != null)
                 {
@@ -363,7 +366,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     ShootParamTable.Params shootParams =
                         RobotParams.Shooter.speakerShootParamTable.get(aprilTagDistance);
                     tracer.traceInfo(
-                        moduleName, "ShootParams: distance=" + aprilTagDistance + ", params=" + shootParams);
+                        moduleName, "***** ShootParams: distance=" + aprilTagDistance + ", params=" + shootParams);
                     shooterVel = shootParams.shooterVelocity;
                     tiltAngle = shootParams.tiltAngle;
                 }
@@ -372,26 +375,29 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     // Did not use vision, must be shooting at Speaker up close.
                     shooterVel = RobotParams.Shooter.shooterSpeakerCloseVelocity;
                     tiltAngle = RobotParams.Shooter.tiltSpeakerCloseAngle;
-                    tracer.traceInfo(moduleName, "Not using vision: shoot at speakere up close.");
+                    tracer.traceInfo(moduleName, "***** Not using vision: shoot at speakere up close.");
                 }
                 else if (taskParams.inAuto)
                 {
                     // In Auto, using vision but did not see target, shoot it out anyway to get rid of it.
                     shooterVel = RobotParams.Shooter.shooterDumpVelocity;
                     tiltAngle = RobotParams.Shooter.tiltDumpAngle;
-                    tracer.traceInfo(moduleName, "In auto but vision see nothing: get rid of the Note.");
+                    tracer.traceInfo(moduleName, "***** In auto but vision see nothing: get rid of the Note.");
                 }
 
                 if (shooterVel != null && tiltAngle != null)
                 {
                     robot.shooter.aimShooter(currOwner, shooterVel, tiltAngle, 0.0, event, 0.0);
                     sm.addEvent(event);
+                    numEventsToWait++;
                 }
                 // Align in-place with Speaker.
                 State nextState;
                 if (aprilTagPose != null || taskParams.inAuto)
                 {
                     // If we are in auto and did not see AprilTag, just align to the field and shoot blind.
+                    tracer.traceInfo(
+                        moduleName, "***** Align to AprilTagPose " + aprilTagPose + " or align blind to field.");
                     robot.robotDrive.purePursuitDrive.start(
                         currOwner, driveEvent, 1.0, robot.robotDrive.driveBase.getFieldPosition(), true,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
@@ -400,18 +406,28 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                             aprilTagPose != null? aprilTagPose.angle:
                             FrcAuto.autoChoices.getAlliance() == Alliance.Red? 0.0: 180.0));
                     sm.addEvent(driveEvent);
+                    numEventsToWait++;
                     nextState = State.SCORE_NOTE;
                 }
                 else
                 {
                     // In TeleOp and vision did not see AprilTag, quit and tell drivers so they can score manually.
+                    tracer.traceInfo(moduleName, "***** Vision did not see AprilTag, quit.");
                     if (robot.ledIndicator != null)
                     {
                         robot.ledIndicator.setPhotonDetectedObject(null);
                     }
                     nextState = State.DONE;
                 }
-                sm.waitForEvents(nextState, true);
+
+                if (numEventsToWait > 0)
+                {
+                    sm.waitForEvents(nextState, true);
+                }
+                else
+                {
+                    sm.setState(nextState);
+                }
                 break;
 
             case SCORE_NOTE:
