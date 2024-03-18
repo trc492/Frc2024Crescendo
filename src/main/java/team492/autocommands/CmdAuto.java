@@ -52,12 +52,15 @@ public class CmdAuto implements TrcRobot.RobotCommand
         DO_DELAY,
         DRIVE_TO_WING_NOTE,
         PICKUP_WING_NOTE,
+        SCORE_NOTE_TO_AMP,
         CLEAR_THE_POST,
         TURN_TO_SPEAKER,
-        SCORE_WING_NOTE,
+        SCORE_NOTE_TO_SPEAKER,
         TURN_TO_WING_NOTES,
         DRIVE_TO_CENTER_LINE,
+        PERFORM_END_ACTION,
         PICKUP_CENTERLINE_NOTE,
+        DRIVE_TO_SPEAKER,
         PARK,
         DONE
     }   //enum State
@@ -78,8 +81,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private int numCenterlineNotesScored = 0;
     private boolean aprilTagVisionEnabled = false;
     private boolean noteVisionEnabled = false;
-    // private DetectedObject aprilTagObj = null;
-    // private DetectedObject noteObj = null;
+    private boolean performingEndAction = false;
 
     /**
      * Constructor: Create an instance of the object.
@@ -246,8 +248,16 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.autoPickupFromGround.autoAssistPickup(true, true, event);
                     sm.waitForSingleEvent(
                         event,
+                        startPos == AutoStartPos.AMP && numWingNotesScored == 0? State.SCORE_NOTE_TO_AMP:
                         startPos == AutoStartPos.SW_SOURCE_SIDE && numWingNotesScored == 0?
                             State.CLEAR_THE_POST: State.TURN_TO_SPEAKER);
+                    break;
+
+                case SCORE_NOTE_TO_AMP:
+                    // TODO:
+                    // AutoAssistScore note to Amp
+                    // Increment numWingNotesScored.
+                    // goto TURN_TO_WING_NOTE.
                     break;
 
                 case CLEAR_THE_POST:
@@ -293,21 +303,22 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         sm.addEvent(event);
                         aprilTagVisionEnabled = true;
                         sm.addEvent(aprilTagEvent);
-                        sm.waitForEvents(State.SCORE_WING_NOTE, false);
+                        sm.waitForEvents(State.SCORE_NOTE_TO_SPEAKER, false);
                     }
                     else
                     {
-                        sm.setState(State.SCORE_WING_NOTE);
+                        sm.setState(State.SCORE_NOTE_TO_SPEAKER);
                     }
                     break;
 
-                case SCORE_WING_NOTE:
+                case SCORE_NOTE_TO_SPEAKER:
                     robot.robotDrive.purePursuitDrive.cancel();
                     aprilTagVisionEnabled = false;
                     robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, relocalize, event);
                     numWingNotesScored++;
                     robot.globalTracer.traceInfo(moduleName, "Scoring Wing Note " + numWingNotesScored);
-                    sm.waitForSingleEvent(event, State.TURN_TO_WING_NOTES);
+                    sm.waitForSingleEvent(
+                        event, performingEndAction? State.DRIVE_TO_CENTER_LINE: State.TURN_TO_WING_NOTES);
                     break;
 
                 case TURN_TO_WING_NOTES:
@@ -315,19 +326,26 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         (scoreWingNotes == ScoreWingNotes.SCORE_TWO && numWingNotesScored < 2 ||
                          scoreWingNotes == ScoreWingNotes.SCORE_THREE && numWingNotesScored < 3))
                     {
-                        robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                        targetPose = robotPose.clone();
-                        targetPose.angle =
-                            startPos == AutoStartPos.SW_SOURCE_SIDE? 90.0: -90.0;
-                        robot.robotDrive.purePursuitDrive.start(
-                            event, robotPose, false,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                            targetPose);
-                        sm.addEvent(event);
-                        noteVisionEnabled = true;
-                        sm.addEvent(noteEvent);
-                        sm.waitForEvents(State.PICKUP_WING_NOTE, false);
+                        if (startPos == AutoStartPos.AMP && numWingNotesScored == 1)
+                        {
+                            sm.setState(State.PICKUP_WING_NOTE);
+                        }
+                        else
+                        {
+                            robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                            targetPose = robotPose.clone();
+                            targetPose.angle =
+                                startPos == AutoStartPos.SW_SOURCE_SIDE? 90.0: -90.0;
+                            robot.robotDrive.purePursuitDrive.start(
+                                event, robotPose, false,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                                targetPose);
+                            sm.addEvent(event);
+                            noteVisionEnabled = true;
+                            sm.addEvent(noteEvent);
+                            sm.waitForEvents(State.PICKUP_WING_NOTE, false);
+                        }
                     }
                     else
                     {
@@ -344,7 +362,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     }
                     else
                     {
-                        // Determine which note to go for according to current position? Or StartPos?
+                        // TODO: Determine which note to go for according to current position? Or StartPos?
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         int centerlineNoteIndex = Math.abs(robotPose.x) < RobotParams.Field.WIDTH / 2.0? 0: 4;
                         TrcPose2D centerlineNotePose =
@@ -371,16 +389,32 @@ public class CmdAuto implements TrcRobot.RobotCommand
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                                 robot.adjustPoseByAlliance(centerlineNotePose, alliance));
                         }
-                        sm.waitForSingleEvent(
-                            event, endAction == EndAction.PARK_NEAR_CENTER_LINE?
-                                State.DONE: State.PICKUP_CENTERLINE_NOTE);
+                        sm.addEvent(event);
+                        if (endAction != EndAction.PARK_NEAR_CENTER_LINE)
+                        {
+                            noteVisionEnabled = true;
+                            sm.addEvent(noteEvent);
+                        }
+                        sm.waitForEvents(State.PERFORM_END_ACTION, false);
                     }
+                    break;
+
+                case PERFORM_END_ACTION:
+                    performingEndAction = true;
+                    robot.robotDrive.purePursuitDrive.cancel();
+                    noteVisionEnabled = false;
+                    sm.setState(endAction == EndAction.PARK_NEAR_CENTER_LINE? State.DONE: State.PICKUP_CENTERLINE_NOTE);
                     break;
 
                 case PICKUP_CENTERLINE_NOTE:
                     robot.autoPickupFromGround.autoAssistPickup(true, true, event);
-                    // If HOARD_ONE_NOTE, goto PARK, else goto score the note.
-                    sm.waitForSingleEvent(event, State.PARK);
+                    sm.waitForSingleEvent(event, endAction == EndAction.HOARD_ONE_NOTE? State.PARK: State.DRIVE_TO_SPEAKER);
+                    break;
+
+                case DRIVE_TO_SPEAKER:
+                    // TODO:
+                    // Determine where to go to score the Speaker.
+                    // Goto SCORE_NOTE_TO_SPEAKER.
                     break;
 
                 case PARK:
