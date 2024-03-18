@@ -653,7 +653,7 @@ public class FrcTest extends FrcTeleOp
                     break;
 
                 case DPAD_UP:
-                    if (pressed && robot.shooter != null)
+                    if (robot.shooter != null && pressed)
                     {
                         if (operatorAltFunc)
                         {
@@ -668,7 +668,7 @@ public class FrcTest extends FrcTeleOp
                     break;
 
                 case DPAD_DOWN:
-                    if (pressed && robot.shooter != null)
+                    if (robot.shooter != null && pressed)
                     {
                         if (operatorAltFunc)
                         {
@@ -683,7 +683,7 @@ public class FrcTest extends FrcTeleOp
                     break;
 
                 case DPAD_LEFT:
-                    if (pressed && robot.shooter != null)
+                    if (robot.shooter != null && pressed)
                     {
                         if (operatorAltFunc)
                         {
@@ -698,7 +698,7 @@ public class FrcTest extends FrcTeleOp
                     break;
 
                 case DPAD_RIGHT:
-                    if (pressed && robot.shooter != null)
+                    if (robot.shooter != null && pressed)
                     {
                         if (operatorAltFunc)
                         {
@@ -728,6 +728,7 @@ public class FrcTest extends FrcTeleOp
     //
     // Implement tests.
     //
+
     /**
      * This method reads all sensors and prints out their values. This is a very
      * useful diagnostic tool to check if all sensors are working properly. For

@@ -285,8 +285,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 case TURN_TO_SPEAKER:
                     if (!robot.intake.hasObject())
                     {
-                        robot.globalTracer.traceInfo(moduleName, "***** Failed to pick up a Note.");
                         // Failed to pick up a Note, probably vision failed, go to EndAction.
+                        robot.globalTracer.traceInfo(moduleName, "***** Failed to pick up a Note.");
                         sm.setState(State.DRIVE_TO_CENTER_LINE);
                     }
                     else if (numWingNotesScored > 0 || startPos == AutoStartPos.AMP)

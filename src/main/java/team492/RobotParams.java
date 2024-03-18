@@ -608,7 +608,7 @@ public class RobotParams
         public final double TURN_KD                             = 0.0;
         public final double TURN_KF                             = 0.0;
         public final double TURN_IZONE                          = 10.0;
-        public final double TURN_TOLERANCE                      = 2.0;   
+        public final double TURN_TOLERANCE                      = 2.0;
 
         public static final double ROBOT_MAX_VELOCITY           = 177.1654; // inches per second
         public static final double ROBOT_MAX_ACCELERATION       = 799.1;
