@@ -173,6 +173,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
             TrcPose2D targetPose;
 
             robot.dashboard.displayPrintf(8, "State: " + state);
+            robot.globalTracer.tracePreStateInfo(sm.toString(), state);
             switch (state)
             {
                 case START:
@@ -184,7 +185,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     endAction = FrcAuto.autoChoices.getEndAction();
                     relocalize = FrcAuto.autoChoices.getRelocalize();
                     robot.shooter.tracer.setTraceLevel(TrcDbgTrace.MsgLevel.DEBUG);
-
+                    // Shoot pre-load.
                     robot.shooter.aimShooter(
                         null, RobotParams.Shooter.shooterSpeakerCloseVelocity,
                         RobotParams.Shooter.tiltSpeakerCloseAngle, 0.0, event, 0.0, robot::shoot, 0.0);
@@ -454,8 +455,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     cancel();
                     break;
             }
-
-            robot.globalTracer.traceStateInfo(
+            robot.globalTracer.tracePostStateInfo(
                 sm.toString(), state, robot.robotDrive.driveBase, robot.robotDrive.pidDrive,
                 robot.robotDrive.purePursuitDrive, null);
         }

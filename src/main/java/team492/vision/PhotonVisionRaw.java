@@ -187,7 +187,7 @@ public class PhotonVisionRaw extends FrcPhotonVisionRaw
      */
     public PipelineType getPipeline()
     {
-        currPipeline = PipelineType.getType(super.getSelectedPipeline());
+        currPipeline = PipelineType.values()[super.getSelectedPipeline()];
         return currPipeline;
     }   //getPipeline
 

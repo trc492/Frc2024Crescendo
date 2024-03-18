@@ -601,43 +601,26 @@ public class FrcTest extends FrcTeleOp
     /**
      * This method is called when an operator controller button event is detected.
      *
-     * @param button specifies the button ID that generates the event.
+     * @param buttonValue specifies the button enum value that generates the event.
      * @param pressed specifies true if the button is pressed, false otherwise.
      */
     @Override
-    protected void operatorControllerButtonEvent(int button, boolean pressed)
+    protected void operatorControllerButtonEvent(int buttonValue, boolean pressed)
     {
         if (allowTeleOp())
         {
+            FrcXboxController.Button button = FrcXboxController.Button.values()[buttonValue];
             boolean processed = false;
             //
             // In addition to or instead of the button controls handled by FrcTeleOp, we can add to or override the
             // FrcTeleOp button actions.
             //
             robot.dashboard.displayPrintf(
-                8, "OperatorController: button=0x%04x %s", button, pressed ? "pressed" : "released");
+                8, "OperatorController: button %s %s", button, pressed ? "pressed" : "released");
 
             switch (button)
             {
-                case FrcXboxController.BUTTON_A:
-                    break;
-
-                case FrcXboxController.BUTTON_B:
-                    break;
-
-                case FrcXboxController.BUTTON_X:
-                    break;
-
-                case FrcXboxController.BUTTON_Y:
-                    break;
-
-                case FrcXboxController.LEFT_BUMPER:
-                    break;
-
-                case FrcXboxController.RIGHT_BUMPER:
-                    break;
-
-                case FrcXboxController.DPAD_UP:
+                case DPAD_UP:
                     if (pressed && robot.shooter != null)
                     {
                         if (operatorAltFunc)
@@ -652,7 +635,7 @@ public class FrcTest extends FrcTeleOp
                     processed = true;
                     break;
 
-                case FrcXboxController.DPAD_DOWN:
+                case DPAD_DOWN:
                     if (pressed && robot.shooter != null)
                     {
                         if (operatorAltFunc)
@@ -667,7 +650,7 @@ public class FrcTest extends FrcTeleOp
                     processed = true;
                     break;
 
-                case FrcXboxController.DPAD_LEFT:
+                case DPAD_LEFT:
                     if (pressed && robot.shooter != null)
                     {
                         if (operatorAltFunc)
@@ -682,7 +665,7 @@ public class FrcTest extends FrcTeleOp
                     processed = true;
                     break;
 
-                case FrcXboxController.DPAD_RIGHT:
+                case DPAD_RIGHT:
                     if (pressed && robot.shooter != null)
                     {
                         if (operatorAltFunc)
@@ -697,16 +680,7 @@ public class FrcTest extends FrcTeleOp
                     processed = true;
                     break;
 
-                case FrcXboxController.BACK:
-                    break;
-
-                case FrcXboxController.START:
-                    break;
-
-                case FrcXboxController.LEFT_STICK_BUTTON:
-                    break;
-
-                case FrcXboxController.RIGHT_STICK_BUTTON:
+                default:
                     break;
             }
             //
@@ -714,7 +688,7 @@ public class FrcTest extends FrcTeleOp
             //
             if (!processed)
             {
-                super.operatorControllerButtonEvent(button, pressed);
+                super.operatorControllerButtonEvent(buttonValue, pressed);
             }
         }
     }   //operatorControllerButtonEvent
