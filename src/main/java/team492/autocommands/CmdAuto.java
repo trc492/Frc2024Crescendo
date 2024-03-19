@@ -363,7 +363,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         numWingNotesScored++;
                     }
                     robot.globalTracer.traceInfo(
-                        moduleName, "AutoScore Wing Note " + numWingNotesScored +
+                        moduleName, "***** AutoScore Wing Note " + numWingNotesScored +
                         " or Centerline Note " + numCenterlineNotesScored + " to Speaker.");
                     sm.waitForSingleEvent(
                         event, performingEndAction? State.DRIVE_TO_CENTER_LINE: State.TURN_TO_WING_NOTES);
