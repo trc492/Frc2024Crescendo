@@ -22,6 +22,7 @@
 
 package team492;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 import TrcCommonLib.trclib.TrcPidController;
@@ -60,7 +61,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     private TrcPidController trackingPidCtrl;
     private double driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
     private double turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
-    // private double[] prevDriveInputs = null;
+    private double[] prevDriveInputs = null;
     // Shooter subsystem.
     private double prevShooterVel = 0.0;
     private double prevTiltPower = 0.0;
@@ -233,8 +234,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         prevTrackingModeOn = trackingModeOn;
                     }
 
-                    // if (!Arrays.equals(driveInputs, prevDriveInputs))
-                    // {
+                    if (!Arrays.equals(driveInputs, prevDriveInputs))
+                    {
                         if (robot.robotDrive.driveBase.supportsHolonomicDrive())
                         {
                             double gyroAngle = robot.robotDrive.driveBase.getDriveGyroAngle();
@@ -273,12 +274,12 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                                     driveInputs[0], driveInputs[1], driveInputs[2]);
                             }
                         }
-                    // }
-                    // else if (subsystemStatusOn)
-                    // {
-                    //     lineNum++;
-                    // }
-                    // prevDriveInputs = driveInputs;
+                    }
+                    else if (subsystemStatusOn)
+                    {
+                        lineNum++;
+                    }
+                    prevDriveInputs = driveInputs;
                     if (subsystemStatusOn)
                     {
                         robot.dashboard.displayPrintf(
@@ -581,7 +582,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     robot.robotDrive.setXMode(null);
                     robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
-                }               
+                }
                 break;
 
             case BUTTON_X:
