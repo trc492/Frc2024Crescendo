@@ -200,6 +200,12 @@ public class RobotParams
         {
             CENTERLINE_NOTE_1, CENTERLINE_NOTE_2, CENTERLINE_NOTE_3, CENTERLINE_NOTE_4, CENTERLINE_NOTE_5
         };
+
+        public static final TrcPose2D centerlineNoteBlueScorePose= new TrcPose2D(
+            WINGNOTE_BLUE_SOURCE_SIDE.x - 24.0, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 225.0);
+
+        public static final TrcPose2D centerlineNoteBluePickupPose= new TrcPose2D(
+            CENTERLINE_NOTE_1.x + 24.0, CENTERLINE_NOTE_1.y - 60.0, 180.0); //TODO: test if vision can see both notes from here
     }   //class Game
 
     public static class HWConfig
@@ -666,7 +672,7 @@ public class RobotParams
         public static final double intakePower                  = 1.0;
         public static final double ejectForwardPower            = 1.0;
         public static final double noteDistanceThreshold        = 144.0;
-        public static final double noteAngleThreshold           = 5.0;
+        public static final double noteAngleThreshold           = 10.0;
     }   //class Intake
 
     public static class Shooter
