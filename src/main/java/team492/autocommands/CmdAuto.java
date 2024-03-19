@@ -270,6 +270,18 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     // AutoAssistScore note to Amp
                     // Increment numWingNotesScored.
                     // goto TURN_TO_WING_NOTE.
+
+                    // Set robots current position
+                    robot.robotDrive.setFieldPosition(false);
+
+                    // Begin auto assist score
+                    robot.globalTracer.traceInfo(moduleName, "***** Scoring Wing Note to Amp.");
+                    robot.autoScoreNote.autoAssistScore(TargetType.Amp, true, true, relocalize, event);
+                    sm.waitForSingleEvent(event, State.TURN_TO_WING_NOTES);
+                    numWingNotesScored++;
+                    
+                    
+
                     break;
 
                 case CLEAR_THE_POST:
