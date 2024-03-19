@@ -83,6 +83,7 @@ public class SwerveDrive extends RobotDrive
 
     private double[] steerZeros = new double[4];
     private int steerZeroCalibrationCount = 0;
+    private String xModeOwner = null;
     private boolean steerEncodersSynced = false;
 
     /**
@@ -628,15 +629,31 @@ public class SwerveDrive extends RobotDrive
     }   //readSteeringCalibrationData
 
     /**
-     * This method set all the wheels into an X configuration so that nobody can bump us out of position.
+     * This method set all the wheels into an X configuration so that nobody can bump us out of position. If owner
+     * is specifies, it will acquire execlusive ownership of the drivebase on behalf of the specified owner. On
+     * disable, it will release the ownership.
      *
      * @param owner specifies the ID string of the caller for checking ownership, can be null if caller is not
      *        ownership aware.
+     * @param enabled   specifies true to enable anti-defense mode, false to disable.
      */
-    public void setXMode(String owner)
+    public void setXModeEnabled(String owner, boolean enabled)
     {
-        ((TrcSwerveDriveBase) driveBase).setXMode(owner);
-    }   //setXMode
+        if (enabled)
+        {
+            if (owner != null && !driveBase.hasOwnership(owner) && driveBase.acquireExclusiveAccess(owner))
+            {
+                xModeOwner = owner;
+            }
+
+            ((TrcSwerveDriveBase) driveBase).setXMode(owner);
+        }
+        else if (xModeOwner != null)
+        {
+            driveBase.releaseExclusiveAccess(xModeOwner);
+            xModeOwner = null;
+        }
+    }   //setXModeEnabled
 
     //
     // Command-based required methods.

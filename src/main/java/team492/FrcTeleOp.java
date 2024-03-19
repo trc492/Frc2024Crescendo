@@ -508,10 +508,17 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
             case DPAD_RIGHT:
                 // Manual shoot.
-                if (robot.robotDrive != null && robot.intake != null && pressed)
+                if (robot.robotDrive != null && robot.intake != null)
                 {
-                    robot.robotDrive.setXMode(null);
-                    robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                    if (pressed)
+                    {
+                        robot.robotDrive.setXModeEnabled(moduleName, true);
+                        robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                    }
+                    else
+                    {
+                        robot.robotDrive.setXModeEnabled(moduleName, false);
+                    }
                 }
                 break;
 
@@ -577,11 +584,18 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case BUTTON_B:
-                // Shoot manually.
-                if (robot.robotDrive != null && robot.intake != null && pressed)
+                // Manual shoot.
+                if (robot.robotDrive != null && robot.intake != null)
                 {
-                    robot.robotDrive.setXMode(null);
-                    robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                    if (pressed)
+                    {
+                        robot.robotDrive.setXModeEnabled(moduleName, true);
+                        robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                    }
+                    else
+                    {
+                        robot.robotDrive.setXModeEnabled(moduleName, false);
+                    }
                 }
                 break;
 
