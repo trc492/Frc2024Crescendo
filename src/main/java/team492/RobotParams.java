@@ -201,11 +201,27 @@ public class RobotParams
             CENTERLINE_NOTE_1, CENTERLINE_NOTE_2, CENTERLINE_NOTE_3, CENTERLINE_NOTE_4, CENTERLINE_NOTE_5
         };
 
-        public static final TrcPose2D centerlineNoteBlueScorePose= new TrcPose2D(
-            WINGNOTE_BLUE_SOURCE_SIDE.x - 24.0, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 225.0);
+        public static final TrcPose2D CLNOTE1_BLUE_PICKUP       = new TrcPose2D(
+            CENTERLINE_NOTE_1.x - 24.0, CENTERLINE_NOTE_1.y - 60.0, 180.0);
 
-        public static final TrcPose2D centerlineNoteBluePickupPose= new TrcPose2D(
-            CENTERLINE_NOTE_1.x + 24.0, CENTERLINE_NOTE_1.y - 60.0, 180.0); //TODO: test if vision can see both notes from here
+        public static final TrcPose2D CLNOTE5_BLUE_PICKUP       = new TrcPose2D(
+            CENTERLINE_NOTE_5.x + 24.0, CENTERLINE_NOTE_5.y - 60.0, 180.0);
+
+        public static final TrcPose2D CLNOTE1_BLUE_SCORE        = new TrcPose2D(
+            WINGNOTE_BLUE_SOURCE_SIDE.x + 24.0, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 225.0); //TODO check pos and angle
+
+        public static final TrcPose2D CLNOTE5_BLUE_SCORE        = new TrcPose2D(
+            -(Field.WIDTH / 2.0 + 85.0), WINGNOTE_BLUE_SW_SIDE.y - 36.0, 20.0); //TODO: check pos and angle
+
+        public static final TrcPose2D[] centerlineNotePickupPoses =
+        {
+            CLNOTE1_BLUE_PICKUP, CLNOTE5_BLUE_PICKUP
+        };
+
+        public static final TrcPose2D[] centerlineNoteScorePoses =
+        {
+            CLNOTE1_BLUE_SCORE, CLNOTE5_BLUE_SCORE
+        };
     }   //class Game
 
     public static class HWConfig
