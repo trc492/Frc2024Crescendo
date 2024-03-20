@@ -212,6 +212,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 {
                     tracer.traceInfo(moduleName, "***** Using Note Vision.");
                     robot.photonVisionBack.setPipeline(PipelineType.NOTE);
+                    visionExpiredTime = null;
                     sm.setState(State.DETECT_NOTE);
                 }
                 else
@@ -272,7 +273,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     if (notePose != null)
                     {
                         tracer.traceInfo(moduleName, "***** Approach Note.");
-                        notePose.y += 6;
+                        notePose.y -= 12; //6
                         robot.robotDrive.purePursuitDrive.start(
                             currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,

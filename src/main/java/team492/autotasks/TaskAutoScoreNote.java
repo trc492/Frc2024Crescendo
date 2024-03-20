@@ -250,6 +250,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 if (taskParams.useVision && robot.photonVisionFront != null)
                 {
                     tracer.traceInfo(moduleName, "***** Using AprilTag Vision.");
+                    visionExpiredTime = null;
                     sm.setState(State.FIND_APRILTAG);
                     // // Get the Tilter out of the way of the camera.
                     // robot.shooter.setTiltAngle(currOwner, RobotParams.Shooter.tiltTurtleAngle, event, 0.0);

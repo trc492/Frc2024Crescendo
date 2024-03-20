@@ -70,8 +70,8 @@ public class RobotParams
         public static final boolean showDriveBase               = false;
         public static final boolean showPurePursuitDrive        = false;
         public static final boolean showPidDrive                = false;
-        public static final boolean showVision                  = true;
-        public static final boolean showSubsystems              = false;
+        public static final boolean showVision                  = true; //true
+        public static final boolean showSubsystems              = false; // false
         // Inputs
         public static final boolean useDriverXboxController     = true;
         public static final boolean useOperatorXboxController   = true;
@@ -202,10 +202,10 @@ public class RobotParams
         };
 
         public static final TrcPose2D CLNOTE1_BLUE_PICKUP       = new TrcPose2D(
-            CENTERLINE_NOTE_1.x - 24.0, CENTERLINE_NOTE_1.y - 60.0, 180.0);
+            CENTERLINE_NOTE_1.x - 24.0, CENTERLINE_NOTE_1.y - 96.0, 180.0);
 
         public static final TrcPose2D CLNOTE5_BLUE_PICKUP       = new TrcPose2D(
-            CENTERLINE_NOTE_5.x + 24.0, CENTERLINE_NOTE_5.y - 60.0, 180.0);
+            CENTERLINE_NOTE_5.x + 24.0, CENTERLINE_NOTE_5.y - 96.0, 180.0);
 
         public static final TrcPose2D CLNOTE1_BLUE_SCORE        = new TrcPose2D(
             WINGNOTE_BLUE_SOURCE_SIDE.x + 24.0, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 225.0); //TODO check pos and angle
