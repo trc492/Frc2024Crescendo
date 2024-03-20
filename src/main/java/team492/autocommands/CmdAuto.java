@@ -196,7 +196,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         " at " + robot.robotDrive.driveBase.getFieldPosition() + ".");
                     if (startPos == AutoStartPos.AMP)
                     {
-                        robot.autoScoreNote.autoAssistScore(TargetType.Amp, true, true, relocalize, event);
+                        robot.autoScoreNote.autoAssistScore(TargetType.Amp, false, true, relocalize, event);
                     }
                     else
                     {
@@ -210,9 +210,12 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 case DO_DELAY:
                     // Do delay if there is one.
                     robot.globalTracer.traceInfo(moduleName, "***** Set shooter to Wing Note preset.");
-                    robot.shooter.aimShooter(
-                        RobotParams.Shooter.wingNotePresetParams.shooterVelocity,
-                        RobotParams.Shooter.wingNotePresetParams.tiltAngle, 0.0);
+                    if (startPos != AutoStartPos.AMP)
+                    {
+                        robot.shooter.aimShooter(
+                            RobotParams.Shooter.wingNotePresetParams.shooterVelocity,
+                            RobotParams.Shooter.wingNotePresetParams.tiltAngle, 0.0);
+                    }
 
                     double startDelay = autoChoices.getStartDelay();
                     if (startDelay > 0.0)

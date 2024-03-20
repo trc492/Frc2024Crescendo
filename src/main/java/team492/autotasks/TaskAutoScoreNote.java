@@ -31,7 +31,6 @@ import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
 import TrcCommonLib.trclib.TrcUtil;
 import TrcFrcLib.frclib.FrcPhotonVision;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import team492.FrcAuto;
 import team492.Robot;
@@ -81,6 +80,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     private final Robot robot;
     private final TrcEvent event;
     private final TrcEvent driveEvent;
+    private final TrcTimer shooterOffTimer;
 
     private String currOwner = null;
     private String driveOwner = null;
@@ -101,6 +101,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
         this.robot = robot;
         this.event = new TrcEvent(moduleName + ".event");
         this.driveEvent = new TrcEvent(moduleName + ".driveEvent");
+        this.shooterOffTimer = new TrcTimer(moduleName + ".shooterOff");
     }   //TaskAutoScoreNote
 
     /**
@@ -222,7 +223,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     {
         tracer.traceInfo(moduleName, "Stopping subsystems.");
         robot.intake.cancel(currOwner);
-        robot.shooter.cancel(currOwner);
+        // robot.shooter.cancel(currOwner);
         robot.robotDrive.cancel(driveOwner);
     }   //stopSubsystems
 
@@ -330,20 +331,23 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     {
                         // Drive and align to the Amp using Vision.
                         TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                        Pose3d aprilTagFieldPose3d = robot.photonVisionFront.getAprilTagFieldPose3d(aprilTagId);
-                        TrcPose2D targetPose = robot.photonVisionFront.getTargetPoseOffsetFromAprilTag(
-                            aprilTagFieldPose3d, 0.0, -RobotParams.Robot.LENGTH / 2.0, -90.0);
+                        Alliance alliance = robotPose.y > RobotParams.Field.LENGTH / 2.0? Alliance.Red: Alliance.Blue;
+                        TrcPose2D targetPose = robot.adjustPoseByAlliance(RobotParams.Game.AMP_BLUE_SCORE, alliance);
+                        TrcPose2D intermediatePose = targetPose.clone();
+                        intermediatePose.x = robotPose.x;
                         tracer.traceInfo(
                             moduleName,
                             state + "***** Approach Amp in Auto:\n\tRobotFieldPose=" + robotPose +
+                            "\n\talliance=" + alliance +
                             "\n\taprilTagPose=" + aprilTagPose +
+                            "\n\tintermediatePose=" + intermediatePose +
                             "\n\ttargetPose=" + targetPose);
                         robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
                         robot.robotDrive.purePursuitDrive.start(
-                            currOwner, driveEvent, 0.0, robotPose, false,
+                            currOwner, driveEvent, 2.0, robotPose, false,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                            targetPose);
+                            intermediatePose, targetPose);
                         sm.addEvent(driveEvent);
                     }
                     // If score to Amp in Auto but vision doesn't see anything, get rid of the Note anyway.
@@ -430,6 +434,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 break;
 
             case SCORE_NOTE:
+                shooterOffTimer.set(1.0, this::shooterOff);
                 robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
                 robot.shoot(currOwner, event);
                 sm.waitForSingleEvent(event, State.DONE);
@@ -443,4 +448,9 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
         }
     }   //runTaskState
  
+    private void shooterOff(Object context)
+    {
+        robot.shooter.stopShooter();
+    }   //shooterOff
+
 }   //class TaskAutoScoreNote

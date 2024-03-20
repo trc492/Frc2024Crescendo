@@ -222,7 +222,8 @@ public class RobotParams
             CLNOTE1_BLUE_SCORE, CLNOTE5_BLUE_SCORE
         };
 
-        public static final TrcPose2D AMP_BLUE_SCORE            = new TrcPose2D(-322.8346, 72.44, -90.0);
+        public static final TrcPose2D AMP_BLUE_SCORE            = new TrcPose2D(
+            -Field.WIDTH + Robot.LENGTH / 2.0 - 6.0, 72.44, -90.0);
         public static final double PROXIMITY_THRESHOLD          = 20.0;
 
     }   //class Game
