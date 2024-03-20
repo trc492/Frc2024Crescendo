@@ -353,9 +353,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         sm.addEvent(event);
                         aprilTagVisionEnabled = true;
                         sm.addEvent(aprilTagEvent);
-                        if (numWingNotesScored == 2) {
-                            sm.waitForEvents(State.DONE, false);;
-                        }
+
                         sm.waitForEvents(State.SCORE_NOTE_TO_SPEAKER, false);
                     }
                     else
