@@ -70,8 +70,8 @@ public class RobotParams
         public static final boolean showDriveBase               = false;
         public static final boolean showPurePursuitDrive        = false;
         public static final boolean showPidDrive                = false;
-        public static final boolean showVision                  = true; //true
-        public static final boolean showSubsystems              = false; // false
+        public static final boolean showVision                  = true;
+        public static final boolean showSubsystems              = false;
         // Inputs
         public static final boolean useDriverXboxController     = true;
         public static final boolean useOperatorXboxController   = true;
@@ -106,7 +106,6 @@ public class RobotParams
         // Field dimensions in inches.
         public static final double LENGTH                       = 651.2;    //54.0*12.0;
         public static final double WIDTH                        = 323.28;   //27.0*12.0;
-        public static final double MIDFIELD_THRESHOLD           = 20.0;
     }   //class Field
 
     public static class Robot
@@ -222,6 +221,10 @@ public class RobotParams
         {
             CLNOTE1_BLUE_SCORE, CLNOTE5_BLUE_SCORE
         };
+
+        public static final TrcPose2D AMP_BLUE_SCORE            = new TrcPose2D(-322.8346, 72.44, -90.0);
+        public static final double PROXIMITY_THRESHOLD          = 20.0;
+
     }   //class Game
 
     public static class HWConfig
@@ -530,7 +533,7 @@ public class RobotParams
         public final double PPD_FOLLOWING_DISTANCE              = 12.0;
         public final double PPD_POS_TOLERANCE                   = 1.0;
         public final double PPD_TURN_TOLERANCE                  = 2.0;
-        public final double PPD_MOVE_DEF_OUTPUT_LIMIT           = 0.5;
+        public final double PPD_MOVE_DEF_OUTPUT_LIMIT           = 1.0;
         public final double PPD_ROT_DEF_OUTPUT_LIMIT            = 0.5;
 
         //
@@ -766,7 +769,7 @@ public class RobotParams
 
         public static final double maxHeight                    = 9.5;
         public static final double minHeight                    = 0.0;
-        public static final double climbPowerComp               = 0.3;  //TODO: tune
+        public static final double climbPowerComp               = 0.3;
         public static final double calPower                     = -0.3;
     }   //class Climber
 

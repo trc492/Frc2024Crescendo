@@ -83,6 +83,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private boolean aprilTagVisionEnabled = false;
     private boolean noteVisionEnabled = false;
     private boolean performingEndAction = false;
+    private int centerlineIndex = 0;
 
     /**
      * Constructor: Create an instance of the object.
@@ -181,7 +182,6 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 case START:
                     // Set robot start field position and score preloaded Note.
                     robot.robotDrive.setFieldPosition(false);
-                    robot.robotDrive.purePursuitDrive.setRotOutputLimit(0.5);
                     alliance = FrcAuto.autoChoices.getAlliance();
                     startPos = FrcAuto.autoChoices.getStartPos();
                     scoreWingNotes = FrcAuto.autoChoices.getScoreWingNotes();
@@ -278,9 +278,9 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     sm.waitForSingleEvent(
                         event,
                         startPos == AutoStartPos.AMP && numWingNotesScored == 0? State.SCORE_WING_NOTE_TO_AMP:
-                        (startPos == AutoStartPos.SW_SOURCE_SIDE && numWingNotesScored == 0) || (startPos == AutoStartPos.SW_AMP_SIDE && numWingNotesScored == 2)?
+                        startPos == AutoStartPos.SW_SOURCE_SIDE && numWingNotesScored == 0?
                             State.CLEAR_THE_POST: State.TURN_TO_SPEAKER);
-                     break;
+                    break;
 
                 case SCORE_WING_NOTE_TO_AMP:
                     robot.globalTracer.traceInfo(moduleName, "***** Score first Wing Note to Amp.");
@@ -290,7 +290,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case CLEAR_THE_POST:
-                    // Scoring the first Wing Note from the Source side.
+                    // Scoring the first Wing Note from the Source side. This state is only for scoring first Wing
+                    // Note from starting pos of SW_SOURCE_SIDE. If we are scoring the third Wing Note from the
+                    // SW_AMP_SIDE, the robot is not facing the Speaker so CLEAR_THE_POST won't work because it is
+                    // moving robot forward relatively.
                     robot.globalTracer.traceInfo(
                         moduleName, "***** Too close to stage post, move a bit forward to clear it.");
                     robot.robotDrive.purePursuitDrive.start(
@@ -316,40 +319,44 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             " or Centerline Note " + (numCenterlineNotesScored + 1) + ".");
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         targetPose = robotPose.clone();
-                        // targetPose.angle = alliance == Alliance.Red? 0.0: 180.0;
-                        if (Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_SOURCE_SIDE.x) < RobotParams.Field.MIDFIELD_THRESHOLD) {
+                        if (Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_SOURCE_SIDE.x) <
+                            RobotParams.Game.PROXIMITY_THRESHOLD)
+                        {
+                            // Scoring SW_SOURCE_SIDE Wing Note.
                             targetPose.angle = alliance == Alliance.Red? -30.0: 210.0;
                         }
-                        else if (Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.x) < RobotParams.Field.MIDFIELD_THRESHOLD) {
+                        else if (Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.x) <
+                                 RobotParams.Game.PROXIMITY_THRESHOLD)
+                        {
+                            // Scoring SW_AMP_SIDE Wing Note.
                             targetPose.angle = alliance == Alliance.Red? 30.0: 150.0;
                         }
-                        else {
+                        else
+                        {
+                            // Scoring SW_CENTER Wing Note.
                             targetPose.angle = alliance == Alliance.Red? 0.0: 180.0;
                         }
 
-                        // if (Math.abs(targetPose.x + RobotParams.Field.WIDTH) < RobotParams.Field.MIDFIELD_THRESHOLD)
-                        // {
-                        //     // Scoring the third Wing Note from the Amp side, need to avoid the stage post.
-                        //     intermediatePose = targetPose.clone();
-                        //     intermediatePose.y += alliance == Alliance.Red? 12.0: -12.0;
-                        //     robot.globalTracer.traceInfo(
-                        //         moduleName, "***** Too close to the stage post at " + targetPose + ", move a bit forward.");
-                        //     robot.robotDrive.purePursuitDrive.start(
-                        //         event, robotPose, false,
-                        //         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
-                        //         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                        //         intermediatePose, targetPose);
-                        // }
-                        // else
-                        // {
-                        robot.globalTracer.traceInfo(
-                            moduleName, "***** Scoring 2nd or 3rd Wing Note at " + targetPose + ".");
+                        if (Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_SOURCE_SIDE.x) <
+                            RobotParams.Game.PROXIMITY_THRESHOLD)
+                        {
+                            // Scoring the third Wing Note from the Amp side, need to avoid the stage post.
+                            targetPose.y += alliance == Alliance.Red? 12.0: -12.0;
+                            robot.globalTracer.traceInfo(
+                                moduleName, "***** Scoring 2nd or 3rd Wing Note at " + targetPose +
+                                " but move a bit forward to avoid the stage post.");
+                        }
+                        else
+                        {
+                            robot.globalTracer.traceInfo(
+                                moduleName, "***** Scoring 2nd or 3rd Wing Note at " + targetPose + ".");
+                        }
+
                         robot.robotDrive.purePursuitDrive.start(
                             event, robotPose, false,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             targetPose);
-                        // }
                         sm.addEvent(event);
                         aprilTagVisionEnabled = true;
                         sm.addEvent(aprilTagEvent);
@@ -445,8 +452,11 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         robot.globalTracer.traceInfo(
                             moduleName, "***** EndAction is " + endAction + ", drive to Centerline.");
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                        centerlineIndex =
+                            Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_SOURCE_SIDE.x) <
+                            RobotParams.Game.PROXIMITY_THRESHOLD? 0: 1;
                         targetPose =
-                            RobotParams.Game.centerlineNotePickupPoses[startPos == AutoStartPos.SW_SOURCE_SIDE? 0: 1].clone();
+                            RobotParams.Game.centerlineNotePickupPoses[centerlineIndex].clone();
                         intermediatePose = targetPose.clone();
                         intermediatePose.y -= 120.0;
                         robot.robotDrive.purePursuitDrive.start(
@@ -468,9 +478,9 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
                 case PERFORM_END_ACTION:
                     robot.globalTracer.traceInfo(moduleName, "***** Turn off Vision and cancel PurePursuitDrive.");
-                    performingEndAction = true;
                     robot.robotDrive.purePursuitDrive.cancel();
                     noteVisionEnabled = false;
+                    performingEndAction = true;
                     sm.setState(endAction == EndAction.PARK_NEAR_CENTER_LINE? State.DONE: State.PICKUP_CENTERLINE_NOTE);
                     break;
 
@@ -484,16 +494,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 case DRIVE_TO_SPEAKER:
                     robot.globalTracer.traceInfo(moduleName, "***** Drive to Speaker to score Centerline Note.");
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                    if (startPos == AutoStartPos.SW_SOURCE_SIDE)
-                    {
-                        targetPose = RobotParams.Game.centerlineNoteScorePoses[0];
-                        intermediatePose = RobotParams.Game.centerlineNotePickupPoses[0];
-                    }
-                    else
-                    {
-                        targetPose = RobotParams.Game.centerlineNoteScorePoses[1];
-                        intermediatePose = RobotParams.Game.centerlineNotePickupPoses[1];
-                    }
+                    targetPose = RobotParams.Game.centerlineNoteScorePoses[centerlineIndex];
+                    intermediatePose = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex];
                     robot.robotDrive.purePursuitDrive.start(
                         event, robotPose, false,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
@@ -539,7 +541,6 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 default:
                 case DONE:
                     // We are done.
-                    robot.robotDrive.purePursuitDrive.setRotOutputLimit(1);
                     cancel();
                     break;
             }

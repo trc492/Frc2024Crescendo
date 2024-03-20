@@ -273,7 +273,9 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     if (notePose != null)
                     {
                         tracer.traceInfo(moduleName, "***** Approach Note.");
-                        notePose.y -= 12; //6
+                        // notePose is the intermediate pose. Back it off a bit so we can turn to it and do a straight
+                        // run to it.
+                        notePose.y += 6;
                         robot.robotDrive.purePursuitDrive.start(
                             currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,

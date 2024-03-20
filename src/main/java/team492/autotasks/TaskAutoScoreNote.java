@@ -252,9 +252,6 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     tracer.traceInfo(moduleName, "***** Using AprilTag Vision.");
                     visionExpiredTime = null;
                     sm.setState(State.FIND_APRILTAG);
-                    // // Get the Tilter out of the way of the camera.
-                    // robot.shooter.setTiltAngle(currOwner, RobotParams.Shooter.tiltTurtleAngle, event, 0.0);
-                    // sm.waitForSingleEvent(event, State.FIND_APRILTAG);
                 }
                 else
                 {
@@ -341,6 +338,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                             state + "***** Approach Amp in Auto:\n\tRobotFieldPose=" + robotPose +
                             "\n\taprilTagPose=" + aprilTagPose +
                             "\n\ttargetPose=" + targetPose);
+                        robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
                         robot.robotDrive.purePursuitDrive.start(
                             currOwner, driveEvent, 0.0, robotPose, false,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
@@ -432,6 +430,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 break;
 
             case SCORE_NOTE:
+                robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
                 robot.shoot(currOwner, event);
                 sm.waitForSingleEvent(event, State.DONE);
                 break;
