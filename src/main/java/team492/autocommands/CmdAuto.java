@@ -278,7 +278,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     sm.waitForSingleEvent(
                         event,
                         startPos == AutoStartPos.AMP && numWingNotesScored == 0? State.SCORE_WING_NOTE_TO_AMP:
-                        (startPos == AutoStartPos.SW_SOURCE_SIDE && numWingNotesScored == 0) || (startPos == AutoStartPos.SW_SOURCE_SIDE && numWingNotesScored == 2)?
+                        (startPos == AutoStartPos.SW_SOURCE_SIDE && numWingNotesScored == 0) || (startPos == AutoStartPos.SW_AMP_SIDE && numWingNotesScored == 2)?
                             State.CLEAR_THE_POST: State.TURN_TO_SPEAKER);
                      break;
 
