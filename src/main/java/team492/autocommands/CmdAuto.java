@@ -82,6 +82,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private int numCenterlineNotesScored = 0;
     private boolean aprilTagVisionEnabled = false;
     private boolean noteVisionEnabled = false;
+    private double noteDistanceThreshold = RobotParams.Intake.noteDistanceThreshold;
+    private double noteAngleThreshold = RobotParams.Intake.noteAngleThreshold;
     private boolean performingEndAction = false;
     private int centerlineIndex = 0;
 
@@ -151,10 +153,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
             DetectedObject noteObj = robot.photonVisionBack.getBestDetectedObject(noteEvent);
             if (noteObj != null)
             {
-                if (noteObj.targetPose.y > RobotParams.Intake.noteDistanceThreshold ||
-                    Math.abs(noteObj.targetPose.angle) > RobotParams.Intake.noteAngleThreshold)
+                if (noteObj.targetPose.y > noteDistanceThreshold ||
+                    Math.abs(noteObj.targetPose.angle) > noteAngleThreshold)
                 {
-                    robot.globalTracer.traceDebug(
+                    robot.globalTracer.traceInfo(
                         moduleName, "Vision found note too far or not turn enough at " + noteObj.targetPose + ".");
                     noteEvent.clear();
                 }
@@ -257,7 +259,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                                 robot.adjustPoseByAlliance(intermediatePose, alliance),
                                 robot.adjustPoseByAlliance(targetPose, alliance));
                             sm.addEvent(event);
-                            noteVisionEnabled = true;
+                            enableNoteVision();
                             sm.addEvent(noteEvent);
                             sm.waitForEvents(State.PICKUP_WING_NOTE, false);
                         }
@@ -272,7 +274,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.globalTracer.traceInfo(
                         moduleName, "***** Pickup Wing Note: Cancel PurePursuit, turn off Note Vision.");
                     robot.robotDrive.purePursuitDrive.cancel();
-                    noteVisionEnabled = false;
+                    disableNoteVision();
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
                     robot.autoPickupFromGround.autoAssistPickup(true, true, event);
                     sm.waitForSingleEvent(
@@ -358,7 +360,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             targetPose);
                         sm.addEvent(event);
-                        aprilTagVisionEnabled = true;
+                        enableAprilTagVision();
                         sm.addEvent(aprilTagEvent);
 
                         sm.waitForEvents(State.SCORE_NOTE_TO_SPEAKER, false);
@@ -384,7 +386,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
                 case SCORE_NOTE_TO_SPEAKER:
                     robot.robotDrive.purePursuitDrive.cancel();
-                    aprilTagVisionEnabled = false;
+                    disableAprilTagVision();
                     robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, relocalize, event);
                     if (performingEndAction)
                     {
@@ -427,7 +429,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                                 targetPose);
                             sm.addEvent(event);
-                            noteVisionEnabled = true;
+                            enableNoteVision();
                             sm.addEvent(noteEvent);
                             sm.waitForEvents(State.PICKUP_WING_NOTE, false);
                         }
@@ -469,7 +471,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         if (endAction != EndAction.PARK_NEAR_CENTER_LINE)
                         {
                             robot.globalTracer.traceInfo(moduleName, "***** Turn on Vision.");
-                            noteVisionEnabled = true;
+                            enableNoteVision();
                             sm.addEvent(noteEvent);
                         }
                         sm.waitForEvents(State.PERFORM_END_ACTION, false);
@@ -479,7 +481,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 case PERFORM_END_ACTION:
                     robot.globalTracer.traceInfo(moduleName, "***** Turn off Vision and cancel PurePursuitDrive.");
                     robot.robotDrive.purePursuitDrive.cancel();
-                    noteVisionEnabled = false;
+                    disableNoteVision();
                     performingEndAction = true;
                     sm.setState(endAction == EndAction.PARK_NEAR_CENTER_LINE? State.DONE: State.PICKUP_CENTERLINE_NOTE);
                     break;
@@ -551,5 +553,55 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
         return !sm.isEnabled();
     }   //cmdPeriodic
+
+    /**
+     * This method enables AprilTag detection to signal an event so that Auto can interrupt PurePursuitDrive, for
+     * example.
+     */
+    private void enableAprilTagVision()
+    {
+        aprilTagVisionEnabled = true;
+    }   //enableAprilTagVision
+
+    /**
+     * This method disables AprilTag detection.
+     */
+    private void disableAprilTagVision()
+    {
+        aprilTagVisionEnabled = false;
+    }   //disableAprilTagVision
+
+    /**
+     * This method enables Note detection to signal an event so that Auto can interrupt PurePursuitDrive, for example.
+     *
+     * @param distanceThreshold specifies the distance threshold within which to signal Note detected.
+     * @param angleThreshold specifies the angle threshold within which to signal Note detected.
+     */
+    private void enableNoteVision(double distanceThreshold, double angleThreshold)
+    {
+        noteVisionEnabled = true;
+        noteDistanceThreshold = distanceThreshold;
+        noteAngleThreshold = angleThreshold;
+    }   //enableNoteVision
+
+    /**
+     * This method enables Note detection to signal an event so that Auto can interrupt PurePursuitDrive, for example.
+     */
+    private void enableNoteVision()
+    {
+        noteVisionEnabled = true;
+        noteDistanceThreshold = RobotParams.Intake.noteDistanceThreshold;
+        noteAngleThreshold = RobotParams.Intake.noteAngleThreshold;
+    }   //enableNoteVision
+
+    /**
+     * This method disables Note detection.
+     */
+    private void disableNoteVision()
+    {
+        noteVisionEnabled = false;
+        noteDistanceThreshold = RobotParams.Intake.noteDistanceThreshold;
+        noteAngleThreshold = RobotParams.Intake.noteAngleThreshold;
+    }   //disableNoteVision
 
 }   //class CmdAuto
