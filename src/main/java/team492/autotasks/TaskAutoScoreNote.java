@@ -318,41 +318,39 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     // Score to Speaker.
                     sm.setState(State.AIM_IN_PLACE);
                 }
-                else
+                else if (taskParams.inAuto)
                 {
-                    // Score to Amp.
+                    // Score to Amp needs valid odometry which is only true during Auto.
                     tracer.traceInfo(moduleName, "***** Prep shooter to score to Amp.");
                     robot.shooter.aimShooter(
                         currOwner, RobotParams.Shooter.shooterAmpVelocity, RobotParams.Shooter.tiltAmpAngle, 0.0,
                         event, 0.0);
                     sm.addEvent(event);
 
-                    if (taskParams.inAuto && aprilTagPose != null)
-                    {
-                        // Drive and align to the Amp using Vision.
-                        TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                        Alliance alliance = robotPose.y > RobotParams.Field.LENGTH / 2.0? Alliance.Red: Alliance.Blue;
-                        TrcPose2D targetPose = robot.adjustPoseByAlliance(RobotParams.Game.AMP_BLUE_SCORE, alliance);
-                        TrcPose2D intermediatePose = targetPose.clone();
-                        intermediatePose.x = robotPose.x;
-                        tracer.traceInfo(
-                            moduleName,
-                            state + "***** Approach Amp in Auto:\n\tRobotFieldPose=" + robotPose +
-                            "\n\talliance=" + alliance +
-                            "\n\taprilTagPose=" + aprilTagPose +
-                            "\n\tintermediatePose=" + intermediatePose +
-                            "\n\ttargetPose=" + targetPose);
-                        robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
-                        robot.robotDrive.purePursuitDrive.start(
-                            currOwner, driveEvent, 2.0, robotPose, false,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
-                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                            intermediatePose, targetPose);
-                        sm.addEvent(driveEvent);
-                    }
-                    // If score to Amp in Auto but vision doesn't see anything, get rid of the Note anyway.
-                    // If score to Amp in TeleOp, quit so the driver can score manually.
+                    TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                    Alliance alliance = robotPose.y > RobotParams.Field.LENGTH / 2.0? Alliance.Red: Alliance.Blue;
+                    TrcPose2D targetPose = robot.adjustPoseByAlliance(RobotParams.Game.AMP_BLUE_SCORE, alliance);
+                    TrcPose2D intermediatePose = targetPose.clone();
+                    intermediatePose.x = robotPose.x;
+                    tracer.traceInfo(
+                        moduleName,
+                        state + "***** Approach Amp in Auto:\n\tRobotFieldPose=" + robotPose +
+                        "\n\talliance=" + alliance +
+                        "\n\tintermediatePose=" + intermediatePose +
+                        "\n\ttargetPose=" + targetPose);
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
+                    robot.robotDrive.purePursuitDrive.start(
+                        currOwner, driveEvent, 2.0, robotPose, false,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                        intermediatePose, targetPose);
+                    sm.addEvent(driveEvent);
                     sm.waitForEvents(taskParams.inAuto? State.SCORE_NOTE: State.DONE, true);
+                }
+                else
+                {
+                    // We can't really do auto-assist in TeleOp without valid odometry, so quit.
+                    sm.setState(State.DONE);
                 }
                 break;
 
