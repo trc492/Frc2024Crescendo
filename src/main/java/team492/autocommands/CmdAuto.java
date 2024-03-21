@@ -176,8 +176,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
         {
             TrcPose2D robotPose;
             TrcPose2D targetPose;
-            TrcPose2D intermediatePose1;
-            TrcPose2D intermediatePose2;
+            TrcPose2D intermediatePose;
 
             robot.dashboard.displayPrintf(8, "State: " + state);
             robot.globalTracer.tracePreStateInfo(sm.toString(), state);
@@ -252,8 +251,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                                 RobotParams.Game.wingNotePoses[0][startPos == AutoStartPos.SW_SOURCE_SIDE? 0: 2]
                                 .clone();
                             targetPose.angle = 180.0;
-                            intermediatePose1 = targetPose.clone();
-                            intermediatePose1.y -= 36.0;
+                            intermediatePose = targetPose.clone();
+                            intermediatePose.y -= 36.0;
                             targetPose.y -= 12.0;
                             
                             robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
@@ -261,7 +260,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                                 event, robotPose, false,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                                robot.adjustPoseByAlliance(intermediatePose1, alliance),
+                                robot.adjustPoseByAlliance(intermediatePose, alliance),
                                 robot.adjustPoseByAlliance(targetPose, alliance));
                             sm.addEvent(event);
                             enableNoteVision();
@@ -274,13 +273,12 @@ public class CmdAuto implements TrcRobot.RobotCommand
                                 moduleName,
                                 "***** Turn away from Amp so camera can see Wing Note, turn on Note Vision.");
                             robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                            intermediatePose1 = robotPose.clone();
-                            intermediatePose1.x += 20.0;
-                            intermediatePose1.angle = alliance == Alliance.Red? -30.0: -150.0;
-                            intermediatePose2 = intermediatePose1.clone();
-                            intermediatePose2.x += 10.0;
-                            targetPose = intermediatePose2.clone();
-                            targetPose.angle = alliance == Alliance.Red? 0.0: 180.0;
+                            intermediatePose = robotPose.clone();
+                            intermediatePose.x += 15.0;
+                            intermediatePose.angle = alliance == Alliance.Red? -30.0: -150.0;
+                            targetPose = intermediatePose.clone();
+                            targetPose.x += 15.0;
+                            targetPose.angle = alliance == Alliance.Red? 0: 180.0;
                             // Turn on Note Vision at intermediatePose2 so that it will see the first Wing note instead
                             // of the middle one.
                             robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
@@ -289,7 +287,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                                 event, robotPose, false,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                                intermediatePose1, intermediatePose2, targetPose);
+                                intermediatePose, targetPose);
                             sm.addEvent(event);
                             sm.waitForEvents(State.PICKUP_WING_NOTE, false);
                         }
@@ -482,29 +480,25 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     }
                     else
                     {
-                        robot.globalTracer.traceInfo(
-                            moduleName, "***** EndAction is " + endAction + ", drive to Centerline.");
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         centerlineIndex =
                             Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_SOURCE_SIDE.x) <
                             Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.x)? 0: 1;
+                        robot.globalTracer.traceInfo(
+                            moduleName, "***** EndAction is " + endAction +
+                            ", drive to Centerline Note " + centerlineIndex + ".");
                         targetPose =
                             RobotParams.Game.centerlineNotePickupPoses[centerlineIndex].clone();
-                        intermediatePose1 = targetPose.clone();
-                        intermediatePose1.y -= 120.0;
+                        intermediatePose = targetPose.clone();
+                        intermediatePose.y -= 120.0;
+                        robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                         robot.robotDrive.purePursuitDrive.start(
                             event, robotPose, false,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                            robot.adjustPoseByAlliance(intermediatePose1, alliance),
+                            robot.adjustPoseByAlliance(intermediatePose, alliance),
                             robot.adjustPoseByAlliance(targetPose, alliance));
                         sm.addEvent(event);
-                        if (endAction != EndAction.PARK_NEAR_CENTER_LINE)
-                        {
-                            robot.globalTracer.traceInfo(moduleName, "***** Turn on Vision.");
-                            enableNoteVision(RobotParams.Intake.noteDistanceThreshold, RobotParams.Intake.noteFullViewAngle);
-                            sm.addEvent(noteEvent);
-                        }
                         sm.waitForEvents(State.PERFORM_END_ACTION, false);
                     }
                     break;
@@ -512,6 +506,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 case PERFORM_END_ACTION:
                     robot.globalTracer.traceInfo(moduleName, "***** Turn off Vision and cancel PurePursuitDrive.");
                     robot.robotDrive.purePursuitDrive.cancel();
+                    robot.robotDrive.purePursuitDrive.setWaypointEventHandler(null);
                     disableNoteVision();
                     performingEndAction = true;
                     sm.setState(endAction == EndAction.PARK_NEAR_CENTER_LINE? State.DONE: State.PICKUP_CENTERLINE_NOTE);
@@ -528,12 +523,12 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.globalTracer.traceInfo(moduleName, "***** Drive to Speaker to score Centerline Note.");
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     targetPose = RobotParams.Game.centerlineNoteScorePoses[centerlineIndex];
-                    intermediatePose1 = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex];
+                    intermediatePose = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex];
                     robot.robotDrive.purePursuitDrive.start(
                         event, robotPose, false,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                        robot.adjustPoseByAlliance(intermediatePose1, alliance),
+                        robot.adjustPoseByAlliance(intermediatePose, alliance),
                         robot.adjustPoseByAlliance(targetPose, alliance));
                     sm.waitForSingleEvent(event, State.SCORE_NOTE_TO_SPEAKER);
                     break;
@@ -593,9 +588,20 @@ public class CmdAuto implements TrcRobot.RobotCommand
      */
     private void waypointHandler(int index, TrcWaypoint waypoint)
     {
-        robot.globalTracer.traceInfo(moduleName, "Waypoint " + index + ": " + waypoint);
-        if (index == 2)
+        robot.globalTracer.traceInfo(moduleName, "***** Waypoint " + index + ": " + waypoint);
+        if (sm.getState() == State.DRIVE_TO_CENTER_LINE)
         {
+            if (endAction != EndAction.PARK_NEAR_CENTER_LINE && index == 1)
+            {
+                robot.globalTracer.traceInfo(moduleName, "***** Turn on full Vision.");
+                enableNoteVision(
+                    RobotParams.Intake.noteDistanceThreshold, RobotParams.Intake.noteFullViewAngle);
+                sm.addEvent(noteEvent);
+            }
+        }
+        else if (index == 1)
+        {
+            robot.globalTracer.traceInfo(moduleName, "***** Turn on narrow Vision.");
             enableNoteVision();
             sm.addEvent(noteEvent);
         }

@@ -210,7 +210,7 @@ public class RobotParams
             WINGNOTE_BLUE_SOURCE_SIDE.x + 24.0, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 225.0); //TODO check pos and angle
 
         public static final TrcPose2D CLNOTE5_BLUE_SCORE        = new TrcPose2D(
-            -(Field.WIDTH / 2.0 + 85.0), WINGNOTE_BLUE_SW_SIDE.y - 36.0, 20.0); //TODO: check pos and angle
+            -(Field.WIDTH / 2.0 + 85.0), WINGNOTE_BLUE_SW_SIDE.y - 36.0, 160.0); //TODO: check pos and angle
 
         public static final TrcPose2D[] centerlineNotePickupPoses =
         {
