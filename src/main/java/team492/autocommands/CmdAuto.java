@@ -28,6 +28,7 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcStateMachine;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcCommonLib.trclib.TrcWaypoint;
 import TrcFrcLib.frclib.FrcPhotonVision.DetectedObject;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import team492.FrcAuto;
@@ -175,7 +176,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
         {
             TrcPose2D robotPose;
             TrcPose2D targetPose;
-            TrcPose2D intermediatePose;
+            TrcPose2D intermediatePose1;
+            TrcPose2D intermediatePose2;
 
             robot.dashboard.displayPrintf(8, "State: " + state);
             robot.globalTracer.tracePreStateInfo(sm.toString(), state);
@@ -250,8 +252,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                                 RobotParams.Game.wingNotePoses[0][startPos == AutoStartPos.SW_SOURCE_SIDE? 0: 2]
                                 .clone();
                             targetPose.angle = 180.0;
-                            intermediatePose = targetPose.clone();
-                            intermediatePose.y -= 36.0;
+                            intermediatePose1 = targetPose.clone();
+                            intermediatePose1.y -= 36.0;
                             targetPose.y -= 12.0;
                             
                             robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
@@ -259,7 +261,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                                 event, robotPose, false,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                                robot.adjustPoseByAlliance(intermediatePose, alliance),
+                                robot.adjustPoseByAlliance(intermediatePose1, alliance),
                                 robot.adjustPoseByAlliance(targetPose, alliance));
                             sm.addEvent(event);
                             enableNoteVision();
@@ -272,20 +274,23 @@ public class CmdAuto implements TrcRobot.RobotCommand
                                 moduleName,
                                 "***** Turn away from Amp so camera can see Wing Note, turn on Note Vision.");
                             robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                            targetPose = robotPose.clone();
-                            targetPose.x += 20.0;
-                            targetPose.angle = alliance == Alliance.Red? -45.0: 135.0;
-                            targetPose.angle = 180.0;
-
+                            intermediatePose1 = robotPose.clone();
+                            intermediatePose1.x += 20.0;
+                            intermediatePose1.angle = alliance == Alliance.Red? -30.0: -150.0;
+                            intermediatePose2 = intermediatePose1.clone();
+                            intermediatePose2.x += 10.0;
+                            targetPose = intermediatePose2.clone();
+                            targetPose.angle = alliance == Alliance.Red? 0.0: 180.0;
+                            // Turn on Note Vision at intermediatePose2 so that it will see the first Wing note instead
+                            // of the middle one.
+                            robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                             robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
                             robot.robotDrive.purePursuitDrive.start(
                                 event, robotPose, false,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                                targetPose);
+                                intermediatePose1, intermediatePose2, targetPose);
                             sm.addEvent(event);
-                            enableNoteVision();
-                            sm.addEvent(noteEvent);
                             sm.waitForEvents(State.PICKUP_WING_NOTE, false);
                         }
                         else
@@ -299,6 +304,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.globalTracer.traceInfo(
                         moduleName, "***** Pickup Wing Note: Cancel PurePursuit, turn off Note Vision.");
                     robot.robotDrive.purePursuitDrive.cancel();
+                    robot.robotDrive.purePursuitDrive.setWaypointEventHandler(null);
                     disableNoteVision();
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
                     robot.autoPickupFromGround.autoAssistPickup(true, true, event);
@@ -484,13 +490,13 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.x)? 0: 1;
                         targetPose =
                             RobotParams.Game.centerlineNotePickupPoses[centerlineIndex].clone();
-                        intermediatePose = targetPose.clone();
-                        intermediatePose.y -= 120.0;
+                        intermediatePose1 = targetPose.clone();
+                        intermediatePose1.y -= 120.0;
                         robot.robotDrive.purePursuitDrive.start(
                             event, robotPose, false,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                            robot.adjustPoseByAlliance(intermediatePose, alliance),
+                            robot.adjustPoseByAlliance(intermediatePose1, alliance),
                             robot.adjustPoseByAlliance(targetPose, alliance));
                         sm.addEvent(event);
                         if (endAction != EndAction.PARK_NEAR_CENTER_LINE)
@@ -522,12 +528,12 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.globalTracer.traceInfo(moduleName, "***** Drive to Speaker to score Centerline Note.");
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     targetPose = RobotParams.Game.centerlineNoteScorePoses[centerlineIndex];
-                    intermediatePose = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex];
+                    intermediatePose1 = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex];
                     robot.robotDrive.purePursuitDrive.start(
                         event, robotPose, false,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                        robot.adjustPoseByAlliance(intermediatePose, alliance),
+                        robot.adjustPoseByAlliance(intermediatePose1, alliance),
                         robot.adjustPoseByAlliance(targetPose, alliance));
                     sm.waitForSingleEvent(event, State.SCORE_NOTE_TO_SPEAKER);
                     break;
@@ -578,6 +584,22 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
         return !sm.isEnabled();
     }   //cmdPeriodic
+
+    /**
+     * This method is called when Pure Pursuit crosses a waypoint or the path is completed.
+     *
+     * @param index specifies the index of the waypoint in the path, -1 if the path is completed or canceled.
+     * @param waypoint specifies the current target waypoint.
+     */
+    private void waypointHandler(int index, TrcWaypoint waypoint)
+    {
+        robot.globalTracer.traceInfo(moduleName, "Waypoint " + index + ": " + waypoint);
+        if (index == 2)
+        {
+            enableNoteVision();
+            sm.addEvent(noteEvent);
+        }
+    }   //waypointHandler
 
     /**
      * This method enables AprilTag detection to signal an event so that Auto can interrupt PurePursuitDrive, for
