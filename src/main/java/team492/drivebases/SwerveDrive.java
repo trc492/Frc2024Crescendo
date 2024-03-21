@@ -305,7 +305,7 @@ public class SwerveDrive extends RobotDrive
         }
 
         double actualEncoderPos = ((FrcCANTalonFX) steerMotors[index]).motor.getPosition().getValueAsDouble();
-        if (Math.abs(motorEncoderPos - actualEncoderPos) > 0.01)
+        if (Math.abs(motorEncoderPos - actualEncoderPos) > 0.1)
         {
             robot.globalTracer.traceWarn(
                 driveBaseParams.swerveModuleNames[index],
