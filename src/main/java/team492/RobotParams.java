@@ -223,7 +223,7 @@ public class RobotParams
         };
 
         public static final TrcPose2D AMP_BLUE_SCORE            = new TrcPose2D(
-            -Field.WIDTH + Robot.LENGTH / 2.0 - 6.0, 72.44, -90.0);
+            -Field.WIDTH + Robot.LENGTH / 2.0 - 16.0, 72.44, -90.0);
         public static final double PROXIMITY_THRESHOLD          = 20.0;
 
     }   //class Game
@@ -693,6 +693,7 @@ public class RobotParams
         public static final double ejectForwardPower            = 1.0;
         public static final double noteDistanceThreshold        = 144.0;
         public static final double noteAngleThreshold           = 10.0;
+        public static final double noteFullViewAngle            = 40.0;
     }   //class Intake
 
     public static class Shooter

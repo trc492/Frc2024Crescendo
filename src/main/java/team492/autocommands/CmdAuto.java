@@ -266,6 +266,28 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             sm.addEvent(noteEvent);
                             sm.waitForEvents(State.PICKUP_WING_NOTE, false);
                         }
+                        else if (startPos == AutoStartPos.AMP)
+                        {
+                            robot.globalTracer.traceInfo(
+                                moduleName,
+                                "***** Turn away from Amp so camera can see Wing Note, turn on Note Vision.");
+                            robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                            targetPose = robotPose.clone();
+                            targetPose.x += 20.0;
+                            targetPose.angle = alliance == Alliance.Red? -45.0: 135.0;
+                            targetPose.angle = 180.0;
+
+                            robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
+                            robot.robotDrive.purePursuitDrive.start(
+                                event, robotPose, false,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                                targetPose);
+                            sm.addEvent(event);
+                            enableNoteVision();
+                            sm.addEvent(noteEvent);
+                            sm.waitForEvents(State.PICKUP_WING_NOTE, false);
+                        }
                         else
                         {
                             sm.setState(State.PICKUP_WING_NOTE);
@@ -289,7 +311,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
                 case SCORE_WING_NOTE_TO_AMP:
                     robot.globalTracer.traceInfo(moduleName, "***** Score first Wing Note to Amp.");
-                    robot.autoScoreNote.autoAssistScore(TargetType.Amp, true, true, relocalize, event);
+                    robot.autoScoreNote.autoAssistScore(TargetType.Amp, false, true, relocalize, event);
                     sm.waitForSingleEvent(event, State.TURN_TO_WING_NOTES);
                     numWingNotesScored++;
                     break;
@@ -459,7 +481,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         centerlineIndex =
                             Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_SOURCE_SIDE.x) <
-                            RobotParams.Game.PROXIMITY_THRESHOLD? 0: 1;
+                            Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.x)? 0: 1;
                         targetPose =
                             RobotParams.Game.centerlineNotePickupPoses[centerlineIndex].clone();
                         intermediatePose = targetPose.clone();
@@ -474,7 +496,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         if (endAction != EndAction.PARK_NEAR_CENTER_LINE)
                         {
                             robot.globalTracer.traceInfo(moduleName, "***** Turn on Vision.");
-                            enableNoteVision();
+                            enableNoteVision(RobotParams.Intake.noteDistanceThreshold, RobotParams.Intake.noteFullViewAngle);
                             sm.addEvent(noteEvent);
                         }
                         sm.waitForEvents(State.PERFORM_END_ACTION, false);
