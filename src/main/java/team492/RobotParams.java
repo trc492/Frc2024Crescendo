@@ -531,8 +531,8 @@ public class RobotParams
             new PidCoefficients(STEER_KP, STEER_KI, STEER_KD, STEER_KF, STEER_IZONE);
         public final double steerPosTolerance                   = 0.5;      // in degrees.
 
-        public final double PPD_FOLLOWING_DISTANCE              = 12.0;
-        public final double PPD_POS_TOLERANCE                   = 1.0;
+        public final double PPD_FOLLOWING_DISTANCE              = 10.0;
+        public final double PPD_POS_TOLERANCE                   = 2.0;
         public final double PPD_TURN_TOLERANCE                  = 2.0;
         public final double PPD_MOVE_DEF_OUTPUT_LIMIT           = 1.0;
         public final double PPD_ROT_DEF_OUTPUT_LIMIT            = 0.5;
