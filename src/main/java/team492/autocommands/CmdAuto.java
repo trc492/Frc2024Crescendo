@@ -28,6 +28,7 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcStateMachine;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcWaypoint;
 import TrcFrcLib.frclib.FrcPhotonVision.DetectedObject;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -154,10 +155,16 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 robot.photonVisionFront.getBestDetectedAprilTag(aprilTagEvent, new int[] {4, 7, 3, 8});
             if (visionGuidanceEnabled && aprilTagObj != null && aprilTagObj.robotPose != null)
             {
-                robot.robotDrive.driveBase.setFieldPosition(aprilTagObj.robotPose, false);
-                robot.globalTracer.traceInfo(
-                    moduleName, "***** Vision Guidance: AprilTagId=" + aprilTagObj.target.getFiducialId() +
-                    ", relocalizePose=" + aprilTagObj.robotPose);
+                TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                double xDelta = robotPose.x - aprilTagObj.robotPose.x;
+                double yDelta = robotPose.y - aprilTagObj.robotPose.y;
+                if (TrcUtil.magnitude(xDelta, yDelta) > RobotParams.Vision.GUIDANCE_ERROR_THRESHOLD)
+                {
+                    robot.robotDrive.driveBase.setFieldPosition(aprilTagObj.robotPose, false);
+                    robot.globalTracer.traceInfo(
+                        moduleName, "***** Vision Guidance: AprilTagId=" + aprilTagObj.target.getFiducialId() +
+                        ", relocalizePose=" + aprilTagObj.robotPose);
+                }
             }
         }
 
