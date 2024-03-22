@@ -399,7 +399,7 @@ public class RobotParams
             HOMOGRAPHY_WORLD_BOTTOMLEFT_X, HOMOGRAPHY_WORLD_BOTTOMLEFT_Y,
             HOMOGRAPHY_WORLD_BOTTOMRIGHT_X, HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y);
 
-        public static final double ONTARGET_THRESHOLD           = 10.0;
+        public static final double ONTARGET_THRESHOLD           = 5.0;
     }   //class Vision
 
     //
