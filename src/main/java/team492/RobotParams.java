@@ -201,10 +201,10 @@ public class RobotParams
         };
 
         public static final TrcPose2D CLNOTE1_BLUE_PICKUP       = new TrcPose2D(
-            CENTERLINE_NOTE_1.x - 24.0, CENTERLINE_NOTE_1.y - 96.0, 180.0);
+            CENTERLINE_NOTE_1.x - 33.0, CENTERLINE_NOTE_1.y - 60.0, 180.0);
 
         public static final TrcPose2D CLNOTE5_BLUE_PICKUP       = new TrcPose2D(
-            CENTERLINE_NOTE_5.x + 24.0, CENTERLINE_NOTE_5.y - 96.0, 180.0);
+            CENTERLINE_NOTE_5.x + 33.0, CENTERLINE_NOTE_5.y - 60.0, 180.0);
 
         public static final TrcPose2D CLNOTE1_BLUE_SCORE        = new TrcPose2D(
             WINGNOTE_BLUE_SOURCE_SIDE.x + 24.0, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 225.0); //TODO check pos and angle
@@ -694,7 +694,7 @@ public class RobotParams
 
         public static final double intakePower                  = 1.0;
         public static final double ejectForwardPower            = 1.0;
-        public static final double noteDistanceThreshold        = 144.0;
+        public static final double noteDistanceThreshold        = 96.0;
         public static final double noteAngleThreshold           = 10.0;
         public static final double noteFullViewAngle            = 40.0;
     }   //class Intake
