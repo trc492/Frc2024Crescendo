@@ -133,25 +133,27 @@ public class LEDIndicator
             switch (pipelineType)
             {
                 case APRILTAG:
-                    if (Math.abs(objPose.angle) < RobotParams.Vision.ONTARGET_THRESHOLD)
-                    {
-                        led.setPatternState(aprilTagPattern, true, 0.1, 0.1);
-                    }
-                    else
-                    {
-                        led.setPatternState(aprilTagPattern, true, 0.5);
-                    }
+                    led.setPatternState(aprilTagPattern, true, 0.5);
+                    // if (Math.abs(objPose.angle) < RobotParams.Vision.ONTARGET_THRESHOLD)
+                    // {
+                    //     led.setPatternState(aprilTagPattern, true, 0.1, 0.1);
+                    // }
+                    // else
+                    // {
+                    //     led.setPatternState(aprilTagPattern, true, 0.5);
+                    // }
                     break;
 
                 case NOTE:
-                    if (Math.abs(objPose.angle) < RobotParams.Vision.ONTARGET_THRESHOLD)
-                    {
-                        led.setPatternState(notePattern, true, 0.1, 0.1);
-                    }
-                    else
-                    {
-                        led.setPatternState(notePattern, true, 0.5);
-                    }
+                    led.setPatternState(notePattern, true, 0.5);
+                    // if (Math.abs(objPose.angle) < RobotParams.Vision.ONTARGET_THRESHOLD)
+                    // {
+                    //     led.setPatternState(notePattern, true, 0.1, 0.1);
+                    // }
+                    // else
+                    // {
+                    //     led.setPatternState(notePattern, true, 0.5);
+                    // }
                     break;
             }
         }

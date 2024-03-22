@@ -78,6 +78,7 @@ public class Robot extends FrcRobotBase
     //
     // Global objects.
     //
+    public static final String moduleName = Robot.class.getSimpleName();
     public final FrcDashboard dashboard = FrcDashboard.getInstance();
     public final TrcDbgTrace globalTracer = TrcDbgTrace.getGlobalTracer();
     private double nextDashboardUpdateTime = TrcTimer.getCurrentTime();
@@ -308,7 +309,6 @@ public class Robot extends FrcRobotBase
     @Override
     public void robotStartMode(RunMode runMode, RunMode prevMode)
     {
-        final String funcName = "robotStartMode";
         //
         // Read FMS Match info.
         //
@@ -322,7 +322,7 @@ public class Robot extends FrcRobotBase
             setTraceLogEnabled(true);
         }
         globalTracer.traceInfo(
-            funcName, "[%.3f] %s: ***** %s *****", TrcTimer.getModeElapsedTime(), matchInfo.eventDate, runMode);
+            moduleName, "%s: ***** %s *****", matchInfo.eventDate, runMode);
         //
         // Start subsystems.
         //
@@ -348,7 +348,6 @@ public class Robot extends FrcRobotBase
     @Override
     public void robotStopMode(RunMode runMode, RunMode nextMode)
     {
-        final String funcName = "robotStopMode";
         //
         // Stop subsystems.
         //
@@ -365,7 +364,7 @@ public class Robot extends FrcRobotBase
         {
             double totalEnergy = battery.getTotalEnergy();
             globalTracer.traceInfo(
-                funcName, "TotalEnergy=%.3fWh (%.2f%%)",
+                moduleName, "TotalEnergy=%.3fWh (%.2f%%)",
                 totalEnergy, totalEnergy * 100.0 / RobotParams.HWConfig.BATTERY_CAPACITY_WATT_HOUR);
         }
 
@@ -408,7 +407,6 @@ public class Robot extends FrcRobotBase
      */
     public void updateStatus()
     {
-        final String funcName = "updateStatus";
         double currTime = TrcTimer.getCurrentTime();
         RunMode runMode = getCurrentRunMode();
 
@@ -427,9 +425,9 @@ public class Robot extends FrcRobotBase
                     if (runMode == RunMode.TELEOP_MODE)
                     {
                         globalTracer.traceInfo(
-                            funcName, "[%.3f] Battery: currVoltage=%.2f, lowestVoltage=%.2f",
-                            currTime, battery.getVoltage(), battery.getLowestVoltage());
-                        globalTracer.traceInfo(funcName, "[%.3f] Total=%.2fA", currTime, pdp.getTotalCurrent());
+                            moduleName, "Battery: currVoltage=%.2f, lowestVoltage=%.2f",
+                            battery.getVoltage(), battery.getLowestVoltage());
+                        globalTracer.traceInfo(moduleName, "Total=%.2fA", pdp.getTotalCurrent());
                     }
                 }
             }
@@ -722,6 +720,26 @@ public class Robot extends FrcRobotBase
     {
         return adjustPoseByAlliance(pose.x, pose.y, pose.angle, alliance);
     }   //adjustPoseByAlliance
+
+    /**
+     * This method uses the detect AprilTag to relocalize the robot's position.
+     *
+     * @param aprilTagObj specifies the detected AprilTag object to be used for relocalization.
+     * @return true if relocalization is successful, false otherwise.
+     */
+    public boolean relocalizeRobotByAprilTag(FrcPhotonVision.DetectedObject aprilTagObj)
+    {
+        boolean success = false;
+        // Use AprilTag's location to re-localize the robot.
+        if (aprilTagObj.robotPose != null)
+        {
+            robotDrive.driveBase.setFieldPosition(aprilTagObj.robotPose, false);
+            globalTracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + aprilTagObj.robotPose);
+            success = true;
+        }
+
+        return success;
+    }   //relocalizeRobotByAprilTag
 
     //
     // Getters for sensor data.

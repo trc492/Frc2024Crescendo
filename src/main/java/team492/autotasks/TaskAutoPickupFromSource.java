@@ -240,14 +240,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                     tracer.traceInfo(
                         moduleName, "Vision found AprilTag %d at %s from camera.", aprilTagId, aprilTagPose);
                     // Relocalize.
-                    TrcPose2D robotFieldPose =
-                        robot.photonVisionFront.getRobotFieldPose(object, true);
-                    // If we see the AprilTag, we can use its location to re-localize the robot.
-                    if (robotFieldPose != null)
-                    {
-                        robot.robotDrive.driveBase.setFieldPosition(robotFieldPose, false);
-                        tracer.traceInfo(moduleName, "Using AprilTag to re-localize to " + robotFieldPose);
-                    }
+                    robot.relocalizeRobotByAprilTag(object);
                     sm.setState(State.DRIVE_TO_APRILTAG);
                 }
                 else if (visionExpiredTime == null)
