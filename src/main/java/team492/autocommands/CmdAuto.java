@@ -83,7 +83,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private int numWingNotesScored = 0;
     private int numCenterlineNotesScored = 0;
     private boolean aprilTagVisionEnabled = false;
-    private boolean aprilTagVisionRelocalize = false;
+    private boolean visionGuidanceEnabled = false;
     private boolean noteVisionEnabled = false;
     private double noteDistanceThreshold = RobotParams.Intake.noteDistanceThreshold;
     private double noteAngleThreshold = RobotParams.Intake.noteAngleThreshold;
@@ -152,13 +152,13 @@ public class CmdAuto implements TrcRobot.RobotCommand
             // Use vision to relocalize robot's position.
             DetectedObject aprilTagObj =
                 robot.photonVisionFront.getBestDetectedAprilTag(aprilTagEvent, new int[] {4, 7, 3, 8});
-            if (aprilTagVisionRelocalize && aprilTagObj != null && aprilTagObj.robotPose != null)
+            if (visionGuidanceEnabled && aprilTagObj != null && aprilTagObj.robotPose != null)
             {
                 robot.robotDrive.driveBase.setFieldPosition(aprilTagObj.robotPose, false);
                 robot.relocalizeRobotByAprilTag(aprilTagObj);
                 robot.globalTracer.traceInfo(
-                    moduleName, "Using AprilTag " + aprilTagObj.target.getFiducialId() +
-                    " to re-localize to " + aprilTagObj.robotPose);
+                    moduleName, "***** Vision Guidance: AprilTagId=" + aprilTagObj.target.getFiducialId() +
+                    ", relocalizePose=" + aprilTagObj.robotPose);
             }
         }
 
@@ -171,7 +171,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     Math.abs(noteObj.targetPose.angle) > noteAngleThreshold)
                 {
                     robot.globalTracer.traceInfo(
-                        moduleName, "Vision found note too far or not turn enough at " + noteObj.targetPose + ".");
+                        moduleName, "***** Vision found note too far or not turn enough at " + noteObj.targetPose + ".");
                 }
                 else
                 {
@@ -493,6 +493,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     }
                     else
                     {
+                        enableAprilTagVision(true);
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         centerlineIndex =
                             Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_SOURCE_SIDE.x) <
@@ -504,6 +505,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             RobotParams.Game.centerlineNotePickupPoses[centerlineIndex].clone();
                         intermediatePose = targetPose.clone();
                         intermediatePose.y -= 120.0;
+                        // Waypoint event handler will turn on Note Vision.
                         robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                         robot.robotDrive.purePursuitDrive.start(
                             event, robotPose, false,
@@ -521,6 +523,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.robotDrive.purePursuitDrive.cancel();
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(null);
                     disableNoteVision();
+                    disableAprilTagVision();
                     performingEndAction = true;
                     sm.setState(endAction == EndAction.PARK_NEAR_CENTER_LINE? State.DONE: State.PICKUP_CENTERLINE_NOTE);
                     break;
@@ -667,12 +670,12 @@ public class CmdAuto implements TrcRobot.RobotCommand
      * This method enables AprilTag detection to signal an event so that Auto can interrupt PurePursuitDrive, for
      * example.
      *
-     * @param relocalize specifies true to enable relocalizing robot, false to disable.
+     * @param visionGuidance specifies true to enable vision guidance, false to disable.
      */
-    private void enableAprilTagVision(boolean relocalize)
+    private void enableAprilTagVision(boolean visionGuidance)
     {
         aprilTagVisionEnabled = true;
-        aprilTagVisionRelocalize = relocalize;
+        visionGuidanceEnabled = visionGuidance;
     }   //enableAprilTagVision
 
     /**
@@ -681,7 +684,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private void disableAprilTagVision()
     {
         aprilTagVisionEnabled = false;
-        aprilTagVisionRelocalize = false;
+        visionGuidanceEnabled = false;
     }   //disableAprilTagVision
 
     /**
