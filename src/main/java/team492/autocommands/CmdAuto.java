@@ -155,7 +155,6 @@ public class CmdAuto implements TrcRobot.RobotCommand
             if (visionGuidanceEnabled && aprilTagObj != null && aprilTagObj.robotPose != null)
             {
                 robot.robotDrive.driveBase.setFieldPosition(aprilTagObj.robotPose, false);
-                robot.relocalizeRobotByAprilTag(aprilTagObj);
                 robot.globalTracer.traceInfo(
                     moduleName, "***** Vision Guidance: AprilTagId=" + aprilTagObj.target.getFiducialId() +
                     ", relocalizePose=" + aprilTagObj.robotPose);
