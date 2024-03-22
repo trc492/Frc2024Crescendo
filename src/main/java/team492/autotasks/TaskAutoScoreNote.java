@@ -416,7 +416,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     tracer.traceInfo(moduleName, "***** Vision did not see AprilTag, quit.");
                     if (robot.ledIndicator != null)
                     {
-                        robot.ledIndicator.setPhotonDetectedObject(null);
+                        robot.ledIndicator.setPhotonDetectedObject(null, null);
                     }
                     nextState = State.DONE;
                 }

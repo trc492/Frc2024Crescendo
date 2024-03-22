@@ -23,6 +23,7 @@
 package team492.subsystems;
 
 import TrcCommonLib.trclib.TrcAddressableLED;
+import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcFrcLib.frclib.FrcAddressableLED;
 import TrcFrcLib.frclib.FrcColor;
@@ -115,7 +116,13 @@ public class LEDIndicator
         }
     }   //setDriveOrientation
 
-    public void setPhotonDetectedObject(PhotonVision.PipelineType pipelineType)
+    /**
+     * This method sets the LED to indicate the type of Photon Vision detected object.
+     *
+     * @param pipelineType specifies the detected object type (by its pipeline), null if none detected.
+     * @param objPose specifies the detected object pose, valid if pipelineType is not null.
+     */
+    public void setPhotonDetectedObject(PhotonVision.PipelineType pipelineType, TrcPose2D objPose)
     {
         if (pipelineType == null)
         {
@@ -126,16 +133,35 @@ public class LEDIndicator
             switch (pipelineType)
             {
                 case APRILTAG:
-                    led.setPatternState(aprilTagPattern, true, 0.5);
+                    if (Math.abs(objPose.angle) < RobotParams.Vision.ONTARGET_THRESHOLD)
+                    {
+                        led.setPatternState(aprilTagPattern, true, 0.1, 0.1);
+                    }
+                    else
+                    {
+                        led.setPatternState(aprilTagPattern, true, 0.5);
+                    }
                     break;
 
                 case NOTE:
-                    led.setPatternState(notePattern, true, 0.5);
+                    if (Math.abs(objPose.angle) < RobotParams.Vision.ONTARGET_THRESHOLD)
+                    {
+                        led.setPatternState(notePattern, true, 0.1, 0.1);
+                    }
+                    else
+                    {
+                        led.setPatternState(notePattern, true, 0.5);
+                    }
                     break;
             }
         }
     }   //setPhotonDetectedObject
 
+    /**
+     * This method sets the LED to indicate Intake detected object.
+     *
+     * @param hasObject specifies true if Intake has an object, false otherwise.
+     */
     public void setIntakeDetectedObject(boolean hasObject)
     {
         if (hasObject)

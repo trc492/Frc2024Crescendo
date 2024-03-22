@@ -293,7 +293,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                     driveOwner = null;
                     if (robot.ledIndicator != null)
                     {
-                        robot.ledIndicator.setPhotonDetectedObject(null);
+                        robot.ledIndicator.setPhotonDetectedObject(null, null);
                     }
                 }
                 sm.waitForEvents(State.CHECK_INTAKE_COMPLETION, true);

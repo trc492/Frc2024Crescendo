@@ -256,7 +256,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                         "***** Either Vision doesn't see Note or Note is too far away, notePose=" + notePose + ".");
                     if (robot.ledIndicator != null)
                     {
-                        robot.ledIndicator.setPhotonDetectedObject(null);
+                        robot.ledIndicator.setPhotonDetectedObject(null, null);
                     }
                     sm.setState(State.DONE);
                 }
@@ -291,7 +291,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                         driveOwner = null;
                         if (robot.ledIndicator != null)
                         {
-                            robot.ledIndicator.setPhotonDetectedObject(null);
+                            robot.ledIndicator.setPhotonDetectedObject(null, null);
                         }
                     }
                     sm.waitForEvents(State.CHECK_INTAKE_COMPLETION, false);

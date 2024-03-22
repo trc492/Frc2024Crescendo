@@ -175,7 +175,7 @@ public class PhotonVision extends FrcPhotonVision
 
             if (ledIndicator != null)
             {
-                ledIndicator.setPhotonDetectedObject(getPipeline());
+                ledIndicator.setPhotonDetectedObject(getPipeline(), bestDetectedObj.targetPose);
             }
         }
 
@@ -259,7 +259,7 @@ public class PhotonVision extends FrcPhotonVision
 
             if  (ledIndicator != null)
             {
-                ledIndicator.setPhotonDetectedObject(currPipeline);
+                ledIndicator.setPhotonDetectedObject(currPipeline, bestObj.targetPose);
             }
         }
 

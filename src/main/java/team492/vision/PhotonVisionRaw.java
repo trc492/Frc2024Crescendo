@@ -88,7 +88,7 @@ public class PhotonVisionRaw extends FrcPhotonVisionRaw
 
         if (detectedObject != null && ledIndicator != null)
         {
-            ledIndicator.setPhotonDetectedObject(getPipeline());
+            ledIndicator.setPhotonDetectedObject(getPipeline(), detectedObject.getObjectPose());
         }
 
         return detectedObject;
