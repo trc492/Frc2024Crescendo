@@ -83,6 +83,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private int numWingNotesScored = 0;
     private int numCenterlineNotesScored = 0;
     private boolean aprilTagVisionEnabled = false;
+    private boolean aprilTagVisionRelocalize = false;
     private boolean noteVisionEnabled = false;
     private double noteDistanceThreshold = RobotParams.Intake.noteDistanceThreshold;
     private double noteAngleThreshold = RobotParams.Intake.noteAngleThreshold;
@@ -151,7 +152,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
             // Use vision to relocalize robot's position.
             DetectedObject aprilTagObj =
                 robot.photonVisionFront.getBestDetectedAprilTag(aprilTagEvent, new int[] {4, 7, 3, 8});
-            if (aprilTagObj != null && aprilTagObj.robotPose != null)
+            if (aprilTagVisionRelocalize && aprilTagObj != null && aprilTagObj.robotPose != null)
             {
                 robot.robotDrive.driveBase.setFieldPosition(aprilTagObj.robotPose, false);
                 robot.relocalizeRobotByAprilTag(aprilTagObj);
@@ -401,7 +402,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             targetPose);
                         sm.addEvent(event);
-                        enableAprilTagVision();
+                        enableAprilTagVision(true);
                         sm.addEvent(aprilTagEvent);
 
                         sm.waitForEvents(State.SCORE_NOTE_TO_SPEAKER, false);
@@ -533,7 +534,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
                 case DRIVE_TO_SPEAKER:
                     robot.globalTracer.traceInfo(moduleName, "***** Drive to Speaker to score Centerline Note.");
-                    enableAprilTagVision();
+                    enableAprilTagVision(true);
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     targetPose = RobotParams.Game.centerlineNoteScorePoses[centerlineIndex];
                     intermediatePose = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex];
@@ -665,10 +666,13 @@ public class CmdAuto implements TrcRobot.RobotCommand
     /**
      * This method enables AprilTag detection to signal an event so that Auto can interrupt PurePursuitDrive, for
      * example.
+     *
+     * @param relocalize specifies true to enable relocalizing robot, false to disable.
      */
-    private void enableAprilTagVision()
+    private void enableAprilTagVision(boolean relocalize)
     {
         aprilTagVisionEnabled = true;
+        aprilTagVisionRelocalize = relocalize;
     }   //enableAprilTagVision
 
     /**
@@ -677,6 +681,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private void disableAprilTagVision()
     {
         aprilTagVisionEnabled = false;
+        aprilTagVisionRelocalize = false;
     }   //disableAprilTagVision
 
     /**
