@@ -22,7 +22,6 @@
 
 package team492;
 
-import java.util.Arrays;
 import java.util.Locale;
 
 import TrcCommonLib.trclib.TrcPidController;
