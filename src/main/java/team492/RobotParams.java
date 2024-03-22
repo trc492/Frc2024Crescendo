@@ -736,7 +736,7 @@ public class RobotParams
         public static final double tiltSpeakerFarAngle          = 52.0;     // in degrees.
         public static final double tiltAmpAngle                 = 57.5;     // in degrees.
         public static final double tiltDumpAngle                = 39.0;     // in degrees.
-        public static final double tiltSpeakerCloseAngle        = 65.0;     // in degrees.
+        public static final double tiltSpeakerCloseAngle        = 64.0;     // in degrees.
         public static final double tiltSourcePickupAngle        = 88.0;     // in degrees.
 
         public static final double tiltPresetPosTolerance       = 1.0;      // in degrees.
@@ -751,13 +751,14 @@ public class RobotParams
         public static final String SPEAKER_UPCLOSE_ENTRY        = "Speaker0ft";
         public static final String WING_NOTE_ENTRY              = "Speaker5ft";
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
-            .add(SPEAKER_UPCLOSE_ENTRY, 55.4, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
-            .add("Speaker1ft",          67.0, 90.0, 60.0)
-            .add("Speaker2ft",          78.5, 90.0, 55.0)
-            .add("Speaker3ft",          90.0, 90.0, 51.0)
-            .add("Speaker4ft",          102.2, 90.0, 46.0)
-            .add("Speaker5ft",          113.9, 90.0, 43.0)
-            .add("Speaker6ft",          125.7, 90.0, 41.0);
+            .add(SPEAKER_UPCLOSE_ENTRY, 55.0, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
+            .add("Speaker1ft",          66.9, 90.0, 58.0)
+            .add("Speaker2ft",          78.2, 90.0, 52.0)
+            .add("Speaker3ft",          90.3, 90.0, 47.0)
+            .add("Speaker4ft",          102.0, 90.0, 42.0)
+            .add("Speaker5ft",          114.0, 90.0, 41.0)
+            .add("Speaker6ft",          125.3, 90.0, 40.0)
+            .add("Speaker7ft",          137.3, 90.0, 37.0); //TODO: distance might be off
             //.add("Speaker7ft",          139.0, 90.0, 36.0);
         public static final ShootParamTable.Params wingNotePresetParams = speakerShootParamTable.get(WING_NOTE_ENTRY);
     }   //class Shooter
