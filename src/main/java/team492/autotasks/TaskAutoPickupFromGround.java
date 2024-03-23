@@ -69,6 +69,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     private final TrcEvent driveEvent;
     private final TrcEvent gotNoteEvent;
 
+    private TaskParams taskParams = null;
     private String currOwner = null;
     private String driveOwner = null;
     private Double visionExpiredTime = null;
@@ -99,7 +100,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     public void autoAssistPickup(boolean useVision, boolean inAuto, TrcEvent completionEvent)
     {
         tracer.traceInfo(moduleName, "useVision=" + useVision + ", inAuto=" + inAuto + ", event=" + completionEvent);
-        startAutoTask(State.START, new TaskParams(useVision, inAuto), completionEvent);
+        taskParams = new TaskParams(useVision, inAuto);
+        startAutoTask(State.START, taskParams, completionEvent);
     }   //autoAssistPickup
 
     /**
@@ -182,8 +184,12 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     {
         tracer.traceInfo(moduleName, "Stopping subsystems.");
         robot.intake.unregisterEntryTriggerNotifyEvent();
-        //robot.intake.cancel(currOwner);
+        if (!taskParams.inAuto)
+        {
+            robot.intake.cancel(currOwner);
+        }
         robot.robotDrive.cancel(driveOwner);
+        taskParams = null;
     }   //stopSubsystems
 
     /**

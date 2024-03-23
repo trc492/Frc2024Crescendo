@@ -723,8 +723,8 @@ public class RobotParams
         public static final boolean tiltMotorInverted           = true;
         public static final double tiltGearRatio                = 59.0/18.0;
         public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
-        public static final double tiltPosOffset                = -8.0;    // in degrees
-        public static final double tiltZeroOffset               = 0.127;   // in raw encoder unit
+        public static final double tiltPosOffset                = -5.0;    // in degrees
+        public static final double tiltZeroOffset               = 0.150;   // in raw encoder unit
         public static final double tiltPowerLimit               = 0.5;
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.023, 0.0, 0.001, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
@@ -734,7 +734,7 @@ public class RobotParams
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
         public static final double tiltTurtleAngle              = 35.0;     // in degrees.
         public static final double tiltSpeakerFarAngle          = 52.0;     // in degrees.
-        public static final double tiltAmpAngle                 = 57.5;     // in degrees.
+        public static final double tiltAmpAngle                 = 59.5; //57.5    // in degrees.
         public static final double tiltDumpAngle                = 39.0;     // in degrees.
         public static final double tiltSpeakerCloseAngle        = 64.0;     // in degrees.
         public static final double tiltSourcePickupAngle        = 88.0;     // in degrees.
@@ -752,12 +752,12 @@ public class RobotParams
         public static final String WING_NOTE_ENTRY              = "Speaker5ft";
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
             .add(SPEAKER_UPCLOSE_ENTRY, 55.0, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
-            .add("Speaker1ft",          66.9, 90.0, 58.0)
+            .add("Speaker1ft",          66.9, 90.0, 57.0)
             .add("Speaker2ft",          78.2, 90.0, 52.0)
             .add("Speaker3ft",          90.3, 90.0, 47.0)
             .add("Speaker4ft",          102.0, 90.0, 42.0)
             .add("Speaker5ft",          114.0, 90.0, 41.0)
-            .add("Speaker6ft",          125.3, 90.0, 40.0)
+            .add("Speaker6ft",          125.3, 90.0, 38.0)
             .add("Speaker7ft",          137.3, 90.0, 37.0); //TODO: distance might be off
             //.add("Speaker7ft",          139.0, 90.0, 36.0);
         public static final ShootParamTable.Params wingNotePresetParams = speakerShootParamTable.get(WING_NOTE_ENTRY);
