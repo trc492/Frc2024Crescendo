@@ -1,0 +1,305 @@
+robotStartMode.robotStartMode_INFO [0.007099789] [0.006] Sat Mar 16 09:28:03 PDT 2024: ***** AUTO_MODE *****
+FrcAuto.startMode_INFO [0.074550781] <Info name="MatchInfo" date="Sat Mar 16 09:28:03 PDT 2024" event="WAYAK" type="Qualification" match=48 replay=1 alliance="Blue" location=1 gameMsg="" />
+FrcAuto.startMode_INFO [0.083584866] <Info name="AutoChoices" alliance="Blue" strategy="CRESCENDO_AUTO" startPos="SW_SOURCE_SIDE" scoreWingNotes="SCORE_THREE" endAction="SCORE_ONE_NOTE" relocalize="false" startDelay=0 sec pathFile="DrivePath.csv" xDistance=6.0 ft yDistance=6.0 ft turnDegrees=90 deg driveTime=4 sec drivePower=4.0 />
+Climber.motor.pidCtrlTask_INFO [0.095686642] Zero calibration done, event=null
+Shooter.aimShooter_DEBUG [0.16422931] owner=null, vel=90.0, tiltAngle=60.0, panAngle=0.0, event=(CmdAuto=CLEARED), timeout=0.0, aimOnly=false, shootOffDelay=0.0
+CmdAuto.cmdPeriodic_INFO [0.174494283] <Event name="StateInfo" time="0.174267395" tag="^^^^^" CmdAuto.state="START" />
+Shooter.onTarget_DEBUG [0.192692166] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CLEARED), panEvent=null, aimOnly=false
+Shooter.tiltMotor.pidCtrlTask_INFO [1.015764713] controlMode: Position onTarget=true(60.10465706647453/60.0), stalled=false, expired=false, event=(Shooter.tiltOnTargetEvent=SIGNALED)
+Shooter.onTarget_DEBUG [1.016658999] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=SIGNALED), panEvent=null, aimOnly=false
+Intake: pwr=0.0, current=0.0, isActive=false, hasObject=true.shoot_DEBUG [1.028629957] owner=null, power=1.0, event=(Shooter.shootCompletionEvent=CLEARED)
+Intake.performAction_INFO [1.043162241] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0), hasObject=true
+Intake.exitTriggerCallback_INFO [1.112635861] active=true, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0)
+Intake.entryTriggerCallback_INFO [1.133984046] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0)
+Intake.exitTriggerCallback_INFO [1.412232205] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0)
+Shooter.shootCompleted_INFO [1.41645381] Shoot completed.
+Shooter.aimShooter_DEBUG [1.419395552] owner=null, vel=90.0, tiltAngle=39.0, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+CmdAuto.cmdPeriodic_INFO [1.422164868] <Event name="StateInfo" time="1.421727254" tag="^^^^^" CmdAuto.state="DO_DELAY" />
+Intake.exitTriggerCallback_INFO [1.424796321] active=true, actionParams=null
+Shooter.onTarget_DEBUG [1.426174322] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CLEARED), panEvent=null, aimOnly=true
+purePursuitDrive.start_INFO [1.454642661] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=-175.3,y=34.2,angle=243.5),vel=0.000000), TrcWaypoint(pose=(x=-161.6,y=90.0,angle=180.0),vel=0.000000)])
+CmdAuto.cmdPeriodic_INFO [1.458331258] <Event name="StateInfo" time="1.457984181" tag="^^^^^" CmdAuto.state="DRIVE_TO_WING_NOTE" RobotPose=(x=-175.3,y=34.2,angle=243.5) TargetPose=(x=-161.6,y=90.0,angle=180.0) vel=(x=0.0,y=0.0,angle=0.0) Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=0.0,y=0.0,angle=0.0),vel=0.000000), TrcWaypoint(pose=(x=43.9,y=-37.1,angle=-63.5),vel=0.000000)]) />
+Intake.exitTriggerCallback_INFO [1.49299915] active=false, actionParams=null
+CmdAuto.cmdPeriodic_INFO [1.913310166] Vision found note too far or not turn enough at (x=-31.0,y=42.3,angle=-36.2).
+CmdAuto.cmdPeriodic_INFO [1.936730795] Vision found note too far or not turn enough at (x=-30.5,y=42.6,angle=-35.6).
+CmdAuto.cmdPeriodic_INFO [1.965704223] Vision found note too far or not turn enough at (x=-30.5,y=42.6,angle=-35.6).
+CmdAuto.cmdPeriodic_INFO [1.993992149] Vision found note too far or not turn enough at (x=-29.2,y=43.3,angle=-34.1).
+Shooter.tiltMotor.pidCtrlTask_INFO [2.011006028] controlMode: Position onTarget=true(37.60596707554187/39.0), stalled=false, expired=false, event=(Shooter.tiltOnTargetEvent=SIGNALED)
+Shooter.onTarget_DEBUG [2.042896843] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=SIGNALED), panEvent=null, aimOnly=true
+CmdAuto.cmdPeriodic_INFO [2.051485433] Vision found note too far or not turn enough at (x=-28.7,y=44.0,angle=-33.1).
+CmdAuto.cmdPeriodic_INFO [2.084794738] Vision found note too far or not turn enough at (x=-25.8,y=45.7,angle=-29.5).
+CmdAuto.cmdPeriodic_INFO [2.102494164] Vision found note too far or not turn enough at (x=-25.8,y=45.7,angle=-29.5).
+CmdAuto.cmdPeriodic_INFO [2.130755932] Vision found note too far or not turn enough at (x=-24.2,y=46.7,angle=-27.4).
+CmdAuto.cmdPeriodic_INFO [2.15239079] Vision found note too far or not turn enough at (x=-22.4,y=47.4,angle=-25.3).
+CmdAuto.cmdPeriodic_INFO [2.17602173] Vision found note too far or not turn enough at (x=-22.4,y=47.4,angle=-25.3).
+CmdAuto.cmdPeriodic_INFO [2.201947978] Vision found note too far or not turn enough at (x=-19.4,y=49.0,angle=-21.6).
+CmdAuto.cmdPeriodic_INFO [2.22593365] Vision found note too far or not turn enough at (x=-19.4,y=49.0,angle=-21.6).
+CmdAuto.cmdPeriodic_INFO [2.260894981] Vision found note at (x=-16.6,y=49.8,angle=-18.4).
+CmdAuto.cmdPeriodic_INFO [2.288542843] Vision found note at (x=-16.6,y=49.8,angle=-18.4).
+TaskAutoPickupFromGround.autoAssistPickup_INFO [2.299309848] useVision=true, inAuto=true, event=(CmdAuto=CANCELED)
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [2.312905696] Successfully acquired subsystem ownerships for AutoPickupGround.
+CmdAuto.cmdPeriodic_INFO [2.321704982] <Event name="StateInfo" time="2.315363091" tag="^^^^^" CmdAuto.state="PICKUP_WING_NOTE" />
+TaskAutoPickupFromGround.runTaskState_INFO [2.334967288] Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [2.336511335] <Event name="StateInfo" time="2.336320701" tag="^^^^^" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [2.364386133] Vision found Note at (x=14.8,y=-49.4,angle=-16.7) from robot back.
+TaskAutoPickupFromGround.autoTask_INFO [2.368361505] <Event name="StateInfo" time="2.366168839" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+Intake.performAction_INFO [2.378960032] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0), hasObject=false
+purePursuitDrive.start_INFO [2.39215754] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=-168.6,y=59.1,angle=204.0),vel=0.000000), TrcWaypoint(pose=(x=-162.1,y=110.2,angle=187.3),vel=0.000000), TrcWaypoint(pose=(x=-160.8,y=120.1,angle=187.3),vel=0.000000)])
+TaskAutoPickupFromGround.autoTask_INFO [2.393773187] <Event name="StateInfo" time="2.393574317" tag="^^^^^" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+Intake.entryTriggerCallback_INFO [3.722683846] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.runTaskState_INFO [3.764135698] intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CLEARED), gotNote=true
+TaskAutoPickupFromGround.autoTask_INFO [3.771462628] <Event name="StateInfo" time="3.770357232" tag="^^^^^" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+Intake.exitTriggerCallback_INFO [4.129441853] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.stopSubsystems_INFO [4.146111884] Stopping subsystems.
+Intake.cancel_INFO [4.151206013] owner=AutoPickupGround
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [4.157992893] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+TaskAutoPickupFromGround.autoTask_INFO [4.161837344] <Event name="StateInfo" time="4.161586295" tag="^^^^^" TaskAutoPickupFromGround.state="DONE" />
+Intake.entryTriggerCallback_INFO [4.16596183] active=false, actionParams=null
+purePursuitDrive.start_INFO [4.175778354] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=-160.9,y=117.3,angle=187.3),vel=0.000000), TrcWaypoint(pose=(x=-163.0,y=100.4,angle=187.3),vel=0.000000)])
+CmdAuto.cmdPeriodic_INFO [4.183424509] <Event name="StateInfo" time="4.181765832" tag="^^^^^" CmdAuto.state="CLEAR_THE_POST" RobotPose=(x=-160.9,y=117.3,angle=187.3) TargetPose=(x=-163.0,y=100.4,angle=187.3) vel=(x=-0.0,y=-0.2,angle=1.0) Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=0.0,y=0.0,angle=0.0),vel=0.000000), TrcWaypoint(pose=(x=0.0,y=17.0,angle=0.0),vel=0.000000)]) />
+purePursuitDrive.driveTask_INFO [4.674426169] Done: index=1/2, stalled=false, timeout=true, posOnTarget=false,headingOnTarget=true,robotPose=(x=-162.3,y=106.6,angle=187.3)
+purePursuitDrive.driveTask_INFO [4.693880064] Signal completion event (CmdAuto=CLEARED).
+CmdAuto.cmdPeriodic_INFO [4.702769406] <Event name="StateInfo" time="4.699713767" tag="^^^^^" CmdAuto.state="TURN_TO_SPEAKER" />
+TaskAutoScoreNote.autoAssistScore_INFO [4.722244584] targetType=Speaker, useVision=true, inAuto=true, relocalize=false, event=(CmdAuto=SIGNALED)
+TaskAutoScoreNote.acquireSubsystemsOwnership_INFO [4.746281312] Successfully acquired subsystem ownerships for AutoScoreNote.
+CmdAuto.cmdPeriodic_INFO [4.753519541] Scoring Wing Note 1
+CmdAuto.cmdPeriodic_INFO [4.758510537] <Event name="StateInfo" time="4.754782543" tag="^^^^^" CmdAuto.state="SCORE_WING_NOTE" />
+TaskAutoScoreNote.runTaskState_INFO [4.785207127] Using AprilTag Vision.
+TaskAutoScoreNote.autoTask_INFO [4.787085335] <Event name="StateInfo" time="4.786881727" tag="^^^^^" TaskAutoScoreNote.state="START" />
+TaskAutoScoreNote.runTaskState_INFO [4.800674243] Vision found AprilTag 8 at (x=30.8,y=98.8,angle=17.3) from camera.
+TaskAutoScoreNote.runTaskState_INFO [4.8077737] Translated AprilTag target at (x=53.1,y=98.4,angle=28.3) from camera.
+TaskAutoScoreNote.autoTask_INFO [4.809655111] <Event name="StateInfo" time="4.809077964" tag="^^^^^" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [4.821326502] <Event name="StateInfo" time="4.8211486" tag="^^^^^" TaskAutoScoreNote.state="DRIVE_TO_APRILTAG" />
+TaskAutoScoreNote.runTaskState_INFO [4.834212947] ShootParams: distance=111.84374784780648, params={loc=Interpolated, distance=111.84374784780648, shooterVel=90.0, tiltAngle=39.75208405073117}
+Shooter.aimShooter_DEBUG [4.840468146] owner=AutoScoreNote, vel=90.0, tiltAngle=39.75208405073117, panAngle=0.0, event=(TaskAutoScoreNote.event=CLEARED), timeout=0.0, aimOnly=true, shootOffDelay=0.0
+purePursuitDrive.start_INFO [4.855509675] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=-162.4,y=106.0,angle=187.3),vel=0.000000), TrcWaypoint(pose=(x=-162.4,y=106.0,angle=215.6),vel=0.000000)])
+TaskAutoScoreNote.autoTask_INFO [4.870067355] <Event name="StateInfo" time="4.869415707" tag="^^^^^" TaskAutoScoreNote.state="AIM_IN_PLACE" />
+Shooter.onTarget_DEBUG [4.882722789] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CLEARED), panEvent=null, aimOnly=true
+Shooter.tiltMotor.pidCtrlTask_INFO [5.809721605] controlMode: Position onTarget=true(38.99563865984901/39.75208405073117), stalled=false, expired=false, event=(Shooter.tiltOnTargetEvent=SIGNALED)
+Shooter.onTarget_DEBUG [5.829378626] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=SIGNALED), panEvent=null, aimOnly=true
+purePursuitDrive.driveTask_INFO [5.857967595] Done: index=1/2, stalled=false, timeout=true, posOnTarget=true,headingOnTarget=false,robotPose=(x=-162.4,y=105.9,angle=213.8)
+purePursuitDrive.driveTask_INFO [5.864405477] Signal completion event (TaskAutoScoreNote.driveEvent=CLEARED).
+Intake: pwr=0.0, current=0.0, isActive=false, hasObject=true.shoot_DEBUG [5.870462221] owner=AutoScoreNote, power=1.0, event=(TaskAutoScoreNote.event=SIGNALED)
+Intake.performAction_INFO [5.874105998] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoScoreNote.event=SIGNALED), timeout=0.0), hasObject=true
+TaskAutoScoreNote.autoTask_INFO [5.880693244] <Event name="StateInfo" time="5.879391853" tag="^^^^^" TaskAutoScoreNote.state="SCORE_NOTE" />
+Intake.exitTriggerCallback_INFO [6.194199242] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoScoreNote.event=CLEARED), timeout=0.0)
+TaskAutoScoreNote.stopSubsystems_INFO [6.211412227] Stopping subsystems.
+Intake.cancel_INFO [6.214856022] owner=AutoScoreNote
+Shooter.cancel_INFO [6.219508731] owner=AutoScoreNote
+TaskAutoScoreNote.releaseSubsystemsOwnership_INFO [6.226889075] Releasing subsystem ownership (currOwner=AutoScoreNote, intake=AutoScoreNote, shooter=AutoScoreNote, robotDrive=AutoScoreNote).
+TaskAutoScoreNote.autoTask_INFO [6.23071645] <Event name="StateInfo" time="6.230479967" tag="^^^^^" TaskAutoScoreNote.state="DONE" />
+purePursuitDrive.start_INFO [6.241183773] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=-162.4,y=105.9,angle=213.7),vel=0.000000), TrcWaypoint(pose=(x=-162.4,y=105.9,angle=90.0),vel=0.000000)])
+CmdAuto.cmdPeriodic_INFO [6.251394086] <Event name="StateInfo" time="6.250814385" tag="^^^^^" CmdAuto.state="TURN_TO_WING_NOTES" RobotPose=(x=-162.4,y=105.9,angle=213.7) TargetPose=(x=-162.4,y=105.9,angle=90.0) vel=(x=0.0,y=-0.0,angle=0.0) Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=0.0,y=0.0,angle=0.0),vel=0.000000), TrcWaypoint(pose=(x=0.0,y=0.0,angle=-123.7),vel=0.000000)]) />
+CmdAuto.cmdPeriodic_INFO [6.744698996] Vision found note too far or not turn enough at (x=-37.1,y=80.8,angle=-24.6).
+CmdAuto.cmdPeriodic_INFO [6.773073423] Vision found note at (x=-30.2,y=90.2,angle=-18.5).
+CmdAuto.cmdPeriodic_INFO [6.788479977] Vision found note at (x=-23.1,y=95.1,angle=-13.6).
+TaskAutoPickupFromGround.autoAssistPickup_INFO [6.802596855] useVision=true, inAuto=true, event=(CmdAuto=CANCELED)
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [6.812360319] Successfully acquired subsystem ownerships for AutoPickupGround.
+CmdAuto.cmdPeriodic_INFO [6.821815816] <Event name="StateInfo" time="6.821580593" tag="^^^^^" CmdAuto.state="PICKUP_WING_NOTE" />
+TaskAutoPickupFromGround.runTaskState_INFO [6.82641003] Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [6.829464886] <Event name="StateInfo" time="6.82924023" tag="^^^^^" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [6.83930898] Vision found Note at (x=16.7,y=-99.5,angle=-9.6) from robot back.
+TaskAutoPickupFromGround.autoTask_INFO [6.842308175] <Event name="StateInfo" time="6.841454388" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+Intake.performAction_INFO [6.853807634] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+purePursuitDrive.start_INFO [6.862868128] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=-162.5,y=106.1,angle=107.8),vel=0.000000), TrcWaypoint(pose=(x=-262.3,y=120.5,angle=98.2),vel=0.000000), TrcWaypoint(pose=(x=-272.2,y=121.9,angle=98.2),vel=0.000000)])
+TaskAutoPickupFromGround.autoTask_INFO [6.86477955] <Event name="StateInfo" time="6.86459781" tag="^^^^^" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+purePursuitDrive.xPosPid.isStalled_INFO [9.475823959] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.482575612] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.505222732] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.509207923] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.528012646] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.535091453] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.559877119] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.57123618] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.599083194] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.605386471] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.634156211] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.641390212] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.659025034] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.660444916] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.68026353] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.681331821] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.698951234] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.699874574] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.718334528] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.729371509] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.755585397] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.762232001] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.787637037] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.796210419] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.819948226] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.821163425] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.852395982] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.856380465] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.891800849] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.892963915] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.908979055] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.910332113] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.931173494] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.934172144] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.954849277] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.956250219] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.983169522] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.988169802] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.007246784] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.010300503] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.023472711] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.025073313] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.040758174] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.041681703] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.053561697] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.056222909] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.076441525] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.079387278] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.107319355] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.108971435] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.128524168] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.132289606] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.150204684] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.153480079] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.170865199] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.173411985] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.20301461] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.206228312] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.239594243] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.24424794] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.273485911] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.274702946] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.297776149] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.298954727] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.316898353] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.318634098] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.339692088] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.341160216] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.359988939] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.364110678] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.385583587] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.388737732] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.405556221] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.408981811] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.428552886] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.430806583] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.449630644] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.451660968] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.469462936] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.474273895] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.496584125] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.498850359] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.520253933] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.527989314] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.547260635] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.549604194] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.571478517] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.575144946] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.600054646] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.600969625] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.623125504] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.624989589] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.645816113] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.648291658] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.668925471] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.672020918] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.692630424] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.694980336] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.712626708] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.714254457] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.733058143] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.734075856] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.757306908] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.758262517] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.77816944] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.78038278] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.805128289] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.806168269] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.818317425] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.819675802] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.867971619] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.871274748] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.896335902] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.900158075] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.927667524] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.932309004] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [10.959496846] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [10.96211274] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [11.001486635] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [11.002821335] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [11.021607935] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [11.048501443] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [11.063851405] PID stalled.
+purePursuitDrive.driveTask_INFO [11.570473065] Done: index=4/5, stalled=false, timeout=false, posOnTarget=true,headingOnTarget=true,robotPose=(x=-272.3,y=122.2,angle=99.4)
+purePursuitDrive.driveTask_INFO [11.585305746] Signal completion event (TaskAutoPickupFromGround.driveEvent=CLEARED).
+TaskAutoPickupFromGround.runTaskState_INFO [11.587261232] intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=CLEARED), driveEvent=(TaskAutoPickupFromGround.driveEvent=SIGNALED), gotNote=false
+TaskAutoPickupFromGround.autoTask_INFO [11.58872414] <Event name="StateInfo" time="11.588390222" tag="^^^^^" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [11.591292401] Stopping subsystems.
+Intake.cancel_INFO [11.593590473] owner=AutoPickupGround
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [11.603088521] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=AutoPickupGround).
+TaskAutoPickupFromGround.autoTask_INFO [11.604180526] <Event name="StateInfo" time="11.60398568" tag="^^^^^" TaskAutoPickupFromGround.state="DONE" />
+CmdAuto.cmdPeriodic_INFO [11.613167107] <Event name="StateInfo" time="11.612930402" tag="^^^^^" CmdAuto.state="TURN_TO_SPEAKER" />
+purePursuitDrive.start_INFO [11.619090245] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=-272.3,y=122.2,angle=99.2),vel=0.000000), TrcWaypoint(pose=(x=-293.6,y=265.6,angle=180.0),vel=0.000000)])
+CmdAuto.cmdPeriodic_INFO [11.630467865] <Event name="StateInfo" time="11.624697065" tag="^^^^^" CmdAuto.state="DRIVE_TO_CENTER_LINE" RobotPose=(x=-272.3,y=122.2,angle=99.1) TargetPose=(x=-293.6,y=265.6,angle=180.0) vel=(x=0.4,y=-0.1,angle=-4.8) Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=0.0,y=0.0,angle=0.0),vel=0.000000), TrcWaypoint(simple=false,timestep=0.083,pose=(x=-63.1,y=-20.0,angle=36.9),vel=157.480000,encPos=0.000000,accel=-157.480000,jerk=0.000000), TrcWaypoint(simple=false,timestep=0.917,pose=(x=-75.0,y=-23.8,angle=43.9),vel=144.418925,encPos=0.000000,accel=-157.480000,jerk=0.000000), TrcWaypoint(pose=(x=-138.2,y=-43.9,angle=80.8),vel=0.000000)]) />
+purePursuitDrive.xPosPid.isStalled_INFO [14.137024217] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [14.138670555] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [14.13974309] PID stalled.
+purePursuitDrive.driveTask_INFO [14.140659216] Done: index=3/4, stalled=true, timeout=false, posOnTarget=false,headingOnTarget=true,robotPose=(x=-293.6,y=264.5,angle=179.4)
+purePursuitDrive.driveTask_INFO [14.157121677] Signal completion event (CmdAuto=CLEARED).
+TaskAutoPickupFromGround.autoAssistPickup_INFO [14.162646486] useVision=true, inAuto=true, event=(CmdAuto=SIGNALED)
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [14.170894077] Successfully acquired subsystem ownerships for AutoPickupGround.
+CmdAuto.cmdPeriodic_INFO [14.173988893] <Event name="StateInfo" time="14.173751536" tag="^^^^^" CmdAuto.state="PICKUP_CENTERLINE_NOTE" />
+TaskAutoPickupFromGround.runTaskState_INFO [14.184995672] Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [14.191412464] <Event name="StateInfo" time="14.190418322" tag="^^^^^" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [14.201097515] Vision found Note at (x=-11.4,y=-76.9,angle=8.5) from robot back.
+TaskAutoPickupFromGround.autoTask_INFO [14.203330553] <Event name="StateInfo" time="14.203140046" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+Intake.performAction_INFO [14.213483098] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CANCELED), timeout=0.0), hasObject=false
+purePursuitDrive.start_INFO [14.221466984] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=-293.8,y=264.5,angle=179.5),vel=0.000000), TrcWaypoint(pose=(x=-283.0,y=341.4,angle=188.0),vel=0.000000), TrcWaypoint(pose=(x=-281.6,y=351.3,angle=188.0),vel=0.000000)])
+TaskAutoPickupFromGround.autoTask_INFO [14.23058818] <Event name="StateInfo" time="14.225616995" tag="^^^^^" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+purePursuitDrive.getFollowingPoint_INFO [14.23651261] Segment 1 is stalled, moving to the next segment.
+FrcRobotBase.startCompetition_INFO [15.476289143] *** Transitioning from AUTO_MODE to DISABLED_MODE ***
+TaskAutoScoreNote.autoAssistCancel_INFO [15.485159243] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [15.499653254] Canceling auto-assist.
+TaskAutoPickupFromGround.stopSubsystems_INFO [15.506824161] Stopping subsystems.
+Intake.cancel_INFO [15.510019574] owner=AutoPickupGround
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [15.519742367] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=AutoPickupGround).
+TaskAutoPickupFromSource.autoAssistCancel_INFO [15.523115509] Canceling auto-assist.
+pidDrive.printPerformanceMetrics_INFO [15.535622638] [pidDrive] Loop Performance Metrics:
+Average Loop Interval = NaNs (freq=NaNHz, min=0.000000s, max=0.000000s)
+
+FrcRobotBase.printPerformanceMetrics_INFO [15.545402006] [FrcRobotBase] Loop Performance Metrics:
+Average Loop Interval = 0.000829s (freq=1205.895Hz, min=0.000000s, max=0.283312s)
+[03]                StartTask=0.000000s
+[04]          PrePeriodicTask=0.000093s
+[07]               UpdateTask=0.000576s
+[02]                StartMode=0.000000s
+[06]         PostPeriodicTask=0.000065s
+[08]                 StopTask=0.000000s
+[09]                 StopMode=0.000000s
+[00]                RobotInit=7.576850s
+[01]           RobotStartMode=0.000001s
+[05]                 Periodic=0.000035s
+[10]            RobotStopMode=0.000000s
+
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.553896036] TrcWatchdogMgr: STANDALONE_TASK=0.000141/0.998041
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.558567594] DriverController.buttonEvent: PRE_PERIODIC_TASK=0.000007/0.001537
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.560216117] OperatorController.buttonEvent: PRE_PERIODIC_TASK=0.000008/0.001537
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.565182251] LED: OUTPUT_TASK=0.000031/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.568908855] lfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000008/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.572826565] TrcMotor.odometryTask: STANDALONE_TASK=0.000005/0.000022
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.5762261] lfDriveMotor.odometryCleanupTask: STOP_TASK=0.003186/103.790943
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.580214902] rfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.582386032] lbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.586286065] rbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.591871924] lfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000153/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.593698156] rfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000122/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.596316846] lbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000123/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.599875841] rbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000100/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.602681824] TrcDriveBase.odometryTask: INPUT_TASK=0.002750/0.115595
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.605230094] TrcDriveBase.stopTask: STOP_TASK=0.002532/103.791792
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.610722727] purePursuitDrive.driveTask: POST_PERIODIC_TASK=0.011143/0.014972
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.613568358] Intake.motor.pidCtrlTask: OUTPUT_TASK=0.000005/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.616154308] Intake.entryTrigger.triggerTask: PRE_PERIODIC_TASK=0.000017/0.000829
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.620721171] Intake.exitTrigger.triggerTask: PRE_PERIODIC_TASK=0.000008/0.000829
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.624048432] Shooter.shooterMotor.pidCtrlTask: OUTPUT_TASK=0.000006/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.626957977] Shooter.tiltMotor.pidCtrlTask: OUTPUT_TASK=0.000264/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.632128572] Shooter.tiltMotor.converterTask: INPUT_TASK=0.000085/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.638761773] Climber.motor.pidCtrlTask: OUTPUT_TASK=0.000006/0.010735
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.640357323] TaskAutoScoreNote: POST_PERIODIC_TASK=0.000852/0.009240
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.64231302] TaskAutoPickupFromGround: POST_PERIODIC_TASK=0.000277/0.017989

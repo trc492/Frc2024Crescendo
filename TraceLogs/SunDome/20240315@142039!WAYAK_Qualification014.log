@@ -1,0 +1,126 @@
+robotStartMode.robotStartMode_INFO [0.012399707] [0.012] Fri Mar 15 14:20:21 PDT 2024: ***** TELEOP_MODE *****
+Climber.motor.pidCtrlTask_INFO [0.098470518] Zero calibration done, event=null
+FrcTeleOp.driverControllerButtonEvent_INFO [2.51644058] >>>>> button=5, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [4.508464699] >>>>> button=5, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [5.070476272] >>>>> button=5, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [5.686179893] >>>>> button=5, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [6.867094441] >>>>> button=5, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [7.476483019] >>>>> button=5, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [14.593597032] >>>>> button=5, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [14.694543461] >>>>> button=1, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [14.797349559] >>>>> button=1, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [14.848501551] >>>>> button=1, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [14.898901199] >>>>> button=1, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [16.645678731] >>>>> button=5, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [17.003637032] >>>>> button=5, pressed=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [17.572079638] >>>>> button=5, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [18.035936868] >>>>> button=7, pressed=true
+Climber.motor.pidCtrlTask_INFO [18.054787272] Zero calibration done, event=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [18.447385516] >>>>> button=7, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [19.27261267] >>>>> button=3, pressed=true
+Shooter.cancel_INFO [19.281614286] owner=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [19.432028425] >>>>> button=3, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [19.688941472] >>>>> button=3, pressed=true
+Shooter.aimShooter_DEBUG [19.690476004] owner=null, vel=20.0, tiltAngle=57.5, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [19.704122501] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [19.849848466] >>>>> button=3, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [22.716860393] >>>>> button=2, pressed=true
+Intake.performAction_INFO [22.722682124] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Intake.entryTriggerCallback_INFO [22.778970184] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Intake.exitTriggerCallback_INFO [23.069085934] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+FrcTeleOp.operatorControllerButtonEvent_INFO [23.291995808] >>>>> button=2, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [24.987802158] >>>>> button=5, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [25.857856616] >>>>> button=3, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [25.859055631] useVision=true, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [25.864943618] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.runTaskState_INFO [25.888257828] Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [25.890325515] <Event name="StateInfo" time="25.890091102" tag="^^^^^" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [25.895895011] Vision found Note at (x=-8.0,y=-67.1,angle=6.8) from robot back.
+TaskAutoPickupFromGround.autoTask_INFO [25.897454607] <Event name="StateInfo" time="25.897257814" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+Intake.performAction_INFO [25.901580743] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0), hasObject=false
+purePursuitDrive.start_INFO [25.954675194] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=-272.9,y=41.1,angle=89.1),vel=0.000000), TrcWaypoint(pose=(x=-340.1,y=48.0,angle=95.9),vel=0.000000), TrcWaypoint(pose=(x=-350.1,y=49.0,angle=95.9),vel=0.000000)])
+TaskAutoPickupFromGround.autoTask_INFO [25.955616843] <Event name="StateInfo" time="25.955356872" tag="^^^^^" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+FrcTeleOp.driverControllerButtonEvent_INFO [25.958161482] >>>>> button=3, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [27.345943087] >>>>> button=5, pressed=false
+Intake.entryTriggerCallback_INFO [27.531591753] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.runTaskState_INFO [27.564259568] intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CLEARED), gotNote=true
+TaskAutoPickupFromGround.autoTask_INFO [27.57401042] <Event name="StateInfo" time="27.573777892" tag="^^^^^" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+Intake.exitTriggerCallback_INFO [27.936305487] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.stopSubsystems_INFO [27.955368675] Stopping subsystems.
+Intake.cancel_INFO [27.957795452] owner=AutoPickupGround
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [27.962422922] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+TaskAutoPickupFromGround.autoTask_INFO [27.966230856] <Event name="StateInfo" time="27.965421509" tag="^^^^^" TaskAutoPickupFromGround.state="DONE" />
+Intake.entryTriggerCallback_INFO [27.97115651] active=false, actionParams=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [28.599212482] >>>>> button=7, pressed=true
+Climber.motor.pidCtrlTask_INFO [28.614130813] Zero calibration done, event=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [29.112199252] >>>>> button=7, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [29.520821866] >>>>> button=8, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [29.782227394] >>>>> button=2, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [29.884744739] >>>>> button=2, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [29.983763867] >>>>> button=8, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [31.219149162] >>>>> button=3, pressed=true
+Shooter.cancel_INFO [31.231412283] owner=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [31.417997609] >>>>> button=3, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [31.822587415] >>>>> button=3, pressed=true
+Shooter.aimShooter_DEBUG [31.829612877] owner=null, vel=20.0, tiltAngle=57.5, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [31.831496499] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [32.082196705] >>>>> button=3, pressed=false
+Shooter.tiltMotor.pidCtrlTask_INFO [32.667718242] controlMode: Position onTarget=true(56.8812251883038/57.5), stalled=false, expired=false, event=(Shooter.tiltOnTargetEvent=SIGNALED)
+Shooter.onTarget_DEBUG [32.693167432] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=SIGNALED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [34.088616162] >>>>> button=2, pressed=true
+Intake.performAction_INFO [34.095263428] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Intake.exitTriggerCallback_INFO [34.461931943] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+FrcTeleOp.operatorControllerButtonEvent_INFO [34.700794479] >>>>> button=2, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [35.62966338] >>>>> button=6, pressed=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [35.781312065] >>>>> button=6, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [37.003866503] >>>>> button=2, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [37.106334871] >>>>> button=2, pressed=false
+FrcRobotBase.startCompetition_INFO [42.726985304] *** Transitioning from TELEOP_MODE to DISABLED_MODE ***
+TaskAutoScoreNote.autoAssistCancel_INFO [42.748817869] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [42.757303249] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [42.760075007] Canceling auto-assist.
+TaskAutoScoreNote.autoAssistCancel_INFO [42.763667856] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [42.76542823] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [42.768516082] Canceling auto-assist.
+pidDrive.printPerformanceMetrics_INFO [42.773141254] [pidDrive] Loop Performance Metrics:
+Average Loop Interval = NaNs (freq=NaNHz, min=0.000000s, max=0.000000s)
+
+FrcRobotBase.printPerformanceMetrics_INFO [42.786786691] [FrcRobotBase] Loop Performance Metrics:
+Average Loop Interval = 0.001178s (freq=848.923Hz, min=0.000000s, max=2.183064s)
+[03]                StartTask=0.000000s
+[04]          PrePeriodicTask=0.000119s
+[07]               UpdateTask=0.000722s
+[02]                StartMode=0.000000s
+[06]         PostPeriodicTask=0.000057s
+[08]                 StopTask=0.000000s
+[09]                 StopMode=0.000000s
+[00]                RobotInit=12.508508s
+[01]           RobotStartMode=0.000007s
+[05]                 Periodic=0.000197s
+[10]            RobotStopMode=0.000001s
+
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.793137678] TrcWatchdogMgr: STANDALONE_TASK=0.000198/0.998239
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.797915889] DriverController.buttonEvent: PRE_PERIODIC_TASK=0.000009/0.009915
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.800822563] OperatorController.buttonEvent: PRE_PERIODIC_TASK=0.000008/0.009915
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.808649067] LED: OUTPUT_TASK=0.000043/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.810761554] lfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000011/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.81440504] TrcMotor.odometryTask: STANDALONE_TASK=0.000012/0.000028
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.817353064] lfDriveMotor.odometryCleanupTask: STOP_TASK=0.004893/59.265775
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.823830533] rfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000006/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.82802076] lbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000006/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.832433114] rbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000006/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.835142395] lfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000357/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.838415271] rfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000300/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.842079944] lbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000299/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.846861397] rbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000301/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.849410959] TrcDriveBase.odometryTask: INPUT_TASK=0.003315/0.052231
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.854493801] TrcDriveBase.stopTask: STOP_TASK=0.006931/59.267025
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.858993257] purePursuitDrive.driveTask: POST_PERIODIC_TASK=0.009946/0.013337
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.861734437] Intake.motor.pidCtrlTask: OUTPUT_TASK=0.000006/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.868208537] Intake.entryTrigger.triggerTask: PRE_PERIODIC_TASK=0.000021/0.001178
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.870802219] Intake.exitTrigger.triggerTask: PRE_PERIODIC_TASK=0.000009/0.001178
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.876026285] Shooter.shooterMotor.pidCtrlTask: OUTPUT_TASK=0.000013/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.879577775] Shooter.tiltMotor.pidCtrlTask: OUTPUT_TASK=0.000078/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.883193595] Shooter.tiltMotor.converterTask: INPUT_TASK=0.000089/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.888869733] Climber.motor.pidCtrlTask: OUTPUT_TASK=0.000006/0.011491
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [42.891427826] TaskAutoPickupFromGround: POST_PERIODIC_TASK=0.000355/0.006921
