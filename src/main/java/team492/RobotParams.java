@@ -411,7 +411,7 @@ public class RobotParams
 
     public static final double DRIVE_SLOW_SCALE                 = 0.3;
     public static final double TURN_SLOW_SCALE                  = 0.3;
-    public static final double DRIVE_NORMAL_SCALE               = 0.8;
+    public static final double DRIVE_NORMAL_SCALE               = 1.0;
     public static final double TURN_NORMAL_SCALE                = 0.6;
 
     public static class SwerveDriveBase
@@ -728,7 +728,7 @@ public class RobotParams
         public static final double tiltPowerLimit               = 0.5;
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.023, 0.0, 0.001, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
-        public static final double tiltMinAngle                 = 0.0;
+        public static final double tiltMinAngle                 = 0.0; 
         public static final double tiltMaxAngle                 = 87.0;     // in degrees.
         public static final double tiltAngleMinInc              = 1.0;      // in degrees.
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
@@ -755,7 +755,7 @@ public class RobotParams
             .add("Speaker1ft",          66.9, 90.0, 57.0)
             .add("Speaker2ft",          78.2, 90.0, 52.0)
             .add("Speaker3ft",          90.3, 90.0, 47.0)
-            .add("Speaker4ft",          102.0, 90.0, 42.0)
+            .add("Speaker4ft",          102.0, 90.0, 43.0)
             .add("Speaker5ft",          114.0, 90.0, 41.0)
             .add("Speaker6ft",          125.3, 90.0, 38.0)
             .add("Speaker7ft",          137.3, 90.0, 37.0); //TODO: distance might be off

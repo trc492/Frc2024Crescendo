@@ -521,6 +521,29 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 }
                 break;
 
+            case DPAD_LEFT:
+
+                // Aim at Amp.
+                if (robot.intake != null && robot.shooter != null && pressed)
+                {
+                    boolean active = !robot.shooter.isActive();
+                    if (active)
+                    {
+                        robot.shooter.aimShooter(
+                            RobotParams.Shooter.shooterAmpVelocity,
+                            RobotParams.Shooter.tiltAmpAngle, 0.0);
+                        // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
+                        // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
+                    }
+                    else
+                    {
+                        robot.shooter.cancel();
+                    }
+                }
+
+
+                break;
+
             case BACK:
                 if (pressed)
                 {

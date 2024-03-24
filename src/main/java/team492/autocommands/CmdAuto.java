@@ -165,6 +165,11 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         moduleName, "***** Vision Guidance: AprilTagId=" + aprilTagObj.target.getFiducialId() +
                         ", relocalizePose=" + aprilTagObj.robotPose);
                 }
+                else
+                {
+                    robot.globalTracer.traceInfo(
+                        moduleName, "***** Vision Guidance: error too small to reloalize.");
+                }
             }
         }
 
