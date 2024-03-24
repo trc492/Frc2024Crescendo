@@ -168,7 +168,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 else
                 {
                     robot.globalTracer.traceInfo(
-                        moduleName, "***** Vision Guidance: error too small to reloalize.");
+                        moduleName, "***** Vision Guidance: error too small to relocalize.");
                 }
             }
         }

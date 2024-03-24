@@ -728,7 +728,7 @@ public class RobotParams
         public static final double tiltPowerLimit               = 0.5;
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.023, 0.0, 0.001, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
-        public static final double tiltMinAngle                 = 0.0; 
+        public static final double tiltMinAngle                 = 0.0;
         public static final double tiltMaxAngle                 = 87.0;     // in degrees.
         public static final double tiltAngleMinInc              = 1.0;      // in degrees.
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
