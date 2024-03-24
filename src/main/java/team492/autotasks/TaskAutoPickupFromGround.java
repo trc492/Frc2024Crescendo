@@ -69,6 +69,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     private final TrcEvent driveEvent;
     private final TrcEvent gotNoteEvent;
 
+    private TaskParams taskParams = null;
     private String currOwner = null;
     private String driveOwner = null;
     private Double visionExpiredTime = null;
@@ -99,7 +100,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     public void autoAssistPickup(boolean useVision, boolean inAuto, TrcEvent completionEvent)
     {
         tracer.traceInfo(moduleName, "useVision=" + useVision + ", inAuto=" + inAuto + ", event=" + completionEvent);
-        startAutoTask(State.START, new TaskParams(useVision, inAuto), completionEvent);
+        taskParams = new TaskParams(useVision, inAuto);
+        startAutoTask(State.START, taskParams, completionEvent);
     }   //autoAssistPickup
 
     /**
@@ -182,8 +184,12 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     {
         tracer.traceInfo(moduleName, "Stopping subsystems.");
         robot.intake.unregisterEntryTriggerNotifyEvent();
-        robot.intake.cancel(currOwner);
+        if (!taskParams.inAuto)
+        {
+            robot.intake.cancel(currOwner);
+        }
         robot.robotDrive.cancel(driveOwner);
+        taskParams = null;
     }   //stopSubsystems
 
     /**
@@ -210,13 +216,14 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 // drive to it.
                 if (taskParams.useVision && robot.photonVisionBack != null)
                 {
-                    tracer.traceInfo(moduleName, "Using Note Vision.");
+                    tracer.traceInfo(moduleName, "***** Using Note Vision.");
                     robot.photonVisionBack.setPipeline(PipelineType.NOTE);
+                    visionExpiredTime = null;
                     sm.setState(State.DETECT_NOTE);
                 }
                 else
                 {
-                    tracer.traceInfo(moduleName, "Not using Note Vision.");
+                    tracer.traceInfo(moduleName, "***** Not using Note Vision.");
                     sm.setState(State.DRIVE_TO_NOTE);
                 }
                 break;
@@ -229,7 +236,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     notePose = object.getObjectPose();
                     notePose.x = -notePose.x;
                     notePose.y = -notePose.y;
-                    tracer.traceInfo(moduleName, "Vision found Note at %s from robot back.", notePose);
+                    tracer.traceInfo(moduleName, "***** Vision found Note at %s from robot back.", notePose);
                     sm.setState(State.DRIVE_TO_NOTE);
                 }
                 else if (visionExpiredTime == null)
@@ -240,7 +247,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 else if (TrcTimer.getCurrentTime() >= visionExpiredTime)
                 {
                     // Timed out, moving on.
-                    tracer.traceInfo(moduleName, "No Note Found.");
+                    tracer.traceInfo(moduleName, "***** No Note Found.");
                     sm.setState(State.DRIVE_TO_NOTE);
                 }
                 break;
@@ -250,9 +257,12 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     taskParams.inAuto)
                 {
                     // We are in auto and vision did not see any Note, quit.
+                    tracer.traceInfo(
+                        moduleName,
+                        "***** Either Vision doesn't see Note or Note is too far away, notePose=" + notePose + ".");
                     if (robot.ledIndicator != null)
                     {
-                        robot.ledIndicator.setPhotonDetectedObject(null);
+                        robot.ledIndicator.setPhotonDetectedObject(null, null);
                     }
                     sm.setState(State.DONE);
                 }
@@ -268,21 +278,26 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     sm.addEvent(gotNoteEvent);
                     if (notePose != null)
                     {
+                        tracer.traceInfo(moduleName, "***** Approach Note.");
+                        // notePose is the intermediate pose. Back it off a bit so we can turn to it and do a straight
+                        // run to it.
+                        notePose.y += 6;
                         robot.robotDrive.purePursuitDrive.start(
                             currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                            notePose, new TrcPose2D(0.0, -10.0, 0.0));
+                            notePose, new TrcPose2D(0.0, -26.0, 0.0));
                         sm.addEvent(driveEvent);
                     }
                     else
                     {
                         // Did not detect Note, release drive ownership to let driver to drive manually.
+                        tracer.traceInfo(moduleName, "***** Did not see Note, release drive ownership.");
                         robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
                         driveOwner = null;
                         if (robot.ledIndicator != null)
                         {
-                            robot.ledIndicator.setPhotonDetectedObject(null);
+                            robot.ledIndicator.setPhotonDetectedObject(null, null);
                         }
                     }
                     sm.waitForEvents(State.CHECK_INTAKE_COMPLETION, false);
@@ -293,7 +308,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 boolean gotNote = robot.intake.hasObject();
                 tracer.traceInfo(
                     moduleName,
-                    "intakeEvent=" + intakeEvent +
+                    "**** Check Intake: intakeEvent=" + intakeEvent +
                     ", gotNoteEvent=" + gotNoteEvent +
                     ", driveEvent=" + driveEvent +
                     ", gotNote=" + gotNote);

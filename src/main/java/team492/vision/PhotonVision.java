@@ -57,21 +57,6 @@ public class PhotonVision extends FrcPhotonVision
             pipelineIndex = value;
         }
 
-        public static PipelineType getType(int index)
-        {
-            PipelineType type = null;
-
-            for (PipelineType pipelineType: PipelineType.values())
-            {
-                if (index == pipelineType.pipelineIndex)
-                {
-                    type = pipelineType;
-                }
-            }
-
-            return type;
-        }   //getType
-
     }   //enum PipelineType
 
     private final Transform3d robotToCam;
@@ -190,7 +175,7 @@ public class PhotonVision extends FrcPhotonVision
 
             if (ledIndicator != null)
             {
-                ledIndicator.setPhotonDetectedObject(getPipeline());
+                ledIndicator.setPhotonDetectedObject(getPipeline(), bestDetectedObj.targetPose);
             }
         }
 
@@ -274,7 +259,7 @@ public class PhotonVision extends FrcPhotonVision
 
             if  (ledIndicator != null)
             {
-                ledIndicator.setPhotonDetectedObject(currPipeline);
+                ledIndicator.setPhotonDetectedObject(currPipeline, bestObj.targetPose);
             }
         }
 
@@ -314,7 +299,7 @@ public class PhotonVision extends FrcPhotonVision
      */
     public PipelineType getPipeline()
     {
-        currPipeline = PipelineType.getType(getPipelineIndex());
+        currPipeline = PipelineType.values()[getPipelineIndex()];
         return currPipeline;
     }   //getPipeline
 

@@ -1,0 +1,51 @@
+robotStartMode.robotStartMode_INFO [0.018892994] [0.016] Fri Mar 15 14:20:21 PDT 2024: ***** AUTO_MODE *****
+FrcAuto.startMode_INFO [0.074938896] <Info name="MatchInfo" date="Fri Mar 15 14:20:21 PDT 2024" event="WAYAK" type="Qualification" match=14 replay=1 alliance="Blue" location=2 gameMsg="" />
+FrcAuto.startMode_INFO [0.077984205] <Info name="AutoChoices" alliance="Blue" strategy="CRESCENDO_AUTO" startPos="SW_CENTER" scoreWingNotes="SCORE_ONE" endAction="SCORE_ONE_NOTE" relocalize="false" startDelay=0 sec pathFile="DrivePath.csv" xDistance=6.0 ft yDistance=6.0 ft turnDegrees=90 deg driveTime=4 sec drivePower=4.0 />
+Climber.motor.pidCtrlTask_INFO [0.089027353] Zero calibration done, event=null
+Shooter.aimShooter_DEBUG [0.13917582] owner=null, vel=90.0, tiltAngle=60.0, panAngle=0.0, event=(CmdAuto=CLEARED), timeout=0.0, aimOnly=false, shootOffDelay=0.0
+CmdAuto.cmdPeriodic_INFO [0.204589469] <Event name="StateInfo" time="0.203515404" tag="^^^^^" CmdAuto.state="START" />
+Shooter.onTarget_DEBUG [0.250675056] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CLEARED), panEvent=null, aimOnly=false
+FrcRobotBase.startCompetition_INFO [9.200481107] *** Transitioning from AUTO_MODE to DISABLED_MODE ***
+TaskAutoScoreNote.autoAssistCancel_INFO [9.216140758] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [9.220162778] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [9.221714798] Canceling auto-assist.
+pidDrive.printPerformanceMetrics_INFO [9.22513477] [pidDrive] Loop Performance Metrics:
+Average Loop Interval = NaNs (freq=NaNHz, min=0.000000s, max=0.000000s)
+
+FrcRobotBase.printPerformanceMetrics_INFO [9.234598485] [FrcRobotBase] Loop Performance Metrics:
+Average Loop Interval = 0.001120s (freq=892.803Hz, min=0.000000s, max=2.183064s)
+[03]                StartTask=0.000000s
+[04]          PrePeriodicTask=0.000114s
+[07]               UpdateTask=0.000703s
+[02]                StartMode=0.000000s
+[06]         PostPeriodicTask=0.000053s
+[08]                 StopTask=0.000000s
+[09]                 StopMode=0.000000s
+[00]                RobotInit=12.508508s
+[01]           RobotStartMode=0.000008s
+[05]                 Periodic=0.000169s
+[10]            RobotStopMode=0.000001s
+
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.244293839] TrcWatchdogMgr: STANDALONE_TASK=0.000204/0.997989
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.24810473] DriverController.buttonEvent: PRE_PERIODIC_TASK=0.000008/0.003481
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.253269437] OperatorController.buttonEvent: PRE_PERIODIC_TASK=0.000004/0.003481
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.258731274] LED: OUTPUT_TASK=0.000043/0.011490
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.262024391] lfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000010/0.011490
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.263567602] TrcMotor.odometryTask: STANDALONE_TASK=0.000010/0.000026
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.265576728] lfDriveMotor.odometryCleanupTask: STOP_TASK=0.004838/70.413033
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.268510585] rfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000005/0.011490
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.26977451] lbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000005/0.011490
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.273158732] rbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000005/0.011490
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.275091579] lfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000370/0.011490
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.278691256] rfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000310/0.011490
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.281404816] lbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000310/0.011490
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.284576536] rbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000312/0.011490
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.28594532] TrcDriveBase.odometryTask: INPUT_TASK=0.002849/0.077955
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.289335535] TrcDriveBase.stopTask: STOP_TASK=0.007809/70.415165
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.291781006] Intake.motor.pidCtrlTask: OUTPUT_TASK=0.000005/0.011490
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.295293734] Intake.entryTrigger.triggerTask: PRE_PERIODIC_TASK=0.000020/0.001120
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.298474495] Intake.exitTrigger.triggerTask: PRE_PERIODIC_TASK=0.000009/0.001120
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.301724061] Shooter.shooterMotor.pidCtrlTask: OUTPUT_TASK=0.000009/0.011490
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.303948752] Shooter.tiltMotor.pidCtrlTask: OUTPUT_TASK=0.000027/0.011490
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.305978598] Shooter.tiltMotor.converterTask: INPUT_TASK=0.000081/0.011490
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.307631042] Climber.motor.pidCtrlTask: OUTPUT_TASK=0.000005/0.011490

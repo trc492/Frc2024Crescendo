@@ -88,7 +88,7 @@ public class PhotonVisionRaw extends FrcPhotonVisionRaw
 
         if (detectedObject != null && ledIndicator != null)
         {
-            ledIndicator.setPhotonDetectedObject(getPipeline());
+            ledIndicator.setPhotonDetectedObject(getPipeline(), detectedObject.getObjectPose());
         }
 
         return detectedObject;
@@ -187,7 +187,7 @@ public class PhotonVisionRaw extends FrcPhotonVisionRaw
      */
     public PipelineType getPipeline()
     {
-        currPipeline = PipelineType.getType(super.getSelectedPipeline());
+        currPipeline = PipelineType.values()[super.getSelectedPipeline()];
         return currPipeline;
     }   //getPipeline
 

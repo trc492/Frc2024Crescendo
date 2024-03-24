@@ -1,0 +1,722 @@
+robotStartMode.robotStartMode_INFO [0.288032301] [0.287] Fri Mar 15 14:20:21 PDT 2024: ***** TELEOP_MODE *****
+Climber.motor.pidCtrlTask_INFO [0.348533879] Zero calibration done, event=null
+FrcTeleOp.driverControllerButtonEvent_INFO [5.929599256] >>>>> button=5, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [6.291931654] >>>>> button=5, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [9.528704298] >>>>> button=1, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [9.578569535] >>>>> button=1, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [9.681497727] >>>>> button=1, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [9.731426751] >>>>> button=1, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [11.0267308] >>>>> button=3, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [11.031544561] useVision=true, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [11.04823141] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.runTaskState_INFO [11.068653537] Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [11.069768184] <Event name="StateInfo" time="11.069423115" tag="^^^^^" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [11.084392502] Vision found Note at (x=-3.2,y=-21.3,angle=8.5) from robot back.
+TaskAutoPickupFromGround.autoTask_INFO [11.085465165] <Event name="StateInfo" time="11.085245148" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+Intake.performAction_INFO [11.131140279] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+purePursuitDrive.start_INFO [11.142488636] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=-55.0,y=24.3,angle=116.1),vel=0.000000), TrcWaypoint(pose=(x=-72.8,y=36.5,angle=124.6),vel=0.000000), TrcWaypoint(pose=(x=-81.0,y=42.2,angle=124.6),vel=0.000000)])
+TaskAutoPickupFromGround.autoTask_INFO [11.143065667] <Event name="StateInfo" time="11.142914456" tag="^^^^^" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+FrcTeleOp.driverControllerButtonEvent_INFO [11.146933198] >>>>> button=3, pressed=false
+purePursuitDrive.xPosPid.isStalled_INFO [13.699757931] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [13.700398098] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [13.70089107] PID stalled.
+purePursuitDrive.driveTask_INFO [13.70160558] Done: index=2/3, stalled=true, timeout=false, posOnTarget=false,headingOnTarget=false,robotPose=(x=-79.2,y=40.9,angle=119.2)
+purePursuitDrive.driveTask_INFO [13.711690705] Signal completion event (TaskAutoPickupFromGround.driveEvent=CLEARED).
+TaskAutoPickupFromGround.runTaskState_INFO [13.716344751] intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=CLEARED), driveEvent=(TaskAutoPickupFromGround.driveEvent=SIGNALED), gotNote=false
+TaskAutoPickupFromGround.autoTask_INFO [13.717798523] <Event name="StateInfo" time="13.717494351" tag="^^^^^" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [13.729351103] Stopping subsystems.
+Intake.cancel_INFO [13.731033162] owner=AutoPickupGround
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [13.740092228] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=AutoPickupGround).
+TaskAutoPickupFromGround.autoTask_INFO [13.741505858] <Event name="StateInfo" time="13.741340862" tag="^^^^^" TaskAutoPickupFromGround.state="DONE" />
+FrcTeleOp.driverControllerButtonEvent_INFO [15.684704929] >>>>> button=3, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [15.68673751] useVision=true, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [15.688319108] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.runTaskState_INFO [15.70692391] Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [15.708895617] <Event name="StateInfo" time="15.708395969" tag="^^^^^" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.autoTask_INFO [15.723145008] <Event name="StateInfo" time="15.72296018" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.728873316] <Event name="StateInfo" time="15.728503998" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.747850211] <Event name="StateInfo" time="15.747292615" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.757394354] <Event name="StateInfo" time="15.757215784" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.762599102] <Event name="StateInfo" time="15.760939818" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.769981998] <Event name="StateInfo" time="15.769300096" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.785984744] <Event name="StateInfo" time="15.784912032" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+FrcTeleOp.driverControllerButtonEvent_INFO [15.792933337] >>>>> button=3, pressed=false
+TaskAutoPickupFromGround.autoTask_INFO [15.813810718] <Event name="StateInfo" time="15.813623158" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.81664759] <Event name="StateInfo" time="15.816479212" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.819884565] <Event name="StateInfo" time="15.819290036" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.824622682] <Event name="StateInfo" time="15.823744951" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.829975759] <Event name="StateInfo" time="15.829089158" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.835864012] <Event name="StateInfo" time="15.834471765" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.840880035] <Event name="StateInfo" time="15.840334042" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.857177111] <Event name="StateInfo" time="15.856923869" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.861179718] <Event name="StateInfo" time="15.860066937" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.868906059] <Event name="StateInfo" time="15.868099183" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.874564112] <Event name="StateInfo" time="15.8743902" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.878630815] <Event name="StateInfo" time="15.878463535" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.883749316] <Event name="StateInfo" time="15.883587286" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.892417438] <Event name="StateInfo" time="15.892245328" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.911541635] <Event name="StateInfo" time="15.911366811" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.916037126] <Event name="StateInfo" time="15.915863313" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.921331196] <Event name="StateInfo" time="15.921142117" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.943993665] <Event name="StateInfo" time="15.940077619" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.949192092] <Event name="StateInfo" time="15.949028669" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.95819359] <Event name="StateInfo" time="15.957970344" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.960512535] <Event name="StateInfo" time="15.960349739" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.966723597] <Event name="StateInfo" time="15.966485653" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.972021754] <Event name="StateInfo" time="15.971852288" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.973781877] <Event name="StateInfo" time="15.97351826" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.979947578] <Event name="StateInfo" time="15.978454248" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.984480348] <Event name="StateInfo" time="15.984257401" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.987564719] <Event name="StateInfo" time="15.986232396" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.991705442] <Event name="StateInfo" time="15.991450732" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.995987321] <Event name="StateInfo" time="15.995824825" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [15.999142529] <Event name="StateInfo" time="15.998973029" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.001354399] <Event name="StateInfo" time="16.001193934" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.005012147] <Event name="StateInfo" time="16.004820205" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.014900274] <Event name="StateInfo" time="16.014731954" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.016806287] <Event name="StateInfo" time="16.016621176" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.018258477] <Event name="StateInfo" time="16.018026007" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.021621292] <Event name="StateInfo" time="16.019317823" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.023343283] <Event name="StateInfo" time="16.023165371" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.025128694] <Event name="StateInfo" time="16.024886852" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.029008804] <Event name="StateInfo" time="16.026271085" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.030197558] <Event name="StateInfo" time="16.029901742" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.031353048] <Event name="StateInfo" time="16.031184741" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.034146117] <Event name="StateInfo" time="16.03244331" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.035424943] <Event name="StateInfo" time="16.035269575" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.039616126] <Event name="StateInfo" time="16.036261022" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.041095945] <Event name="StateInfo" time="16.040808159" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.04689045] <Event name="StateInfo" time="16.046714172" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.048277647] <Event name="StateInfo" time="16.047995746" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.049377985] <Event name="StateInfo" time="16.049220434" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.050507047] <Event name="StateInfo" time="16.050351139" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.053376967] <Event name="StateInfo" time="16.053213455" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.054747286] <Event name="StateInfo" time="16.054520087" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.056373438] <Event name="StateInfo" time="16.056150167" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.058916303] <Event name="StateInfo" time="16.05752937" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.068449251] <Event name="StateInfo" time="16.068161795" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.070237361] <Event name="StateInfo" time="16.070069128" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.071593422] <Event name="StateInfo" time="16.071435273" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.073369823] <Event name="StateInfo" time="16.07321068" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.074980775] <Event name="StateInfo" time="16.074827408" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.07761426] <Event name="StateInfo" time="16.077279045" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.081269499] <Event name="StateInfo" time="16.079093899" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.083337102] <Event name="StateInfo" time="16.082830953" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.086813553] <Event name="StateInfo" time="16.086473341" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.088789775] <Event name="StateInfo" time="16.088463476" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.09246166] <Event name="StateInfo" time="16.092296805" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.094176487] <Event name="StateInfo" time="16.093724346" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.099264254] <Event name="StateInfo" time="16.09568926" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.100378826] <Event name="StateInfo" time="16.100211938" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.101650503] <Event name="StateInfo" time="16.101443274" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.105349526] <Event name="StateInfo" time="16.102574517" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.107108901] <Event name="StateInfo" time="16.106627983" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.108703787] <Event name="StateInfo" time="16.108514634" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.110203175] <Event name="StateInfo" time="16.109977758" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.134010913] <Event name="StateInfo" time="16.13223728" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.138418746] <Event name="StateInfo" time="16.138265411" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.140184154] <Event name="StateInfo" time="16.140028929" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.141100748] <Event name="StateInfo" time="16.14096194" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.142579005] <Event name="StateInfo" time="16.141873527" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.144292834] <Event name="StateInfo" time="16.144127898" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.14914895] <Event name="StateInfo" time="16.148939148" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.150822913] <Event name="StateInfo" time="16.150625331" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.152073398] <Event name="StateInfo" time="16.151915185" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.15384344] <Event name="StateInfo" time="16.153681232" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.155469975] <Event name="StateInfo" time="16.155313613" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.161655239] <Event name="StateInfo" time="16.161492415" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.163293816] <Event name="StateInfo" time="16.163127799" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.172064353] <Event name="StateInfo" time="16.171896577" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.174317365] <Event name="StateInfo" time="16.173955708" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.175701] <Event name="StateInfo" time="16.175496148" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.18133557] <Event name="StateInfo" time="16.181173205" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.182748637] <Event name="StateInfo" time="16.18251607" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.183925844] <Event name="StateInfo" time="16.183776079" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.190686789] <Event name="StateInfo" time="16.188732644" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.192039623] <Event name="StateInfo" time="16.19183692" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.193233814] <Event name="StateInfo" time="16.193083653" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.194367969] <Event name="StateInfo" time="16.194211392" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.196055885] <Event name="StateInfo" time="16.19567767" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.199928686] <Event name="StateInfo" time="16.199202111" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.20103939] <Event name="StateInfo" time="16.200880738" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.205604691] <Event name="StateInfo" time="16.205446291" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.209727572] <Event name="StateInfo" time="16.206817589" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.211033703] <Event name="StateInfo" time="16.210859604" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.212298028] <Event name="StateInfo" time="16.212133005" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.217379546] <Event name="StateInfo" time="16.217123131" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.220657886] <Event name="StateInfo" time="16.22050322" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.223324256] <Event name="StateInfo" time="16.221718709" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.227325164] <Event name="StateInfo" time="16.227005415" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.22922895] <Event name="StateInfo" time="16.229066851" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.232494571] <Event name="StateInfo" time="16.232328804" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.234016544] <Event name="StateInfo" time="16.233852564" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.235155462] <Event name="StateInfo" time="16.234910658" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.236160753] <Event name="StateInfo" time="16.236011637" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.237281615] <Event name="StateInfo" time="16.236970755" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.238385701] <Event name="StateInfo" time="16.238236206" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.23966449] <Event name="StateInfo" time="16.23949946" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.242983254] <Event name="StateInfo" time="16.242809468" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.244354598] <Event name="StateInfo" time="16.244206679" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.245275515] <Event name="StateInfo" time="16.245132595" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.246499095] <Event name="StateInfo" time="16.246341839" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.247485811] <Event name="StateInfo" time="16.247351925" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.248448746] <Event name="StateInfo" time="16.248306433" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.251243922] <Event name="StateInfo" time="16.251033689" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.25228336] <Event name="StateInfo" time="16.252094568" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.253379542] <Event name="StateInfo" time="16.253185211" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.254634269] <Event name="StateInfo" time="16.254329796" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.256179239] <Event name="StateInfo" time="16.255965976" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.257488983] <Event name="StateInfo" time="16.257313444" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.258599161] <Event name="StateInfo" time="16.25843384" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.259842949] <Event name="StateInfo" time="16.259639866" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.260965623] <Event name="StateInfo" time="16.260751405" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.263460416] <Event name="StateInfo" time="16.263295668" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.264540476] <Event name="StateInfo" time="16.264386286" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.278450004] <Event name="StateInfo" time="16.278289611" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.284901029] <Event name="StateInfo" time="16.281445484" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.286201185] <Event name="StateInfo" time="16.286035191" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.287579577] <Event name="StateInfo" time="16.287410056" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.291357832] <Event name="StateInfo" time="16.288582433" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.293637089] <Event name="StateInfo" time="16.293414217" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.294724444] <Event name="StateInfo" time="16.29452751" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.30822683] <Event name="StateInfo" time="16.307692426" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.310042557] <Event name="StateInfo" time="16.309888597" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.317110696] <Event name="StateInfo" time="16.312472177" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.328444661] <Event name="StateInfo" time="16.328269616" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.334000786] <Event name="StateInfo" time="16.33363003" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.338468112] <Event name="StateInfo" time="16.338289397" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.340288129] <Event name="StateInfo" time="16.340124089" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.342292717] <Event name="StateInfo" time="16.342070516" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.345670604] <Event name="StateInfo" time="16.345487133" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.349233903] <Event name="StateInfo" time="16.349070696" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.356172582] <Event name="StateInfo" time="16.356007852" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.360694394] <Event name="StateInfo" time="16.360272945" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.373107977] <Event name="StateInfo" time="16.371891848" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.422130715] <Event name="StateInfo" time="16.421954375" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.454876631] <Event name="StateInfo" time="16.451435795" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.464558278] <Event name="StateInfo" time="16.464091208" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.474496509] <Event name="StateInfo" time="16.474311825" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.483706337] <Event name="StateInfo" time="16.481050767" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.499481511] <Event name="StateInfo" time="16.496979645" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.511305336] <Event name="StateInfo" time="16.510648012" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.516123243] <Event name="StateInfo" time="16.515216228" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.520933776] <Event name="StateInfo" time="16.520684411" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.52632935] <Event name="StateInfo" time="16.526163177" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.528032798] <Event name="StateInfo" time="16.527873641" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.532821347] <Event name="StateInfo" time="16.532536322" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.53471444] <Event name="StateInfo" time="16.534553374" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.541329064] <Event name="StateInfo" time="16.541158668" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.544758308] <Event name="StateInfo" time="16.544599334" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.550533442] <Event name="StateInfo" time="16.550365512" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.55274315] <Event name="StateInfo" time="16.552270572" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.554335199] <Event name="StateInfo" time="16.554177134" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.557251089] <Event name="StateInfo" time="16.557092608" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.559205033] <Event name="StateInfo" time="16.559033497" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.56432234] <Event name="StateInfo" time="16.564062116" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.576214551] <Event name="StateInfo" time="16.576034659" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.577995586] <Event name="StateInfo" time="16.577832531" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.580935475] <Event name="StateInfo" time="16.580574095" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.587660116] <Event name="StateInfo" time="16.587501123" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.595351043] <Event name="StateInfo" time="16.595168182" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.597168808] <Event name="StateInfo" time="16.597011139" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.603297686] <Event name="StateInfo" time="16.603132699" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.605087151] <Event name="StateInfo" time="16.604922033" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.607295052] <Event name="StateInfo" time="16.606902541" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.611806168] <Event name="StateInfo" time="16.611636903" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.613605891] <Event name="StateInfo" time="16.613348678" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.615282139] <Event name="StateInfo" time="16.61512753" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.617005154] <Event name="StateInfo" time="16.616843639" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.618643517] <Event name="StateInfo" time="16.618488924" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.620277247] <Event name="StateInfo" time="16.620117987" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.623544693] <Event name="StateInfo" time="16.623359902" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.625426704] <Event name="StateInfo" time="16.62526697" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.627041101] <Event name="StateInfo" time="16.626886721" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.62990008] <Event name="StateInfo" time="16.629734741" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.634605797] <Event name="StateInfo" time="16.63443863" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.636859136] <Event name="StateInfo" time="16.636708252" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.648565023] <Event name="StateInfo" time="16.64840547" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.652488705] <Event name="StateInfo" time="16.650349324" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.654511845] <Event name="StateInfo" time="16.654218957" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.659425778] <Event name="StateInfo" time="16.656220696" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.661754925] <Event name="StateInfo" time="16.661589018" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.663965528] <Event name="StateInfo" time="16.663668895" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.665553204] <Event name="StateInfo" time="16.665317769" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.667713117] <Event name="StateInfo" time="16.667544669" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.669965261] <Event name="StateInfo" time="16.669801934" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.672798959] <Event name="StateInfo" time="16.671416287" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.677437425] <Event name="StateInfo" time="16.677202696" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.679023285] <Event name="StateInfo" time="16.67882838" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.680762259] <Event name="StateInfo" time="16.680608215" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.683294039] <Event name="StateInfo" time="16.682962805" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.689446956] <Event name="StateInfo" time="16.689153824" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.696128423] <Event name="StateInfo" time="16.695903949" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.698053689] <Event name="StateInfo" time="16.697896983" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.700374187] <Event name="StateInfo" time="16.700031617" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.704802547] <Event name="StateInfo" time="16.704631683" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.706465971] <Event name="StateInfo" time="16.706287196" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.708024226] <Event name="StateInfo" time="16.707836915" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.709646476] <Event name="StateInfo" time="16.709411518" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.711298608] <Event name="StateInfo" time="16.711143234" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.712988695] <Event name="StateInfo" time="16.712822728" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.719791692] <Event name="StateInfo" time="16.719575052" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [16.721682564] <Event name="StateInfo" time="16.721503826" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.runTaskState_INFO [16.723684196] No Note Found.
+TaskAutoPickupFromGround.autoTask_INFO [16.724674245] <Event name="StateInfo" time="16.724472852" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+Intake.performAction_INFO [16.726500042] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CANCELED), timeout=0.0), hasObject=false
+TaskAutoPickupFromGround.autoTask_INFO [16.727860372] <Event name="StateInfo" time="16.72763131" tag="^^^^^" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+FrcTeleOp.driverControllerButtonEvent_INFO [16.845852744] >>>>> button=3, pressed=true
+TaskAutoScoreNote.autoAssistCancel_INFO [16.847164058] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [16.848485389] Canceling auto-assist.
+TaskAutoPickupFromGround.stopSubsystems_INFO [16.849971218] Stopping subsystems.
+Intake.cancel_INFO [16.851009645] owner=AutoPickupGround
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [16.855310082] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+TaskAutoPickupFromSource.autoAssistCancel_INFO [16.857651458] Canceling auto-assist.
+FrcTeleOp.driverControllerButtonEvent_INFO [16.959973563] >>>>> button=3, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [17.970171711] >>>>> button=3, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [17.977307193] useVision=true, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [17.982843741] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.runTaskState_INFO [18.001507244] Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [18.003174601] <Event name="StateInfo" time="18.002811381" tag="^^^^^" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [18.010294542] No Note Found.
+TaskAutoPickupFromGround.autoTask_INFO [18.012234737] <Event name="StateInfo" time="18.011855396" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+Intake.performAction_INFO [18.033631501] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CANCELED), timeout=0.0), hasObject=false
+TaskAutoPickupFromGround.autoTask_INFO [18.036570179] <Event name="StateInfo" time="18.03639818" tag="^^^^^" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+FrcTeleOp.driverControllerButtonEvent_INFO [18.075844846] >>>>> button=3, pressed=false
+Intake.entryTriggerCallback_INFO [18.344450257] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.runTaskState_INFO [18.349816532] intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=SIGNALED), gotNote=true
+TaskAutoPickupFromGround.autoTask_INFO [18.351291582] <Event name="StateInfo" time="18.350929029" tag="^^^^^" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+Intake.exitTriggerCallback_INFO [18.740207236] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.stopSubsystems_INFO [18.74675874] Stopping subsystems.
+Intake.cancel_INFO [18.753840573] owner=AutoPickupGround
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [18.757015357] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+TaskAutoPickupFromGround.autoTask_INFO [18.758589663] <Event name="StateInfo" time="18.757704233" tag="^^^^^" TaskAutoPickupFromGround.state="DONE" />
+Intake.entryTriggerCallback_INFO [18.762489388] active=false, actionParams=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [20.039099195] >>>>> button=3, pressed=true
+Shooter.aimShooter_DEBUG [20.050597643] owner=null, vel=20.0, tiltAngle=57.5, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [20.061105386] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [20.22686717] >>>>> button=3, pressed=false
+Shooter.tiltMotor.pidCtrlTask_INFO [21.490933173] controlMode: Position onTarget=true(57.53038014234123/57.5), stalled=false, expired=false, event=(Shooter.tiltOnTargetEvent=SIGNALED)
+Shooter.onTarget_DEBUG [21.493043521] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=SIGNALED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [21.885731749] >>>>> button=2, pressed=true
+Intake.performAction_INFO [21.887504138] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Intake.exitTriggerCallback_INFO [22.24048258] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+FrcTeleOp.operatorControllerButtonEvent_INFO [22.52240296] >>>>> button=2, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [24.702279626] >>>>> button=3, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [24.703984916] useVision=true, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [24.709091691] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.runTaskState_INFO [24.738860076] Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [24.740500139] <Event name="StateInfo" time="24.74021108" tag="^^^^^" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [24.748032742] Vision found Note at (x=-23.7,y=-42.5,angle=29.1) from robot back.
+TaskAutoPickupFromGround.autoTask_INFO [24.749050688] <Event name="StateInfo" time="24.74890226" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+Intake.performAction_INFO [24.757600631] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+purePursuitDrive.start_INFO [24.763059952] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=-229.2,y=32.9,angle=175.3),vel=0.000000), TrcWaypoint(pose=(x=-209.1,y=77.2,angle=204.4),vel=0.000000), TrcWaypoint(pose=(x=-205.0,y=86.3,angle=204.4),vel=0.000000)])
+TaskAutoPickupFromGround.autoTask_INFO [24.770184696] <Event name="StateInfo" time="24.770017165" tag="^^^^^" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+FrcTeleOp.driverControllerButtonEvent_INFO [24.771758725] >>>>> button=3, pressed=false
+Intake.entryTriggerCallback_INFO [26.144781465] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.runTaskState_INFO [26.153332526] intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CLEARED), gotNote=true
+TaskAutoPickupFromGround.autoTask_INFO [26.155045333] <Event name="StateInfo" time="26.154847321" tag="^^^^^" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+Intake.exitTriggerCallback_INFO [26.591833901] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.stopSubsystems_INFO [26.605062872] Stopping subsystems.
+Intake.cancel_INFO [26.607036921] owner=AutoPickupGround
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [26.610316237] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+TaskAutoPickupFromGround.autoTask_INFO [26.614634405] <Event name="StateInfo" time="26.613695926" tag="^^^^^" TaskAutoPickupFromGround.state="DONE" />
+Intake.entryTriggerCallback_INFO [26.623162952] active=false, actionParams=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [26.983792994] >>>>> button=3, pressed=true
+Shooter.aimShooter_DEBUG [26.996075513] owner=null, vel=20.0, tiltAngle=57.5, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [27.014846486] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [27.111372937] >>>>> button=3, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [27.77139462] >>>>> button=2, pressed=true
+Intake.performAction_INFO [27.772156772] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Intake.exitTriggerCallback_INFO [28.098216973] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+FrcTeleOp.operatorControllerButtonEvent_INFO [28.384078439] >>>>> button=2, pressed=false
+Shooter.tiltMotor.pidCtrlTask_INFO [28.664816114] controlMode: Position onTarget=true(57.301674816972124/57.5), stalled=false, expired=false, event=(Shooter.tiltOnTargetEvent=SIGNALED)
+Shooter.onTarget_DEBUG [28.676006573] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=SIGNALED), panEvent=null, aimOnly=true
+FrcTeleOp.driverControllerButtonEvent_INFO [30.539524508] >>>>> button=3, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [30.540136944] useVision=true, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [30.541392511] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.runTaskState_INFO [30.576642989] Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [30.580978469] <Event name="StateInfo" time="30.580606758" tag="^^^^^" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [30.590124992] Vision found Note at (x=-4.0,y=-36.7,angle=6.3) from robot back.
+TaskAutoPickupFromGround.autoTask_INFO [30.59104122] <Event name="StateInfo" time="30.590748673" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+FrcTeleOp.driverControllerButtonEvent_INFO [30.595881401] >>>>> button=3, pressed=false
+Intake.performAction_INFO [30.616417872] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+purePursuitDrive.start_INFO [30.626931203] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=-211.0,y=51.7,angle=550.1),vel=0.000000), TrcWaypoint(pose=(x=-200.6,y=87.1,angle=556.4),vel=0.000000), TrcWaypoint(pose=(x=-197.8,y=96.7,angle=556.4),vel=0.000000)])
+TaskAutoPickupFromGround.autoTask_INFO [30.628203612] <Event name="StateInfo" time="30.628038549" tag="^^^^^" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+Intake.entryTriggerCallback_INFO [31.686900234] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.runTaskState_INFO [31.724809181] intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CLEARED), gotNote=true
+TaskAutoPickupFromGround.autoTask_INFO [31.731232273] <Event name="StateInfo" time="31.730986116" tag="^^^^^" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+Intake.exitTriggerCallback_INFO [32.138779827] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.stopSubsystems_INFO [32.157830252] Stopping subsystems.
+Intake.cancel_INFO [32.158980185] owner=AutoPickupGround
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [32.166283429] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+TaskAutoPickupFromGround.autoTask_INFO [32.167315322] <Event name="StateInfo" time="32.167091107" tag="^^^^^" TaskAutoPickupFromGround.state="DONE" />
+FrcTeleOp.operatorControllerButtonEvent_INFO [32.383504857] >>>>> button=4, pressed=true
+Shooter.aimShooter_DEBUG [32.436930704] owner=null, vel=90.0, tiltAngle=45.65791670507094, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [32.509606725] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [32.535849757] owner=null, vel=90.0, tiltAngle=50.921351400550606, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [32.561353604] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [32.573974671] owner=null, vel=90.0, tiltAngle=53.09475223332751, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [32.624955601] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [32.628478984] owner=null, vel=90.0, tiltAngle=56.37023660221857, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [32.652444424] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [32.675864515] owner=null, vel=90.0, tiltAngle=56.40724126441142, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [32.704843226] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [32.725947845] owner=null, vel=90.0, tiltAngle=58.057335451380084, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [32.773803747] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [32.784678039] owner=null, vel=90.0, tiltAngle=58.133443551675654, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [32.814437024] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [32.829698361] owner=null, vel=90.0, tiltAngle=58.1550741533061, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [32.858065769] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [32.881628385] owner=null, vel=90.0, tiltAngle=58.1585470559873, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [32.931016278] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [32.936176332] owner=null, vel=90.0, tiltAngle=58.1841235312646, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [32.958048958] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [32.988824611] owner=null, vel=90.0, tiltAngle=58.17577423672829, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.011224947] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.048260531] owner=null, vel=90.0, tiltAngle=58.189908604940555, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.088342909] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.100368204] owner=null, vel=90.0, tiltAngle=58.167883772144855, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.128250659] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.151170048] owner=null, vel=90.0, tiltAngle=58.15133499903027, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.179836696] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.208718673] owner=null, vel=90.0, tiltAngle=58.170666030129745, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.23385514] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [33.255534165] >>>>> button=2, pressed=true
+Intake.performAction_INFO [33.256854781] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Shooter.aimShooter_DEBUG [33.266674598] owner=null, vel=90.0, tiltAngle=58.163750840568376, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Intake.entryTriggerCallback_INFO [33.312064936] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Shooter.onTarget_DEBUG [33.313311464] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.328570295] owner=null, vel=90.0, tiltAngle=58.15303709072877, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.360504296] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.365117419] owner=null, vel=90.0, tiltAngle=58.152701781207526, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.414100232] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.420405279] owner=null, vel=90.0, tiltAngle=58.18426594000061, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.450720457] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.470270031] owner=null, vel=90.0, tiltAngle=58.16525245742971, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.503340474] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.524094846] owner=null, vel=90.0, tiltAngle=58.181072307338134, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.560175701] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.575093044] owner=null, vel=90.0, tiltAngle=58.17062644563817, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Intake.exitTriggerCallback_INFO [33.60365071] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Shooter.onTarget_DEBUG [33.60597577] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.630075783] owner=null, vel=90.0, tiltAngle=58.15892421773836, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.654461694] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.676624529] owner=null, vel=90.0, tiltAngle=57.29963592922989, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.715055755] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.730070756] owner=null, vel=90.0, tiltAngle=58.15020474970008, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.756375975] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [33.782634142] owner=null, vel=90.0, tiltAngle=58.167018430515725, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [33.820606541] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [33.829160905] >>>>> button=2, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [33.831290545] >>>>> button=4, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [34.670058679] >>>>> button=6, pressed=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [34.771642528] >>>>> button=6, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [34.825842606] >>>>> button=2, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [34.93222108] >>>>> button=2, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [40.084704072] >>>>> button=3, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [40.09440452] useVision=true, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [40.107711564] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.runTaskState_INFO [40.120855368] Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [40.123102672] <Event name="StateInfo" time="40.122500381" tag="^^^^^" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [40.131499841] Vision found Note at (x=-3.2,y=-30.1,angle=6.2) from robot back.
+TaskAutoPickupFromGround.autoTask_INFO [40.134020579] <Event name="StateInfo" time="40.1334497" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+Intake.performAction_INFO [40.155573489] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+purePursuitDrive.start_INFO [40.158499401] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=261.3,y=-343.5,angle=639.3),vel=0.000000), TrcWaypoint(pose=(x=290.5,y=-351.6,angle=645.4),vel=0.000000), TrcWaypoint(pose=(x=300.1,y=-354.3,angle=645.4),vel=0.000000)])
+TaskAutoPickupFromGround.autoTask_INFO [40.160001254] <Event name="StateInfo" time="40.159694264" tag="^^^^^" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+FrcTeleOp.driverControllerButtonEvent_INFO [40.19117049] >>>>> button=3, pressed=false
+Intake.entryTriggerCallback_INFO [40.759647761] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.runTaskState_INFO [40.771710258] intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CLEARED), gotNote=true
+TaskAutoPickupFromGround.autoTask_INFO [40.778606815] <Event name="StateInfo" time="40.774978633" tag="^^^^^" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+Intake.exitTriggerCallback_INFO [41.248120383] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.stopSubsystems_INFO [41.268911055] Stopping subsystems.
+Intake.cancel_INFO [41.270405237] owner=AutoPickupGround
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [41.274814661] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+TaskAutoPickupFromGround.autoTask_INFO [41.277241795] <Event name="StateInfo" time="41.276047931" tag="^^^^^" TaskAutoPickupFromGround.state="DONE" />
+Intake.entryTriggerCallback_INFO [41.283298045] active=false, actionParams=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [45.4726462] >>>>> button=4, pressed=true
+Shooter.aimShooter_DEBUG [45.486003704] owner=null, vel=90.0, tiltAngle=38.30751014533699, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [45.513115113] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [45.528730116] owner=null, vel=90.0, tiltAngle=38.708195773239794, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [45.579882953] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [45.595095176] owner=null, vel=90.0, tiltAngle=39.0547661695794, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [45.608244137] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [45.633494177] owner=null, vel=90.0, tiltAngle=40.05708890634761, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [45.648275909] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [45.683873051] owner=null, vel=90.0, tiltAngle=41.62589502951259, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [45.721536536] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [45.738404583] owner=null, vel=90.0, tiltAngle=42.092530196882706, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [45.763775507] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [45.789761738] owner=null, vel=90.0, tiltAngle=42.842469679296805, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [45.811466323] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [45.836988561] owner=null, vel=90.0, tiltAngle=43.11988629440292, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [45.872610607] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [45.89338627] owner=null, vel=90.0, tiltAngle=43.11995812494897, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [45.938304424] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [45.941064387] owner=null, vel=90.0, tiltAngle=43.01831991196728, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [45.978262595] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [45.996405993] owner=null, vel=90.0, tiltAngle=43.05249520896856, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [46.03679405] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.048531008] owner=null, vel=90.0, tiltAngle=43.072019961061244, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [46.089418128] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.103356549] owner=null, vel=90.0, tiltAngle=43.07800012676242, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [46.130063117] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.153422031] owner=null, vel=90.0, tiltAngle=43.06018111226193, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [46.199461326] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.203702729] owner=null, vel=90.0, tiltAngle=43.05987507075416, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+FrcTeleOp.operatorControllerButtonEvent_INFO [46.250680738] >>>>> button=2, pressed=true
+Intake.performAction_INFO [46.251742341] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Shooter.onTarget_DEBUG [46.253543966] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.257077924] owner=null, vel=90.0, tiltAngle=43.015671116595236, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [46.308911602] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.318964545] owner=null, vel=90.0, tiltAngle=42.97294077172981, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [46.363641376] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.367156945] owner=null, vel=90.0, tiltAngle=43.066427223369054, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [46.428652656] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.436867018] owner=null, vel=90.0, tiltAngle=42.870832679224755, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [46.465076317] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.500726949] owner=null, vel=90.0, tiltAngle=42.657938331167855, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Intake.exitTriggerCallback_INFO [46.575171202] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Shooter.onTarget_DEBUG [46.581998635] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.598794364] owner=null, vel=90.0, tiltAngle=43.046146678440635, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [46.645873201] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.656721335] owner=null, vel=90.0, tiltAngle=42.95507314360336, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [46.717711603] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.724019812] owner=null, vel=90.0, tiltAngle=43.125357959346054, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [46.749796669] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.768841532] owner=null, vel=90.0, tiltAngle=43.09259827060382, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [46.789360762] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [46.829779723] owner=null, vel=90.0, tiltAngle=43.06775339727166, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+FrcTeleOp.operatorControllerButtonEvent_INFO [46.874279804] >>>>> button=2, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [46.875558272] >>>>> button=4, pressed=false
+Shooter.onTarget_DEBUG [46.884007461] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+FrcTeleOp.driverControllerButtonEvent_INFO [49.842052401] >>>>> button=3, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [49.843384288] useVision=true, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [49.859680092] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.runTaskState_INFO [49.882575903] Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [49.888130966] <Event name="StateInfo" time="49.887880462" tag="^^^^^" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [49.893752869] Vision found Note at (x=-11.7,y=-28.0,angle=22.6) from robot back.
+TaskAutoPickupFromGround.autoTask_INFO [49.895769276] <Event name="StateInfo" time="49.895576618" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+FrcTeleOp.driverControllerButtonEvent_INFO [49.8990751] >>>>> button=3, pressed=false
+Intake.performAction_INFO [49.919412832] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+purePursuitDrive.start_INFO [49.924683518] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=-87.4,y=6.3,angle=877.3),vel=0.000000), TrcWaypoint(pose=(x=-87.4,y=36.6,angle=900.0),vel=0.000000), TrcWaypoint(pose=(x=-87.4,y=46.6,angle=900.0),vel=0.000000)])
+TaskAutoPickupFromGround.autoTask_INFO [49.92604007] <Event name="StateInfo" time="49.925873217" tag="^^^^^" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+Intake.entryTriggerCallback_INFO [50.956219728] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.runTaskState_INFO [50.97939941] intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CLEARED), gotNote=true
+TaskAutoPickupFromGround.autoTask_INFO [50.990781877] <Event name="StateInfo" time="50.990492238" tag="^^^^^" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+Intake.exitTriggerCallback_INFO [51.399969713] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.stopSubsystems_INFO [51.403061783] Stopping subsystems.
+Intake.cancel_INFO [51.403486055] owner=AutoPickupGround
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [51.406084533] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+TaskAutoPickupFromGround.autoTask_INFO [51.406510738] <Event name="StateInfo" time="51.406329847" tag="^^^^^" TaskAutoPickupFromGround.state="DONE" />
+Intake.entryTriggerCallback_INFO [51.431185279] active=false, actionParams=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [52.179974938] >>>>> button=4, pressed=true
+Shooter.aimShooter_DEBUG [52.18740904] owner=null, vel=90.0, tiltAngle=40.144550437208565, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [52.222272876] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [52.242922021] owner=null, vel=90.0, tiltAngle=40.30981915366887, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [52.299058729] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [52.326555365] owner=null, vel=90.0, tiltAngle=40.489460233341426, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [52.361216168] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [52.369143454] owner=null, vel=90.0, tiltAngle=40.74528136299057, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [52.407198607] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [52.418053991] >>>>> button=2, pressed=true
+Intake.performAction_INFO [52.420002425] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Shooter.aimShooter_DEBUG [52.473699529] owner=null, vel=90.0, tiltAngle=40.43850300892369, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [52.518815946] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [52.526822372] owner=null, vel=90.0, tiltAngle=41.337227278063665, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [52.558094395] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [52.578310777] owner=null, vel=90.0, tiltAngle=41.223428193906045, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+FrcTeleOp.operatorControllerButtonEvent_INFO [52.626820963] >>>>> button=2, pressed=false
+Shooter.onTarget_DEBUG [52.628109472] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [52.639467378] owner=null, vel=90.0, tiltAngle=41.30617899238064, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [52.667805307] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [52.690348226] owner=null, vel=90.0, tiltAngle=41.2097127610415, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [52.73409478] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [52.739355548] owner=null, vel=90.0, tiltAngle=41.04826994040282, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Intake.exitTriggerCallback_INFO [52.774594991] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Shooter.onTarget_DEBUG [52.776603646] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [52.814313079] owner=null, vel=90.0, tiltAngle=41.166204442035934, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [52.867210196] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [52.88388254] owner=null, vel=90.0, tiltAngle=41.4787837257616, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [52.910933762] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [52.92466748] owner=null, vel=90.0, tiltAngle=40.967075607121004, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [52.947436823] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [52.975304823] owner=null, vel=90.0, tiltAngle=41.33207259422899, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [53.019188108] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [53.032111571] owner=null, vel=90.0, tiltAngle=41.182914430645226, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [53.091206587] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [53.099475464] owner=null, vel=90.0, tiltAngle=40.705279870448166, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [53.153082442] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [53.156100883] owner=null, vel=90.0, tiltAngle=41.10636956037078, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [53.183129266] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [53.204141815] owner=null, vel=90.0, tiltAngle=40.179378277423126, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [53.241213525] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [53.254607216] >>>>> button=4, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [63.259534655] >>>>> button=3, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [63.260548518] useVision=true, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [63.261215506] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.runTaskState_INFO [63.278759257] Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [63.280156609] <Event name="StateInfo" time="63.279910103" tag="^^^^^" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [63.29035285] Vision found Note at (x=21.8,y=-38.0,angle=-29.9) from robot back.
+TaskAutoPickupFromGround.autoTask_INFO [63.296904361] <Event name="StateInfo" time="63.29180848" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+Intake.performAction_INFO [63.299182235] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+purePursuitDrive.start_INFO [63.311459772] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=284.5,y=-428.9,angle=1057.6),vel=0.000000), TrcWaypoint(pose=(x=319.1,y=-455.7,angle=1027.8),vel=0.000000), TrcWaypoint(pose=(x=327.0,y=-461.8,angle=1027.8),vel=0.000000)])
+TaskAutoPickupFromGround.autoTask_INFO [63.318398519] <Event name="StateInfo" time="63.318107149" tag="^^^^^" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+FrcTeleOp.driverControllerButtonEvent_INFO [63.383796473] >>>>> button=3, pressed=false
+Intake.entryTriggerCallback_INFO [64.104911706] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.runTaskState_INFO [64.140101125] intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CLEARED), gotNote=true
+TaskAutoPickupFromGround.autoTask_INFO [64.150925388] <Event name="StateInfo" time="64.150705574" tag="^^^^^" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+FrcTeleOp.driverControllerButtonEvent_INFO [64.312319686] >>>>> button=3, pressed=true
+TaskAutoScoreNote.autoAssistCancel_INFO [64.316412928] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [64.325061351] Canceling auto-assist.
+TaskAutoPickupFromGround.stopSubsystems_INFO [64.332446168] Stopping subsystems.
+Intake.cancel_INFO [64.334706167] owner=AutoPickupGround
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [64.34154682] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+TaskAutoPickupFromSource.autoAssistCancel_INFO [64.342604599] Canceling auto-assist.
+FrcTeleOp.driverControllerButtonEvent_INFO [64.419938204] >>>>> button=3, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [69.051323566] >>>>> button=4, pressed=true
+Shooter.aimShooter_DEBUG [69.062110714] owner=null, vel=90.0, tiltAngle=35.36088331621804, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.096651557] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.113639955] owner=null, vel=90.0, tiltAngle=36.07202096159898, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.149859438] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.168548524] owner=null, vel=90.0, tiltAngle=37.87647664534018, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.206787272] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.21994369] owner=null, vel=90.0, tiltAngle=38.30187955632434, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.242165998] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.267651107] owner=null, vel=90.0, tiltAngle=38.754090613153025, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.295742499] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.327213635] owner=null, vel=90.0, tiltAngle=41.65505094672527, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.374115275] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.396517457] owner=null, vel=90.0, tiltAngle=43.2873527118508, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.449415189] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.459388948] owner=null, vel=90.0, tiltAngle=45.31926505124593, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.492311696] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.504674867] owner=null, vel=90.0, tiltAngle=45.875844865205245, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.536134792] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.559577226] owner=null, vel=90.0, tiltAngle=46.37839021824449, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.61379964] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.61772062] owner=null, vel=90.0, tiltAngle=48.344171214717164, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.644692552] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.689581626] owner=null, vel=90.0, tiltAngle=52.212198852715176, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.764517813] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.774386244] owner=null, vel=90.0, tiltAngle=54.30311784186834, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.822233434] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.831522341] owner=null, vel=90.0, tiltAngle=54.95383730341409, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.883903491] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.897121679] owner=null, vel=90.0, tiltAngle=54.19526293626862, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.934453873] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [69.95283455] owner=null, vel=90.0, tiltAngle=54.51748718213401, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [69.99924648] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.009466207] owner=null, vel=90.0, tiltAngle=54.711580300610876, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [70.066125832] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.088171439] owner=null, vel=90.0, tiltAngle=54.61982798811927, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [70.139940351] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.154606509] owner=null, vel=90.0, tiltAngle=54.645971714021485, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [70.183850981] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [70.195487602] >>>>> button=2, pressed=true
+Intake.performAction_INFO [70.196903637] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Shooter.aimShooter_DEBUG [70.207025351] owner=null, vel=90.0, tiltAngle=54.655356378907854, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [70.293576834] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.307980114] owner=null, vel=90.0, tiltAngle=54.4105768601001, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [70.343451307] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.356647774] owner=null, vel=90.0, tiltAngle=54.54470345889528, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Intake.exitTriggerCallback_INFO [70.436046352] active=true, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Intake.entryTriggerCallback_INFO [70.437672597] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Shooter.onTarget_DEBUG [70.439855023] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.452699999] owner=null, vel=90.0, tiltAngle=54.162345493146915, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [70.492575155] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.50819291] owner=null, vel=90.0, tiltAngle=54.553596915986034, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [70.563308113] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.569106144] owner=null, vel=90.0, tiltAngle=54.63818902752712, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [70.617101961] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.628252993] owner=null, vel=90.0, tiltAngle=54.274967805305295, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [70.645293988] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.674256185] owner=null, vel=90.0, tiltAngle=54.628264057199125, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Intake.exitTriggerCallback_INFO [70.703217514] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Shooter.onTarget_DEBUG [70.704603569] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.725620236] owner=null, vel=90.0, tiltAngle=54.73261901807135, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [70.749630346] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.772896177] owner=null, vel=90.0, tiltAngle=54.18574964954663, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [70.815356353] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.839389175] owner=null, vel=90.0, tiltAngle=54.70133726602208, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [70.87093161] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.888653053] owner=null, vel=90.0, tiltAngle=54.726604680147474, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+FrcTeleOp.operatorControllerButtonEvent_INFO [70.948899809] >>>>> button=2, pressed=false
+Shooter.onTarget_DEBUG [70.956100164] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [70.963136014] owner=null, vel=90.0, tiltAngle=54.74501850449195, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=0.0
+Shooter.onTarget_DEBUG [70.98945374] shooterEvent=(Shooter.shooterOnTargetEvent=SIGNALED), tiltEvent=(Shooter.tiltOnTargetEvent=CANCELED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [71.001271788] >>>>> button=4, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [75.634247836] >>>>> button=3, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [75.635708354] useVision=true, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [75.637559021] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.runTaskState_INFO [75.646789204] Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [75.651356557] <Event name="StateInfo" time="75.651120478" tag="^^^^^" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [75.661369205] Vision found Note at (x=7.6,y=-76.8,angle=-5.7) from robot back.
+TaskAutoPickupFromGround.autoTask_INFO [75.662511628] <Event name="StateInfo" time="75.662343796" tag="^^^^^" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+Intake.performAction_INFO [75.669665566] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CANCELED), timeout=0.0), hasObject=false
+purePursuitDrive.start_INFO [75.678027704] Path=TrcPath(degrees=true, [TrcWaypoint(pose=(x=287.1,y=-444.7,angle=1024.1),vel=0.000000), TrcWaypoint(pose=(x=355.0,y=-481.4,angle=1018.4),vel=0.000000), TrcWaypoint(pose=(x=363.8,y=-486.2,angle=1018.4),vel=0.000000)])
+TaskAutoPickupFromGround.autoTask_INFO [75.685856659] <Event name="StateInfo" time="75.685578751" tag="^^^^^" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+FrcTeleOp.driverControllerButtonEvent_INFO [75.689487171] >>>>> button=3, pressed=false
+Intake.entryTriggerCallback_INFO [76.708921907] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.runTaskState_INFO [76.740250148] intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CLEARED), gotNote=true
+TaskAutoPickupFromGround.autoTask_INFO [76.744255026] <Event name="StateInfo" time="76.744011273" tag="^^^^^" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+Intake.exitTriggerCallback_INFO [77.190578497] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.stopSubsystems_INFO [77.213472208] Stopping subsystems.
+Intake.cancel_INFO [77.215390881] owner=AutoPickupGround
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [77.218794967] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+TaskAutoPickupFromGround.autoTask_INFO [77.22077935] <Event name="StateInfo" time="77.220167393" tag="^^^^^" TaskAutoPickupFromGround.state="DONE" />
+Intake.entryTriggerCallback_INFO [77.225799231] active=false, actionParams=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [82.79766148] >>>>> button=5, pressed=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [87.055739777] >>>>> button=5, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [87.105772638] >>>>> button=7, pressed=true
+Climber.motor.pidCtrlTask_INFO [87.112464846] Zero calibration done, event=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [87.262969442] >>>>> button=7, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [87.467312459] >>>>> button=5, pressed=true
+FrcRobotBase.startCompetition_INFO [90.072731044] *** Transitioning from TELEOP_MODE to DISABLED_MODE ***
+TaskAutoScoreNote.autoAssistCancel_INFO [90.097911028] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [90.112088871] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [90.115895811] Canceling auto-assist.
+TaskAutoScoreNote.autoAssistCancel_INFO [90.118391986] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [90.120769786] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [90.124002063] Canceling auto-assist.
+pidDrive.printPerformanceMetrics_INFO [90.132229397] [pidDrive] Loop Performance Metrics:
+Average Loop Interval = NaNs (freq=NaNHz, min=0.000000s, max=0.000000s)
+
+FrcRobotBase.printPerformanceMetrics_INFO [90.159590226] [FrcRobotBase] Loop Performance Metrics:
+Average Loop Interval = 0.001283s (freq=779.214Hz, min=0.000000s, max=2.183064s)
+[03]                StartTask=0.000000s
+[04]          PrePeriodicTask=0.000127s
+[07]               UpdateTask=0.000744s
+[02]                StartMode=0.000000s
+[06]         PostPeriodicTask=0.000074s
+[08]                 StopTask=0.000000s
+[09]                 StopMode=0.000000s
+[00]                RobotInit=12.508508s
+[01]           RobotStartMode=0.000007s
+[05]                 Periodic=0.000251s
+[10]            RobotStopMode=0.000001s
+
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.177279532] TrcWatchdogMgr: STANDALONE_TASK=0.000191/0.998575
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.179707208] DriverController.buttonEvent: PRE_PERIODIC_TASK=0.000011/0.006573
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.188243295] OperatorController.buttonEvent: PRE_PERIODIC_TASK=0.000008/0.006573
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.19113827] LED: OUTPUT_TASK=0.000042/0.011651
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.193936605] lfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000013/0.011651
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.201214146] TrcMotor.odometryTask: STANDALONE_TASK=0.000018/0.000033
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.20546717] lfDriveMotor.odometryCleanupTask: STOP_TASK=0.004882/56.666475
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.208627349] rfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000008/0.011650
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.213984604] lbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000007/0.011650
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.218930356] rbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000009/0.011650
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.224247039] lfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000352/0.011650
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.225858604] rfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000302/0.011650
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.231392799] lbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000299/0.011650
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.233846954] rbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000301/0.011650
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.238311104] TrcDriveBase.odometryTask: INPUT_TASK=0.004038/0.034965
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.243047509] TrcDriveBase.stopTask: STOP_TASK=0.005931/56.667450
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.245962219] purePursuitDrive.driveTask: POST_PERIODIC_TASK=0.012034/0.158572
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.248365602] Intake.motor.pidCtrlTask: OUTPUT_TASK=0.000007/0.011650
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.254516458] Intake.entryTrigger.triggerTask: PRE_PERIODIC_TASK=0.000022/0.001283
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.256715848] Intake.exitTrigger.triggerTask: PRE_PERIODIC_TASK=0.000009/0.001283
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.26418255] Shooter.shooterMotor.pidCtrlTask: OUTPUT_TASK=0.000018/0.011650
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.267322734] Shooter.tiltMotor.pidCtrlTask: OUTPUT_TASK=0.000170/0.011650
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.269032337] Shooter.tiltMotor.converterTask: INPUT_TASK=0.000106/0.011650
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.273174875] Climber.motor.pidCtrlTask: OUTPUT_TASK=0.000009/0.011650
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [90.278970407] TaskAutoPickupFromGround: POST_PERIODIC_TASK=0.000418/0.042208

@@ -83,7 +83,7 @@ public class SwerveDrive extends RobotDrive
 
     private double[] steerZeros = new double[4];
     private int steerZeroCalibrationCount = 0;
-    private String antiDefenseOwner = null;
+    private String xModeOwner = null;
     private boolean steerEncodersSynced = false;
 
     /**
@@ -202,9 +202,9 @@ public class SwerveDrive extends RobotDrive
             "purePursuitDrive", driveBase,
             driveBaseParams.PPD_FOLLOWING_DISTANCE, driveBaseParams.PPD_POS_TOLERANCE,
             driveBaseParams.PPD_TURN_TOLERANCE, xPosPidCoeff, yPosPidCoeff, turnPidCoeff, velPidCoeff);
-        purePursuitDrive.setStallDetectionEnabled(true);
-        // purePursuitDrive.setMoveOutputLimit(driveBaseParams.PPD_MOVE_DEF_OUTPUT_LIMIT);
-        // purePursuitDrive.setRotOutputLimit(driveBaseParams.PPD_ROT_DEF_OUTPUT_LIMIT);
+        purePursuitDrive.setStallDetectionEnabled(0.2, 0.2, 1.0);
+        purePursuitDrive.setMoveOutputLimit(driveBaseParams.PPD_MOVE_DEF_OUTPUT_LIMIT);
+        purePursuitDrive.setRotOutputLimit(driveBaseParams.PPD_ROT_DEF_OUTPUT_LIMIT);
         // purePursuitDrive.setFastModeEnabled(true);
         purePursuitDrive.setTraceLevel(MsgLevel.INFO, false, false, false);
     }   //SwerveDrive
@@ -305,13 +305,32 @@ public class SwerveDrive extends RobotDrive
         }
 
         double actualEncoderPos = ((FrcCANTalonFX) steerMotors[index]).motor.getPosition().getValueAsDouble();
-        if (Math.abs(motorEncoderPos - actualEncoderPos) > 0.01)
+        if (Math.abs(motorEncoderPos - actualEncoderPos) > 0.1)
         {
             robot.globalTracer.traceWarn(
                 driveBaseParams.swerveModuleNames[index],
                 "Steer encoder out-of-sync (expected=" + motorEncoderPos + ", actual=" + actualEncoderPos + ")");
         }
     }   //syncSteerEncoder
+
+    /**
+     * This method resets the steer motor encoder for emergency steering alignment in case the absolute encoder is
+     * malfunctioning.
+     */
+    public void resetSteerEncoders()
+    {
+        for (TrcMotor motor: steerMotors)
+        {
+            FrcCANTalonFX steerMotor = (FrcCANTalonFX) motor;
+            StatusCode statusCode = steerMotor.motor.setPosition(0.0);
+            if (statusCode != StatusCode.OK)
+            {
+                robot.globalTracer.traceWarn(
+                    moduleName,
+                    steerMotor.toString() + ": TalonFx.setPosition failed (code=" + statusCode + ").");
+            }
+        }
+    }   //resetSteerEncoders
 
     /**
      * This method creates an array of swerve modules and configure them.
@@ -610,42 +629,31 @@ public class SwerveDrive extends RobotDrive
     }   //readSteeringCalibrationData
 
     /**
-     * This method checks if anti-defense mode is enabled.
+     * This method set all the wheels into an X configuration so that nobody can bump us out of position. If owner
+     * is specifies, it will acquire execlusive ownership of the drivebase on behalf of the specified owner. On
+     * disable, it will release the ownership.
      *
-     * @return true if anti-defense mode is enabled, false if disabled.
-     */
-    public boolean isAntiDefenseEnabled()
-    {
-        return ((TrcSwerveDriveBase) driveBase).isAntiDefenseEnabled();
-    }   //isAntiDefenseEnabled
-
-    /**
-     * This method enables/disables the anti-defense mode where it puts all swerve wheels into an X-formation.
-     * By doing so, it is very difficult for others to push us around.
-     *
-     * @param owner     specifies the ID string of the caller for checking ownership, can be null if caller is not
-     *                  ownership aware.
+     * @param owner specifies the ID string of the caller for checking ownership, can be null if caller is not
+     *        ownership aware.
      * @param enabled   specifies true to enable anti-defense mode, false to disable.
      */
-    public void setAntiDefenseEnabled(String owner, boolean enabled)
+    public void setXModeEnabled(String owner, boolean enabled)
     {
-        boolean requireOwnership = owner != null && enabled && !driveBase.hasOwnership(owner);
-
-        if (requireOwnership && driveBase.acquireExclusiveAccess(owner))
+        if (enabled)
         {
-            antiDefenseOwner = owner;
-        }
-
-        if (!requireOwnership || antiDefenseOwner != null)
-        {
-            ((TrcSwerveDriveBase) driveBase).setAntiDefenseEnabled(owner, enabled);
-            if (antiDefenseOwner != null)
+            if (owner != null && !driveBase.hasOwnership(owner) && driveBase.acquireExclusiveAccess(owner))
             {
-                driveBase.releaseExclusiveAccess(antiDefenseOwner);
-                antiDefenseOwner = null;
+                xModeOwner = owner;
             }
+
+            ((TrcSwerveDriveBase) driveBase).setXMode(owner);
         }
-    }   //setAntiDefenseEnabled
+        else if (xModeOwner != null)
+        {
+            driveBase.releaseExclusiveAccess(xModeOwner);
+            xModeOwner = null;
+        }
+    }   //setXModeEnabled
 
     //
     // Command-based required methods.

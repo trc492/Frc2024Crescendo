@@ -106,7 +106,6 @@ public class RobotParams
         // Field dimensions in inches.
         public static final double LENGTH                       = 651.2;    //54.0*12.0;
         public static final double WIDTH                        = 323.28;   //27.0*12.0;
-        public static final double MIDFIELD_THRESHOLD           = 20.0;
     }   //class Field
 
     public static class Robot
@@ -200,6 +199,33 @@ public class RobotParams
         {
             CENTERLINE_NOTE_1, CENTERLINE_NOTE_2, CENTERLINE_NOTE_3, CENTERLINE_NOTE_4, CENTERLINE_NOTE_5
         };
+
+        public static final TrcPose2D CLNOTE1_BLUE_PICKUP       = new TrcPose2D(
+            CENTERLINE_NOTE_1.x - 33.0, CENTERLINE_NOTE_1.y - 60.0, 180.0);
+
+        public static final TrcPose2D CLNOTE5_BLUE_PICKUP       = new TrcPose2D(
+            CENTERLINE_NOTE_5.x + 33.0, CENTERLINE_NOTE_5.y - 60.0, 180.0);
+
+        public static final TrcPose2D CLNOTE1_BLUE_SCORE        = new TrcPose2D(
+            WINGNOTE_BLUE_SOURCE_SIDE.x + 24.0, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 225.0); //TODO check pos and angle
+
+        public static final TrcPose2D CLNOTE5_BLUE_SCORE        = new TrcPose2D(
+            -(Field.WIDTH / 2.0 + 85.0), WINGNOTE_BLUE_SW_SIDE.y - 36.0, 160.0); //TODO: check pos and angle
+
+        public static final TrcPose2D[] centerlineNotePickupPoses =
+        {
+            CLNOTE1_BLUE_PICKUP, CLNOTE5_BLUE_PICKUP
+        };
+
+        public static final TrcPose2D[] centerlineNoteScorePoses =
+        {
+            CLNOTE1_BLUE_SCORE, CLNOTE5_BLUE_SCORE
+        };
+
+        public static final TrcPose2D AMP_BLUE_SCORE            = new TrcPose2D(
+            -Field.WIDTH + Robot.LENGTH / 2.0 - 16.0, 72.44, -90.0);
+        public static final double PROXIMITY_THRESHOLD          = 20.0;
+
     }   //class Game
 
     public static class HWConfig
@@ -372,6 +398,9 @@ public class RobotParams
             HOMOGRAPHY_WORLD_TOPRIGHT_X, HOMOGRAPHY_WORLD_TOPRIGHT_Y,
             HOMOGRAPHY_WORLD_BOTTOMLEFT_X, HOMOGRAPHY_WORLD_BOTTOMLEFT_Y,
             HOMOGRAPHY_WORLD_BOTTOMRIGHT_X, HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y);
+
+        public static final double ONTARGET_THRESHOLD           = 5.0;
+        public static final double GUIDANCE_ERROR_THRESHOLD     = 10.0;
     }   //class Vision
 
     //
@@ -382,7 +411,7 @@ public class RobotParams
 
     public static final double DRIVE_SLOW_SCALE                 = 0.3;
     public static final double TURN_SLOW_SCALE                  = 0.3;
-    public static final double DRIVE_NORMAL_SCALE               = 0.8;
+    public static final double DRIVE_NORMAL_SCALE               = 1.0;
     public static final double TURN_NORMAL_SCALE                = 0.6;
 
     public static class SwerveDriveBase
@@ -505,10 +534,10 @@ public class RobotParams
             new PidCoefficients(STEER_KP, STEER_KI, STEER_KD, STEER_KF, STEER_IZONE);
         public final double steerPosTolerance                   = 0.5;      // in degrees.
 
-        public final double PPD_FOLLOWING_DISTANCE              = 12.0;
-        public final double PPD_POS_TOLERANCE                   = 1.0;
+        public final double PPD_FOLLOWING_DISTANCE              = 10.0;
+        public final double PPD_POS_TOLERANCE                   = 2.0;
         public final double PPD_TURN_TOLERANCE                  = 2.0;
-        public final double PPD_MOVE_DEF_OUTPUT_LIMIT           = 0.5;
+        public final double PPD_MOVE_DEF_OUTPUT_LIMIT           = 1.0;
         public final double PPD_ROT_DEF_OUTPUT_LIMIT            = 0.5;
 
         //
@@ -608,7 +637,7 @@ public class RobotParams
         public final double TURN_KD                             = 0.0;
         public final double TURN_KF                             = 0.0;
         public final double TURN_IZONE                          = 10.0;
-        public final double TURN_TOLERANCE                      = 2.0;   
+        public final double TURN_TOLERANCE                      = 2.0;
 
         public static final double ROBOT_MAX_VELOCITY           = 177.1654; // inches per second
         public static final double ROBOT_MAX_ACCELERATION       = 799.1;
@@ -665,8 +694,9 @@ public class RobotParams
 
         public static final double intakePower                  = 1.0;
         public static final double ejectForwardPower            = 1.0;
-        public static final double noteDistanceThreshold        = 144.0;
-        public static final double noteAngleThreshold           = 20.0;
+        public static final double noteDistanceThreshold        = 96.0;
+        public static final double noteAngleThreshold           = 10.0;
+        public static final double noteFullViewAngle            = 40.0;
     }   //class Intake
 
     public static class Shooter
@@ -693,8 +723,8 @@ public class RobotParams
         public static final boolean tiltMotorInverted           = true;
         public static final double tiltGearRatio                = 59.0/18.0;
         public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
-        public static final double tiltPosOffset                = -17.0;    // in degrees
-        public static final double tiltZeroOffset               = 0.02;     // in raw encoder unit
+        public static final double tiltPosOffset                = -5.0;    // in degrees
+        public static final double tiltZeroOffset               = 0.150;   // in raw encoder unit
         public static final double tiltPowerLimit               = 0.5;
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.023, 0.0, 0.001, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
@@ -704,9 +734,9 @@ public class RobotParams
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
         public static final double tiltTurtleAngle              = 35.0;     // in degrees.
         public static final double tiltSpeakerFarAngle          = 52.0;     // in degrees.
-        public static final double tiltAmpAngle                 = 57.5;     // in degrees.
+        public static final double tiltAmpAngle                 = 58.0;     // in degrees.
         public static final double tiltDumpAngle                = 39.0;     // in degrees.
-        public static final double tiltSpeakerCloseAngle        = 60.0;     // in degrees.
+        public static final double tiltSpeakerCloseAngle        = 64.0;     // in degrees.
         public static final double tiltSourcePickupAngle        = 88.0;     // in degrees.
 
         public static final double tiltPresetPosTolerance       = 1.0;      // in degrees.
@@ -721,14 +751,15 @@ public class RobotParams
         public static final String SPEAKER_UPCLOSE_ENTRY        = "Speaker0ft";
         public static final String WING_NOTE_ENTRY              = "Speaker5ft";
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
-            .add(SPEAKER_UPCLOSE_ENTRY, 56.1, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
-            .add("Speaker1ft",          67.2, 90.0, 58.0)
-            .add("Speaker2ft",          78.4, 90.0, 47.0)
-            .add("Speaker3ft",          90.0, 90.0, 45.0)
-            .add("Speaker4ft",          102.1, 90.0, 43.0)
-            .add("Speaker5ft",          114.1, 90.0, 39.0)
-            .add("Speaker6ft",          126.7, 90.0, 38.0)
-            .add("Speaker7ft",          139.0, 90.0, 36.0);
+            .add(SPEAKER_UPCLOSE_ENTRY, 55.0, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
+            .add("Speaker1ft",          66.9, 90.0, 57.0)
+            .add("Speaker2ft",          78.2, 90.0, 52.0)
+            .add("Speaker3ft",          90.3, 90.0, 47.0)
+            .add("Speaker4ft",          102.0, 90.0, 44.0)
+            .add("Speaker5ft",          114.0, 90.0, 41.0)
+            .add("Speaker6ft",          125.3, 90.0, 38.0)
+            .add("Speaker7ft",          137.3, 90.0, 37.0); //TODO: distance might be off
+            //.add("Speaker7ft",          139.0, 90.0, 36.0);
         public static final ShootParamTable.Params wingNotePresetParams = speakerShootParamTable.get(WING_NOTE_ENTRY);
     }   //class Shooter
 
@@ -744,7 +775,7 @@ public class RobotParams
 
         public static final double maxHeight                    = 9.5;
         public static final double minHeight                    = 0.0;
-        public static final double climbPowerComp               = 0.3;  //TODO: tune
+        public static final double climbPowerComp               = 0.3;
         public static final double calPower                     = -0.3;
     }   //class Climber
 

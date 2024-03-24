@@ -63,6 +63,7 @@ public class FrcTest extends FrcTeleOp
         SUBSYSTEMS_TEST,
         VISION_TEST,
         SWERVE_CALIBRATION,
+        RESET_STEER_ENCODERS,
         DRIVE_SPEED_TEST,
         DRIVE_MOTORS_TEST,
         X_TIMED_DRIVE,
@@ -118,6 +119,7 @@ public class FrcTest extends FrcTeleOp
             // if (!RobotParams.Preferences.hybridMode)
             // {
                 testMenu.addChoice("Swerve Calibration", Test.SWERVE_CALIBRATION);
+                testMenu.addChoice("Reset Steer Encoders", Test.RESET_STEER_ENCODERS);
                 testMenu.addChoice("Drive Speed Test", Test.DRIVE_SPEED_TEST);
                 testMenu.addChoice("Drive Motors Test", Test.DRIVE_MOTORS_TEST);
                 testMenu.addChoice("X Timed Drive", Test.X_TIMED_DRIVE);
@@ -282,6 +284,13 @@ public class FrcTest extends FrcTeleOp
                 {
                     setControlsEnabled(false);
                     ((SwerveDrive) robot.robotDrive).startSteeringCalibration();
+                }
+                break;
+
+            case RESET_STEER_ENCODERS:
+                if (robot.robotDrive != null && robot.robotDrive instanceof SwerveDrive)
+                {
+                    ((SwerveDrive) robot.robotDrive).resetSteerEncoders();
                 }
                 break;
 
@@ -592,44 +601,59 @@ public class FrcTest extends FrcTeleOp
     /**
      * This method is called when an operator controller button event is detected.
      *
-     * @param button specifies the button ID that generates the event.
+     * @param buttonValue specifies the button enum value that generates the event.
      * @param pressed specifies true if the button is pressed, false otherwise.
      */
     @Override
-    protected void operatorControllerButtonEvent(int button, boolean pressed)
+    protected void operatorControllerButtonEvent(int buttonValue, boolean pressed)
     {
         if (allowTeleOp())
         {
+            FrcXboxController.Button button = FrcXboxController.Button.values()[buttonValue];
             boolean processed = false;
             //
             // In addition to or instead of the button controls handled by FrcTeleOp, we can add to or override the
             // FrcTeleOp button actions.
             //
             robot.dashboard.displayPrintf(
-                8, "OperatorController: button=0x%04x %s", button, pressed ? "pressed" : "released");
+                8, "OperatorController: button %s %s", button, pressed ? "pressed" : "released");
 
             switch (button)
             {
-                case FrcXboxController.BUTTON_A:
+                case BUTTON_A:
+                    // Intake from ground with no Vision (manual pickup), hold AltFunc for ReverseIntake.
+                    if (robot.intake != null && pressed)
+                    {
+                        if (operatorAltFunc)
+                        {
+                            robot.intake.autoIntakeReverse(RobotParams.Intake.intakePower, 0.0, 0.0);
+                        }
+                        else
+                        {
+                            boolean active = !robot.autoPickupFromGround.isActive();
+                            if (active)
+                            {
+                                robot.autoPickupFromGround.autoAssistPickup(false, false, null);
+                            }
+                            else
+                            {
+                                robot.autoAssistCancel();
+                            }
+                        }
+                    }
+                    processed = true;
                     break;
 
-                case FrcXboxController.BUTTON_B:
+                case BUTTON_B:
+                    if (robot.intake != null && pressed)
+                    {
+                        robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
+                    }
+                    processed = true;
                     break;
 
-                case FrcXboxController.BUTTON_X:
-                    break;
-
-                case FrcXboxController.BUTTON_Y:
-                    break;
-
-                case FrcXboxController.LEFT_BUMPER:
-                    break;
-
-                case FrcXboxController.RIGHT_BUMPER:
-                    break;
-
-                case FrcXboxController.DPAD_UP:
-                    if (pressed && robot.shooter != null)
+                case DPAD_UP:
+                    if (robot.shooter != null && pressed)
                     {
                         if (operatorAltFunc)
                         {
@@ -643,8 +667,8 @@ public class FrcTest extends FrcTeleOp
                     processed = true;
                     break;
 
-                case FrcXboxController.DPAD_DOWN:
-                    if (pressed && robot.shooter != null)
+                case DPAD_DOWN:
+                    if (robot.shooter != null && pressed)
                     {
                         if (operatorAltFunc)
                         {
@@ -658,8 +682,8 @@ public class FrcTest extends FrcTeleOp
                     processed = true;
                     break;
 
-                case FrcXboxController.DPAD_LEFT:
-                    if (pressed && robot.shooter != null)
+                case DPAD_LEFT:
+                    if (robot.shooter != null && pressed)
                     {
                         if (operatorAltFunc)
                         {
@@ -673,8 +697,8 @@ public class FrcTest extends FrcTeleOp
                     processed = true;
                     break;
 
-                case FrcXboxController.DPAD_RIGHT:
-                    if (pressed && robot.shooter != null)
+                case DPAD_RIGHT:
+                    if (robot.shooter != null && pressed)
                     {
                         if (operatorAltFunc)
                         {
@@ -688,16 +712,7 @@ public class FrcTest extends FrcTeleOp
                     processed = true;
                     break;
 
-                case FrcXboxController.BACK:
-                    break;
-
-                case FrcXboxController.START:
-                    break;
-
-                case FrcXboxController.LEFT_STICK_BUTTON:
-                    break;
-
-                case FrcXboxController.RIGHT_STICK_BUTTON:
+                default:
                     break;
             }
             //
@@ -705,7 +720,7 @@ public class FrcTest extends FrcTeleOp
             //
             if (!processed)
             {
-                super.operatorControllerButtonEvent(button, pressed);
+                super.operatorControllerButtonEvent(buttonValue, pressed);
             }
         }
     }   //operatorControllerButtonEvent
@@ -713,6 +728,7 @@ public class FrcTest extends FrcTeleOp
     //
     // Implement tests.
     //
+
     /**
      * This method reads all sensors and prints out their values. This is a very
      * useful diagnostic tool to check if all sensors are working properly. For
