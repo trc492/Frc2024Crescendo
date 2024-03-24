@@ -734,7 +734,7 @@ public class RobotParams
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
         public static final double tiltTurtleAngle              = 35.0;     // in degrees.
         public static final double tiltSpeakerFarAngle          = 52.0;     // in degrees.
-        public static final double tiltAmpAngle                 = 58.0; //59.5    // in degrees.
+        public static final double tiltAmpAngle                 = 58.0;     // in degrees.
         public static final double tiltDumpAngle                = 39.0;     // in degrees.
         public static final double tiltSpeakerCloseAngle        = 64.0;     // in degrees.
         public static final double tiltSourcePickupAngle        = 88.0;     // in degrees.
@@ -755,7 +755,7 @@ public class RobotParams
             .add("Speaker1ft",          66.9, 90.0, 57.0)
             .add("Speaker2ft",          78.2, 90.0, 52.0)
             .add("Speaker3ft",          90.3, 90.0, 47.0)
-            .add("Speaker4ft",          102.0, 90.0, 44.0) // 43.0
+            .add("Speaker4ft",          102.0, 90.0, 44.0)
             .add("Speaker5ft",          114.0, 90.0, 41.0)
             .add("Speaker6ft",          125.3, 90.0, 38.0)
             .add("Speaker7ft",          137.3, 90.0, 37.0); //TODO: distance might be off
