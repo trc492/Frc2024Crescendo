@@ -152,7 +152,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
         {
             // Use vision to relocalize robot's position.
             DetectedObject aprilTagObj =
-                robot.photonVisionFront.getBestDetectedAprilTag(aprilTagEvent, new int[] {4, 7, 3, 8});
+                robot.photonVisionFront.getBestDetectedAprilTag(aprilTagEvent, 4, 7, 3, 8);
             if (visionGuidanceEnabled && aprilTagObj != null && aprilTagObj.robotPose != null)
             {
                 TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();

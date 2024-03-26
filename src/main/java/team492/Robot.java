@@ -748,7 +748,7 @@ public class Robot extends FrcRobotBase
      *
      * @param trackedAprilTagIds specifies the AprilTag IDs to looking for.
      */
-    public synchronized void enableAprilTagTracking(int[] trackedAprilTagIds)
+    public synchronized void enableAprilTagTracking(int... trackedAprilTagIds)
     {
         this.trackedAprilTagIds = trackedAprilTagIds;
         this.aprilTagTrackingEnabled = true;
@@ -783,7 +783,14 @@ public class Robot extends FrcRobotBase
         else if (photonVisionFront != null)
         {
             FrcPhotonVision.DetectedObject aprilTagObj = photonVisionFront.getBestDetectedAprilTag(trackedAprilTagIds);
-            headingInput = aprilTagObj != null? aprilTagObj.targetPose.angle: 0.0;
+
+            if (aprilTagObj != null)
+            {
+                headingInput = -aprilTagObj.targetPose.angle;
+                globalTracer.traceDebug(
+                    moduleName,
+                    "aprilTagId=" + aprilTagObj.target.getFiducialId() + ", angle=" + aprilTagObj.targetPose.angle);
+            }
         }
 
         return headingInput;
