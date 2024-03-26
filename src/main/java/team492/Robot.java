@@ -111,6 +111,8 @@ public class Robot extends FrcRobotBase
     public OpenCvVision openCvVision;
     public Transform3d aprilTag3To4Transform;
     public Transform3d aprilTag8To7Transform;
+    private boolean aprilTagTrackingEnabled = false;
+    private int[] trackedAprilTagIds = null;
     //
     // DriveBase subsystem.
     //
@@ -741,9 +743,51 @@ public class Robot extends FrcRobotBase
         return success;
     }   //relocalizeRobotByAprilTag
 
+    /**
+     * This method enables PurePursuitDrive AprilTag tracking.
+     *
+     * @param trackedAprilTagIds specifies the AprilTag IDs to looking for.
+     */
+    public synchronized void enableAprilTagTracking(int[] trackedAprilTagIds)
+    {
+        this.trackedAprilTagIds = trackedAprilTagIds;
+        this.aprilTagTrackingEnabled = true;
+    }   //enableAprilTagTracking
+
+    /**
+     * This method disables PurePursuitDrive AprilTag tracking.
+     */
+    public synchronized void disableAprilTagTracking()
+    {
+        this.trackedAprilTagIds = null;
+        this.aprilTagTrackingEnabled = false;
+    }   //disableAprilTagTracking
+
     //
     // Getters for sensor data.
     //
+
+    /**
+     * This method is called by the PurePursuitDrive Turn PID controller to get the robot's heading input.
+     *
+     * @return robot's heading.
+     */
+    public synchronized double getHeadingInput()
+    {
+        double headingInput = 0.0;
+
+        if (!aprilTagTrackingEnabled)
+        {
+            headingInput = robotDrive.driveBase.getHeading();
+        }
+        else if (photonVisionFront != null)
+        {
+            FrcPhotonVision.DetectedObject aprilTagObj = photonVisionFront.getBestDetectedAprilTag(trackedAprilTagIds);
+            headingInput = aprilTagObj != null? aprilTagObj.targetPose.angle: 0.0;
+        }
+
+        return headingInput;
+    }   //getHeadingInput
 
     /**
      * This method returns the pressure value from the pressure sensor.
