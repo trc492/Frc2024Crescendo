@@ -28,7 +28,6 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcStateMachine;
 import TrcCommonLib.trclib.TrcTimer;
-import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcWaypoint;
 import TrcFrcLib.frclib.FrcPhotonVision.DetectedObject;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -54,7 +53,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
         DO_DELAY,
         DRIVE_TO_WING_NOTE,
         PICKUP_WING_NOTE,
-        SCORE_WING_NOTE_TO_AMP,
+        SCORE_NOTE_TO_AMP,
         CLEAR_THE_POST,
         TURN_TO_SPEAKER,
         TURN_TO_CENTERLINE,
@@ -64,7 +63,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
         PERFORM_END_ACTION,
         PICKUP_CENTERLINE_NOTE,
         DRIVE_TO_SPEAKER,
-        // RELOCALIZE_TO_SPEAKER,
+        DRIVE_TO_AMP,
         PARK,
         DONE
     }   //enum State
@@ -152,23 +151,17 @@ public class CmdAuto implements TrcRobot.RobotCommand
         {
             // Use vision to relocalize robot's position.
             DetectedObject aprilTagObj =
-                robot.photonVisionFront.getBestDetectedAprilTag(aprilTagEvent, 4, 7, 3, 8);
-            if (visionGuidanceEnabled && aprilTagObj != null && aprilTagObj.robotPose != null)
+                robot.photonVisionFront.getBestDetectedAprilTag(aprilTagEvent, 4, 7, 5, 6, 3, 8);
+
+            if (visionGuidanceEnabled)
             {
-                TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                double xDelta = robotPose.x - aprilTagObj.robotPose.x;
-                double yDelta = robotPose.y - aprilTagObj.robotPose.y;
-                if (TrcUtil.magnitude(xDelta, yDelta) > RobotParams.Vision.GUIDANCE_ERROR_THRESHOLD)
+                if (aprilTagObj != null)
                 {
-                    robot.robotDrive.driveBase.setFieldPosition(aprilTagObj.robotPose, false);
-                    robot.globalTracer.traceInfo(
-                        moduleName, "***** Vision Guidance: AprilTagId=" + aprilTagObj.target.getFiducialId() +
-                        ", relocalizePose=" + aprilTagObj.robotPose);
+                    robot.relocalize(aprilTagObj);
                 }
                 else
                 {
-                    robot.globalTracer.traceInfo(
-                        moduleName, "***** Vision Guidance: error too small to relocalize.");
+                    robot.globalTracer.traceInfo(moduleName, "***** Vision Guidance: AprilTag not found.");
                 }
             }
         }
@@ -176,6 +169,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
         if (noteVisionEnabled)
         {
             DetectedObject noteObj = robot.photonVisionBack.getBestDetectedObject();
+
             if (noteObj != null)
             {
                 if (noteObj.targetPose.y > noteDistanceThreshold ||
@@ -332,16 +326,29 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.autoPickupFromGround.autoAssistPickup(true, true, event);
                     sm.waitForSingleEvent(
                         event,
-                        startPos == AutoStartPos.AMP && numWingNotesScored == 0? State.SCORE_WING_NOTE_TO_AMP:
+                        startPos == AutoStartPos.AMP && numWingNotesScored == 0? State.SCORE_NOTE_TO_AMP:
                         startPos == AutoStartPos.SW_SOURCE_SIDE && numWingNotesScored == 0?
                             State.CLEAR_THE_POST: State.TURN_TO_SPEAKER);
                     break;
 
-                case SCORE_WING_NOTE_TO_AMP:
-                    robot.globalTracer.traceInfo(moduleName, "***** Score first Wing Note to Amp.");
+                case SCORE_NOTE_TO_AMP:
+                     robot.globalTracer.traceInfo(
+                            moduleName, "***** Scoring Wing Note " + (numWingNotesScored + 1) +
+                            " or Centerline Note " + (numCenterlineNotesScored + 1) + " into the Amp.");
+                    robot.robotDrive.purePursuitDrive.cancel();
+                    disableAprilTagVision();
+                    // robot.disableAprilTagTracking();
                     robot.autoScoreNote.autoAssistScore(TargetType.Amp, false, true, relocalize, event);
-                    sm.waitForSingleEvent(event, State.TURN_TO_WING_NOTES);
-                    numWingNotesScored++;
+                    if (performingEndAction)
+                    {
+                        numCenterlineNotesScored++;
+                    }
+                    else
+                    {
+                        numWingNotesScored++;
+                    }
+                    sm.waitForSingleEvent(
+                        event, performingEndAction? State.DRIVE_TO_CENTER_LINE: State.TURN_TO_WING_NOTES);
                     break;
 
                 case CLEAR_THE_POST:
@@ -543,7 +550,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.globalTracer.traceInfo(moduleName, "***** Pickup Centerline Note.");
                     robot.autoPickupFromGround.autoAssistPickup(true, true, event);
                     sm.waitForSingleEvent(
-                        event, endAction == EndAction.HOARD_ONE_NOTE? State.PARK: State.DRIVE_TO_SPEAKER);
+                        event,
+                        endAction == EndAction.HOARD_ONE_NOTE? State.PARK:
+                        startPos == AutoStartPos.AMP && numWingNotesScored == 0 && numCenterlineNotesScored == 0?
+                            State.DRIVE_TO_AMP: State.DRIVE_TO_SPEAKER);
                     break;
 
                 case DRIVE_TO_SPEAKER:
@@ -559,49 +569,27 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         robot.adjustPoseByAlliance(intermediatePose, alliance),
                         robot.adjustPoseByAlliance(targetPose, alliance));
                     sm.waitForSingleEvent(event, State.SCORE_NOTE_TO_SPEAKER);
-                    // sm.waitForSingleEvent(event, State.RELOCALIZE_TO_SPEAKER);
-                    // visionExpiredTime = null;
                     break;
 
-                // case RELOCALIZE_TO_SPEAKER:
-                //     // Use vision to relocalize robot and correct its position.
-                //     FrcPhotonVision.DetectedObject aprilTagObj =
-                //         robot.photonVisionFront.getBestDetectedAprilTag(new int[] {4, 7, 3, 8});
-                //     if (aprilTagObj != null)
-                //     {
-                //         robot.globalTracer.traceInfo(
-                //             moduleName, "***** Vision found AprilTag %d at %s from camera.",
-                //             aprilTagObj.target.getFiducialId(), aprilTagObj.targetPose);
-                //         // Relocalize.
-                //         if (robot.relocalizeRobotByAprilTag(aprilTagObj))
-                //         {
-                //             robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                //             targetPose = RobotParams.Game.centerlineNoteScorePoses[centerlineIndex];
-                //             robot.robotDrive.purePursuitDrive.start(
-                //                 event, robotPose, false,
-                //                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
-                //                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                //                 robot.adjustPoseByAlliance(targetPose, alliance));
-                //             sm.waitForSingleEvent(event, State.SCORE_NOTE_TO_SPEAKER);
-                //         }
-                //         else
-                //         {
-                //             robot.globalTracer.traceInfo(moduleName, "***** Relocalization failed.");
-                //             sm.setState(State.SCORE_NOTE_TO_SPEAKER);
-                //         }
-                //     }
-                //     else if (visionExpiredTime == null)
-                //     {
-                //         // Can't find AprilTag, set a timeout and try again.
-                //         visionExpiredTime = TrcTimer.getCurrentTime() + 1.0;
-                //     }
-                //     else if (TrcTimer.getCurrentTime() >= visionExpiredTime)
-                //     {
-                //         // Timed out, moving on.
-                //         robot.globalTracer.traceInfo(moduleName, "***** Vision does not find AprilTag.");
-                //         sm.setState(State.SCORE_NOTE_TO_SPEAKER);
-                //     }
-                //     break;
+                case DRIVE_TO_AMP:
+                    robot.globalTracer.traceInfo(moduleName, "***** Drive to Amp to score Centerline Note.");
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
+                    // robot.robotDrive.purePursuitDrive.setTraceLevel(MsgLevel.DEBUG, false, true, false);
+                    enableAprilTagVision(true);
+                    // robot.enableAprilTagTracking(5, 6);
+                    robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+                    robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                    targetPose = RobotParams.Game.AMP_BLUE_PRESCORE;
+                    intermediatePose = targetPose.clone();
+                    intermediatePose.y += 120.0;
+                    robot.robotDrive.purePursuitDrive.start(
+                        event, robotPose, false,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                        robot.adjustPoseByAlliance(intermediatePose, alliance),
+                        robot.adjustPoseByAlliance(targetPose, alliance));
+                    sm.waitForSingleEvent(event, State.DONE);//State.SCORE_NOTE_TO_AMP);
+                    break;
 
                 case PARK:
                     // Make sure we are back on our side if we went over just a little.

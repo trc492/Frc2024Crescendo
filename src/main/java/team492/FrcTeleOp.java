@@ -164,7 +164,11 @@ public class FrcTeleOp implements TrcRobot.RobotMode
             //
             if (robot.photonVisionFront != null)
             {
-                aprilTagObj = robot.photonVisionFront.getBestDetectedAprilTag(new int[] {4, 7, 5, 6, 3, 8});
+                aprilTagObj = robot.photonVisionFront.getBestDetectedAprilTag(4, 7, 5, 6, 3, 8);
+                // if (aprilTagObj != null)
+                // {
+                //     robot.relocalize(aprilTagObj);
+                // }
             }
 
             if (robot.photonVisionBack != null)

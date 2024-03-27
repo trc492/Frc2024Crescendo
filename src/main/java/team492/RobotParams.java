@@ -224,6 +224,10 @@ public class RobotParams
 
         public static final TrcPose2D AMP_BLUE_SCORE            = new TrcPose2D(
             -Field.WIDTH + Robot.LENGTH / 2.0 - 16.0, 72.44, -90.0);
+
+        public static final TrcPose2D AMP_BLUE_PRESCORE         = new TrcPose2D(
+            -Field.WIDTH + 60.0, 72.44, -90.0);//24.0, 72.44, -90.0);
+
         public static final double PROXIMITY_THRESHOLD          = 20.0;
 
     }   //class Game

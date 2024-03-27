@@ -33,6 +33,7 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobotBattery;
 import TrcCommonLib.trclib.TrcShooter;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcVisionTargetInfo;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
@@ -767,6 +768,44 @@ public class Robot extends FrcRobotBase
         this.aprilTagTrackingEnabled = false;
     }   //disableAprilTagTracking
 
+    /**
+     * This method re-localizes the robot with AprilTag vision reported info.
+     *
+     * @param aprilTagObj specifies the detected AprilTag object.
+     */
+    public void relocalize(FrcPhotonVision.DetectedObject aprilTagObj)
+    {
+        // Use vision to relocalize robot's position.
+        int aprilTagId = aprilTagObj.target.getFiducialId();
+        TrcPose2D robotEstimatedPose = aprilTagObj.robotPose;
+
+        if (robotEstimatedPose == null)
+        {
+            robotEstimatedPose = photonVisionFront.getRobotPoseFromAprilTagFieldPose(
+                photonVisionFront.getAprilTagFieldPose(aprilTagId).toPose2D(), aprilTagObj.targetPose,
+                RobotParams.Vision.robotToFrontCamPose);
+            globalTracer.traceInfo(
+                moduleName, "Relocalize Robot: aprilTagId=" + aprilTagId +
+                ", robotEstimatedPoseFromAprilTag=" + robotEstimatedPose);
+        }
+
+        TrcPose2D robotPose = robotDrive.driveBase.getFieldPosition();
+        double xDelta = robotPose.x - robotEstimatedPose.x;
+        double yDelta = robotPose.y - robotEstimatedPose.y;
+        if (TrcUtil.magnitude(xDelta, yDelta) > RobotParams.Vision.GUIDANCE_ERROR_THRESHOLD)
+        {
+            robotDrive.driveBase.setFieldPosition(robotEstimatedPose, false);
+            globalTracer.traceInfo(
+                moduleName, "Relocalize Robot: AprilTagId=" + aprilTagId +
+                ", relocalizePose=" + robotEstimatedPose);
+        }
+        else
+        {
+            globalTracer.traceInfo(
+                moduleName, "Relocalize Robot: error too small to relocalize. aprilTagId=" + aprilTagId);
+        }
+    }   //relocalize
+
     //
     // Getters for sensor data.
     //
@@ -793,7 +832,15 @@ public class Robot extends FrcRobotBase
                 headingInput = -aprilTagObj.targetPose.angle;
                 globalTracer.traceDebug(
                     moduleName,
-                    "aprilTagId=" + aprilTagObj.target.getFiducialId() + ", angle=" + aprilTagObj.targetPose.angle);
+                    "Tracking AprilTag: aprilTagId=" + aprilTagObj.target.getFiducialId() +
+                    ", angle=" + aprilTagObj.targetPose.angle);
+            }
+            else
+            {
+                headingInput = robotDrive.driveBase.getHeading();
+                globalTracer.traceDebug(
+                    moduleName,
+                    "Tracking AprilTag: aprilTag not found, headingInput=" + headingInput);
             }
         }
 
