@@ -511,11 +511,11 @@ public class Robot extends FrcRobotBase
                 if (photonVisionFront != null)
                 {
                     FrcPhotonVision.DetectedObject object =
-                        photonVisionFront.getBestDetectedAprilTag(new int[] {4, 7, 3, 8});
+                        photonVisionFront.getBestDetectedAprilTag(4, 7, 3, 8);
 
                     if (object == null)
                     {
-                        object = photonVisionFront.getBestDetectedAprilTag(new int[] {5, 6});
+                        object = photonVisionFront.getBestDetectedAprilTag(5, 6);
                     }
 
                     if (object != null)
@@ -529,6 +529,10 @@ public class Robot extends FrcRobotBase
                         dashboard.displayPrintf(
                             lineNum++, "PhotonFront: RobotFieldPose=%s",
                             photonVisionFront.getRobotFieldPose(object, false));
+                        // Pose3d pose3d = photonVisionFront.getAprilTagFieldPose3d(object.target.getFiducialId());
+                        // dashboard.displayPrintf(
+                        //     lineNum++, "PhotonFront: OffsetTargetPose=%s",
+                        //     photonVisionFront.getTargetPoseOffsetFromAprilTag(pose3d, 0, -32.0, 0));
                     }
                     else
                     {
