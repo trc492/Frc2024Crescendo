@@ -217,12 +217,8 @@ public class Robot extends FrcRobotBase
         {
             if (RobotParams.Preferences.usePhotonVision)
             {
-                photonVisionFront = new PhotonVision(
-                    "OV9281", RobotParams.Vision.robotToFrontCam, RobotParams.Vision.robotToFrontCamPose,
-                    ledIndicator);
-                photonVisionBack = new PhotonVision(
-                    "OV9782", RobotParams.Vision.robotToBackCam, RobotParams.Vision.robotToBackCamPose,
-                    ledIndicator);
+                photonVisionFront = new PhotonVision("OV9281", RobotParams.Vision.robotToFrontCam, ledIndicator);
+                photonVisionBack = new PhotonVision("OV9782", RobotParams.Vision.robotToBackCam, ledIndicator);
                 aprilTag3To4Transform = photonVisionFront.getMultiTagTransform(3, 4);
                 aprilTag8To7Transform = photonVisionFront.getMultiTagTransform(8, 7);
             }
@@ -781,9 +777,8 @@ public class Robot extends FrcRobotBase
 
         if (robotEstimatedPose == null)
         {
-            robotEstimatedPose = photonVisionFront.getRobotPoseFromAprilTagFieldPose(
-                photonVisionFront.getAprilTagFieldPose(aprilTagId).toPose2D(), aprilTagObj.targetPose,
-                RobotParams.Vision.robotToFrontCamPose);
+            // PhotonVision pose estimator failed to return estimatedPose?! Calculate the pose ourselves.
+            robotEstimatedPose = photonVisionFront.getRobotFieldPose(aprilTagObj, false);
             globalTracer.traceInfo(
                 moduleName, "Relocalize Robot: aprilTagId=" + aprilTagId +
                 ", robotEstimatedPoseFromAprilTag=" + robotEstimatedPose);
