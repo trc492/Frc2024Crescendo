@@ -37,6 +37,7 @@ import TrcFrcLib.frclib.FrcPhotonVision;
 import TrcFrcLib.frclib.FrcSideWinderJoystick;
 import TrcFrcLib.frclib.FrcXboxController;
 import team492.autotasks.ShootParamTable;
+import team492.subsystems.Shooter;
 
 /**
  * This class implements the code to run in TeleOp Mode.
@@ -345,11 +346,14 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         if (subsystemStatusOn)
                         {
                             robot.dashboard.displayPrintf(
-                                lineNum++, "Tilt: power=%.2f/%.2f, angle=%.2f/%.2f/%f, inc=%.0f, limits=%s/%s",
+                                lineNum++,
+                                "Tilt: power=%.2f/%.2f, angle=%.2f/%.2f/%f, inc=%.0f, limits=%s/%s" +
+                                ", yaw/pitch/roll=%.2f/%.2f/%.2f",
                                 tiltPower, robot.shooter.getTiltPower(), robot.shooter.getTiltAngle(),
                                 robot.shooter.tiltMotor.getPidTarget(), robot.shooter.tiltMotor.getMotorPosition(),
                                 robot.shooterTiltAngle.getIncrement(), robot.shooter.tiltLowerLimitSwitchActive(),
-                                robot.shooter.tiltUpperLimitSwitchActive());
+                                robot.shooter.tiltUpperLimitSwitchActive(),
+                                Shooter.getTilterYaw(), Shooter.getTilterPitch(), Shooter.getTilterRoll());
                         }
                     }
 

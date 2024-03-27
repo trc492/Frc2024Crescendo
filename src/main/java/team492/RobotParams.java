@@ -80,6 +80,7 @@ public class RobotParams
         public static final boolean useButtonPanels             = false;
         // Sensors
         public static final boolean useNavX                     = true;
+        public static final boolean usePigeonIMU                = true;
         public static final boolean usePdp                      = false;
         public static final boolean usePressureSensor           = false;
         // Vision
@@ -268,6 +269,7 @@ public class RobotParams
         public static final int CANID_TILT_MOTOR                = 7;
         public static final int CANID_INTAKE_MOTOR              = 8;
         public static final int CANID_CLIMBER_MOTOR             = 9;
+        public static final int CANID_PIGEON_IMU                = 10;
         public static final int CANID_SHOOTER_MOTOR             = 17;
 
         public static final int CANID_PCM                       = 30;

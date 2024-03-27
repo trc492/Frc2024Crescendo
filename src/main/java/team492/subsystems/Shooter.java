@@ -22,6 +22,8 @@
 
 package team492.subsystems;
 
+import com.ctre.phoenix.sensors.WPI_PigeonIMU;
+
 import TrcCommonLib.trclib.TrcShooter;
 import TrcCommonLib.trclib.TrcUtil;
 import TrcFrcLib.frclib.FrcCANTalonFX;
@@ -32,8 +34,10 @@ public class Shooter
 {
     private static final String moduleName = Shooter.class.getSimpleName();
 
+    private static Shooter instance = null;
     private final FrcCANTalonFX shooterMotor;
     private final FrcCANSparkMax tiltMotor;
+    private final WPI_PigeonIMU pigeonIMU;
     private final TrcShooter shooter;
 
     /**
@@ -77,10 +81,20 @@ public class Shooter
         // tiltMotor.setPositionPidPowerComp(this::getTiltGravityComp);
         tiltMotor.setPresets(
             false, RobotParams.Shooter.tiltPresetPosTolerance, RobotParams.Shooter.tiltPresetPositions);
+        if (RobotParams.Preferences.usePigeonIMU)
+        {
+            pigeonIMU = new WPI_PigeonIMU(RobotParams.HWConfig.CANID_PIGEON_IMU);
+            pigeonIMU.configFactoryDefault();
+        }
+        else
+        {
+            pigeonIMU = null;
+        }
 
         TrcShooter.PanTiltParams tiltParams = new TrcShooter.PanTiltParams(
             RobotParams.Shooter.tiltPowerLimit, RobotParams.Shooter.tiltMinAngle, RobotParams.Shooter.tiltMaxAngle);
         shooter = new TrcShooter(moduleName, shooterMotor, tiltMotor, tiltParams, null, null);
+        instance = this;
     }   //Shooter
 
     /**
@@ -91,6 +105,67 @@ public class Shooter
     {
         return shooter.toString();
     }   //toString
+
+    /**
+     * This method returns the Shooter parent object instance.
+     *
+     * @return shooter parent instance.
+     */
+    public static Shooter getInstance()
+    {
+        return instance;
+    }   //getInstance
+
+    /**
+     * This method returns the Pigeon's yaw value.
+     *
+     * @return yaw value.
+     */
+    public static double getTilterYaw()
+    {
+        double value = 0.0;
+
+        if (instance != null)
+        {
+            value = instance.pigeonIMU.getYaw();
+        }
+
+        return value;
+    }   //getTilterYaw
+
+    /**
+     * This method returns the Pigeon's pitch value.
+     *
+     * @return pitch value.
+     */
+    public static double getTilterPitch()
+    {
+        double value = 0.0;
+
+        if (instance != null)
+        {
+            value = instance.pigeonIMU.getPitch();
+        }
+
+        return value;
+    }   //getTilterPitch
+
+    /**
+     * This method returns the Pigeon's roll value.
+     *
+     * @return roll value.
+     */
+    public static double getTilterRoll()
+    {
+        double value = 0.0;
+
+        if (instance != null)
+        {
+            value = instance.pigeonIMU.getRoll();
+        }
+
+        return value;
+    }   //getTilterRoll
 
     /**
      * This method returns the created TrcShooter object.
