@@ -228,9 +228,9 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
                 case DO_DELAY:
                     // Do delay if there is one.
-                    robot.globalTracer.traceInfo(moduleName, "***** Set shooter to Wing Note preset.");
                     if (startPos != AutoStartPos.AMP)
                     {
+                        robot.globalTracer.traceInfo(moduleName, "***** Set shooter to Wing Note preset.");
                         robot.shooter.aimShooter(
                             RobotParams.Shooter.wingNotePresetParams.shooterVelocity,
                             RobotParams.Shooter.wingNotePresetParams.tiltAngle, 0.0);
@@ -297,7 +297,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             targetPose = intermediatePose.clone();
                             targetPose.x += 15.0;
                             targetPose.angle = alliance == Alliance.Red? 0: 180.0;
-                            // Turn on Note Vision at intermediatePose2 so that it will see the first Wing note instead
+                            // Turn on Note Vision at intermediatePose so that it will see the first Wing note instead
                             // of the middle one.
                             robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                             robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
@@ -318,7 +318,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
                 case PICKUP_WING_NOTE:
                     robot.globalTracer.traceInfo(
-                        moduleName, "***** Pickup Wing Note: Cancel PurePursuit, turn off Note Vision.");
+                        moduleName, "***** Pickup Wing Note " + (numWingNotesScored + 1) +
+                        ": Cancel PurePursuit, turn off Note Vision.");
                     robot.robotDrive.purePursuitDrive.cancel();
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(null);
                     disableNoteVision();
@@ -514,8 +515,9 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         enableAprilTagVision(true);
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         centerlineIndex =
+                            startPos == AutoStartPos.SW_CENTER? 1:
                             Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_SOURCE_SIDE.x) <
-                            Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.x)? 0: 1;
+                            Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.x)? 0: 2;
                         robot.globalTracer.traceInfo(
                             moduleName, "***** EndAction is " + endAction +
                             ", drive to Centerline Note " + centerlineIndex + ".");

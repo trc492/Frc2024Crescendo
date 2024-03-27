@@ -204,23 +204,29 @@ public class RobotParams
         public static final TrcPose2D CLNOTE1_BLUE_PICKUP       = new TrcPose2D(
             CENTERLINE_NOTE_1.x - 33.0, CENTERLINE_NOTE_1.y - 60.0, 180.0);
 
+        public static final TrcPose2D CLNOTE3_BLUE_PICKUP       = new TrcPose2D(
+            CENTERLINE_NOTE_3.x, CENTERLINE_NOTE_1.y - 60.0, 180.0);
+
         public static final TrcPose2D CLNOTE5_BLUE_PICKUP       = new TrcPose2D(
             CENTERLINE_NOTE_5.x + 33.0, CENTERLINE_NOTE_5.y - 60.0, 180.0);
 
         public static final TrcPose2D CLNOTE1_BLUE_SCORE        = new TrcPose2D(
-            WINGNOTE_BLUE_SOURCE_SIDE.x + 24.0, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 225.0); //TODO check pos and angle
+            WINGNOTE_BLUE_SOURCE_SIDE.x + 24.0, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 225.0);
+
+        public static final TrcPose2D CLNOTE3_BLUE_SCORE        = new TrcPose2D(
+            WINGNOTE_BLUE_SW_SIDE.x, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 180.0);
 
         public static final TrcPose2D CLNOTE5_BLUE_SCORE        = new TrcPose2D(
-            -(Field.WIDTH / 2.0 + 85.0), WINGNOTE_BLUE_SW_SIDE.y - 36.0, 160.0); //TODO: check pos and angle
+            -(Field.WIDTH / 2.0 + 85.0), WINGNOTE_BLUE_SW_SIDE.y - 36.0, 160.0);
 
         public static final TrcPose2D[] centerlineNotePickupPoses =
         {
-            CLNOTE1_BLUE_PICKUP, CLNOTE5_BLUE_PICKUP
+            CLNOTE1_BLUE_PICKUP, CLNOTE3_BLUE_PICKUP, CLNOTE5_BLUE_PICKUP
         };
 
         public static final TrcPose2D[] centerlineNoteScorePoses =
         {
-            CLNOTE1_BLUE_SCORE, CLNOTE5_BLUE_SCORE
+            CLNOTE1_BLUE_SCORE, CLNOTE3_BLUE_SCORE, CLNOTE5_BLUE_SCORE
         };
 
         public static final TrcPose2D AMP_BLUE_SCORE            = new TrcPose2D(
