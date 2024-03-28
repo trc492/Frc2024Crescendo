@@ -27,7 +27,6 @@ import java.util.Locale;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
-import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcCANSparkMax;
@@ -36,7 +35,6 @@ import TrcFrcLib.frclib.FrcPanelButtons;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import TrcFrcLib.frclib.FrcSideWinderJoystick;
 import TrcFrcLib.frclib.FrcXboxController;
-import team492.autotasks.ShootParamTable;
 import team492.subsystems.Shooter;
 
 /**
@@ -197,35 +195,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         {
                             if (aprilTagObj != null)
                             {
-                                TrcPose2D aprilTagPose;
-                                aprilTagId = aprilTagObj.target.getFiducialId();
-
-                                if (aprilTagId == 3 || aprilTagId == 8)
-                                {
-                                    aprilTagPose = aprilTagObj.addTransformToTarget(
-                                        aprilTagObj.target, RobotParams.Vision.robotToFrontCam,
-                                        aprilTagId == 3? robot.aprilTag3To4Transform: robot.aprilTag8To7Transform);
-                                }
-                                else
-                                {
-                                    aprilTagPose = aprilTagObj.targetPose;
-                                }
-
-                                if (aprilTagId == 5 || aprilTagId == 6)
-                                {
-                                    shooterVel = RobotParams.Shooter.shooterAmpVelocity;
-                                    tiltAngle = RobotParams.Shooter.tiltAmpAngle;
-                                }
-                                else
-                                {
-                                    ShootParamTable.Params shootParams =
-                                        RobotParams.Shooter.speakerShootParamTable.get(
-                                            TrcUtil.magnitude(aprilTagPose.x, aprilTagPose.y));
-                                    shooterVel = shootParams.shooterVelocity;
-                                    tiltAngle = shootParams.tiltAngle;
-                                }
+                                TrcPose2D aprilTagPose = robot.aimShooterAtAprilTag(aprilTagObj);
                                 rotPower = trackingPidCtrl.getOutput(aprilTagPose.angle, 0.0);
-                                robot.shooter.aimShooter(shooterVel, tiltAngle, 0.0);
                                 // robot.globalTracer.traceInfo(moduleName, "aprilTagAngle=" + aprilTagPose.angle + ", rotPower=" + rotPower);
 
                             }

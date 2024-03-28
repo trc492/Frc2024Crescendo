@@ -55,6 +55,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import team492.RobotParams.RobotType;
+import team492.autotasks.ShootParamTable;
 import team492.autotasks.TaskAutoPickupFromGround;
 import team492.autotasks.TaskAutoPickupFromSource;
 import team492.autotasks.TaskAutoScoreNote;
@@ -801,6 +802,52 @@ public class Robot extends FrcRobotBase
         }
     }   //relocalize
 
+    /**
+     * This method tracks the detected AprilTag and aims the shooter at it.
+     *
+     * @param aprilTagObj specifies the detected AprilTag object.
+     * @return AprilTag pose that it's aiming at. This may be different from the given AprilTag.
+     */
+    public TrcPose2D aimShooterAtAprilTag(FrcPhotonVision.DetectedObject aprilTagObj)
+    {
+        int aprilTagId = aprilTagObj.target.getFiducialId();
+        TrcPose2D aprilTagPose;
+        double shooterVel, tiltAngle;
+
+        if (aprilTagId == 3 || aprilTagId == 8)
+        {
+            aprilTagPose = aprilTagObj.addTransformToTarget(
+                aprilTagObj.target, RobotParams.Vision.robotToFrontCam,
+                aprilTagId == 3? aprilTag3To4Transform: aprilTag8To7Transform);
+        }
+        else
+        {
+            aprilTagPose = aprilTagObj.targetPose;
+        }
+
+        if (aprilTagId == 5 || aprilTagId == 6)
+        {
+            shooterVel = RobotParams.Shooter.shooterAmpVelocity;
+            tiltAngle = RobotParams.Shooter.tiltAmpAngle;
+        }
+        else
+        {
+            ShootParamTable.Params shootParams = RobotParams.Shooter.speakerShootParamTable.get(
+                TrcUtil.magnitude(aprilTagPose.x, aprilTagPose.y));
+            shooterVel = shootParams.shooterVelocity;
+            tiltAngle = shootParams.tiltAngle;
+        }
+
+        shooter.aimShooter(shooterVel, tiltAngle, 0.0);
+        globalTracer.traceInfo(
+            moduleName,
+            "Aim at AprilTag: aprilTagId=" + aprilTagObj.target.getFiducialId() +
+            ", shooterVel=" + shooterVel +
+            ", tiltAngle=" + tiltAngle);
+
+            return aprilTagPose;
+    }   //aimShooterAtAprilTag
+
     //
     // Getters for sensor data.
     //
@@ -824,8 +871,9 @@ public class Robot extends FrcRobotBase
 
             if (aprilTagObj != null)
             {
+                aimShooterAtAprilTag(aprilTagObj);
                 headingInput = -aprilTagObj.targetPose.angle;
-                globalTracer.traceDebug(
+                globalTracer.traceInfo(
                     moduleName,
                     "Tracking AprilTag: aprilTagId=" + aprilTagObj.target.getFiducialId() +
                     ", angle=" + aprilTagObj.targetPose.angle);

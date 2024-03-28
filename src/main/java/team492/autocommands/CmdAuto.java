@@ -447,6 +447,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
                 case SCORE_NOTE_TO_SPEAKER:
                     robot.robotDrive.purePursuitDrive.cancel();
+                    robot.robotDrive.purePursuitDrive.disableFixedHeading();
+                    robot.disableAprilTagTracking();
                     disableAprilTagVision();
                     robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, relocalize, event);
                     if (performingEndAction)
@@ -564,6 +566,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     targetPose = RobotParams.Game.centerlineNoteScorePoses[centerlineIndex];
                     intermediatePose = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex];
+                    robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                     robot.robotDrive.purePursuitDrive.start(
                         event, robotPose, false,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
@@ -648,22 +651,27 @@ public class CmdAuto implements TrcRobot.RobotCommand
      */
     private void waypointHandler(int index, TrcWaypoint waypoint)
     {
-        robot.globalTracer.traceInfo(moduleName, "***** Waypoint " + index + ": " + waypoint);
-        if (sm.getState() == State.DRIVE_TO_CENTER_LINE)
+        State currState = sm.getState();
+
+        robot.globalTracer.traceInfo(moduleName, "***** [" + currState + "] Waypoint " + index + ": " + waypoint);
+        if (currState == State.DRIVE_TO_WING_NOTE && startPos == AutoStartPos.AMP && index == 1)
         {
-            if (endAction != EndAction.PARK_NEAR_CENTER_LINE && index == 1)
-            {
-                robot.globalTracer.traceInfo(moduleName, "***** Turn on full Vision.");
-                enableNoteVision(
-                    RobotParams.Intake.noteDistanceThreshold, RobotParams.Intake.noteFullViewAngle);
-                sm.addEvent(noteEvent);
-            }
-        }
-        else if (index == 1)
-        {
-            robot.globalTracer.traceInfo(moduleName, "***** Turn on narrow Vision.");
+            robot.globalTracer.traceInfo(moduleName, "***** Turn on narrow Note Vision.");
             enableNoteVision();
             sm.addEvent(noteEvent);
+        }
+        else if (currState == State.DRIVE_TO_CENTER_LINE && endAction != EndAction.PARK_NEAR_CENTER_LINE && index == 1)
+        {
+            robot.globalTracer.traceInfo(moduleName, "***** Turn on full Note Vision.");
+            enableNoteVision(
+                RobotParams.Intake.noteDistanceThreshold, RobotParams.Intake.noteFullViewAngle);
+            sm.addEvent(noteEvent);
+        }
+        else if (currState == State.DRIVE_TO_SPEAKER && index == 1)
+        {
+            robot.globalTracer.traceInfo(moduleName, "***** Turn on AprilTag Vision Tracking.");
+            robot.enableAprilTagTracking(4, 7, 3, 8);
+            robot.robotDrive.purePursuitDrive.enableFixedHeading(0.0);
         }
     }   //waypointHandler
 
