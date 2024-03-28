@@ -845,7 +845,7 @@ public class Robot extends FrcRobotBase
             ", shooterVel=" + shooterVel +
             ", tiltAngle=" + tiltAngle);
 
-            return aprilTagPose;
+        return aprilTagPose;
     }   //aimShooterAtAprilTag
 
     //
