@@ -80,7 +80,7 @@ public class RobotParams
         public static final boolean useButtonPanels             = false;
         // Sensors
         public static final boolean useNavX                     = true;
-        public static final boolean usePigeonIMU                = true;
+        public static final boolean usePigeonIMU                = false;
         public static final boolean useUltrasonic               = false;
         public static final boolean usePdp                      = false;
         public static final boolean usePressureSensor           = false;
