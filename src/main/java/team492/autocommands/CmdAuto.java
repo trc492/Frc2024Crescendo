@@ -731,7 +731,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 robot.globalTracer.traceInfo(moduleName, "***** Turn on AprilTag Vision Guidance.");
                 enableAprilTagVision(true);
             }
-            else if (index == 3)
+            else if (index == 2)
             {
                 robot.globalTracer.traceInfo(moduleName, "***** Turn off AprilTag Vision Guidance.");
                 disableAprilTagVision();
