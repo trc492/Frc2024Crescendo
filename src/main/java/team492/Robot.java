@@ -807,6 +807,7 @@ public class Robot extends FrcRobotBase
             robotDrive.driveBase.setFieldPosition(robotEstimatedPose, false);
             globalTracer.traceInfo(
                 moduleName, "Relocalize Robot: AprilTagId=" + aprilTagId +
+                ", robotPose=" + robotPose +
                 ", relocalizePose=" + robotEstimatedPose);
         }
         else

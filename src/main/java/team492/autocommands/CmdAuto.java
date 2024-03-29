@@ -532,7 +532,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.x)? 0: 2;
                         robot.globalTracer.traceInfo(
                             moduleName, "***** EndAction is " + endAction +
-                            ", drive to Centerline Note " + centerlineIndex + ".");
+                            ", drive to Centerline " +
+                            (centerlineIndex == 0? "Source": centerlineIndex == 2? "Center": "Amp") + ".");
                         targetPose =
                             RobotParams.Game.centerlineNotePickupPoses[centerlineIndex].clone();
                         robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
@@ -691,7 +692,9 @@ public class CmdAuto implements TrcRobot.RobotCommand
     {
         State currState = sm.getState();
 
-        robot.globalTracer.traceInfo(moduleName, "***** [" + currState + "] Waypoint " + index + ": " + waypoint);
+        robot.globalTracer.traceInfo(
+            moduleName, "***** [" + currState + "] Waypoint " + index + ": " + waypoint +
+            ", robotPose=" + robot.robotDrive.driveBase.getFieldPosition());
         if (currState == State.DRIVE_TO_WING_NOTE && startPos == AutoStartPos.AMP && index == 1)
         {
             robot.globalTracer.traceInfo(moduleName, "***** Turn on narrow Note Vision.");
