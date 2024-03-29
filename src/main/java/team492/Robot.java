@@ -27,6 +27,7 @@ import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcDiscreteValue;
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcIntake;
+import TrcCommonLib.trclib.TrcMaxbotixSonarArray;
 import TrcCommonLib.trclib.TrcOpenCvDetector;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
@@ -37,7 +38,9 @@ import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcVisionTargetInfo;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
+import TrcFrcLib.frclib.FrcAnalogInput;
 import TrcFrcLib.frclib.FrcDashboard;
+import TrcFrcLib.frclib.FrcDigitalOutput;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcMatchInfo;
 import TrcFrcLib.frclib.FrcPdp;
@@ -97,6 +100,7 @@ public class Robot extends FrcRobotBase
     //
     // Sensors.
     //
+    public TrcMaxbotixSonarArray sonarArray;
     public FrcPdp pdp;
     public TrcRobotBattery battery;
     public AnalogInput pressureSensor;
@@ -196,6 +200,16 @@ public class Robot extends FrcRobotBase
         //
         // Create and initialize sensors.
         //
+        if (RobotParams.Preferences.useUltrasonic)
+        {
+            FrcAnalogInput sonarLeft = new FrcAnalogInput("SonarLeft", RobotParams.HWConfig.AIN_LEFT_ULTRASONIC);
+            FrcAnalogInput sonarRight = new FrcAnalogInput("SonarRight", RobotParams.HWConfig.AIN_RIGHT_ULTRASONIC);
+            FrcDigitalOutput sonarPing = new FrcDigitalOutput("SonarPing", RobotParams.HWConfig.DIO_ULTRASONIC_PING);
+
+            sonarArray = new TrcMaxbotixSonarArray(
+                "SonarArray", new FrcAnalogInput[] {sonarLeft, sonarRight}, sonarPing, true);
+        }
+
         if (RobotParams.Preferences.usePdp)
         {
             pdp = new FrcPdp(RobotParams.HWConfig.CANID_PDP, ModuleType.kRev);

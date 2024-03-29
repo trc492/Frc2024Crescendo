@@ -81,6 +81,7 @@ public class RobotParams
         // Sensors
         public static final boolean useNavX                     = true;
         public static final boolean usePigeonIMU                = true;
+        public static final boolean useUltrasonic               = false;
         public static final boolean usePdp                      = false;
         public static final boolean usePressureSensor           = false;
         // Vision
@@ -304,6 +305,8 @@ public class RobotParams
         //
         // Analog Input ports (not used).
         //
+        public static final int AIN_RIGHT_ULTRASONIC            = 0;
+        public static final int AIN_LEFT_ULTRASONIC             = 1;
         public static final int AIN_PRESSURE_SENSOR             = 0;
         public static final int AIN_LFSTEER_ENCODER             = 0;
         public static final int AIN_RFSTEER_ENCODER             = 1;
@@ -314,6 +317,7 @@ public class RobotParams
         //
         public static final int DIO_INTAKE_ENTRY                = 0;
         public static final int DIO_INTAKE_EXIT                 = 1;
+        public static final int DIO_ULTRASONIC_PING             = 2;
 
         //
         // PWM channels.
