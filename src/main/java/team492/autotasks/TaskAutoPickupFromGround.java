@@ -236,7 +236,9 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     notePose = object.getObjectPose();
                     notePose.x = -notePose.x;
                     notePose.y = -notePose.y;
-                    tracer.traceInfo(moduleName, "***** Vision found Note at %s from robot back.", notePose);
+                    tracer.traceInfo(
+                        moduleName, "***** Vision found Note: notePose=" + notePose +
+                        ", robotPose=" + robot.robotDrive.driveBase.getFieldPosition());
                     sm.setState(State.DRIVE_TO_NOTE);
                 }
                 else if (visionExpiredTime == null)
@@ -259,7 +261,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     // We are in auto and vision did not see any Note, quit.
                     tracer.traceInfo(
                         moduleName,
-                        "***** Either Vision doesn't see Note or Note is too far away, notePose=" + notePose + ".");
+                        "***** Either Vision doesn't see Note or Note is too far away: notePose=" + notePose);
                     if (robot.ledIndicator != null)
                     {
                         robot.ledIndicator.setPhotonDetectedObject(null, null);

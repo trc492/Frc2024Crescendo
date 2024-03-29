@@ -238,7 +238,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                     aprilTagId = object.target.getFiducialId();
                     aprilTagPose = object.getObjectPose();
                     tracer.traceInfo(
-                        moduleName, "Vision found AprilTag %d at %s from camera.", aprilTagId, aprilTagPose);
+                        moduleName, "Vision found AprilTag " + aprilTagId + ": aprilTagPose=" + aprilTagPose);
                     // Relocalize.
                     robot.relocalizeRobotByAprilTag(object);
                     sm.setState(State.DRIVE_TO_APRILTAG);

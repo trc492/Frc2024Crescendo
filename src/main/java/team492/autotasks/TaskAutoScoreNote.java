@@ -271,15 +271,15 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 {
                     aprilTagId = object.target.getFiducialId();
                     tracer.traceInfo(
-                        moduleName, "***** Vision found AprilTag %d at %s from camera.",
-                        aprilTagId, object.targetPose);
+                        moduleName, "***** Vision found AprilTag " + aprilTagId +
+                        ": aprilTagPose=" + object.targetPose);
                     if (aprilTagId == 3 || aprilTagId == 8)
                     {
                         aprilTagPose = object.addTransformToTarget(
                             object.target, RobotParams.Vision.robotToFrontCam,
                             aprilTagId == 3? robot.aprilTag3To4Transform: robot.aprilTag8To7Transform);
                         tracer.traceInfo(
-                            moduleName, "***** Translated AprilTag target at %s from camera.", aprilTagPose);
+                            moduleName, "***** Translated AprilTag target: newPose=" + aprilTagPose);
                     }
                     else
                     {
