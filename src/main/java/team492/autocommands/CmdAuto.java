@@ -172,15 +172,20 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
             if (noteObj != null)
             {
+                TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
                 if (noteObj.targetPose.y > noteDistanceThreshold ||
                     Math.abs(noteObj.targetPose.angle) > noteAngleThreshold)
                 {
                     robot.globalTracer.traceInfo(
-                        moduleName, "***** Vision found note too far or not turn enough at " + noteObj.targetPose + ".");
+                        moduleName,
+                        "***** Vision found note too far or not turn enough: notePose=" + noteObj.targetPose +
+                        ", robotPose=" + robotPose);
                 }
                 else
                 {
-                    robot.globalTracer.traceInfo(moduleName, "***** Vision found note at " + noteObj.targetPose + ".");
+                    robot.globalTracer.traceInfo(
+                        moduleName, "***** Vision found note: notePose=" + noteObj.targetPose +
+                        ", robotPose=" + robotPose);
                     noteEvent.signal();
                 }
             }
