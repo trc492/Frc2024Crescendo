@@ -234,7 +234,7 @@ public class RobotParams
             -Field.WIDTH + Robot.LENGTH / 2.0 - 16.0, 72.44, -90.0);
 
         public static final TrcPose2D AMP_BLUE_PRESCORE         = new TrcPose2D(
-            -Field.WIDTH + 60.0, 72.44, -90.0);//24.0, 72.44, -90.0);
+            -Field.WIDTH + 24.0, 72.44, -90.0);
 
         public static final double PROXIMITY_THRESHOLD          = 20.0;
 
@@ -416,7 +416,7 @@ public class RobotParams
             HOMOGRAPHY_WORLD_BOTTOMRIGHT_X, HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y);
 
         public static final double ONTARGET_THRESHOLD           = 5.0;
-        public static final double GUIDANCE_ERROR_THRESHOLD     = 10.0;
+        public static final double GUIDANCE_ERROR_THRESHOLD     = 12.0;
     }   //class Vision
 
     //
