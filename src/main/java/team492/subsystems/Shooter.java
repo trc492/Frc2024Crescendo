@@ -125,7 +125,7 @@ public class Shooter
     {
         double value = 0.0;
 
-        if (instance != null)
+        if (instance != null && instance.pigeonIMU != null)
         {
             value = instance.pigeonIMU.getYaw();
         }
@@ -142,7 +142,7 @@ public class Shooter
     {
         double value = 0.0;
 
-        if (instance != null)
+        if (instance != null && instance.pigeonIMU != null)
         {
             value = instance.pigeonIMU.getPitch();
         }
@@ -159,7 +159,7 @@ public class Shooter
     {
         double value = 0.0;
 
-        if (instance != null)
+        if (instance != null && instance.pigeonIMU != null)
         {
             value = instance.pigeonIMU.getRoll();
         }
