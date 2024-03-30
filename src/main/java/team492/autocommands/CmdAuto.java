@@ -344,10 +344,11 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             moduleName, "***** Scoring Wing Note " + (numWingNotesScored + 1) +
                             " or Centerline Note " + (numCenterlineNotesScored + 1) + " into the Amp.");
                     robot.robotDrive.purePursuitDrive.cancel();
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(null);
                     disableAprilTagVision();
                     // robot.disableAprilTagTracking();
-                    robot.autoScoreNote.autoAssistScore(TargetType.Amp, false, true, relocalize, event);
+                    robot.autoScoreNote.autoAssistScore(TargetType.Amp, true, true, relocalize, event);
                     if (performingEndAction)
                     {
                         numCenterlineNotesScored++;
@@ -522,8 +523,6 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     }
                     else
                     {
-                        // Doing long distance drive, turn on vision guidance.
-                        enableAprilTagVision(true);
                         robotPose = robot.robotDrive.driveBase.getFieldPosition();
                         //robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
                         centerlineIndex =
@@ -539,6 +538,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                         if (startPos != AutoStartPos.AMP)
                         {
+                            // Doing long distance drive, turn on vision guidance.
+                            enableAprilTagVision(true);
                             // Waypoint event handler will turn on Note Vision.
                             intermediatePose = targetPose.clone();
                             intermediatePose.y -= 120.0;
@@ -554,13 +555,18 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             // For AutoStartPos.AMP, we want to pick up the Note closest to the wall.
                             targetPose.x = RobotParams.Game.CENTERLINE_NOTE_5.x;
                             intermediatePose = targetPose.clone();
-                            intermediatePose.y -= 60.0;
+                            intermediatePose.y -= 84.0;
                             intermediatePose.angle = -90.0;
+
+                            intermediatePose2 = targetPose.clone();
+                            intermediatePose2.y -= 36.0;
+
                             robot.robotDrive.purePursuitDrive.start(
                                 event, robotPose, false,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                                 robot.adjustPoseByAlliance(intermediatePose, alliance),
+                                robot.adjustPoseByAlliance(intermediatePose2, alliance),
                                 robot.adjustPoseByAlliance(targetPose, alliance));
                         }
                         sm.waitForSingleEvent(event, State.PERFORM_END_ACTION);
@@ -605,7 +611,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
                 case DRIVE_TO_AMP:
                     robot.globalTracer.traceInfo(moduleName, "***** Drive to Amp to score Centerline Note.");
-                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.7);
                     // robot.robotDrive.purePursuitDrive.setTraceLevel(MsgLevel.DEBUG, false, true, false);
                     // enableAprilTagVision(true);
                     // robot.enableAprilTagTracking(5, 6);
@@ -613,15 +619,15 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     targetPose = RobotParams.Game.AMP_BLUE_PRESCORE;
 
-                    intermediatePose = targetPose.clone();
-                    intermediatePose.y = (RobotParams.Game.CENTERLINE_NOTE_5.y + RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.y) / 2.0;
-                    intermediatePose.angle = 90.0;
+                    intermediatePose = RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.clone();
+                    intermediatePose.y += 72.0;
+                    intermediatePose.x -= 24;
+                    intermediatePose.angle = 180.0;
 
                     intermediatePose2 = targetPose.clone();
-                    intermediatePose2.angle = 90.0;
+                    intermediatePose2.x = intermediatePose.x;
+                    intermediatePose2.angle = 180.0;
 
-                    intermediatePose3 = intermediatePose2.clone();
-                    intermediatePose3.x += 24.0;
 
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                     robot.robotDrive.purePursuitDrive.start(
@@ -630,7 +636,6 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                         robot.adjustPoseByAlliance(intermediatePose, alliance),
                         robot.adjustPoseByAlliance(intermediatePose2, alliance),
-                        robot.adjustPoseByAlliance(intermediatePose3, alliance),
                         robot.adjustPoseByAlliance(targetPose, alliance));
                     sm.waitForSingleEvent(event, State.SCORE_NOTE_TO_AMP);
                     break;
@@ -701,25 +706,26 @@ public class CmdAuto implements TrcRobot.RobotCommand
             enableNoteVision();
             sm.addEvent(noteEvent);
         }
-        else if (currState == State.DRIVE_TO_CENTERLINE && endAction != EndAction.PARK_NEAR_CENTER_LINE && index == 1)
+        else if (currState == State.DRIVE_TO_CENTERLINE && endAction != EndAction.PARK_NEAR_CENTER_LINE)
         {
             // We are driving to Centerline to pick up a Note.
-            if (startPos == AutoStartPos.AMP)
+            if (startPos == AutoStartPos.AMP && index == 2)
             {
                 // We are picking up a Note closest to the wall while we are turning to face it, turn on narrow
                 // vision so we will only stop turning when we are staring right at it.
                 robot.globalTracer.traceInfo(moduleName, "***** Turn on narrow Note Vision.");
                 enableNoteVision();
+                sm.addEvent(noteEvent);
             }
-            else
+            else if (startPos != AutoStartPos.AMP && index == 1)
             {
                 // We are picking up a Note from either SW_SOURCE_SIDE, SW_CENTER or SW_AMP_SIDE and we are at
                 // intermediatePose. Turn on full Note Vision.
                 robot.globalTracer.traceInfo(moduleName, "***** Turn on full Note Vision.");
                 enableNoteVision(
                     RobotParams.Intake.noteDistanceThreshold, RobotParams.Intake.noteFullViewAngle);
+                sm.addEvent(noteEvent);
             }
-            sm.addEvent(noteEvent);
         }
         else if (currState == State.DRIVE_TO_SPEAKER && index == 1)
         {
@@ -727,19 +733,11 @@ public class CmdAuto implements TrcRobot.RobotCommand
             robot.enableAprilTagTracking(4, 7, 3, 8);
             robot.robotDrive.purePursuitDrive.enableFixedHeading(0.0);
         }
-        else if (currState == State.DRIVE_TO_AMP)
-        {
-            if (index == 1)
-            {
-                robot.globalTracer.traceInfo(moduleName, "***** Turn on AprilTag Vision Guidance.");
-                enableAprilTagVision(true);
-            }
-            else if (index == 2)
-            {
-                robot.globalTracer.traceInfo(moduleName, "***** Turn off AprilTag Vision Guidance.");
-                disableAprilTagVision();
-            }
-        }
+        // else if (currState == State.DRIVE_TO_AMP && index == 1)
+        // {
+        //     robot.globalTracer.traceInfo(moduleName, "***** Turn off AprilTag Vision Guidance.");
+        //     disableAprilTagVision();
+        // }
     }   //waypointHandler
 
     /**

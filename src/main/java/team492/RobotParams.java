@@ -234,7 +234,7 @@ public class RobotParams
             -Field.WIDTH + Robot.LENGTH / 2.0 - 16.0, 72.44, -90.0);
 
         public static final TrcPose2D AMP_BLUE_PRESCORE         = new TrcPose2D(
-            -Field.WIDTH + 24.0, 72.44, -90.0);
+            -Field.WIDTH + 36.0, 72.44, -90.0);
 
         public static final double PROXIMITY_THRESHOLD          = 20.0;
 

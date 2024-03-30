@@ -321,22 +321,47 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     sm.addEvent(event);
 
                     TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                    Alliance alliance = robotPose.y > RobotParams.Field.LENGTH / 2.0? Alliance.Red: Alliance.Blue;
-                    TrcPose2D targetPose = robot.adjustPoseByAlliance(RobotParams.Game.AMP_BLUE_SCORE, alliance);
-                    TrcPose2D intermediatePose = targetPose.clone();
-                    intermediatePose.x = robotPose.x;
-                    tracer.traceInfo(
-                        moduleName,
-                        state + "***** Approach Amp in Auto:\n\tRobotFieldPose=" + robotPose +
-                        "\n\talliance=" + alliance +
-                        "\n\tintermediatePose=" + intermediatePose +
-                        "\n\ttargetPose=" + targetPose);
+                    TrcPose2D targetPose, intermediatePose;
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
-                    robot.robotDrive.purePursuitDrive.start(
-                        currOwner, driveEvent, 2.0, robotPose, false,
-                        RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
-                        RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                        intermediatePose, targetPose);
+                    if (taskParams.useVision && aprilTagPose != null)
+                    {
+                        targetPose = aprilTagPose.clone();
+                        targetPose.x += RobotParams.Vision.FRONTCAM_X_OFFSET;
+                        targetPose.angle = 0.0;
+                        intermediatePose = targetPose.clone();
+                        intermediatePose.y = 0.0;
+                        intermediatePose.angle = -90.0 - robotPose.angle;
+
+                        targetPose.x = 0.0;
+                        tracer.traceInfo(
+                            moduleName,
+                            state + "***** Approach Amp in Auto with Vision:\n\tRobotFieldPose=" + robotPose +
+                            "\n\tintermediatePose=" + intermediatePose +
+                            "\n\ttargetPose=" + targetPose);
+                        robot.robotDrive.purePursuitDrive.start(
+                            currOwner, driveEvent, 2.0, robotPose, true,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                            intermediatePose, targetPose);
+                    }
+                    else
+                    {
+                        Alliance alliance = robotPose.y > RobotParams.Field.LENGTH / 2.0? Alliance.Red: Alliance.Blue;
+                        targetPose = robot.adjustPoseByAlliance(RobotParams.Game.AMP_BLUE_SCORE, alliance);
+                        intermediatePose = targetPose.clone();
+                        intermediatePose.x = robotPose.x;
+                        tracer.traceInfo(
+                            moduleName,
+                            state + "***** Approach Amp in Auto without Vision:\n\tRobotFieldPose=" + robotPose +
+                            "\n\talliance=" + alliance +
+                            "\n\tintermediatePose=" + intermediatePose +
+                            "\n\ttargetPose=" + targetPose);
+                        robot.robotDrive.purePursuitDrive.start(
+                            currOwner, driveEvent, 2.0, robotPose, false,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                            intermediatePose, targetPose);
+                    }
                     sm.addEvent(driveEvent);
                     sm.waitForEvents(taskParams.inAuto? State.SCORE_NOTE: State.DONE, true);
                 }
