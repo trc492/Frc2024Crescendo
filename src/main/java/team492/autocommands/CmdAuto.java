@@ -201,7 +201,6 @@ public class CmdAuto implements TrcRobot.RobotCommand
             TrcPose2D targetPose;
             TrcPose2D intermediatePose;
             TrcPose2D intermediatePose2;
-            TrcPose2D intermediatePose3;
 
             robot.dashboard.displayPrintf(8, "State: " + state);
             robot.globalTracer.tracePreStateInfo(sm.toString(), state);
@@ -347,7 +346,6 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(null);
                     disableAprilTagVision();
-                    // robot.disableAprilTagTracking();
                     robot.autoScoreNote.autoAssistScore(TargetType.Amp, true, true, relocalize, event);
                     if (performingEndAction)
                     {
@@ -612,9 +610,6 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 case DRIVE_TO_AMP:
                     robot.globalTracer.traceInfo(moduleName, "***** Drive to Amp to score Centerline Note.");
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.7);
-                    // robot.robotDrive.purePursuitDrive.setTraceLevel(MsgLevel.DEBUG, false, true, false);
-                    // enableAprilTagVision(true);
-                    // robot.enableAprilTagTracking(5, 6);
                     robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     targetPose = RobotParams.Game.AMP_BLUE_PRESCORE;
@@ -627,7 +622,6 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     intermediatePose2 = targetPose.clone();
                     intermediatePose2.x = intermediatePose.x;
                     intermediatePose2.angle = 180.0;
-
 
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                     robot.robotDrive.purePursuitDrive.start(
@@ -733,11 +727,6 @@ public class CmdAuto implements TrcRobot.RobotCommand
             robot.enableAprilTagTracking(4, 7, 3, 8);
             robot.robotDrive.purePursuitDrive.enableFixedHeading(0.0);
         }
-        // else if (currState == State.DRIVE_TO_AMP && index == 1)
-        // {
-        //     robot.globalTracer.traceInfo(moduleName, "***** Turn off AprilTag Vision Guidance.");
-        //     disableAprilTagVision();
-        // }
     }   //waypointHandler
 
     /**
