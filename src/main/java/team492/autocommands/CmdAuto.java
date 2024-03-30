@@ -596,7 +596,9 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     enableAprilTagVision(true);
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     targetPose = RobotParams.Game.centerlineNoteScorePoses[centerlineIndex];
+                    targetPose.angle = robotPose.x < -RobotParams.Field.WIDTH / 2.0? 150.0: 210.0;
                     intermediatePose = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex];
+                    intermediatePose.x = (intermediatePose.x + targetPose.x) / 2.0;
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                     robot.robotDrive.purePursuitDrive.start(
                         event, robotPose, false,
