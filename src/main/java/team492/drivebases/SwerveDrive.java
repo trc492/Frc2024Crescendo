@@ -180,7 +180,7 @@ public class SwerveDrive extends RobotDrive
             yPosPidCoeff, driveBaseParams.DRIVE_TOLERANCE, driveBase::getYPosition,
             turnPidCoeff, driveBaseParams.TURN_TOLERANCE, driveBase::getHeading);
 
-        TrcPidController xPidCtrl, yPidCtrl, turnPidCtrl, velPidCtrl;
+        TrcPidController xPidCtrl, yPidCtrl, turnPidCtrl;
         xPidCtrl = pidDrive.getXPidCtrl();
         xPidCtrl.setOutputLimit(driveBaseParams.DRIVE_MAX_XPID_POWER);
         xPidCtrl.setRampRate(driveBaseParams.DRIVE_MAX_XPID_RAMP_RATE);
@@ -199,31 +199,16 @@ public class SwerveDrive extends RobotDrive
         pidDrive.setAbsoluteTargetModeEnabled(true);
         pidDrive.setTraceLevel(MsgLevel.INFO, false, false, false);
 
-        xPidCtrl = new TrcPidController("purePursuitDrive.xPosPid", xPosPidCoeff, driveBase::getXPosition);
-        yPidCtrl = new TrcPidController("purePursuitDrive.yPosPid", yPosPidCoeff, driveBase::getYPosition);
-        turnPidCtrl = new TrcPidController("purePursuitDrive.turnPid", turnPidCoeff, robot::getHeadingInput);
-        // We are not checking velocity being onTarget, so we don't need velocity tolerance.
-        velPidCtrl = new TrcPidController("purePursuitDrive.velPid", velPidCoeff, this::getVelocityInput);
         purePursuitDrive = new TrcPurePursuitDrive(
             "purePursuitDrive", driveBase,
             driveBaseParams.PPD_FOLLOWING_DISTANCE, driveBaseParams.PPD_POS_TOLERANCE,
-            driveBaseParams.PPD_TURN_TOLERANCE, xPidCtrl, yPidCtrl, turnPidCtrl, velPidCtrl);
+            driveBaseParams.PPD_TURN_TOLERANCE, xPosPidCoeff, yPosPidCoeff, turnPidCoeff, velPidCoeff);
         purePursuitDrive.setStallDetectionEnabled(0.1, 0.1, 1.0);
         purePursuitDrive.setMoveOutputLimit(driveBaseParams.PPD_MOVE_DEF_OUTPUT_LIMIT);
         purePursuitDrive.setRotOutputLimit(driveBaseParams.PPD_ROT_DEF_OUTPUT_LIMIT);
         // purePursuitDrive.setFastModeEnabled(true);
         purePursuitDrive.setTraceLevel(MsgLevel.INFO, false, false, false);
     }   //SwerveDrive
-
-    /**
-     * This method is called by the Velocity PID controller to get the polar magnitude of the robot's velocity.
-     *
-     * @return robot's velocity magnitude.
-     */
-    private double getVelocityInput()
-    {
-        return TrcUtil.magnitude(driveBase.getXVelocity(), driveBase.getYVelocity());
-    }   //getVelocityInput
 
     /**
      * This method creates an array of steer encoders for each steer motor and configure them.

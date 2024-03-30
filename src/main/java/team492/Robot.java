@@ -882,42 +882,36 @@ public class Robot extends FrcRobotBase
     //
 
     /**
-     * This method is called by the PurePursuitDrive Turn PID controller to get the robot's heading input.
+     * This method is called by the PurePursuitDrive Turn PID controller to get the target's heading offset.
      *
-     * @return robot's heading.
+     * @return target heading offset.
      */
-    public synchronized double getHeadingInput()
+    public synchronized Double getHeadingOffset()
     {
-        double headingInput = 0.0;
+        Double headingOffset = null;
 
-        if (!aprilTagTrackingEnabled)
-        {
-            headingInput = robotDrive.driveBase.getHeading();
-        }
-        else if (photonVisionFront != null)
+        if (aprilTagTrackingEnabled && photonVisionFront != null)
         {
             FrcPhotonVision.DetectedObject aprilTagObj = photonVisionFront.getBestDetectedAprilTag(trackedAprilTagIds);
 
             if (aprilTagObj != null)
             {
                 aimShooterAtAprilTag(aprilTagObj);
-                headingInput = -aprilTagObj.targetPose.angle;
+                headingOffset = aprilTagObj.targetPose.angle;
                 globalTracer.traceInfo(
                     moduleName,
                     "Tracking AprilTag: aprilTagId=" + aprilTagObj.target.getFiducialId() +
-                    ", angle=" + aprilTagObj.targetPose.angle);
+                    ", headingOffset=" + headingOffset);
             }
             else
             {
-                headingInput = robotDrive.driveBase.getHeading();
                 globalTracer.traceDebug(
-                    moduleName,
-                    "Tracking AprilTag: aprilTag not found, headingInput=" + headingInput);
+                    moduleName, "Tracking AprilTag: aprilTag not found.");
             }
         }
 
-        return headingInput;
-    }   //getHeadingInput
+        return headingOffset;
+    }   //getHeadingOffset
 
     /**
      * This method returns the pressure value from the pressure sensor.

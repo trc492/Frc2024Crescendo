@@ -732,7 +732,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
         {
             robot.globalTracer.traceInfo(moduleName, "***** Turn on AprilTag Vision Tracking.");
             robot.enableAprilTagTracking(4, 7, 3, 8);
-            robot.robotDrive.purePursuitDrive.enableFixedHeading(0.0);
+            robot.robotDrive.purePursuitDrive.enableFixedHeading(robot::getHeadingOffset);
         }
     }   //waypointHandler
 
