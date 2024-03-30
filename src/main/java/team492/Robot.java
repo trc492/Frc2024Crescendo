@@ -522,12 +522,26 @@ public class Robot extends FrcRobotBase
             {
                 if (photonVisionFront != null)
                 {
+                    // AprilTags for Speakers.
                     FrcPhotonVision.DetectedObject object =
                         photonVisionFront.getBestDetectedAprilTag(4, 7, 3, 8);
 
                     if (object == null)
                     {
+                        // AprilTags for Amps.
                         object = photonVisionFront.getBestDetectedAprilTag(5, 6);
+                    }
+
+                    if (object == null)
+                    {
+                        // AprilTags for Stages
+                        object = photonVisionFront.getBestDetectedAprilTag(11, 12, 13, 14, 15, 16);
+                    }
+
+                    if (object == null)
+                    {
+                        // AprilTags for Sources
+                        object = photonVisionFront.getBestDetectedAprilTag(1, 2, 9, 10);
                     }
 
                     if (object != null)

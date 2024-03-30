@@ -428,7 +428,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             targetPose);
                         sm.addEvent(event);
-                        enableAprilTagVision(true);
+                        if (performingEndAction)
+                        {
+                            enableAprilTagVision(true);
+                        }
                         sm.addEvent(aprilTagEvent);
 
                         sm.waitForEvents(State.SCORE_NOTE_TO_SPEAKER, false);
@@ -596,15 +599,17 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     enableAprilTagVision(true);
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     targetPose = RobotParams.Game.centerlineNoteScorePoses[centerlineIndex];
-                    targetPose.angle = robotPose.x < -RobotParams.Field.WIDTH / 2.0? 150.0: 210.0;
                     intermediatePose = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex];
-                    intermediatePose.x = (intermediatePose.x + targetPose.x) / 2.0;
+                    intermediatePose.angle = targetPose.angle;
+                    intermediatePose2 = intermediatePose.clone();
+                    intermediatePose2.y -= 84.0;
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                     robot.robotDrive.purePursuitDrive.start(
                         event, robotPose, false,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                         robot.adjustPoseByAlliance(intermediatePose, alliance),
+                        robot.adjustPoseByAlliance(intermediatePose2, alliance),
                         robot.adjustPoseByAlliance(targetPose, alliance));
                     sm.waitForSingleEvent(event, State.SCORE_NOTE_TO_SPEAKER);
                     break;
