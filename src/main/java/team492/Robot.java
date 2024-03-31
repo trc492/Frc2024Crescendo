@@ -880,6 +880,16 @@ public class Robot extends FrcRobotBase
         return aprilTagPose;
     }   //aimShooterAtAprilTag
 
+    public void turtle()
+    {
+        if (shooter != null && deflector != null)
+        {
+            deflector.retract();
+            shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+            shooter.stopShooter();
+        }
+    }   //turtle
+
     //
     // Getters for sensor data.
     //
