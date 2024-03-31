@@ -27,6 +27,7 @@ import java.util.Locale;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
+import TrcCommonLib.trclib.TrcAnalogInput.DataType;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcCANSparkMax;
@@ -300,10 +301,15 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
                         if (subsystemStatusOn)
                         {
-                            robot.dashboard.displayPrintf(
-                                lineNum++, "Shooter: vel=%.0f/%.0f, preset=%.0f, inc=%.0f",
+                            String msg = String.format(
+                                Locale.US, "Shooter: vel=%.0f/%.0f, preset=%.0f, inc=%.0f",
                                 shooterVel, robot.shooter.getShooterVelocity(), robot.shooterVelocity.getValue(),
                                 robot.shooterVelocity.getIncrement());
+                            if (robot.deflector != null)
+                            {
+                                msg += ", deflector=" + robot.deflector.isExtended();
+                            }
+                            robot.dashboard.displayPrintf(lineNum++, msg);
                         }
 
                         double tiltPower = robot.operatorController.getLeftYWithDeadband(true);
@@ -347,6 +353,14 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                                 robot.climber.climberMotor.isLowerLimitSwitchActive(),
                                 robot.climber.climberMotor.isUpperLimitSwitchActive());
                         }
+                    }
+
+                    if (robot.sonarArray != null && subsystemStatusOn)
+                    {
+                        robot.dashboard.displayPrintf(
+                            lineNum++, "Ultrasonic: leftDistance=%.3f, rightDistance=%.3f",
+                            robot.sonarLeft.getProcessedData(0, DataType.INPUT_DATA).value,
+                            robot.sonarRight.getProcessedData(0, DataType.INPUT_DATA).value);
                     }
                 }
             }
@@ -450,7 +464,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (active)
                     {
                         // Press and hold altFunc for manual intake (no vision).
-                        robot.autoPickupFromGround.autoAssistPickup(!driverAltFunc, false, null);
+                        robot.autoPickupFromGround.autoAssistPickup(driverAltFunc, false, null);
                     }
                     else
                     {
@@ -608,10 +622,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (active)
                     {
                         robot.shooter.aimShooter(
-                            RobotParams.Shooter.shooterAmpVelocity,
-                            RobotParams.Shooter.tiltAmpAngle, 0.0);
-                        // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
-                        // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
+                            RobotParams.Shooter.shooterAmpVelocity, RobotParams.Shooter.tiltAmpAngle, 0.0);
                     }
                     else
                     {

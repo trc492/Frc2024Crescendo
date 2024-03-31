@@ -452,6 +452,12 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
             case SCORE_NOTE:
                 shooterOffTimer.set(1.0, this::shooterOff);
                 robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
+
+                if (robot.deflector != null && taskParams.targetType == TargetType.Amp)
+                {
+                    robot.deflector.extend(1.0);
+                }
+
                 robot.shoot(currOwner, event);
                 sm.waitForSingleEvent(event, State.DONE);
                 break;

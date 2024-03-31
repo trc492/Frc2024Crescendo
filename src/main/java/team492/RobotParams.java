@@ -81,7 +81,7 @@ public class RobotParams
         // Sensors
         public static final boolean useNavX                     = true;
         public static final boolean usePigeonIMU                = false;
-        public static final boolean useUltrasonic               = false;
+        public static final boolean useUltrasonic               = true;
         public static final boolean usePdp                      = false;
         public static final boolean usePressureSensor           = false;
         // Vision
@@ -98,6 +98,7 @@ public class RobotParams
         public static final boolean useIntake                   = true;
         public static final boolean useShooter                  = true;
         public static final boolean useClimber                  = true;
+        public static final boolean useDeflector                = true;
     }   //class Preferences
 
     public static final String TEAM_FOLDER_PATH                 = "/home/lvuser/trc492";
@@ -322,6 +323,7 @@ public class RobotParams
         //
         // PWM channels.
         //
+        public static final int PWM_CHANNEL_DEFLECTOR           = 0;
         public static final int NUM_LEDS                        = 30;
         public static final int PWM_CHANNEL_LED                 = 9;
         //
@@ -750,7 +752,7 @@ public class RobotParams
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
         public static final double tiltTurtleAngle              = 35.0;     // in degrees.
         public static final double tiltSpeakerFarAngle          = 52.0;     // in degrees.
-        public static final double tiltAmpAngle                 = 58.0;     // in degrees.
+        public static final double tiltAmpAngle                 = 57.0;     // in degrees.
         public static final double tiltDumpAngle                = 39.0;     // in degrees.
         public static final double tiltSpeakerCloseAngle        = 64.0;     // in degrees.
         public static final double tiltSourcePickupAngle        = 88.0;     // in degrees.
@@ -794,5 +796,12 @@ public class RobotParams
         public static final double climbPowerComp               = 0.3;
         public static final double calPower                     = -0.3;
     }   //class Climber
+
+    public static class Deflector
+    {
+        public static final boolean inverted                    = true;
+        public static final double retractPos                   = 0.38;
+        public static final double extendPos                    = 0.7;
+    }   //class Deflector
 
 }   //class RobotParams

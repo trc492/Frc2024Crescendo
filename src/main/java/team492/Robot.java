@@ -65,6 +65,7 @@ import team492.autotasks.TaskAutoScoreNote;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
 import team492.subsystems.Climber;
+import team492.subsystems.Deflector;
 import team492.subsystems.Intake;
 import team492.subsystems.LEDIndicator;
 import team492.subsystems.Shooter;
@@ -100,6 +101,9 @@ public class Robot extends FrcRobotBase
     //
     // Sensors.
     //
+    public FrcAnalogInput sonarLeft;
+    public FrcAnalogInput sonarRight;
+    public FrcDigitalOutput sonarPing;
     public TrcMaxbotixSonarArray sonarArray;
     public FrcPdp pdp;
     public TrcRobotBattery battery;
@@ -131,6 +135,7 @@ public class Robot extends FrcRobotBase
     public TrcDiscreteValue shooterVelocity;
     public TrcDiscreteValue shooterTiltAngle;
     public Climber climber;
+    public Deflector deflector;
     //
     // Hybrid mode objects.
     //
@@ -202,12 +207,13 @@ public class Robot extends FrcRobotBase
         //
         if (RobotParams.Preferences.useUltrasonic)
         {
-            FrcAnalogInput sonarLeft = new FrcAnalogInput("SonarLeft", RobotParams.HWConfig.AIN_LEFT_ULTRASONIC);
-            FrcAnalogInput sonarRight = new FrcAnalogInput("SonarRight", RobotParams.HWConfig.AIN_RIGHT_ULTRASONIC);
-            FrcDigitalOutput sonarPing = new FrcDigitalOutput("SonarPing", RobotParams.HWConfig.DIO_ULTRASONIC_PING);
+            sonarLeft = new FrcAnalogInput("SonarLeft", RobotParams.HWConfig.AIN_LEFT_ULTRASONIC);
+            sonarRight = new FrcAnalogInput("SonarRight", RobotParams.HWConfig.AIN_RIGHT_ULTRASONIC);
+            sonarPing = new FrcDigitalOutput("SonarPing", RobotParams.HWConfig.DIO_ULTRASONIC_PING);
 
             sonarArray = new TrcMaxbotixSonarArray(
                 "SonarArray", new FrcAnalogInput[] {sonarLeft, sonarRight}, sonarPing, true);
+            sonarArray.startRanging();
         }
 
         if (RobotParams.Preferences.usePdp)
@@ -293,6 +299,11 @@ public class Robot extends FrcRobotBase
             if (RobotParams.Preferences.useClimber)
             {
                 climber = new Climber();
+            }
+
+            if (RobotParams.Preferences.useDeflector)
+            {
+                deflector = new Deflector();
             }
         }
         //
