@@ -168,6 +168,17 @@ public class Shooter
     }   //getTilterRoll
 
     /**
+     * This method clears all tilter motor faults.
+     */
+    public static void clearTilterFaults()
+    {
+        if (instance != null)
+        {
+            instance.tiltMotor.motor.clearFaults();
+        }
+    }   //clearTilterFaults
+
+    /**
      * This method returns the created TrcShooter object.
      *
      * @return TrcShooter object.
