@@ -722,7 +722,16 @@ public class FrcTeleOp implements TrcRobot.RobotMode
             case START:
                 if (robot.shooter != null && pressed)
                 {
+                    // If the Tilter hit something hard and caused the pulley to skip, the absolute encoder will be
+                    // off. This provides an emergency way to quickly resync the encoder by using manual override to
+                    // drive the Tilter to the lower limit and set the encoder postion as the soft zero. Then we set
+                    // the encoder zeroOffset to zero. Note: this hack is volatile, meaning once the robot power is
+                    // turned off, we lose this setting. The idea is that this hack is for emergency resync so that
+                    // we can continue the match uninterrupted. We should always do the proper encoder calibration
+                    // once we are back in the pit.
                     ((FrcCANSparkMax) robot.shooter.tiltMotor).resetMotorPosition(false);
+                    robot.shooter.tiltMotor.setPositionSensorScaleAndOffset(
+                        RobotParams.Shooter.tiltPosScale, RobotParams.Shooter.tiltPosOffset, 0.0);
                 }
                 break;
 
