@@ -29,7 +29,9 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcCommonLib.trclib.TrcTriggerThresholdZones;
 import TrcCommonLib.trclib.TrcUtil;
+import TrcCommonLib.trclib.TrcTrigger.TriggerMode;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import team492.FrcAuto;
@@ -222,6 +224,10 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     protected void stopSubsystems()
     {
         tracer.traceInfo(moduleName, "Stopping subsystems.");
+        if (robot.sonarTrigger != null)
+        {
+            robot.sonarTrigger.disableTrigger();
+        }
         robot.intake.cancel(currOwner);
         // robot.shooter.cancel(currOwner);
         robot.robotDrive.cancel(driveOwner);
@@ -322,7 +328,13 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
 
                     TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     TrcPose2D targetPose, intermediatePose;
-                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.2);
+
+                    if (robot.sonarTrigger != null)
+                    {
+                        robot.sonarTrigger.enableTrigger(TriggerMode.OnInactive, this::sonarTrigger);
+                    }
+
                     if (taskParams.useVision && aprilTagPose != null)
                     {
                         targetPose = aprilTagPose.clone();
@@ -452,6 +464,10 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
             case SCORE_NOTE:
                 shooterOffTimer.set(1.0, this::shooterOff);
                 robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
+                if (robot.sonarTrigger != null)
+                {
+                    robot.sonarTrigger.disableTrigger();
+                }
 
                 if (robot.deflector != null && taskParams.targetType == TargetType.Amp)
                 {
@@ -474,5 +490,14 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     {
         robot.shooter.stopShooter();
     }   //shooterOff
+
+    private void sonarTrigger(Object context)
+    {
+        TrcTriggerThresholdZones.CallbackContext triggerInfo = (TrcTriggerThresholdZones.CallbackContext) context;
+
+        tracer.traceInfo(
+            moduleName, "***** SonarTrigger: Canceling PurePureSuitDrive, distance=" + triggerInfo.sensorValue);
+        robot.robotDrive.purePursuitDrive.cancel();
+    }   //sonarTrigger
 
 }   //class TaskAutoScoreNote

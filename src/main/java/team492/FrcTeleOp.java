@@ -27,7 +27,6 @@ import java.util.Locale;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
-import TrcCommonLib.trclib.TrcAnalogInput.DataType;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcCANSparkMax;
@@ -355,12 +354,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         }
                     }
 
-                    if (robot.sonarArray != null && subsystemStatusOn)
+                    if (robot.ultrasonicSensor != null && subsystemStatusOn)
                     {
                         robot.dashboard.displayPrintf(
-                            lineNum++, "Ultrasonic: leftDistance=%.3f, rightDistance=%.3f",
-                            robot.sonarLeft.getProcessedData(0, DataType.INPUT_DATA).value,
-                            robot.sonarRight.getProcessedData(0, DataType.INPUT_DATA).value);
+                            lineNum++, "Ultrasonic: distance=%.3f", robot.getUltrasonciDistance());
                     }
                 }
             }

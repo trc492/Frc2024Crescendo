@@ -306,8 +306,7 @@ public class RobotParams
         //
         // Analog Input ports (not used).
         //
-        public static final int AIN_RIGHT_ULTRASONIC            = 0;
-        public static final int AIN_LEFT_ULTRASONIC             = 1;
+        public static final int AIN_ULTRASONIC                  = 0;
         public static final int AIN_PRESSURE_SENSOR             = 0;
         public static final int AIN_LFSTEER_ENCODER             = 0;
         public static final int AIN_RFSTEER_ENCODER             = 1;
@@ -318,7 +317,6 @@ public class RobotParams
         //
         public static final int DIO_INTAKE_ENTRY                = 0;
         public static final int DIO_INTAKE_EXIT                 = 1;
-        public static final int DIO_ULTRASONIC_PING             = 2;
 
         //
         // PWM channels.
@@ -696,6 +694,11 @@ public class RobotParams
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
+
+    public static class Sonar
+    {
+        public static final double[] thresholds                 = new double[] {16.0};
+    }   //class Sonar
 
     //
     // Other subsystems.

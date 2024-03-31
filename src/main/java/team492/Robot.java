@@ -27,20 +27,18 @@ import TrcCommonLib.trclib.TrcDbgTrace;
 import TrcCommonLib.trclib.TrcDiscreteValue;
 import TrcCommonLib.trclib.TrcEvent;
 import TrcCommonLib.trclib.TrcIntake;
-import TrcCommonLib.trclib.TrcMaxbotixSonarArray;
 import TrcCommonLib.trclib.TrcOpenCvDetector;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobotBattery;
 import TrcCommonLib.trclib.TrcShooter;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcCommonLib.trclib.TrcTriggerThresholdZones;
 import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcVisionTargetInfo;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
-import TrcFrcLib.frclib.FrcAnalogInput;
 import TrcFrcLib.frclib.FrcDashboard;
-import TrcFrcLib.frclib.FrcDigitalOutput;
 import TrcFrcLib.frclib.FrcJoystick;
 import TrcFrcLib.frclib.FrcMatchInfo;
 import TrcFrcLib.frclib.FrcPdp;
@@ -101,10 +99,8 @@ public class Robot extends FrcRobotBase
     //
     // Sensors.
     //
-    public FrcAnalogInput sonarLeft;
-    public FrcAnalogInput sonarRight;
-    public FrcDigitalOutput sonarPing;
-    public TrcMaxbotixSonarArray sonarArray;
+    public AnalogInput ultrasonicSensor;
+    public TrcTriggerThresholdZones sonarTrigger;
     public FrcPdp pdp;
     public TrcRobotBattery battery;
     public AnalogInput pressureSensor;
@@ -207,13 +203,9 @@ public class Robot extends FrcRobotBase
         //
         if (RobotParams.Preferences.useUltrasonic)
         {
-            sonarLeft = new FrcAnalogInput("SonarLeft", RobotParams.HWConfig.AIN_LEFT_ULTRASONIC);
-            sonarRight = new FrcAnalogInput("SonarRight", RobotParams.HWConfig.AIN_RIGHT_ULTRASONIC);
-            sonarPing = new FrcDigitalOutput("SonarPing", RobotParams.HWConfig.DIO_ULTRASONIC_PING);
-
-            sonarArray = new TrcMaxbotixSonarArray(
-                "SonarArray", new FrcAnalogInput[] {sonarLeft, sonarRight}, sonarPing, true);
-            sonarArray.startRanging();
+            ultrasonicSensor = new AnalogInput(RobotParams.HWConfig.AIN_ULTRASONIC);
+            sonarTrigger = new TrcTriggerThresholdZones(
+                "SonarTrigger", this::getUltrasonciDistance, RobotParams.Sonar.thresholds, false);
         }
 
         if (RobotParams.Preferences.usePdp)
@@ -923,6 +915,16 @@ public class Robot extends FrcRobotBase
 
         return headingOffset;
     }   //getHeadingOffset
+
+    /**
+     * This method reads the ultrasonic sensor and reports the distance in inches.
+     *
+     * @return ultrasonic distance in inches.
+     */
+    public double getUltrasonciDistance()
+    {
+        return ultrasonicSensor != null? ultrasonicSensor.getVoltage() / 0.0098: 0.0;
+    }   //getUltrasonicDistance
 
     /**
      * This method returns the pressure value from the pressure sensor.
