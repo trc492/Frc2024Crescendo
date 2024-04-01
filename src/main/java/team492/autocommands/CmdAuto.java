@@ -533,13 +533,14 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         robot.globalTracer.traceInfo(
                             moduleName, "***** EndAction is " + endAction +
                             ", drive to Centerline " +
-                            (centerlineIndex == 0? "Source": centerlineIndex == 2? "Center": "Amp") + ".");
+                            (centerlineIndex == 0? "Source": centerlineIndex == 2? "Amp": "Center") + ".");
                         targetPose =
                             RobotParams.Game.centerlineNotePickupPoses[centerlineIndex].clone();
                         robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                         if (startPos != AutoStartPos.AMP)
                         {
                             // Doing long distance drive, turn on vision guidance.
+                            robot.turtle();
                             enableAprilTagVision(true);
                             // Waypoint event handler will turn on Note Vision.
                             intermediatePose = targetPose.clone();
@@ -598,8 +599,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.globalTracer.traceInfo(moduleName, "***** Drive to Speaker to score Centerline Note.");
                     enableAprilTagVision(true);
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                    targetPose = RobotParams.Game.centerlineNoteScorePoses[centerlineIndex];
-                    intermediatePose = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex];
+                    targetPose = RobotParams.Game.centerlineNoteScorePoses[centerlineIndex].clone();
+                    intermediatePose = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex].clone();
                     intermediatePose.angle = targetPose.angle;
                     intermediatePose2 = intermediatePose.clone();
                     intermediatePose2.y -= 84.0;
@@ -617,7 +618,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 case DRIVE_TO_AMP:
                     robot.globalTracer.traceInfo(moduleName, "***** Drive to Amp to score Centerline Note.");
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.7);
-                    robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+                    // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     targetPose = RobotParams.Game.AMP_BLUE_PRESCORE;
 

@@ -203,8 +203,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         }
                         else if (prevTrackingModeOn)
                         {
-                            robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
-                            robot.shooter.stopShooter();
+                            robot.turtle();
                         }
                         prevTrackingModeOn = trackingModeOn;
                     }
@@ -447,9 +446,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
             case BUTTON_B:
                 // Turtle mode.
-                if (robot.shooter != null && pressed)
+                if (pressed)
                 {
-                    robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+                    robot.turtle();
                 }
                 break;
 
@@ -522,12 +521,14 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         robot.shooter.aimShooter(
                             RobotParams.Shooter.shooterAmpVelocity,
                             RobotParams.Shooter.tiltAmpAngle, 0.0);
+                        robot.deflector.extend();
                         // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
                         // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
                     }
                     else
                     {
                         robot.shooter.cancel();
+                        robot.deflector.retract();
                     }
                 }
 
@@ -620,10 +621,12 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     {
                         robot.shooter.aimShooter(
                             RobotParams.Shooter.shooterAmpVelocity, RobotParams.Shooter.tiltAmpAngle, 0.0);
+                        robot.deflector.extend();
                     }
                     else
                     {
                         robot.shooter.cancel();
+                        robot.deflector.retract();
                     }
                 }
                 break;
@@ -661,9 +664,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
             case RIGHT_BUMPER:
                 //Turtle mode
-                if (robot.shooter != null && pressed)
+                if (pressed)
                 {
-                    robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+                    robot.turtle();
                 }
                 break;
 
@@ -710,6 +713,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case DPAD_RIGHT:
+                if(pressed){
+                    Shooter.clearTilterFaults();    
+                }
+                
                 break;
 
             case BACK:
