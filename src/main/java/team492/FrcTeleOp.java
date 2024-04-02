@@ -356,7 +356,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (robot.ultrasonicSensor != null && subsystemStatusOn)
                     {
                         robot.dashboard.displayPrintf(
-                            lineNum++, "Ultrasonic: distance=%.3f", robot.getUltrasonciDistance());
+                            lineNum++, "Ultrasonic: distance=%.3f", robot.getUltrasonicDistance());
                     }
                 }
             }

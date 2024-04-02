@@ -89,6 +89,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
     private double noteAngleThreshold = RobotParams.Intake.noteAngleThreshold;
     private boolean performingEndAction = false;
     private int centerlineIndex = 0;
+
     // private Double visionExpiredTime = null;
 
     /**
@@ -147,6 +148,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
         State state = sm.checkReadyAndGetState();
 
         // Must have vision to perform this autonomous.
+
+
         if (aprilTagVisionEnabled)
         {
             // Use vision to relocalize robot's position.
@@ -201,6 +204,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
             TrcPose2D targetPose;
             TrcPose2D intermediatePose;
             TrcPose2D intermediatePose2;
+            TrcPose2D intermediatePose3;
 
             robot.dashboard.displayPrintf(8, "State: " + state);
             robot.globalTracer.tracePreStateInfo(sm.toString(), state);
@@ -622,19 +626,23 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     targetPose = RobotParams.Game.AMP_BLUE_PRESCORE;
 
                     intermediatePose = RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.clone();
-                    intermediatePose.y += 72.0;
-                    intermediatePose.x -= 24;
-                    intermediatePose.angle = 180.0;
+                    intermediatePose.y += 60.0;
+                    intermediatePose.x -= 24.0;
+                    intermediatePose.angle = -90.0;
 
                     intermediatePose2 = targetPose.clone();
                     intermediatePose2.x = intermediatePose.x;
-                    intermediatePose2.angle = 180.0;
+                    intermediatePose2.angle = -90.0;
+
+                    intermediatePose3 = intermediatePose.clone();
+                    intermediatePose3.y += 60.0;
 
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                     robot.robotDrive.purePursuitDrive.start(
                         event, robotPose, false,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                        robot.adjustPoseByAlliance(intermediatePose3, alliance),
                         robot.adjustPoseByAlliance(intermediatePose, alliance),
                         robot.adjustPoseByAlliance(intermediatePose2, alliance),
                         robot.adjustPoseByAlliance(targetPose, alliance));
@@ -748,6 +756,21 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 disableAprilTagVision();
                 robot.disableAprilTagTracking();
                 robot.robotDrive.purePursuitDrive.disableFixedHeading();
+            }
+        }
+        else if (currState == State.DRIVE_TO_AMP && index == 2)
+        {
+            if (RobotParams.Preferences.useUltrasonicRelocalization)
+            {
+                //Run ultrasonic relocalization
+                double ultrasonicDistance = robot.getUltrasonicDistance();
+                TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                double distanceFromWall = ultrasonicDistance + 11.0;
+                robotPose.x = -RobotParams.Field.WIDTH + distanceFromWall;
+                robot.globalTracer.traceInfo(
+                    moduleName,
+                    "***** Ultrasonic Relocalize: ultrasonicDistance="+ ultrasonicDistance + ", relocalized robotPose=" + robotPose);
+                robot.robotDrive.setFieldPosition(robotPose, false);
             }
         }
     }   //waypointHandler

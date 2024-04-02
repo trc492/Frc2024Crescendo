@@ -82,6 +82,7 @@ public class RobotParams
         public static final boolean useNavX                     = true;
         public static final boolean usePigeonIMU                = false;
         public static final boolean useUltrasonic               = true;
+        public static final boolean useUltrasonicRelocalization = true;
         public static final boolean usePdp                      = false;
         public static final boolean usePressureSensor           = false;
         // Vision

@@ -205,7 +205,7 @@ public class Robot extends FrcRobotBase
         {
             ultrasonicSensor = new AnalogInput(RobotParams.HWConfig.AIN_ULTRASONIC);
             sonarTrigger = new TrcTriggerThresholdZones(
-                "SonarTrigger", this::getUltrasonciDistance, RobotParams.Sonar.thresholds, false);
+                "SonarTrigger", this::getUltrasonicDistance, RobotParams.Sonar.thresholds, false);
         }
 
         if (RobotParams.Preferences.usePdp)
@@ -932,7 +932,7 @@ public class Robot extends FrcRobotBase
      *
      * @return ultrasonic distance in inches.
      */
-    public double getUltrasonciDistance()
+    public double getUltrasonicDistance()
     {
         return ultrasonicSensor != null? ultrasonicSensor.getVoltage() / 0.0098: 0.0;
     }   //getUltrasonicDistance
