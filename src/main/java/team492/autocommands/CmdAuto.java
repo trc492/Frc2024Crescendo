@@ -598,12 +598,17 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 case DRIVE_TO_SPEAKER:
                     robot.globalTracer.traceInfo(moduleName, "***** Drive to Speaker to score Centerline Note.");
                     enableAprilTagVision(true);
+
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     targetPose = RobotParams.Game.centerlineNoteScorePoses[centerlineIndex].clone();
+
                     intermediatePose = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex].clone();
                     intermediatePose.angle = targetPose.angle;
-                    intermediatePose2 = intermediatePose.clone();
-                    intermediatePose2.y -= 84.0;
+
+                    intermediatePose2 = targetPose.clone();
+                    intermediatePose2.y += 6.0;
+                    intermediatePose2.x += 6.0;
+
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                     robot.robotDrive.purePursuitDrive.start(
                         event, robotPose, false,
@@ -729,11 +734,22 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 sm.addEvent(noteEvent);
             }
         }
-        else if (currState == State.DRIVE_TO_SPEAKER && index == 1)
+        else if (currState == State.DRIVE_TO_SPEAKER)
         {
-            robot.globalTracer.traceInfo(moduleName, "***** Turn on AprilTag Vision Tracking.");
-            robot.enableAprilTagTracking(4, 7, 3, 8);
-            robot.robotDrive.purePursuitDrive.enableFixedHeading(robot::getHeadingOffset);
+            if (index == 1)
+            {
+                robot.shooter.aimShooter(90.0, RobotParams.Shooter.wingNotePresetParams.tiltAngle, 0.0);
+                robot.globalTracer.traceInfo(moduleName, "***** Turn on AprilTag Vision Tracking.");
+                robot.enableAprilTagTracking(4, 7, 3, 8);
+                robot.robotDrive.purePursuitDrive.enableFixedHeading(robot::getHeadingOffset);
+            }
+            else if (index == 2)
+            {
+                robot.globalTracer.traceInfo(
+                    moduleName, "***** Cancelling PP and canelling relocalization and tracking to avoid shaking");
+                disableAprilTagVision();
+                robot.robotDrive.purePursuitDrive.cancel();
+            }
         }
     }   //waypointHandler
 

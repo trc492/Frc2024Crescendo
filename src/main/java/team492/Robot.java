@@ -819,7 +819,8 @@ public class Robot extends FrcRobotBase
         TrcPose2D robotPose = robotDrive.driveBase.getFieldPosition();
         double xDelta = robotPose.x - robotEstimatedPose.x;
         double yDelta = robotPose.y - robotEstimatedPose.y;
-        if (TrcUtil.magnitude(xDelta, yDelta) > RobotParams.Vision.GUIDANCE_ERROR_THRESHOLD)
+        double error = TrcUtil.magnitude(xDelta, yDelta);
+        if (error > RobotParams.Vision.GUIDANCE_ERROR_THRESHOLD && error < 96.00)
         {
             robotDrive.driveBase.setFieldPosition(robotEstimatedPose, false);
             globalTracer.traceInfo(
@@ -830,7 +831,7 @@ public class Robot extends FrcRobotBase
         else
         {
             globalTracer.traceInfo(
-                moduleName, "Relocalize Robot: error too small to relocalize. aprilTagId=" + aprilTagId);
+                moduleName, "Relocalize Robot: error too large or small to relocalize. aprilTagId=" + aprilTagId + ". error=" + error);
         }
     }   //relocalize
 
