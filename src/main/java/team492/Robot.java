@@ -831,7 +831,8 @@ public class Robot extends FrcRobotBase
         else
         {
             globalTracer.traceInfo(
-                moduleName, "Relocalize Robot: error too large or small to relocalize. aprilTagId=" + aprilTagId + ". error=" + error);
+                moduleName, "Relocalize Robot: aprilTagId=" + aprilTagId + ", error=" + error +
+                " (error too large or small to relocalize).");
         }
     }   //relocalize
 
