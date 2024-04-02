@@ -159,10 +159,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 {
                     robot.relocalize(aprilTagObj);
                 }
-                else
-                {
-                    robot.globalTracer.traceInfo(moduleName, "***** Vision Guidance: AprilTag not found.");
-                }
+                // else
+                // {
+                //     robot.globalTracer.traceInfo(moduleName, "***** Vision Guidance: AprilTag not found.");
+                // }
             }
         }
 
@@ -233,7 +233,6 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case DO_DELAY:
-                    // Do delay if there is one.
                     if (startPos != AutoStartPos.AMP)
                     {
                         robot.globalTracer.traceInfo(moduleName, "***** Set shooter to Wing Note preset.");
@@ -241,7 +240,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             RobotParams.Shooter.wingNotePresetParams.shooterVelocity,
                             RobotParams.Shooter.wingNotePresetParams.tiltAngle, 0.0);
                     }
-
+                    // Do delay if there is one.
                     double startDelay = autoChoices.getStartDelay();
                     if (startDelay > 0.0)
                     {
@@ -519,7 +518,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         endAction == EndAction.SCORE_ONE_NOTE && numCenterlineNotesScored == 1 ||
                         endAction == EndAction.SCORE_TWO_NOTES && numCenterlineNotesScored == 2)
                     {
-                        robot.globalTracer.traceInfo(moduleName, "***** EndAction is " + endAction + ", we are done.");
+                        robot.globalTracer.traceInfo(moduleName, "***** EndAction=" + endAction + ": we are done.");
                         sm.setState(State.DONE);
                     }
                     else
@@ -531,16 +530,15 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_SOURCE_SIDE.x) <
                             Math.abs(robotPose.x - RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.x)? 0: 2;
                         robot.globalTracer.traceInfo(
-                            moduleName, "***** EndAction is " + endAction +
-                            ", drive to Centerline " +
+                            moduleName, "***** EndAction=" + endAction + ": drive to Centerline " +
                             (centerlineIndex == 0? "Source": centerlineIndex == 2? "Amp": "Center") + ".");
                         targetPose =
                             RobotParams.Game.centerlineNotePickupPoses[centerlineIndex].clone();
                         robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                         if (startPos != AutoStartPos.AMP)
                         {
-                            // Doing long distance drive, turn on vision guidance.
                             robot.turtle();
+                            // Doing long distance drive, turn on vision guidance.
                             enableAprilTagVision(true);
                             // Waypoint event handler will turn on Note Vision.
                             intermediatePose = targetPose.clone();
@@ -598,17 +596,13 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 case DRIVE_TO_SPEAKER:
                     robot.globalTracer.traceInfo(moduleName, "***** Drive to Speaker to score Centerline Note.");
                     enableAprilTagVision(true);
-
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     targetPose = RobotParams.Game.centerlineNoteScorePoses[centerlineIndex].clone();
-
                     intermediatePose = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex].clone();
                     intermediatePose.angle = targetPose.angle;
-
                     intermediatePose2 = targetPose.clone();
                     intermediatePose2.y += 6.0;
                     intermediatePose2.x += 6.0;
-
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                     robot.robotDrive.purePursuitDrive.start(
                         event, robotPose, false,
@@ -738,7 +732,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
         {
             if (index == 1)
             {
-                robot.shooter.aimShooter(90.0, RobotParams.Shooter.wingNotePresetParams.tiltAngle, 0.0);
+                // Prep the shooter in case Vision Tracking doesn't see AprilTag.
+                robot.shooter.aimShooter(
+                    RobotParams.Shooter.wingNotePresetParams.shooterVelocity,
+                    RobotParams.Shooter.wingNotePresetParams.tiltAngle, 0.0);
                 robot.globalTracer.traceInfo(moduleName, "***** Turn on AprilTag Vision Tracking.");
                 robot.enableAprilTagTracking(4, 7, 3, 8);
                 robot.robotDrive.purePursuitDrive.enableFixedHeading(robot::getHeadingOffset);
@@ -746,9 +743,11 @@ public class CmdAuto implements TrcRobot.RobotCommand
             else if (index == 2)
             {
                 robot.globalTracer.traceInfo(
-                    moduleName, "***** Cancelling PP and canelling relocalization and tracking to avoid shaking");
-                disableAprilTagVision();
+                    moduleName, "***** Cancel Pursuit and turn off Vision Guidance and Vision Tracking.");
                 robot.robotDrive.purePursuitDrive.cancel();
+                disableAprilTagVision();
+                robot.disableAprilTagTracking();
+                robot.robotDrive.purePursuitDrive.disableFixedHeading();
             }
         }
     }   //waypointHandler
