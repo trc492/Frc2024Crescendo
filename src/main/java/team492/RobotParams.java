@@ -416,7 +416,7 @@ public class RobotParams
             HOMOGRAPHY_WORLD_BOTTOMRIGHT_X, HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y);
 
         public static final double ONTARGET_THRESHOLD           = 5.0;
-        public static final double GUIDANCE_ERROR_THRESHOLD     = 12.0;
+        public static final double GUIDANCE_ERROR_THRESHOLD     = 8.0;
     }   //class Vision
 
     //
@@ -715,7 +715,7 @@ public class RobotParams
 
         public static final double intakePower                  = 1.0;
         public static final double ejectForwardPower            = 1.0;
-        public static final double noteDistanceThreshold        = 120.0;
+        public static final double noteDistanceThreshold        = 96.0;
         public static final double noteAngleThreshold           = 10.0;
         public static final double noteFullViewAngle            = 40.0;
     }   //class Intake

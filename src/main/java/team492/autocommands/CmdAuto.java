@@ -557,10 +557,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             intermediatePose = targetPose.clone();
                             intermediatePose.y -= 84.0;
                             intermediatePose.angle = -90.0;
-
                             intermediatePose2 = targetPose.clone();
                             intermediatePose2.y -= 36.0;
-
                             robot.robotDrive.purePursuitDrive.start(
                                 event, robotPose, false,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
@@ -569,7 +567,9 @@ public class CmdAuto implements TrcRobot.RobotCommand
                                 robot.adjustPoseByAlliance(intermediatePose2, alliance),
                                 robot.adjustPoseByAlliance(targetPose, alliance));
                         }
-                        sm.waitForSingleEvent(event, State.PERFORM_END_ACTION);
+                        sm.addEvent(event);
+                        // WaypointHandler will turn on NoteVision which will set noteEent.
+                        sm.waitForEvents(State.PERFORM_END_ACTION);
                     }
                     break;
 
