@@ -566,7 +566,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             robotPose.x = -RobotParams.Field.WIDTH + distanceFromWall;
                             robot.globalTracer.traceInfo(
                                 moduleName,
-                                "***** Ultrasonic Relocalize: ultrasonicDistance="+ ultrasonicDistance + ", relocalized robotPose=" + robotPose);
+                                "***** Ultrasonic Relocalize: ultrasonicDistance="+ ultrasonicDistance +
+                                ", relocalized robotPose=" + robotPose);
                             robot.robotDrive.setFieldPosition(robotPose, false);
                             // For AutoStartPos.AMP, we want to pick up the Note closest to the wall.
                             targetPose.x = RobotParams.Game.CENTERLINE_NOTE_5.x;
