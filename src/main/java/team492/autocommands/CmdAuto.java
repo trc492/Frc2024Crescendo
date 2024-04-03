@@ -236,9 +236,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     }
                     else
                     {
+                        // Don't turn off shooter after shooting.
                         robot.shooter.aimShooter(
                             null, RobotParams.Shooter.shooterSpeakerCloseVelocity,
-                            RobotParams.Shooter.tiltSpeakerCloseAngle, 0.0, event, 0.0, robot::shoot, 0.0);
+                            RobotParams.Shooter.tiltSpeakerCloseAngle, 0.0, event, 0.0, robot::shoot, null);
                     }
                     sm.waitForSingleEvent(event, State.DO_DELAY);
                     break;
