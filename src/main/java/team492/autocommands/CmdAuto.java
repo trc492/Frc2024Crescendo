@@ -632,7 +632,6 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
                     intermediatePose3 = targetPose.clone();
                     intermediatePose3.x = intermediatePose2.x;
-                    intermediatePose3.angle = -90.0;
 
                     intermediatePose = intermediatePose2.clone();
                     intermediatePose.y += 60.0;

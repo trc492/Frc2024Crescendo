@@ -32,6 +32,8 @@ import team492.vision.PhotonVision;
 
 public class LEDIndicator
 {
+    private static final TrcAddressableLED.Pattern aprilTagLockedPattern =  // Magenta
+        new TrcAddressableLED.Pattern("AprilTagLocked", new FrcColor(63, 0, 63), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern aprilTagPattern =        // Green
         new TrcAddressableLED.Pattern("AprilTag", new FrcColor(0, 63, 0), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern notePattern =            // Orange
@@ -53,6 +55,7 @@ public class LEDIndicator
         new TrcAddressableLED.Pattern[]
         {
             // Highest priority.
+            aprilTagLockedPattern,
             aprilTagPattern,
             intakeHasNotePattern,
             notePattern,
@@ -133,15 +136,15 @@ public class LEDIndicator
             switch (pipelineType)
             {
                 case APRILTAG:
-                    led.setPatternState(aprilTagPattern, true, 0.5);
-                    // if (Math.abs(objPose.angle) < RobotParams.Vision.ONTARGET_THRESHOLD)
-                    // {
-                    //     led.setPatternState(aprilTagPattern, true, 0.1, 0.1);
-                    // }
-                    // else
-                    // {
-                    //     led.setPatternState(aprilTagPattern, true, 0.5);
-                    // }
+                    // led.setPatternState(aprilTagPattern, true, 0.5);
+                    if (Math.abs(objPose.angle) < RobotParams.Vision.ONTARGET_THRESHOLD)
+                    {
+                        led.setPatternState(aprilTagLockedPattern, true, 0.5);
+                    }
+                    else
+                    {
+                        led.setPatternState(aprilTagPattern, true, 0.5);
+                    }
                     break;
 
                 case NOTE:
