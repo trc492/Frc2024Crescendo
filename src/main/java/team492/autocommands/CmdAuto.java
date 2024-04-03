@@ -625,26 +625,26 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     targetPose = RobotParams.Game.AMP_BLUE_PRESCORE;
 
-                    intermediatePose = RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.clone();
-                    intermediatePose.y += 60.0;
-                    intermediatePose.x -= 24.0;
-                    intermediatePose.angle = -90.0;
-
-                    intermediatePose2 = targetPose.clone();
-                    intermediatePose2.x = intermediatePose.x;
+                    intermediatePose2 = RobotParams.Game.WINGNOTE_BLUE_AMP_SIDE.clone();
+                    intermediatePose2.y += 60.0;
+                    intermediatePose2.x -= 24.0;
                     intermediatePose2.angle = -90.0;
 
-                    intermediatePose3 = intermediatePose.clone();
-                    intermediatePose3.y += 60.0;
+                    intermediatePose3 = targetPose.clone();
+                    intermediatePose3.x = intermediatePose2.x;
+                    intermediatePose3.angle = -90.0;
+
+                    intermediatePose = intermediatePose2.clone();
+                    intermediatePose.y += 60.0;
 
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                     robot.robotDrive.purePursuitDrive.start(
                         event, robotPose, false,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                        robot.adjustPoseByAlliance(intermediatePose3, alliance),
                         robot.adjustPoseByAlliance(intermediatePose, alliance),
                         robot.adjustPoseByAlliance(intermediatePose2, alliance),
+                        robot.adjustPoseByAlliance(intermediatePose3, alliance),
                         robot.adjustPoseByAlliance(targetPose, alliance));
                     sm.waitForSingleEvent(event, State.SCORE_NOTE_TO_AMP);
                     break;
