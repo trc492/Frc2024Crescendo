@@ -200,6 +200,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                                 // robot.globalTracer.traceInfo(moduleName, "aprilTagAngle=" + aprilTagPose.angle + ", rotPower=" + rotPower);
 
                             }
+                            else
+                            {
+                                robot.shooter.setShooterVelocity(90);
+                            }
                         }
                         else if (prevTrackingModeOn)
                         {
@@ -710,6 +714,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case DPAD_LEFT:
+                if (pressed)
+                {
+                    robot.intake.setPower(-0.5);
+                }
                 break;
 
             case DPAD_RIGHT:

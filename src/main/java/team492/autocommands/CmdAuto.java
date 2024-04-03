@@ -153,8 +153,15 @@ public class CmdAuto implements TrcRobot.RobotCommand
         if (aprilTagVisionEnabled)
         {
             // Use vision to relocalize robot's position.
-            DetectedObject aprilTagObj =
-                robot.photonVisionFront.getBestDetectedAprilTag(aprilTagEvent, 4, 7, 12, 15, 5, 6, 3, 8);
+            DetectedObject aprilTagObj;
+            if (startPos != AutoStartPos.AMP)
+            {
+                 aprilTagObj = robot.photonVisionFront.getBestDetectedAprilTag(aprilTagEvent, 4, 7, 3, 8);
+            }
+            else
+            {
+                aprilTagObj = robot.photonVisionFront.getBestDetectedAprilTag(aprilTagEvent, 4, 7, 5, 6, 3, 8);
+            }
 
             if (visionGuidanceEnabled)
             {
@@ -431,10 +438,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             targetPose);
                         sm.addEvent(event);
-                        if (performingEndAction)
-                        {
-                            enableAprilTagVision(true);
-                        }
+                        enableAprilTagVision(performingEndAction);
                         sm.addEvent(aprilTagEvent);
 
                         sm.waitForEvents(State.SCORE_NOTE_TO_SPEAKER, false);
@@ -556,6 +560,14 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         }
                         else
                         {
+                            //Run ultrasonic relocalization
+                            double ultrasonicDistance = robot.getUltrasonicDistance();
+                            double distanceFromWall = ultrasonicDistance + 11.0;
+                            robotPose.x = -RobotParams.Field.WIDTH + distanceFromWall;
+                            robot.globalTracer.traceInfo(
+                                moduleName,
+                                "***** Ultrasonic Relocalize: ultrasonicDistance="+ ultrasonicDistance + ", relocalized robotPose=" + robotPose);
+                            robot.robotDrive.setFieldPosition(robotPose, false);
                             // For AutoStartPos.AMP, we want to pick up the Note closest to the wall.
                             targetPose.x = RobotParams.Game.CENTERLINE_NOTE_5.x;
                             intermediatePose = targetPose.clone();
