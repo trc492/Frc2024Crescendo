@@ -343,6 +343,7 @@ public class Robot extends FrcRobotBase
         //
         // Start subsystems.
         //
+        autoAssistCancel();
         if (robotDrive != null)
         {
             robotDrive.startMode(runMode, prevMode);
