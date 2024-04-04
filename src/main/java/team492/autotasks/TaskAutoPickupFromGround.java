@@ -188,6 +188,9 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         {
             robot.intake.cancel(currOwner);
         }
+        if (robot.ledIndicator != null) {
+            robot.ledIndicator.setIntakeActive(false);
+        }
         robot.robotDrive.cancel(driveOwner);
         taskParams = null;
     }   //stopSubsystems
@@ -274,6 +277,9 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     // manually move forward to pick up the Note.
                     robot.intake.autoIntakeForward(
                         currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
+                    if (robot.ledIndicator != null) {
+                        robot.ledIndicator.setIntakeActive(true);
+                    }
                     sm.addEvent(intakeEvent);
                     // Register entry trigger to release drive ownership early.
                     robot.intake.registerEntryTriggerNotifyEvent(TriggerMode.OnActive, gotNoteEvent);

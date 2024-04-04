@@ -50,6 +50,8 @@ public class LEDIndicator
         new TrcAddressableLED.Pattern("InverseOriented", new FrcColor(63, 0, 63), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern nominalPattern =         // Black
         new TrcAddressableLED.Pattern("Nominal", new FrcColor(0, 0, 0), RobotParams.HWConfig.NUM_LEDS);
+    private static final TrcAddressableLED.Pattern intakeActivePattern =  // Yellow
+        new TrcAddressableLED.Pattern("AprilTagLocked", new FrcColor(63, 63, 0), RobotParams.HWConfig.NUM_LEDS);
 
     private static final TrcAddressableLED.Pattern[] priorities =
         new TrcAddressableLED.Pattern[]
@@ -57,6 +59,7 @@ public class LEDIndicator
             // Highest priority.
             aprilTagLockedPattern,
             aprilTagPattern,
+            intakeActivePattern,
             intakeHasNotePattern,
             notePattern,
             seeNothingPattern,
@@ -148,7 +151,7 @@ public class LEDIndicator
                     break;
 
                 case NOTE:
-                    led.setPatternState(notePattern, true, 0.5);
+                    led. setPatternState(notePattern, true, 0.5);
                     // if (Math.abs(objPose.angle) < RobotParams.Vision.ONTARGET_THRESHOLD)
                     // {
                     //     led.setPatternState(notePattern, true, 0.1, 0.1);
@@ -178,5 +181,14 @@ public class LEDIndicator
             led.setPatternState(intakeHasNotePattern, false);
         }
     }   //setIntakeDetectedObject
+
+    public void setIntakeActive(boolean isActive) {
+        if (isActive) {
+            led.setPatternState(intakeActivePattern, true, 0.25, 0.25);
+        }
+        else {
+            led.setPatternState(intakeActivePattern, false);
+        }
+    }
 
 }   //class LEDIndicator

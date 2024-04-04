@@ -772,15 +772,24 @@ public class RobotParams
 
         public static final String SPEAKER_UPCLOSE_ENTRY        = "Speaker0ft";
         public static final String WING_NOTE_ENTRY              = "Speaker5ft";
+        // public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
+        //     .add(SPEAKER_UPCLOSE_ENTRY, 55.0, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
+        //     .add("Speaker1ft",          66.9, 90.0, 60.0)   // 57.0
+        //     .add("Speaker2ft",          78.2, 90.0, 55.0)   // 52.0
+        //     .add("Speaker3ft",          90.3, 90.0, 50.0)   // 47.0
+        //     .add("Speaker4ft",          102.0, 90.0, 47.0)  // 44.0
+        //     .add("Speaker5ft",          114.0, 90.0, 44.0)  // 41.0
+        //     .add("Speaker6ft",          125.3, 90.0, 41.0)  // 38.0
+        //     .add("Speaker7ft",          137.3, 90.0, 40.0);
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
             .add(SPEAKER_UPCLOSE_ENTRY, 55.0, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
-            .add("Speaker1ft",          66.9, 90.0, 60.0)   // 57.0
-            .add("Speaker2ft",          78.2, 90.0, 55.0)   // 52.0
-            .add("Speaker3ft",          90.3, 90.0, 50.0)   // 47.0
+            .add("Speaker1ft",          66.9, 90.0, 59.0)   // 57.0
+            .add("Speaker2ft",          78.2, 90.0, 54.0)   // 52.0
+            .add("Speaker3ft",          90.3, 90.0, 49.0)   // 47.0
             .add("Speaker4ft",          102.0, 90.0, 47.0)  // 44.0
             .add("Speaker5ft",          114.0, 90.0, 44.0)  // 41.0
-            .add("Speaker6ft",          125.3, 90.0, 41.0)  // 38.0
-            .add("Speaker7ft",          137.3, 90.0, 40.0);
+            .add("Speaker6ft",          125.3, 90.0, 42.0)  // 38.0
+            .add("Speaker7ft",          137.3, 90.0, 41.0);
         public static final ShootParamTable.Params wingNotePresetParams = speakerShootParamTable.get(WING_NOTE_ENTRY);
     }   //class Shooter
 
