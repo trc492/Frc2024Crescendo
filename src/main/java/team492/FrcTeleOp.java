@@ -515,7 +515,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case DPAD_LEFT:
-
                 // Aim at Amp.
                 if (robot.intake != null && robot.shooter != null && pressed)
                 {

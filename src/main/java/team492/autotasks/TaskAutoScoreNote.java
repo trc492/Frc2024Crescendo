@@ -319,7 +319,6 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 }
                 else if (taskParams.inAuto)
                 {
-                    // Score to Amp needs valid odometry which is only true during Auto.
                     tracer.traceInfo(moduleName, "***** Prep shooter to score to Amp.");
                     robot.shooter.aimShooter(
                         currOwner, RobotParams.Shooter.shooterAmpVelocity, RobotParams.Shooter.tiltAmpAngle, 0.0,
