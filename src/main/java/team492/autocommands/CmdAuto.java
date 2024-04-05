@@ -350,9 +350,9 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     break;
 
                 case SCORE_NOTE_TO_AMP:
-                     robot.globalTracer.traceInfo(
-                            moduleName, "***** Scoring Wing Note " + (numWingNotesScored + 1) +
-                            " or Centerline Note " + (numCenterlineNotesScored + 1) + " into the Amp.");
+                    robot.globalTracer.traceInfo(
+                        moduleName, "***** Scoring Wing Note " + (numWingNotesScored + 1) +
+                        " or Centerline Note " + (numCenterlineNotesScored + 1) + " into the Amp.");
                     robot.robotDrive.purePursuitDrive.cancel();
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(null);
@@ -653,6 +653,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     intermediatePose = intermediatePose2.clone();
                     intermediatePose.y += 60.0;
 
+                    enableAprilTagVision(false);
+                    sm.addEvent(aprilTagEvent);
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                     robot.robotDrive.purePursuitDrive.start(
                         event, robotPose, false,
@@ -662,7 +664,8 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         robot.adjustPoseByAlliance(intermediatePose2, alliance),
                         robot.adjustPoseByAlliance(intermediatePose3, alliance),
                         robot.adjustPoseByAlliance(targetPose, alliance));
-                    sm.waitForSingleEvent(event, State.SCORE_NOTE_TO_AMP);
+                    sm.addEvent(event);
+                    sm.waitForEvents(State.SCORE_NOTE_TO_AMP, false);
                     break;
 
                 case PARK:
