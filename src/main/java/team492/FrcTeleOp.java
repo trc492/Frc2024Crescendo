@@ -170,6 +170,12 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 // }
             }
 
+            if (robot.shooter != null && robot.ledIndicator != null)
+            {
+                robot.ledIndicator.setShooterVelOnTarget(
+                    Math.abs(robot.shooter.getShooterVelocity() - 90.0) < RobotParams.Shooter.shooterVelTolerance);
+            }
+
             if (robot.photonVisionBack != null)
             {
                 robot.photonVisionBack.getBestDetectedObject();

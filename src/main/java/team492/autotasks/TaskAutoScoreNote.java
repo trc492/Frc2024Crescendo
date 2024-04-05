@@ -461,7 +461,10 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 break;
 
             case SCORE_NOTE:
-                shooterOffTimer.set(1.0, this::shooterOff);
+                if (!taskParams.inAuto)
+                {
+                    shooterOffTimer.set(1.0, this::shooterOff);
+                }
                 robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
                 if (robot.sonarTrigger != null)
                 {
