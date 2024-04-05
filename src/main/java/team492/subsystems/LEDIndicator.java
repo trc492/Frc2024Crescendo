@@ -158,7 +158,7 @@ public class LEDIndicator
                     break;
 
                 case NOTE:
-                    led. setPatternState(notePattern, true, 0.5);
+                    led.setPatternState(notePattern, true, 0.5);
                     // if (Math.abs(objPose.angle) < RobotParams.Vision.ONTARGET_THRESHOLD)
                     // {
                     //     led.setPatternState(notePattern, true, 0.1, 0.1);
