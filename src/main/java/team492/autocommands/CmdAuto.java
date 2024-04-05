@@ -577,6 +577,9 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             intermediatePose.angle = -90.0;
                             intermediatePose2 = targetPose.clone();
                             intermediatePose2.y -= 36.0;
+                            intermediatePose2.angle = 200.0;
+                            targetPose.angle = 200.0;
+
                             robot.robotDrive.purePursuitDrive.start(
                                 event, robotPose, false,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,

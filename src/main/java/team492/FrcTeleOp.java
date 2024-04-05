@@ -622,15 +622,23 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case BUTTON_X:
-                // Aim at Amp.
+                // Aim at Amp if not alt function, aim for shuttling if alt function.
                 if (robot.intake != null && robot.shooter != null && pressed)
                 {
                     boolean active = !robot.shooter.isActive();
                     if (active)
                     {
-                        robot.shooter.aimShooter(
-                            RobotParams.Shooter.shooterAmpVelocity, RobotParams.Shooter.tiltAmpAngle, 0.0);
-                        robot.deflector.extend();
+                        if (!operatorAltFunc)
+                        {
+                            robot.shooter.aimShooter(
+                                RobotParams.Shooter.shooterAmpVelocity, RobotParams.Shooter.tiltAmpAngle, 0.0);
+                            robot.deflector.extend();
+                        }
+                        else
+                        {
+                            robot.deflector.retract(); //just in case
+                            robot.shooter.aimShooter(100, 30.0, 0);
+                        }
                     }
                     else
                     {
