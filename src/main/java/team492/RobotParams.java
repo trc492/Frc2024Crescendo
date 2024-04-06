@@ -214,7 +214,7 @@ public class RobotParams
             CENTERLINE_NOTE_5.x + 33.0, CENTERLINE_NOTE_5.y - 60.0, 180.0);
 
         public static final TrcPose2D CLNOTE1_BLUE_SCORE        = new TrcPose2D(
-            WINGNOTE_BLUE_SOURCE_SIDE.x, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 225.0);
+            WINGNOTE_BLUE_SOURCE_SIDE.x + 24.0, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 225.0);
 
         public static final TrcPose2D CLNOTE3_BLUE_SCORE        = new TrcPose2D(
             WINGNOTE_BLUE_SW_SIDE.x, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 180.0);
@@ -745,8 +745,8 @@ public class RobotParams
         public static final boolean tiltMotorInverted           = true;
         public static final double tiltGearRatio                = 59.0/18.0;
         public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
-        public static final double tiltPosOffset                = -12.0;    // in degrees
-        public static final double tiltZeroOffset               = 0.0615;    // in raw encoder unit
+        public static final double tiltPosOffset                = -15.0;    // in degrees
+        public static final double tiltZeroOffset               = 0.028;    // in raw encoder unit
         public static final double tiltPowerLimit               = 0.5;
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.023, 0.0, 0.001, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
@@ -788,8 +788,8 @@ public class RobotParams
             .add("Speaker3ft",          90.3, 90.0, 49.0)   // 47.0
             .add("Speaker4ft",          102.0, 90.0, 47.0)  // 44.0
             .add("Speaker5ft",          114.0, 90.0, 44.0)  // 41.0
-            .add("Speaker6ft",          125.3, 90.0, 43.0)  // 38.0
-            .add("Speaker7ft",          137.3, 90.0, 42.0);
+            .add("Speaker6ft",          125.3, 90.0, 42.0)  // 38.0
+            .add("Speaker7ft",          137.3, 90.0, 41.0);
         public static final ShootParamTable.Params wingNotePresetParams = speakerShootParamTable.get(WING_NOTE_ENTRY);
     }   //class Shooter
 

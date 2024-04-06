@@ -465,6 +465,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
                 case SCORE_NOTE_TO_SPEAKER:
                     robot.robotDrive.purePursuitDrive.cancel();
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
                     robot.robotDrive.purePursuitDrive.disableFixedHeading();
                     robot.disableAprilTagTracking();
                     disableAprilTagVision();
@@ -617,7 +618,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                 case DRIVE_TO_SPEAKER:
                     robot.globalTracer.traceInfo(moduleName, "***** Drive to Speaker to score Centerline Note.");
                     enableAprilTagVision(true);
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.5);
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
+                    robotPose.y = RobotParams.Game.CENTERLINE_NOTE_5.y;
+                    robot.robotDrive.setFieldPosition(robotPose, false);
                     targetPose = RobotParams.Game.centerlineNoteScorePoses[centerlineIndex].clone();
                     intermediatePose = RobotParams.Game.centerlineNotePickupPoses[centerlineIndex].clone();
                     intermediatePose.angle = targetPose.angle;
