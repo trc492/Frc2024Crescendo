@@ -33,6 +33,8 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobotBattery;
 import TrcCommonLib.trclib.TrcShooter;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcCommonLib.trclib.TrcTriggerThresholdZones;
+import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcVisionTargetInfo;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
@@ -54,12 +56,14 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import team492.RobotParams.RobotType;
+import team492.autotasks.ShootParamTable;
 import team492.autotasks.TaskAutoPickupFromGround;
 import team492.autotasks.TaskAutoPickupFromSource;
 import team492.autotasks.TaskAutoScoreNote;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
 import team492.subsystems.Climber;
+import team492.subsystems.Deflector;
 import team492.subsystems.Intake;
 import team492.subsystems.LEDIndicator;
 import team492.subsystems.Shooter;
@@ -95,6 +99,8 @@ public class Robot extends FrcRobotBase
     //
     // Sensors.
     //
+    public AnalogInput ultrasonicSensor;
+    public TrcTriggerThresholdZones sonarTrigger;
     public FrcPdp pdp;
     public TrcRobotBattery battery;
     public AnalogInput pressureSensor;
@@ -111,6 +117,8 @@ public class Robot extends FrcRobotBase
     public OpenCvVision openCvVision;
     public Transform3d aprilTag3To4Transform;
     public Transform3d aprilTag8To7Transform;
+    private boolean aprilTagTrackingEnabled = false;
+    private int[] trackedAprilTagIds = null;
     //
     // DriveBase subsystem.
     //
@@ -123,6 +131,7 @@ public class Robot extends FrcRobotBase
     public TrcDiscreteValue shooterVelocity;
     public TrcDiscreteValue shooterTiltAngle;
     public Climber climber;
+    public Deflector deflector;
     //
     // Hybrid mode objects.
     //
@@ -192,6 +201,13 @@ public class Robot extends FrcRobotBase
         //
         // Create and initialize sensors.
         //
+        if (RobotParams.Preferences.useUltrasonic)
+        {
+            ultrasonicSensor = new AnalogInput(RobotParams.HWConfig.AIN_ULTRASONIC);
+            sonarTrigger = new TrcTriggerThresholdZones(
+                "SonarTrigger", this::getUltrasonicDistance, RobotParams.Sonar.thresholds, false);
+        }
+
         if (RobotParams.Preferences.usePdp)
         {
             pdp = new FrcPdp(RobotParams.HWConfig.CANID_PDP, ModuleType.kRev);
@@ -214,12 +230,8 @@ public class Robot extends FrcRobotBase
         {
             if (RobotParams.Preferences.usePhotonVision)
             {
-                photonVisionFront = new PhotonVision(
-                    "OV9281", RobotParams.Vision.robotToFrontCam, RobotParams.Vision.robotToFrontCamPose,
-                    ledIndicator);
-                photonVisionBack = new PhotonVision(
-                    "OV9782", RobotParams.Vision.robotToBackCam, RobotParams.Vision.robotToBackCamPose,
-                    ledIndicator);
+                photonVisionFront = new PhotonVision("OV9281", RobotParams.Vision.robotToFrontCam, ledIndicator);
+                photonVisionBack = new PhotonVision("OV9782", RobotParams.Vision.robotToBackCam, ledIndicator);
                 aprilTag3To4Transform = photonVisionFront.getMultiTagTransform(3, 4);
                 aprilTag8To7Transform = photonVisionFront.getMultiTagTransform(8, 7);
             }
@@ -280,6 +292,11 @@ public class Robot extends FrcRobotBase
             {
                 climber = new Climber();
             }
+
+            if (RobotParams.Preferences.useDeflector)
+            {
+                deflector = new Deflector();
+            }
         }
         //
         // Miscellaneous.
@@ -326,6 +343,7 @@ public class Robot extends FrcRobotBase
         //
         // Start subsystems.
         //
+        autoAssistCancel();
         if (robotDrive != null)
         {
             robotDrive.startMode(runMode, prevMode);
@@ -508,12 +526,26 @@ public class Robot extends FrcRobotBase
             {
                 if (photonVisionFront != null)
                 {
+                    // AprilTags for Speakers.
                     FrcPhotonVision.DetectedObject object =
-                        photonVisionFront.getBestDetectedAprilTag(new int[] {4, 7, 3, 8});
+                        photonVisionFront.getBestDetectedAprilTag(4, 7, 3, 8);
 
                     if (object == null)
                     {
-                        object = photonVisionFront.getBestDetectedAprilTag(new int[] {5, 6});
+                        // AprilTags for Amps.
+                        object = photonVisionFront.getBestDetectedAprilTag(5, 6);
+                    }
+
+                    if (object == null)
+                    {
+                        // AprilTags for Stages
+                        object = photonVisionFront.getBestDetectedAprilTag(11, 12, 13, 14, 15, 16);
+                    }
+
+                    if (object == null)
+                    {
+                        // AprilTags for Sources
+                        object = photonVisionFront.getBestDetectedAprilTag(1, 2, 9, 10);
                     }
 
                     if (object != null)
@@ -527,6 +559,10 @@ public class Robot extends FrcRobotBase
                         dashboard.displayPrintf(
                             lineNum++, "PhotonFront: RobotFieldPose=%s",
                             photonVisionFront.getRobotFieldPose(object, false));
+                        // Pose3d pose3d = photonVisionFront.getAprilTagFieldPose3d(object.target.getFiducialId());
+                        // dashboard.displayPrintf(
+                        //     lineNum++, "PhotonFront: OffsetTargetPose=%s",
+                        //     photonVisionFront.getTargetPoseOffsetFromAprilTag(pose3d, 0, -32.0, 0));
                     }
                     else
                     {
@@ -741,9 +777,166 @@ public class Robot extends FrcRobotBase
         return success;
     }   //relocalizeRobotByAprilTag
 
+    /**
+     * This method enables PurePursuitDrive AprilTag tracking.
+     *
+     * @param trackedAprilTagIds specifies the AprilTag IDs to looking for.
+     */
+    public synchronized void enableAprilTagTracking(int... trackedAprilTagIds)
+    {
+        this.trackedAprilTagIds = trackedAprilTagIds;
+        this.aprilTagTrackingEnabled = true;
+    }   //enableAprilTagTracking
+
+    /**
+     * This method disables PurePursuitDrive AprilTag tracking.
+     */
+    public synchronized void disableAprilTagTracking()
+    {
+        this.trackedAprilTagIds = null;
+        this.aprilTagTrackingEnabled = false;
+    }   //disableAprilTagTracking
+
+    /**
+     * This method re-localizes the robot with AprilTag vision reported info.
+     *
+     * @param aprilTagObj specifies the detected AprilTag object.
+     */
+    public void relocalize(FrcPhotonVision.DetectedObject aprilTagObj)
+    {
+        // Use vision to relocalize robot's position.
+        int aprilTagId = aprilTagObj.target.getFiducialId();
+        TrcPose2D robotEstimatedPose = aprilTagObj.robotPose;
+
+        if (robotEstimatedPose == null)
+        {
+            // PhotonVision pose estimator failed to return estimatedPose?! Calculate the pose ourselves.
+            robotEstimatedPose = photonVisionFront.getRobotFieldPose(aprilTagObj, false);
+            globalTracer.traceInfo(
+                moduleName, "Relocalize Robot: aprilTagId=" + aprilTagId +
+                ", robotEstimatedPoseFromAprilTag=" + robotEstimatedPose);
+        }
+
+        TrcPose2D robotPose = robotDrive.driveBase.getFieldPosition();
+        double xDelta = robotPose.x - robotEstimatedPose.x;
+        double yDelta = robotPose.y - robotEstimatedPose.y;
+        double error = TrcUtil.magnitude(xDelta, yDelta);
+        if (error > RobotParams.Vision.GUIDANCE_ERROR_THRESHOLD && error < 96.00)
+        {
+            robotDrive.driveBase.setFieldPosition(robotEstimatedPose, false);
+            globalTracer.traceInfo(
+                moduleName, "Relocalize Robot: AprilTagId=" + aprilTagId + ", error=" + error +
+                ", robotPose=" + robotPose + ", relocalizePose=" + robotEstimatedPose);
+        }
+        else
+        {
+            globalTracer.traceInfo(
+                moduleName, "Relocalize Robot: aprilTagId=" + aprilTagId + ", error=" + error +
+                " (error too large or small to relocalize).");
+        }
+    }   //relocalize
+
+    /**
+     * This method tracks the detected AprilTag and aims the shooter at it.
+     *
+     * @param aprilTagObj specifies the detected AprilTag object.
+     * @return AprilTag pose that it's aiming at. This may be different from the given AprilTag.
+     */
+    public TrcPose2D aimShooterAtAprilTag(FrcPhotonVision.DetectedObject aprilTagObj)
+    {
+        int aprilTagId = aprilTagObj.target.getFiducialId();
+        TrcPose2D aprilTagPose;
+        double shooterVel, tiltAngle;
+
+        if (aprilTagId == 3 || aprilTagId == 8)
+        {
+            aprilTagPose = aprilTagObj.addTransformToTarget(
+                aprilTagObj.target, RobotParams.Vision.robotToFrontCam,
+                aprilTagId == 3? aprilTag3To4Transform: aprilTag8To7Transform);
+        }
+        else
+        {
+            aprilTagPose = aprilTagObj.targetPose;
+        }
+
+        if (aprilTagId == 5 || aprilTagId == 6)
+        {
+            shooterVel = RobotParams.Shooter.shooterAmpVelocity;
+            tiltAngle = RobotParams.Shooter.tiltAmpAngle;
+        }
+        else
+        {
+            ShootParamTable.Params shootParams = RobotParams.Shooter.speakerShootParamTable.get(
+                TrcUtil.magnitude(aprilTagPose.x, aprilTagPose.y));
+            shooterVel = shootParams.shooterVelocity;
+            tiltAngle = shootParams.tiltAngle;
+        }
+
+        shooter.aimShooter(shooterVel, tiltAngle, 0.0);
+        globalTracer.traceInfo(
+            moduleName,
+            "Aim at AprilTag: aprilTagId=" + aprilTagObj.target.getFiducialId() +
+            ", shooterVel=" + shooterVel +
+            ", tiltAngle=" + tiltAngle);
+
+        return aprilTagPose;
+    }   //aimShooterAtAprilTag
+
+    public void turtle()
+    {
+        if (shooter != null && deflector != null)
+        {
+            deflector.retract();
+            shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+            shooter.stopShooter();
+        }
+    }   //turtle
+
     //
     // Getters for sensor data.
     //
+
+    /**
+     * This method is called by the PurePursuitDrive Turn PID controller to get the target's heading offset.
+     *
+     * @return target heading offset.
+     */
+    public synchronized Double getHeadingOffset()
+    {
+        Double headingOffset = null;
+
+        if (aprilTagTrackingEnabled && photonVisionFront != null)
+        {
+            FrcPhotonVision.DetectedObject aprilTagObj = photonVisionFront.getBestDetectedAprilTag(trackedAprilTagIds);
+
+            if (aprilTagObj != null)
+            {
+                aimShooterAtAprilTag(aprilTagObj);
+                headingOffset = aprilTagObj.targetPose.angle;
+                globalTracer.traceInfo(
+                    moduleName,
+                    "Tracking AprilTag: aprilTagId=" + aprilTagObj.target.getFiducialId() +
+                    ", headingOffset=" + headingOffset);
+            }
+            else
+            {
+                globalTracer.traceDebug(
+                    moduleName, "Tracking AprilTag: aprilTag not found.");
+            }
+        }
+
+        return headingOffset;
+    }   //getHeadingOffset
+
+    /**
+     * This method reads the ultrasonic sensor and reports the distance in inches.
+     *
+     * @return ultrasonic distance in inches.
+     */
+    public double getUltrasonicDistance()
+    {
+        return ultrasonicSensor != null? ultrasonicSensor.getVoltage() / 0.0098: 0.0;
+    }   //getUltrasonicDistance
 
     /**
      * This method returns the pressure value from the pressure sensor.

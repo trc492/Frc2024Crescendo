@@ -1,0 +1,491 @@
+TrcDbgTrace.checkForExpiration_INFO [0.022179383] Thread stack: 
+java.base@17.0.9.7-frc/java.lang.ClassLoader.findBootstrapClass(Native Method)
+java.base@17.0.9.7-frc/java.lang.ClassLoader.findBootstrapClassOrNull(Unknown Source)
+java.base@17.0.9.7-frc/java.lang.System$2.findBootstrapClassOrNull(Unknown Source)
+java.base@17.0.9.7-frc/jdk.internal.loader.ClassLoaders$BootClassLoader.loadClassOrNull(Unknown Source)
+java.base@17.0.9.7-frc/jdk.internal.loader.BuiltinClassLoader.loadClassOrNull(Unknown Source)
+java.base@17.0.9.7-frc/jdk.internal.loader.BuiltinClassLoader.loadClassOrNull(Unknown Source)
+java.base@17.0.9.7-frc/jdk.internal.loader.BuiltinClassLoader.loadClass(Unknown Source)
+java.base@17.0.9.7-frc/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(Unknown Source)
+java.base@17.0.9.7-frc/java.lang.ClassLoader.loadClass(Unknown Source)
+app//TrcCommonLib.trclib.TrcTraceLogger.<init>(TrcTraceLogger.java:52)
+app//TrcCommonLib.trclib.TrcDbgTrace.openTraceLog(TrcDbgTrace.java:159)
+app//TrcCommonLib.trclib.TrcDbgTrace.openTraceLog(TrcDbgTrace.java:195)
+app//team492.Robot.openTraceLog(Robot.java:633)
+app//team492.Robot.robotStartMode(Robot.java:338)
+app//TrcFrcLib.frclib.FrcRobotBase.startCompetition(FrcRobotBase.java:418)
+app//edu.wpi.first.wpilibj.RobotBase.runRobot(RobotBase.java:365)
+app//edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:453)
+app//team492.Main.main(Main.java:33)
+Robot.robotStartMode_INFO [0.055693362] Thu Apr 04 10:26:56 PDT 2024: ***** AUTO_MODE *****
+TaskAutoScoreNote.autoAssistCancel_INFO [0.057516084] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [0.05866783] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [0.060065202] Canceling auto-assist.
+FrcAuto.startMode_INFO [0.123602527] <Info name="MatchInfo" date="Thu Apr 04 10:26:56 PDT 2024" event="PNCMP" type="Practice" match=2 replay=1 alliance="Blue" location=2 gameMsg="" />
+FrcAuto.startMode_INFO [0.138128573] <Info name="AutoChoices" alliance="Blue" strategy="CRESCENDO_AUTO" startPos="AMP" scoreWingNotes="SCORE_NONE" endAction="SCORE_ONE_NOTE" relocalize="false" startDelay=0 sec pathFile="DrivePath.csv" xDistance=6.0 ft yDistance=6.0 ft turnDegrees=90 deg driveTime=4 sec drivePower=4.0 />
+CmdAuto.cmdPeriodic_INFO [0.189446166] <Event name="StateInfo" time="0.188577045" tag="vvvvv" CmdAuto.state="START" />
+CmdAuto.cmdPeriodic_INFO [0.24853829] ***** Shoot Preload from AMP at (x=-288.3,y=56.8,angle=-90.0).
+TaskAutoScoreNote.autoAssistScore_INFO [0.25352925] targetType=Amp, useVision=false, inAuto=true, relocalize=false, event=(CmdAuto=CLEARED)
+Climber.motor.pidCtrlTask_INFO [0.255592433] Zero calibration done, event=null
+TaskAutoScoreNote.acquireSubsystemsOwnership_INFO [0.26687094] Successfully acquired subsystem ownerships for AutoScoreNote.
+CmdAuto.cmdPeriodic_INFO [0.271965289] <Event name="StateInfo" time="0.271394649" tag="^^^^^" CmdAuto.state="START" />
+TaskAutoScoreNote.autoTask_INFO [0.297911758] <Event name="StateInfo" time="0.296356588" tag="vvvvv" TaskAutoScoreNote.state="START" />
+TaskAutoScoreNote.runTaskState_INFO [0.308687818] ***** Not using AprilTag Vision.
+TaskAutoScoreNote.autoTask_INFO [0.315514787] <Event name="StateInfo" time="0.314030849" tag="vvvvv" TaskAutoScoreNote.state="DRIVE_TO_APRILTAG" />
+TaskAutoScoreNote.runTaskState_INFO [0.322142334] ***** Prep shooter to score to Amp.
+Shooter.aimShooter_DEBUG [0.326756468] owner=AutoScoreNote, currOwner=AutoScoreNote, vel=17.5, tiltAngle=57.0, panAngle=0.0, event=(TaskAutoScoreNote.event=CLEARED), timeout=0.0, aimOnly=true, shootOffDelay=0.0
+TaskAutoScoreNote.runTaskState_INFO [0.378134148] DRIVE_TO_APRILTAG***** Approach Amp in Auto without Vision:
+	RobotFieldPose=(x=-288.3,y=56.9,angle=-89.8)
+	alliance=Blue
+	intermediatePose=(x=-288.3,y=72.4,angle=-90.0)
+	targetPose=(x=-322.0,y=72.4,angle=-90.0)
+purePursuitDrive.start_INFO [0.415831032] Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=-288.3,y=56.9,angle=-89.8),vel=0.000000), TrcWaypoint(index=1,pose=(x=-288.3,y=72.4,angle=-90.0),vel=0.000000), TrcWaypoint(index=2,pose=(x=-322.0,y=72.4,angle=-90.0),vel=0.000000)])
+Shooter.onTarget_DEBUG [0.433492201] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+TaskAutoScoreNote.sonarTrigger_INFO [1.211095161] ***** SonarTrigger: Canceling PurePureSuitDrive, distance=15.819314387755105
+purePursuitDrive.xPosPid.isStalled_INFO [2.124749572] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [2.13433973] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [2.13836419] PID stalled.
+purePursuitDrive.driveTask_INFO [2.147320492] Done: index=2/3, stalled=true, timeout=false, posOnTarget=false,headingOnTarget=true,robotPose=(x=-313.9,y=72.4,angle=-90.3)
+purePursuitDrive.driveTask_INFO [2.164282629] Signal completion event (TaskAutoScoreNote.driveEvent=CLEARED).
+Shooter.tiltMotor.pidCtrlTask_INFO [2.460208562] controlMode: Position onTarget=true(57.742743642774684/57.0), stalled=false, expired=false, event=(Shooter.tiltOnTarget=SIGNALED)
+Shooter.onTarget_DEBUG [2.472268239] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=SIGNALED), panEvent=null, aimOnly=true
+TaskAutoScoreNote.autoTask_INFO [2.481610715] <Event name="StateInfo" time="2.480025559" tag="vvvvv" TaskAutoScoreNote.state="SCORE_NOTE" />
+Intake: pwr=0.0, current=0.0, isActive=false, hasObject=true.shoot_DEBUG [2.522072671] owner=AutoScoreNote, power=1.0, event=(TaskAutoScoreNote.event=SIGNALED)
+Intake.performAction_INFO [2.552884146] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoScoreNote.event=SIGNALED), timeout=0.0), hasObject=true
+Intake.exitTriggerCallback_INFO [2.932766614] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoScoreNote.event=CLEARED), timeout=0.0)
+Intake.finish_INFO [2.937826508] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+TaskAutoScoreNote.autoTask_INFO [2.944393968] <Event name="StateInfo" time="2.943945029" tag="vvvvv" TaskAutoScoreNote.state="DONE" />
+TaskAutoScoreNote.stopSubsystems_INFO [2.947159098] Stopping subsystems.
+Intake.cancel_INFO [2.949323642] owner=AutoScoreNote
+Intake.finish_INFO [2.965861954] Finishing inactive intake: completed=false, delayFinishPending=false
+TaskAutoScoreNote.releaseSubsystemsOwnership_INFO [2.968447765] Releasing subsystem ownership (currOwner=AutoScoreNote, intake=AutoScoreNote, shooter=AutoScoreNote, robotDrive=AutoScoreNote).
+CmdAuto.cmdPeriodic_INFO [2.971231255] <Event name="StateInfo" time="2.970801655" tag="vvvvv" CmdAuto.state="DO_DELAY" />
+CmdAuto.cmdPeriodic_INFO [2.974223649] <Event name="StateInfo" time="2.973592059" tag="^^^^^" CmdAuto.state="DO_DELAY" />
+CmdAuto.cmdPeriodic_INFO [2.977942551] <Event name="StateInfo" time="2.977678742" tag="vvvvv" CmdAuto.state="DRIVE_TO_WING_NOTE" />
+CmdAuto.cmdPeriodic_INFO [2.979431573] ***** No Scoring Wing Note.
+CmdAuto.cmdPeriodic_INFO [2.98069695] <Event name="StateInfo" time="2.980461734" tag="^^^^^" CmdAuto.state="DRIVE_TO_WING_NOTE" />
+CmdAuto.cmdPeriodic_INFO [2.983210675] <Event name="StateInfo" time="2.982766671" tag="vvvvv" CmdAuto.state="DRIVE_TO_CENTERLINE" />
+CmdAuto.cmdPeriodic_INFO [2.985192157] ***** EndAction=SCORE_ONE_NOTE: drive to Centerline Amp.
+CmdAuto.cmdPeriodic_INFO [2.99693064] ***** Ultrasonic Relocalize: ultrasonicDistance=13.826329897959186, relocalized robotPose=(x=-298.5,y=72.4,angle=-90.3)
+purePursuitDrive.start_INFO [3.006879164] Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=-298.5,y=72.4,angle=-90.3),vel=0.000000), TrcWaypoint(index=1,pose=(x=-293.6,y=181.6,angle=-90.0),vel=0.000000), TrcWaypoint(index=2,pose=(x=-293.6,y=229.6,angle=180.0),vel=0.000000), TrcWaypoint(index=3,pose=(x=-293.6,y=265.6,angle=180.0),vel=0.000000)])
+CmdAuto.cmdPeriodic_INFO [3.013839174] <Event name="StateInfo" time="3.013221474" tag="^^^^^" CmdAuto.state="DRIVE_TO_CENTERLINE" RobotPose=(x=-298.5,y=72.4,angle=-90.3) TargetPose=(x=-293.6,y=265.6,angle=180.0) vel=(x=0.0,y=0.0,angle=0.0) Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=0.0,y=0.0,angle=0.0),vel=0.000000), TrcWaypoint(simple=false,index=-1,timestep=0.194,pose=(x=78.6,y=-3.9,angle=0.2),vel=157.480000,encPos=0.000000,accel=0.000000,jerk=0.000000), TrcWaypoint(index=1,pose=(x=109.2,y=-5.5,angle=0.3),vel=157.480000), TrcWaypoint(simple=false,index=-1,timestep=0.324,pose=(x=114.4,y=-5.5,angle=350.5),vel=157.480000,encPos=0.000000,accel=-157.480000,jerk=0.000000), TrcWaypoint(index=2,pose=(x=157.2,y=-5.7,angle=270.3),vel=106.482675), TrcWaypoint(index=3,pose=(x=193.1,y=-6.0,angle=270.3),vel=0.000000)]) />
+purePursuitDrive.xPosPid.isStalled_INFO [3.282817962] PID stalled.
+CmdAuto.waypointHandler_INFO [4.194143826] ***** [DRIVE_TO_CENTERLINE] Waypoint 1: TrcWaypoint(index=1,pose=(x=109.2,y=-5.5,angle=0.3),vel=157.480000), robotPose=(x=-294.1,y=176.2,angle=-93.3)
+CmdAuto.waypointHandler_INFO [4.539570967] ***** [DRIVE_TO_CENTERLINE] Waypoint 2: TrcWaypoint(index=2,pose=(x=157.2,y=-5.7,angle=270.3),vel=106.482675), robotPose=(x=-294.2,y=222.7,angle=-110.1)
+CmdAuto.waypointHandler_INFO [4.542753418] ***** Turn on narrow Note Vision.
+purePursuitDrive.driveTask_INFO [5.959183613] Done: index=5/6, stalled=false, timeout=false, posOnTarget=true,headingOnTarget=true,robotPose=(x=-293.5,y=264.5,angle=-179.7)
+purePursuitDrive.driveTask_INFO [5.982248373] Signal completion event (CmdAuto=CLEARED).
+CmdAuto.cmdPeriodic_INFO [5.991366287] <Event name="StateInfo" time="5.990054184" tag="vvvvv" CmdAuto.state="PERFORM_END_ACTION" />
+CmdAuto.cmdPeriodic_INFO [5.994534938] ***** Turn off Vision and cancel PurePursuitDrive.
+CmdAuto.cmdPeriodic_INFO [5.997405802] <Event name="StateInfo" time="5.996467801" tag="^^^^^" CmdAuto.state="PERFORM_END_ACTION" />
+CmdAuto.cmdPeriodic_INFO [6.006759151] <Event name="StateInfo" time="6.006551971" tag="vvvvv" CmdAuto.state="PICKUP_CENTERLINE_NOTE" />
+CmdAuto.cmdPeriodic_INFO [6.009836653] ***** Pickup Centerline Note.
+TaskAutoPickupFromGround.autoAssistPickup_INFO [6.01218794] useVision=true, inAuto=true, event=(CmdAuto=SIGNALED)
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [6.024478324] Successfully acquired subsystem ownerships for AutoPickupGround.
+CmdAuto.cmdPeriodic_INFO [6.027549807] <Event name="StateInfo" time="6.027301788" tag="^^^^^" CmdAuto.state="PICKUP_CENTERLINE_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.031262496] <Event name="StateInfo" time="6.030605309" tag="vvvvv" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [6.038992063] ***** Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [6.047544581] <Event name="StateInfo" time="6.045904783" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.053180967] <Event name="StateInfo" time="6.05297109" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.059514228] <Event name="StateInfo" time="6.058009064" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.068582264] <Event name="StateInfo" time="6.065943676" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.07292721] <Event name="StateInfo" time="6.0727152" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.078442412] <Event name="StateInfo" time="6.078237965" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.086696566] <Event name="StateInfo" time="6.084338599" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.091158702] <Event name="StateInfo" time="6.090677894" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.093427754] <Event name="StateInfo" time="6.09324355" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.097238495] <Event name="StateInfo" time="6.096949073" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.100141556] <Event name="StateInfo" time="6.099946639" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.102732624] <Event name="StateInfo" time="6.102515541" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.108368832] <Event name="StateInfo" time="6.108169057" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.111808609] <Event name="StateInfo" time="6.11159941" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.116550612] <Event name="StateInfo" time="6.116356711" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.119327992] <Event name="StateInfo" time="6.119121792" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.121652154] <Event name="StateInfo" time="6.121456817" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.127638045] <Event name="StateInfo" time="6.127313964" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.130451223] <Event name="StateInfo" time="6.130268911" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.13314931] <Event name="StateInfo" time="6.132942793" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.136109641] <Event name="StateInfo" time="6.135898404" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.138657749] <Event name="StateInfo" time="6.138462308" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.143384697] <Event name="StateInfo" time="6.143178857" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.147346811] <Event name="StateInfo" time="6.146958645" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.150127033] <Event name="StateInfo" time="6.149942544" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.154175254] <Event name="StateInfo" time="6.153963348" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.157818038] <Event name="StateInfo" time="6.157476253" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.163341389] <Event name="StateInfo" time="6.163047761" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.166381749] <Event name="StateInfo" time="6.166101546" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.170565087] <Event name="StateInfo" time="6.170351016" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.173788802] <Event name="StateInfo" time="6.173592528" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.176701589] <Event name="StateInfo" time="6.176418323" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.17971248] <Event name="StateInfo" time="6.179525686" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.185415583] <Event name="StateInfo" time="6.184688187" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.188174831] <Event name="StateInfo" time="6.187971847" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.191860188] <Event name="StateInfo" time="6.191666649" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.195731448] <Event name="StateInfo" time="6.195510964" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.198736791] <Event name="StateInfo" time="6.198361588" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.202793868] <Event name="StateInfo" time="6.20259894" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.20659887] <Event name="StateInfo" time="6.206416269" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.211175737] <Event name="StateInfo" time="6.209198386" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.21858507] <Event name="StateInfo" time="6.217399893" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.223799836] <Event name="StateInfo" time="6.223604603" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.22948177] <Event name="StateInfo" time="6.227549675" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.232477706] <Event name="StateInfo" time="6.23228187" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.257543673] <Event name="StateInfo" time="6.257239224" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.26800271] <Event name="StateInfo" time="6.267795407" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.277892327] <Event name="StateInfo" time="6.277541831" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.287696962] <Event name="StateInfo" time="6.28537952" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.290596338] <Event name="StateInfo" time="6.29040458" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.298962182] <Event name="StateInfo" time="6.298708026" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.30715656] <Event name="StateInfo" time="6.306652038" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.310425671] <Event name="StateInfo" time="6.31008623" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.319514356] <Event name="StateInfo" time="6.319315161" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.327366261] <Event name="StateInfo" time="6.327067971" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.330773148] <Event name="StateInfo" time="6.330140008" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.332968523] <Event name="StateInfo" time="6.332713375" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.341487219] <Event name="StateInfo" time="6.339680594" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.350814766] <Event name="StateInfo" time="6.350473" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.353457861] <Event name="StateInfo" time="6.353201476" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.363056698] <Event name="StateInfo" time="6.362816894" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.365965692] <Event name="StateInfo" time="6.365620194" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.371563028] <Event name="StateInfo" time="6.371358188" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.375043872] <Event name="StateInfo" time="6.374854593" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.383108025] <Event name="StateInfo" time="6.382712408" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.387369799] <Event name="StateInfo" time="6.38712274" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.393261929] <Event name="StateInfo" time="6.392930943" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.396534015] <Event name="StateInfo" time="6.396277494" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.403709464] <Event name="StateInfo" time="6.403332336" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.408866925] <Event name="StateInfo" time="6.408446614" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.417522978] <Event name="StateInfo" time="6.416685878" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.43055594] <Event name="StateInfo" time="6.429807962" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.441978293] <Event name="StateInfo" time="6.439703621" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.451993161] <Event name="StateInfo" time="6.451433564" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.459492674] <Event name="StateInfo" time="6.455907085" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.468788149] <Event name="StateInfo" time="6.468497875" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.474451957] <Event name="StateInfo" time="6.473477509" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.484874447] <Event name="StateInfo" time="6.484420184" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.492732264] <Event name="StateInfo" time="6.492537637" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.506573325] <Event name="StateInfo" time="6.506172866" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.51237259] <Event name="StateInfo" time="6.512182346" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.516564096] <Event name="StateInfo" time="6.516366836" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.524655836] <Event name="StateInfo" time="6.524443665" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.531748787] <Event name="StateInfo" time="6.530961643" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.536428266] <Event name="StateInfo" time="6.535910814" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.544058978] <Event name="StateInfo" time="6.542974908" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.551045824] <Event name="StateInfo" time="6.548709775" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.556744079] <Event name="StateInfo" time="6.555765311" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.56379515] <Event name="StateInfo" time="6.563002398" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.570886183] <Event name="StateInfo" time="6.570674169" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.575698684] <Event name="StateInfo" time="6.575235782" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.581370099] <Event name="StateInfo" time="6.581179761" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.587517881] <Event name="StateInfo" time="6.586467311" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.592059265] <Event name="StateInfo" time="6.591857317" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.596517415] <Event name="StateInfo" time="6.596312841" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.604832006] <Event name="StateInfo" time="6.603747194" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.609002294] <Event name="StateInfo" time="6.608813548" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.615063335] <Event name="StateInfo" time="6.61486812" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.61988563] <Event name="StateInfo" time="6.619704381" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.625324256] <Event name="StateInfo" time="6.625141418" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.63350035] <Event name="StateInfo" time="6.633079005" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.637850657] <Event name="StateInfo" time="6.637663342" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.652817625] <Event name="StateInfo" time="6.652575555" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.656939357] <Event name="StateInfo" time="6.656383914" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.666980344] <Event name="StateInfo" time="6.666528315" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.675019836] <Event name="StateInfo" time="6.674642055" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.686202874] <Event name="StateInfo" time="6.686017098" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.695480335] <Event name="StateInfo" time="6.69039947" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.701138718] <Event name="StateInfo" time="6.700936885" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.709858472] <Event name="StateInfo" time="6.709668344" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.718401967] <Event name="StateInfo" time="6.718065593" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.724070211] <Event name="StateInfo" time="6.723864923" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.733227533] <Event name="StateInfo" time="6.732997477" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.746522982] <Event name="StateInfo" time="6.745196959" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.750463134] <Event name="StateInfo" time="6.750266463" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.758247721] <Event name="StateInfo" time="6.757071141" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.766305892] <Event name="StateInfo" time="6.765725844" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.772227702] <Event name="StateInfo" time="6.772033056" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.777626886] <Event name="StateInfo" time="6.777434858" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.784216967] <Event name="StateInfo" time="6.782982802" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.797368679] <Event name="StateInfo" time="6.796854202" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.803924951] <Event name="StateInfo" time="6.803251896" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.813587203] <Event name="StateInfo" time="6.812488541" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.818829846] <Event name="StateInfo" time="6.818624014" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.828386977] <Event name="StateInfo" time="6.826824071" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.831930466] <Event name="StateInfo" time="6.831249554" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.83418474] <Event name="StateInfo" time="6.83399225" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.845386491] <Event name="StateInfo" time="6.843809178" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.850883887] <Event name="StateInfo" time="6.850680468" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.853942161] <Event name="StateInfo" time="6.853742248" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.863818719] <Event name="StateInfo" time="6.863618317" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.870091865] <Event name="StateInfo" time="6.869891033" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.875539159] <Event name="StateInfo" time="6.875188768" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.883315658] <Event name="StateInfo" time="6.88158631" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.892306856] <Event name="StateInfo" time="6.892116331" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.898616719] <Event name="StateInfo" time="6.898401266" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.908343797] <Event name="StateInfo" time="6.908132179" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.916119098] <Event name="StateInfo" time="6.913852912" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.925213247] <Event name="StateInfo" time="6.925011613" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.930077745] <Event name="StateInfo" time="6.928606654" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.936969938] <Event name="StateInfo" time="6.936762952" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.952555813] <Event name="StateInfo" time="6.952250423" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.958025067] <Event name="StateInfo" time="6.957382117" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.963424064] <Event name="StateInfo" time="6.963198856" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.968927201] <Event name="StateInfo" time="6.968106837" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.973735018] <Event name="StateInfo" time="6.973539067" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.979952571] <Event name="StateInfo" time="6.979752845" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.985444401] <Event name="StateInfo" time="6.985256698" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.991720046] <Event name="StateInfo" time="6.991511331" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.997071342] <Event name="StateInfo" time="6.996859013" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [7.002642907] <Event name="StateInfo" time="7.002018427" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [7.008551283] <Event name="StateInfo" time="7.007564587" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [7.015051041] <Event name="StateInfo" time="7.01485438" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [7.020435238] <Event name="StateInfo" time="7.018923875" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [7.025908559] <Event name="StateInfo" time="7.02540364" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [7.031858477] <Event name="StateInfo" time="7.031659356" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [7.039070078] <Event name="StateInfo" time="7.037182399" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [7.04482571] <Event name="StateInfo" time="7.044141417" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [7.049568647] <Event name="StateInfo" time="7.049375212" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.runTaskState_INFO [7.051790173] ***** No Note Found.
+TaskAutoPickupFromGround.autoTask_INFO [7.05691586] <Event name="StateInfo" time="7.056433647" tag="vvvvv" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+TaskAutoPickupFromGround.runTaskState_INFO [7.058665374] ***** Either Vision doesn't see Note or Note is too far away: notePose=null
+TaskAutoPickupFromGround.autoTask_INFO [7.070427606] <Event name="StateInfo" time="7.070123981" tag="vvvvv" TaskAutoPickupFromGround.state="DONE" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [7.071693479] Stopping subsystems.
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [7.073238046] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=AutoPickupGround).
+CmdAuto.cmdPeriodic_INFO [7.078434279] <Event name="StateInfo" time="7.077471563" tag="vvvvv" CmdAuto.state="DRIVE_TO_AMP" />
+CmdAuto.cmdPeriodic_INFO [7.080271885] ***** Drive to Amp to score Centerline Note.
+purePursuitDrive.start_INFO [7.097310662] Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=-293.5,y=264.6,angle=-179.7),vel=0.000000), TrcWaypoint(index=1,pose=(x=-299.6,y=234.0,angle=-90.0),vel=0.000000), TrcWaypoint(index=2,pose=(x=-299.6,y=174.0,angle=-90.0),vel=0.000000), TrcWaypoint(index=3,pose=(x=-299.6,y=72.4,angle=-90.0),vel=0.000000), TrcWaypoint(index=4,pose=(x=-287.3,y=72.4,angle=-90.0),vel=0.000000)])
+CmdAuto.cmdPeriodic_INFO [7.104366895] <Event name="StateInfo" time="7.103983306" tag="^^^^^" CmdAuto.state="DRIVE_TO_AMP" RobotPose=(x=-293.5,y=264.6,angle=-179.7) TargetPose=(x=-287.3,y=72.4,angle=-90.0) vel=(x=0.0,y=0.0,angle=0.0) Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=0.0,y=0.0,angle=0.0),vel=0.000000), TrcWaypoint(index=1,pose=(x=6.0,y=30.6,angle=89.7),vel=99.146514), TrcWaypoint(simple=false,index=-1,timestep=0.079,pose=(x=5.7,y=78.2,angle=89.7),vel=157.480000,encPos=0.000000,accel=0.000000,jerk=0.000000), TrcWaypoint(index=2,pose=(x=5.7,y=90.6,angle=89.7),vel=157.480000), TrcWaypoint(simple=false,index=-1,timestep=0.604,pose=(x=5.5,y=125.8,angle=89.7),vel=157.480000,encPos=0.000000,accel=-157.480000,jerk=0.000000), TrcWaypoint(index=3,pose=(x=5.2,y=192.2,angle=89.7),vel=62.393153), TrcWaypoint(index=4,pose=(x=-7.2,y=192.1,angle=89.7),vel=0.000000)]) />
+CmdAuto.waypointHandler_INFO [7.563719791] ***** [DRIVE_TO_AMP] Waypoint 1: TrcWaypoint(index=1,pose=(x=6.0,y=30.6,angle=89.7),vel=99.146514), robotPose=(x=-297.9,y=242.6,angle=-155.4)
+CmdAuto.waypointHandler_INFO [8.201382541] ***** [DRIVE_TO_AMP] Waypoint 2: TrcWaypoint(index=2,pose=(x=5.7,y=90.6,angle=89.7),vel=157.480000), robotPose=(x=-298.1,y=181.4,angle=-150.6)
+CmdAuto.waypointHandler_INFO [8.203727992] ***** Ultrasonic Relocalize: ultrasonicDistance=28.275467448979597, relocalized robotPose=(x=-284.0,y=181.4,angle=-150.6)
+CmdAuto.waypointHandler_INFO [9.49290001] ***** [DRIVE_TO_AMP] Waypoint 3: TrcWaypoint(index=3,pose=(x=5.2,y=192.2,angle=89.7),vel=62.393153), robotPose=(x=-300.0,y=82.4,angle=-90.3)
+purePursuitDrive.driveTask_INFO [10.566480346] Done: index=6/7, stalled=false, timeout=false, posOnTarget=true,headingOnTarget=true,robotPose=(x=-288.8,y=72.4,angle=-89.6)
+purePursuitDrive.driveTask_INFO [10.578671967] Signal completion event (CmdAuto=CLEARED).
+CmdAuto.cmdPeriodic_INFO [10.588811504] <Event name="StateInfo" time="10.587240551" tag="vvvvv" CmdAuto.state="SCORE_NOTE_TO_AMP" />
+CmdAuto.cmdPeriodic_INFO [10.59204009] ***** Scoring Wing Note 1 or Centerline Note 1 into the Amp.
+TaskAutoScoreNote.autoAssistScore_INFO [10.594935838] targetType=Amp, useVision=true, inAuto=true, relocalize=false, event=(CmdAuto=SIGNALED)
+TaskAutoScoreNote.acquireSubsystemsOwnership_INFO [10.597647644] Successfully acquired subsystem ownerships for AutoScoreNote.
+CmdAuto.cmdPeriodic_INFO [10.602495856] <Event name="StateInfo" time="10.601367236" tag="^^^^^" CmdAuto.state="SCORE_NOTE_TO_AMP" />
+TaskAutoScoreNote.autoTask_INFO [10.607416563] <Event name="StateInfo" time="10.606250393" tag="vvvvv" TaskAutoScoreNote.state="START" />
+TaskAutoScoreNote.runTaskState_INFO [10.610475141] ***** Using AprilTag Vision.
+TaskAutoScoreNote.autoTask_INFO [10.620231702] <Event name="StateInfo" time="10.618211587" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.627437781] <Event name="StateInfo" time="10.627230024" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.636326474] <Event name="StateInfo" time="10.634966152" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.647813368] <Event name="StateInfo" time="10.646796222" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.655373285] <Event name="StateInfo" time="10.65290393" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.662484298] <Event name="StateInfo" time="10.662256222" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.667263001] <Event name="StateInfo" time="10.667063198" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.675723275] <Event name="StateInfo" time="10.673796117" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.681935558] <Event name="StateInfo" time="10.6814315" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.688364646] <Event name="StateInfo" time="10.687758373" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.69416941] <Event name="StateInfo" time="10.693244921" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.711359452] <Event name="StateInfo" time="10.710893331" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.713987214] <Event name="StateInfo" time="10.713697451" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.717196801] <Event name="StateInfo" time="10.716944028" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.719574678] <Event name="StateInfo" time="10.719375695" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.723812494] <Event name="StateInfo" time="10.723616755" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.727546068] <Event name="StateInfo" time="10.727339841" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.734317853] <Event name="StateInfo" time="10.733492022" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.74156184] <Event name="StateInfo" time="10.739572572" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.745585359] <Event name="StateInfo" time="10.74538912" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.754968994] <Event name="StateInfo" time="10.754020817" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.762500176] <Event name="StateInfo" time="10.761668299" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.767375758] <Event name="StateInfo" time="10.766475656" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.77316588] <Event name="StateInfo" time="10.772346975" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.777752322] <Event name="StateInfo" time="10.777557689" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.783352401] <Event name="StateInfo" time="10.783156531" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.791107521] <Event name="StateInfo" time="10.790161552" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.796616486] <Event name="StateInfo" time="10.796105921" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.804322293] <Event name="StateInfo" time="10.804129017" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.810499769] <Event name="StateInfo" time="10.8096071" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.816560498] <Event name="StateInfo" time="10.815634015" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.823265563] <Event name="StateInfo" time="10.823018898" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.829020933] <Event name="StateInfo" time="10.828114352" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.834481804] <Event name="StateInfo" time="10.833385347" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.839488995] <Event name="StateInfo" time="10.839275995" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.850263422] <Event name="StateInfo" time="10.850050816" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.856181012] <Event name="StateInfo" time="10.855977909" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.86240201] <Event name="StateInfo" time="10.860417976" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.869126146] <Event name="StateInfo" time="10.867947439" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.873958008] <Event name="StateInfo" time="10.873733913" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.879813872] <Event name="StateInfo" time="10.878332156" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.886700169] <Event name="StateInfo" time="10.886350408" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.893779387] <Event name="StateInfo" time="10.892264911" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.898792918] <Event name="StateInfo" time="10.897638728" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.902622649] <Event name="StateInfo" time="10.902424766" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.910603438] <Event name="StateInfo" time="10.910380261" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.916500379] <Event name="StateInfo" time="10.915411921" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.9217482] <Event name="StateInfo" time="10.920901933" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.928654279] <Event name="StateInfo" time="10.927874316" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.934928315] <Event name="StateInfo" time="10.934707912" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.942384093] <Event name="StateInfo" time="10.942011802" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.951683209] <Event name="StateInfo" time="10.951466695" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.961873164] <Event name="StateInfo" time="10.960815553" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.96958301] <Event name="StateInfo" time="10.967951418" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.977483785] <Event name="StateInfo" time="10.975516477" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.985598949] <Event name="StateInfo" time="10.985395945" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.99429941] <Event name="StateInfo" time="10.993078632" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.003978509] <Event name="StateInfo" time="11.002459939" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.011807681] <Event name="StateInfo" time="11.010620479" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.018205061] <Event name="StateInfo" time="11.018003634" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.032892062] <Event name="StateInfo" time="11.031914828" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.036817451] <Event name="StateInfo" time="11.036603893" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.04337211] <Event name="StateInfo" time="11.04248218" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.047164089] <Event name="StateInfo" time="11.046959097" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.058867292] <Event name="StateInfo" time="11.057961043" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.067230058] <Event name="StateInfo" time="11.067028718" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.072783441] <Event name="StateInfo" time="11.072568168" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.07707561] <Event name="StateInfo" time="11.07687497" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.084821354] <Event name="StateInfo" time="11.08461755" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.093962163] <Event name="StateInfo" time="11.090662754" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.099421969] <Event name="StateInfo" time="11.098237938" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.108038793] <Event name="StateInfo" time="11.107822253" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.116677279] <Event name="StateInfo" time="11.116480082" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.129588783] <Event name="StateInfo" time="11.128508142" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.134320097] <Event name="StateInfo" time="11.133833887" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.14387354] <Event name="StateInfo" time="11.14308088" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.151049632] <Event name="StateInfo" time="11.150199732" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.155357081] <Event name="StateInfo" time="11.154476043" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.169281724] <Event name="StateInfo" time="11.168412336" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.17330214] <Event name="StateInfo" time="11.173113218" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.177546295] <Event name="StateInfo" time="11.177347277" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.186627094] <Event name="StateInfo" time="11.185589415" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.194379888] <Event name="StateInfo" time="11.194186019" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.19951983] <Event name="StateInfo" time="11.199303009" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.211374095] <Event name="StateInfo" time="11.205689644" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.215986457] <Event name="StateInfo" time="11.215437383" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.225467957] <Event name="StateInfo" time="11.225256904" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.229973899] <Event name="StateInfo" time="11.229781936" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.237956445] <Event name="StateInfo" time="11.237277591" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.246602872] <Event name="StateInfo" time="11.243463" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.251785517] <Event name="StateInfo" time="11.250896188" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.25590124] <Event name="StateInfo" time="11.2557052" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.259195143] <Event name="StateInfo" time="11.258957841" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.269868862] <Event name="StateInfo" time="11.269671409" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.276257452] <Event name="StateInfo" time="11.275703068" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.291823684] <Event name="StateInfo" time="11.291527561" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.294168671] <Event name="StateInfo" time="11.293906111" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.297112366] <Event name="StateInfo" time="11.296874362" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.300124903] <Event name="StateInfo" time="11.299279169" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.306400929] <Event name="StateInfo" time="11.30532539" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.311328697] <Event name="StateInfo" time="11.311121159" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.315911956] <Event name="StateInfo" time="11.313898605" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.322347014] <Event name="StateInfo" time="11.319894569" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.328227122] <Event name="StateInfo" time="11.327314668" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.333032031] <Event name="StateInfo" time="11.332186345" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.338000149] <Event name="StateInfo" time="11.337042136" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.344131671] <Event name="StateInfo" time="11.343641344" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.351654757] <Event name="StateInfo" time="11.347971427" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.354421819] <Event name="StateInfo" time="11.354236874" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.363843739] <Event name="StateInfo" time="11.362595552" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.368160248] <Event name="StateInfo" time="11.36797185" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.388909887] <Event name="StateInfo" time="11.388712394" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.409797701] <Event name="StateInfo" time="11.40960994" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.417870438] <Event name="StateInfo" time="11.417395789" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.424181063] <Event name="StateInfo" time="11.422726543" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.432131651] <Event name="StateInfo" time="11.42799341" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.438853532] <Event name="StateInfo" time="11.438588805" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.449098403] <Event name="StateInfo" time="11.448672311" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.457030078] <Event name="StateInfo" time="11.454463135" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.463078302] <Event name="StateInfo" time="11.462586597" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.467693959] <Event name="StateInfo" time="11.467514951" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.472853783] <Event name="StateInfo" time="11.470948324" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.478614328] <Event name="StateInfo" time="11.478424606" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.483254154] <Event name="StateInfo" time="11.482945262" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.486442348] <Event name="StateInfo" time="11.486258151" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.489778964] <Event name="StateInfo" time="11.489520844" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.49352053] <Event name="StateInfo" time="11.493325502" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.496334352] <Event name="StateInfo" time="11.496149139" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.502607364] <Event name="StateInfo" time="11.502312339" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.50707909] <Event name="StateInfo" time="11.506358499" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.515933999] <Event name="StateInfo" time="11.515736534" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.518592417] <Event name="StateInfo" time="11.518271497" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.523413047] <Event name="StateInfo" time="11.522948197" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.526469722] <Event name="StateInfo" time="11.52628039" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.529114474] <Event name="StateInfo" time="11.528863053" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.531373453] <Event name="StateInfo" time="11.531183918" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.533644693] <Event name="StateInfo" time="11.533472871" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.538661434] <Event name="StateInfo" time="11.538473749" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.542901442] <Event name="StateInfo" time="11.542437737" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.545923917] <Event name="StateInfo" time="11.545673202" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.548660427] <Event name="StateInfo" time="11.548405976" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.556477121] <Event name="StateInfo" time="11.556291451" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.558736924] <Event name="StateInfo" time="11.55854629" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.577136407] <Event name="StateInfo" time="11.576458287" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.589743568] <Event name="StateInfo" time="11.589526961" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.612011733] <Event name="StateInfo" time="11.61171957" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.614488704] <Event name="StateInfo" time="11.614132772" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.6197785] <Event name="StateInfo" time="11.619468678" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [11.623942138] <Event name="StateInfo" time="11.623748015" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.runTaskState_INFO [11.629968023] ***** No AprilTag found.
+TaskAutoScoreNote.autoTask_INFO [11.634390639] <Event name="StateInfo" time="11.633341879" tag="vvvvv" TaskAutoScoreNote.state="DRIVE_TO_APRILTAG" />
+TaskAutoScoreNote.runTaskState_INFO [11.637568539] ***** Prep shooter to score to Amp.
+Shooter.aimShooter_DEBUG [11.639962542] owner=AutoScoreNote, currOwner=AutoScoreNote, vel=17.5, tiltAngle=57.0, panAngle=0.0, event=(TaskAutoScoreNote.event=SIGNALED), timeout=0.0, aimOnly=true, shootOffDelay=0.0
+TaskAutoScoreNote.runTaskState_INFO [11.646826745] DRIVE_TO_APRILTAG***** Approach Amp in Auto without Vision:
+	RobotFieldPose=(x=-288.8,y=72.4,angle=-89.6)
+	alliance=Blue
+	intermediatePose=(x=-288.8,y=72.4,angle=-90.0)
+	targetPose=(x=-322.0,y=72.4,angle=-90.0)
+purePursuitDrive.start_INFO [11.65394344] Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=-288.8,y=72.4,angle=-89.6),vel=0.000000), TrcWaypoint(index=1,pose=(x=-288.8,y=72.4,angle=-90.0),vel=0.000000), TrcWaypoint(index=2,pose=(x=-322.0,y=72.4,angle=-90.0),vel=0.000000)])
+Shooter.onTarget_DEBUG [11.65897696] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.tiltMotor.pidCtrlTask_INFO [11.857890163] controlMode: Position onTarget=true(60.74137185500841/57.0), stalled=false, expired=false, event=(Shooter.tiltOnTarget=SIGNALED)
+Shooter.onTarget_DEBUG [11.880253241] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=SIGNALED), panEvent=null, aimOnly=true
+purePursuitDrive.xPosPid.isStalled_INFO [12.959013022] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [12.964698419] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [12.966197265] PID stalled.
+purePursuitDrive.driveTask_INFO [12.97151971] Done: index=2/3, stalled=true, timeout=false, posOnTarget=false,headingOnTarget=true,robotPose=(x=-301.8,y=72.6,angle=-89.9)
+purePursuitDrive.driveTask_INFO [12.973681699] Signal completion event (TaskAutoScoreNote.driveEvent=CLEARED).
+TaskAutoScoreNote.autoTask_INFO [12.975553663] <Event name="StateInfo" time="12.975295335" tag="vvvvv" TaskAutoScoreNote.state="SCORE_NOTE" />
+Intake: pwr=0.0, current=0.0, isActive=false, hasObject=false.shoot_DEBUG [12.982627956] owner=AutoScoreNote, power=1.0, event=(TaskAutoScoreNote.event=SIGNALED)
+Intake.performAction_INFO [12.984912816] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoScoreNote.event=SIGNALED), timeout=0.0), hasObject=false
+Intake.finish_INFO [12.986896979] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+FrcRobotBase.startCompetition_INFO [15.302842623] *** Transitioning from AUTO_MODE to DISABLED_MODE ***
+TaskAutoScoreNote.autoAssistCancel_INFO [15.307379032] Canceling auto-assist.
+TaskAutoScoreNote.stopSubsystems_INFO [15.30868846] Stopping subsystems.
+Intake.cancel_INFO [15.30970448] owner=AutoScoreNote
+Intake.finish_INFO [15.310855564] Finishing inactive intake: completed=false, delayFinishPending=false
+TaskAutoScoreNote.releaseSubsystemsOwnership_INFO [15.312011623] Releasing subsystem ownership (currOwner=AutoScoreNote, intake=AutoScoreNote, shooter=AutoScoreNote, robotDrive=AutoScoreNote).
+TaskAutoPickupFromGround.autoAssistCancel_INFO [15.313152901] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [15.314073495] Canceling auto-assist.
+pidDrive.printPerformanceMetrics_INFO [15.325418948] [pidDrive] Loop Performance Metrics:
+Average Loop Interval = NaNs (freq=NaNHz, min=0.000000s, max=0.000000s)
+
+FrcRobotBase.printPerformanceMetrics_INFO [15.33019769] [FrcRobotBase] Loop Performance Metrics:
+Average Loop Interval = 0.000576s (freq=1735.565Hz, min=0.000000s, max=0.331929s)
+[03]                StartTask=0.000000s
+[04]          PrePeriodicTask=0.000062s
+[07]               UpdateTask=0.000434s
+[02]                StartMode=0.000000s
+[06]         PostPeriodicTask=0.000036s
+[08]                 StopTask=0.000000s
+[09]                 StopMode=0.000000s
+[00]                RobotInit=9.046178s
+[01]           RobotStartMode=0.000000s
+[05]                 Periodic=0.000009s
+[10]            RobotStopMode=0.000000s
+
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.334739217] TrcWatchdogMgr: STANDALONE_TASK=0.000144/0.999290
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.336083423] SonarTrigger.triggerTask: PRE_PERIODIC_TASK=0.000131/0.043786
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.338380716] LED: OUTPUT_TASK=0.000014/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.339467813] lfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000008/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.340448598] TrcMotor.odometryTask: STANDALONE_TASK=0.001486/0.002038
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.341299788] lfDriveMotor.odometryCleanupTask: STOP_TASK=0.000228/7.659599
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.343042742] rfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.344092211] lbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.345100059] rbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.34619078] lfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000007/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.347070833] rfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000006/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.34896378] lbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000006/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.350866834] rbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000006/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.35206179] TrcDriveBase.odometryTask: INPUT_TASK=0.003567/0.011136
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.353283671] TrcDriveBase.stopTask: STOP_TASK=0.005592/7.659445
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.354506324] purePursuitDrive.driveTask: POST_PERIODIC_TASK=0.014766/0.023220
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.355605184] Intake.motor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.35648631] Intake.entryTrigger.triggerTask: PRE_PERIODIC_TASK=0.000011/0.000576
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.358217725] Intake.exitTrigger.triggerTask: PRE_PERIODIC_TASK=0.000005/0.000576
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.360198962] Shooter.shooterMotor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.362050925] Shooter.tiltMotor.pidCtrlTask: OUTPUT_TASK=0.000005/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.364449586] Shooter.tiltMotor.converterTask: INPUT_TASK=0.000082/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.366118465] Climber.motor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010448
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.367588105] Deflector.servo.stopTask: STOP_TASK=0.000128/7.653909
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.368734396] TaskAutoScoreNote: POST_PERIODIC_TASK=0.000398/0.007295
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.370502308] TaskAutoPickupFromGround: POST_PERIODIC_TASK=0.003680/0.006417

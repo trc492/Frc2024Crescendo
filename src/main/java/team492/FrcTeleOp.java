@@ -27,7 +27,6 @@ import java.util.Locale;
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
-import TrcCommonLib.trclib.TrcUtil;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcCANSparkMax;
@@ -36,7 +35,7 @@ import TrcFrcLib.frclib.FrcPanelButtons;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import TrcFrcLib.frclib.FrcSideWinderJoystick;
 import TrcFrcLib.frclib.FrcXboxController;
-import team492.autotasks.ShootParamTable;
+import team492.subsystems.Shooter;
 
 /**
  * This class implements the code to run in TeleOp Mode.
@@ -164,7 +163,17 @@ public class FrcTeleOp implements TrcRobot.RobotMode
             //
             if (robot.photonVisionFront != null)
             {
-                aprilTagObj = robot.photonVisionFront.getBestDetectedAprilTag(new int[] {4, 7, 5, 6, 3, 8});
+                aprilTagObj = robot.photonVisionFront.getBestDetectedAprilTag(4, 7, 5, 6, 3, 8);
+                // if (aprilTagObj != null)
+                // {
+                //     robot.relocalize(aprilTagObj);
+                // }
+            }
+
+            if (robot.shooter != null && robot.ledIndicator != null)
+            {
+                robot.ledIndicator.setShooterVelOnTarget(
+                    Math.abs(robot.shooter.getShooterVelocity() - 90.0) < RobotParams.Shooter.shooterVelTolerance);
             }
 
             if (robot.photonVisionBack != null)
@@ -192,43 +201,19 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         {
                             if (aprilTagObj != null)
                             {
-                                TrcPose2D aprilTagPose;
-                                aprilTagId = aprilTagObj.target.getFiducialId();
-
-                                if (aprilTagId == 3 || aprilTagId == 8)
-                                {
-                                    aprilTagPose = aprilTagObj.addTransformToTarget(
-                                        aprilTagObj.target, RobotParams.Vision.robotToFrontCam,
-                                        aprilTagId == 3? robot.aprilTag3To4Transform: robot.aprilTag8To7Transform);
-                                }
-                                else
-                                {
-                                    aprilTagPose = aprilTagObj.targetPose;
-                                }
-
-                                if (aprilTagId == 5 || aprilTagId == 6)
-                                {
-                                    shooterVel = RobotParams.Shooter.shooterAmpVelocity;
-                                    tiltAngle = RobotParams.Shooter.tiltAmpAngle;
-                                }
-                                else
-                                {
-                                    ShootParamTable.Params shootParams =
-                                        RobotParams.Shooter.speakerShootParamTable.get(
-                                            TrcUtil.magnitude(aprilTagPose.x, aprilTagPose.y));
-                                    shooterVel = shootParams.shooterVelocity;
-                                    tiltAngle = shootParams.tiltAngle;
-                                }
+                                TrcPose2D aprilTagPose = robot.aimShooterAtAprilTag(aprilTagObj);
                                 rotPower = trackingPidCtrl.getOutput(aprilTagPose.angle, 0.0);
-                                robot.shooter.aimShooter(shooterVel, tiltAngle, 0.0);
                                 // robot.globalTracer.traceInfo(moduleName, "aprilTagAngle=" + aprilTagPose.angle + ", rotPower=" + rotPower);
 
+                            }
+                            else
+                            {
+                                robot.shooter.setShooterVelocity(90);
                             }
                         }
                         else if (prevTrackingModeOn)
                         {
-                            robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
-                            robot.shooter.stopShooter();
+                            robot.turtle();
                         }
                         prevTrackingModeOn = trackingModeOn;
                     }
@@ -324,10 +309,15 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
                         if (subsystemStatusOn)
                         {
-                            robot.dashboard.displayPrintf(
-                                lineNum++, "Shooter: vel=%.0f/%.0f, preset=%.0f, inc=%.0f",
+                            String msg = String.format(
+                                Locale.US, "Shooter: vel=%.0f/%.0f, preset=%.0f, inc=%.0f",
                                 shooterVel, robot.shooter.getShooterVelocity(), robot.shooterVelocity.getValue(),
                                 robot.shooterVelocity.getIncrement());
+                            if (robot.deflector != null)
+                            {
+                                msg += ", deflector=" + robot.deflector.isExtended();
+                            }
+                            robot.dashboard.displayPrintf(lineNum++, msg);
                         }
 
                         double tiltPower = robot.operatorController.getLeftYWithDeadband(true);
@@ -341,11 +331,14 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         if (subsystemStatusOn)
                         {
                             robot.dashboard.displayPrintf(
-                                lineNum++, "Tilt: power=%.2f/%.2f, angle=%.2f/%.2f/%f, inc=%.0f, limits=%s/%s",
+                                lineNum++,
+                                "Tilt: power=%.2f/%.2f, angle=%.2f/%.2f/%f, inc=%.0f, limits=%s/%s" +
+                                ", yaw/pitch/roll=%.2f/%.2f/%.2f",
                                 tiltPower, robot.shooter.getTiltPower(), robot.shooter.getTiltAngle(),
                                 robot.shooter.tiltMotor.getPidTarget(), robot.shooter.tiltMotor.getMotorPosition(),
                                 robot.shooterTiltAngle.getIncrement(), robot.shooter.tiltLowerLimitSwitchActive(),
-                                robot.shooter.tiltUpperLimitSwitchActive());
+                                robot.shooter.tiltUpperLimitSwitchActive(),
+                                Shooter.getTilterYaw(), Shooter.getTilterPitch(), Shooter.getTilterRoll());
                         }
                     }
 
@@ -368,6 +361,12 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                                 robot.climber.climberMotor.isLowerLimitSwitchActive(),
                                 robot.climber.climberMotor.isUpperLimitSwitchActive());
                         }
+                    }
+
+                    if (robot.ultrasonicSensor != null && subsystemStatusOn)
+                    {
+                        robot.dashboard.displayPrintf(
+                            lineNum++, "Ultrasonic: distance=%.3f", robot.getUltrasonicDistance());
                     }
                 }
             }
@@ -457,9 +456,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
             case BUTTON_B:
                 // Turtle mode.
-                if (robot.shooter != null && pressed)
+                if (pressed)
                 {
-                    robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+                    robot.turtle();
                 }
                 break;
 
@@ -471,7 +470,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (active)
                     {
                         // Press and hold altFunc for manual intake (no vision).
-                        robot.autoPickupFromGround.autoAssistPickup(!driverAltFunc, false, null);
+                        robot.autoPickupFromGround.autoAssistPickup(driverAltFunc, false, null);
                     }
                     else
                     {
@@ -522,7 +521,6 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case DPAD_LEFT:
-
                 // Aim at Amp.
                 if (robot.intake != null && robot.shooter != null && pressed)
                 {
@@ -532,12 +530,14 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         robot.shooter.aimShooter(
                             RobotParams.Shooter.shooterAmpVelocity,
                             RobotParams.Shooter.tiltAmpAngle, 0.0);
+                        robot.deflector.extend();
                         // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
                         // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
                     }
                     else
                     {
                         robot.shooter.cancel();
+                        robot.deflector.retract();
                     }
                 }
 
@@ -622,21 +622,28 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case BUTTON_X:
-                // Aim at Amp.
+                // Aim at Amp if not alt function, aim for shuttling if alt function.
                 if (robot.intake != null && robot.shooter != null && pressed)
                 {
                     boolean active = !robot.shooter.isActive();
                     if (active)
                     {
-                        robot.shooter.aimShooter(
-                            RobotParams.Shooter.shooterAmpVelocity,
-                            RobotParams.Shooter.tiltAmpAngle, 0.0);
-                        // robot.shooter.setShooterVelocity(RobotParams.Shooter.shooterAmpVelocity);
-                        // robot.shooter.setTiltAngle(RobotParams.Shooter.tiltAmpAngle);
+                        if (!operatorAltFunc)
+                        {
+                            robot.shooter.aimShooter(
+                                RobotParams.Shooter.shooterAmpVelocity, RobotParams.Shooter.tiltAmpAngle, 0.0);
+                            robot.deflector.extend();
+                        }
+                        else
+                        {
+                            robot.deflector.retract(); //just in case
+                            robot.shooter.aimShooter(100, 30.0, 0);
+                        }
                     }
                     else
                     {
                         robot.shooter.cancel();
+                        robot.deflector.retract();
                     }
                 }
                 break;
@@ -674,9 +681,9 @@ public class FrcTeleOp implements TrcRobot.RobotMode
 
             case RIGHT_BUMPER:
                 //Turtle mode
-                if (robot.shooter != null && pressed)
+                if (pressed)
                 {
-                    robot.shooter.setTiltAngle(RobotParams.Shooter.tiltTurtleAngle);
+                    robot.turtle();
                 }
                 break;
 
@@ -720,9 +727,17 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case DPAD_LEFT:
+                if (pressed)
+                {
+                    robot.intake.setPower(-0.5);
+                }
                 break;
 
             case DPAD_RIGHT:
+                if(pressed){
+                    Shooter.clearTilterFaults();    
+                }
+                
                 break;
 
             case BACK:
@@ -735,7 +750,16 @@ public class FrcTeleOp implements TrcRobot.RobotMode
             case START:
                 if (robot.shooter != null && pressed)
                 {
+                    // If the Tilter hit something hard and caused the pulley to skip, the absolute encoder will be
+                    // off. This provides an emergency way to quickly resync the encoder by using manual override to
+                    // drive the Tilter to the lower limit and set the encoder postion as the soft zero. Then we set
+                    // the encoder zeroOffset to zero. Note: this hack is volatile, meaning once the robot power is
+                    // turned off, we lose this setting. The idea is that this hack is for emergency resync so that
+                    // we can continue the match uninterrupted. We should always do the proper encoder calibration
+                    // once we are back in the pit.
                     ((FrcCANSparkMax) robot.shooter.tiltMotor).resetMotorPosition(false);
+                    robot.shooter.tiltMotor.setPositionSensorScaleAndOffset(
+                        RobotParams.Shooter.tiltPosScale, RobotParams.Shooter.tiltPosOffset, 0.0);
                 }
                 break;
 

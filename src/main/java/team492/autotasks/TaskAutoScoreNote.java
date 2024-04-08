@@ -29,7 +29,9 @@ import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
 import TrcCommonLib.trclib.TrcTaskMgr;
 import TrcCommonLib.trclib.TrcTimer;
+import TrcCommonLib.trclib.TrcTriggerThresholdZones;
 import TrcCommonLib.trclib.TrcUtil;
+import TrcCommonLib.trclib.TrcTrigger.TriggerMode;
 import TrcFrcLib.frclib.FrcPhotonVision;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import team492.FrcAuto;
@@ -222,6 +224,10 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     protected void stopSubsystems()
     {
         tracer.traceInfo(moduleName, "Stopping subsystems.");
+        if (robot.sonarTrigger != null)
+        {
+            robot.sonarTrigger.disableTrigger();
+        }
         robot.intake.cancel(currOwner);
         // robot.shooter.cancel(currOwner);
         robot.robotDrive.cancel(driveOwner);
@@ -271,15 +277,15 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 {
                     aprilTagId = object.target.getFiducialId();
                     tracer.traceInfo(
-                        moduleName, "***** Vision found AprilTag %d at %s from camera.",
-                        aprilTagId, object.targetPose);
+                        moduleName, "***** Vision found AprilTag " + aprilTagId +
+                        ": aprilTagPose=" + object.targetPose);
                     if (aprilTagId == 3 || aprilTagId == 8)
                     {
                         aprilTagPose = object.addTransformToTarget(
                             object.target, RobotParams.Vision.robotToFrontCam,
                             aprilTagId == 3? robot.aprilTag3To4Transform: robot.aprilTag8To7Transform);
                         tracer.traceInfo(
-                            moduleName, "***** Translated AprilTag target at %s from camera.", aprilTagPose);
+                            moduleName, "***** Translated AprilTag target: newPose=" + aprilTagPose);
                     }
                     else
                     {
@@ -313,7 +319,6 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 }
                 else if (taskParams.inAuto)
                 {
-                    // Score to Amp needs valid odometry which is only true during Auto.
                     tracer.traceInfo(moduleName, "***** Prep shooter to score to Amp.");
                     robot.shooter.aimShooter(
                         currOwner, RobotParams.Shooter.shooterAmpVelocity, RobotParams.Shooter.tiltAmpAngle, 0.0,
@@ -321,22 +326,53 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     sm.addEvent(event);
 
                     TrcPose2D robotPose = robot.robotDrive.driveBase.getFieldPosition();
-                    Alliance alliance = robotPose.y > RobotParams.Field.LENGTH / 2.0? Alliance.Red: Alliance.Blue;
-                    TrcPose2D targetPose = robot.adjustPoseByAlliance(RobotParams.Game.AMP_BLUE_SCORE, alliance);
-                    TrcPose2D intermediatePose = targetPose.clone();
-                    intermediatePose.x = robotPose.x;
-                    tracer.traceInfo(
-                        moduleName,
-                        state + "***** Approach Amp in Auto:\n\tRobotFieldPose=" + robotPose +
-                        "\n\talliance=" + alliance +
-                        "\n\tintermediatePose=" + intermediatePose +
-                        "\n\ttargetPose=" + targetPose);
-                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
-                    robot.robotDrive.purePursuitDrive.start(
-                        currOwner, driveEvent, 2.0, robotPose, false,
-                        RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
-                        RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
-                        intermediatePose, targetPose);
+                    TrcPose2D targetPose, intermediatePose;
+                    robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.2);
+
+                    if (robot.sonarTrigger != null)
+                    {
+                        robot.sonarTrigger.enableTrigger(TriggerMode.OnInactive, this::sonarTrigger);
+                    }
+
+                    if (taskParams.useVision && aprilTagPose != null)
+                    {
+                        targetPose = aprilTagPose.clone();
+                        targetPose.x += RobotParams.Vision.FRONTCAM_X_OFFSET;
+                        targetPose.angle = 0.0;
+                        intermediatePose = targetPose.clone();
+                        intermediatePose.y = 0.0;
+                        intermediatePose.angle = -90.0 - robotPose.angle;
+
+                        targetPose.x = 0.0;
+                        tracer.traceInfo(
+                            moduleName,
+                            state + "***** Approach Amp in Auto with Vision:\n\tRobotFieldPose=" + robotPose +
+                            "\n\tintermediatePose=" + intermediatePose +
+                            "\n\ttargetPose=" + targetPose);
+                        robot.robotDrive.purePursuitDrive.start(
+                            currOwner, driveEvent, 2.0, robotPose, true,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                            intermediatePose, targetPose);
+                    }
+                    else
+                    {
+                        Alliance alliance = robotPose.y > RobotParams.Field.LENGTH / 2.0? Alliance.Red: Alliance.Blue;
+                        targetPose = robot.adjustPoseByAlliance(RobotParams.Game.AMP_BLUE_SCORE, alliance);
+                        intermediatePose = targetPose.clone();
+                        intermediatePose.x = robotPose.x;
+                        tracer.traceInfo(
+                            moduleName,
+                            state + "***** Approach Amp in Auto without Vision:\n\tRobotFieldPose=" + robotPose +
+                            "\n\talliance=" + alliance +
+                            "\n\tintermediatePose=" + intermediatePose +
+                            "\n\ttargetPose=" + targetPose);
+                        robot.robotDrive.purePursuitDrive.start(
+                            currOwner, driveEvent, 2.0, robotPose, false,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                            intermediatePose, targetPose);
+                    }
                     sm.addEvent(driveEvent);
                     sm.waitForEvents(taskParams.inAuto? State.SCORE_NOTE: State.DONE, true);
                 }
@@ -425,8 +461,21 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 break;
 
             case SCORE_NOTE:
-                shooterOffTimer.set(1.0, this::shooterOff);
+                if (!taskParams.inAuto)
+                {
+                    shooterOffTimer.set(1.0, this::shooterOff);
+                }
                 robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
+                if (robot.sonarTrigger != null)
+                {
+                    robot.sonarTrigger.disableTrigger();
+                }
+
+                if (robot.deflector != null && taskParams.targetType == TargetType.Amp)
+                {
+                    robot.deflector.extend(1.0);
+                }
+
                 robot.shoot(currOwner, event);
                 sm.waitForSingleEvent(event, State.DONE);
                 break;
@@ -443,5 +492,14 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     {
         robot.shooter.stopShooter();
     }   //shooterOff
+
+    private void sonarTrigger(Object context)
+    {
+        TrcTriggerThresholdZones.CallbackContext triggerInfo = (TrcTriggerThresholdZones.CallbackContext) context;
+
+        tracer.traceInfo(
+            moduleName, "***** SonarTrigger: Canceling PurePureSuitDrive, distance=" + triggerInfo.sensorValue);
+        robot.robotDrive.purePursuitDrive.cancel();
+    }   //sonarTrigger
 
 }   //class TaskAutoScoreNote

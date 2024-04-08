@@ -80,6 +80,9 @@ public class RobotParams
         public static final boolean useButtonPanels             = false;
         // Sensors
         public static final boolean useNavX                     = true;
+        public static final boolean usePigeonIMU                = false;
+        public static final boolean useUltrasonic               = true;
+        public static final boolean useUltrasonicRelocalization = true;
         public static final boolean usePdp                      = false;
         public static final boolean usePressureSensor           = false;
         // Vision
@@ -96,6 +99,7 @@ public class RobotParams
         public static final boolean useIntake                   = true;
         public static final boolean useShooter                  = true;
         public static final boolean useClimber                  = true;
+        public static final boolean useDeflector                = true;
     }   //class Preferences
 
     public static final String TEAM_FOLDER_PATH                 = "/home/lvuser/trc492";
@@ -203,27 +207,37 @@ public class RobotParams
         public static final TrcPose2D CLNOTE1_BLUE_PICKUP       = new TrcPose2D(
             CENTERLINE_NOTE_1.x - 33.0, CENTERLINE_NOTE_1.y - 60.0, 180.0);
 
+        public static final TrcPose2D CLNOTE3_BLUE_PICKUP       = new TrcPose2D(
+            CENTERLINE_NOTE_3.x, CENTERLINE_NOTE_1.y - 60.0, 180.0);
+
         public static final TrcPose2D CLNOTE5_BLUE_PICKUP       = new TrcPose2D(
             CENTERLINE_NOTE_5.x + 33.0, CENTERLINE_NOTE_5.y - 60.0, 180.0);
 
         public static final TrcPose2D CLNOTE1_BLUE_SCORE        = new TrcPose2D(
-            WINGNOTE_BLUE_SOURCE_SIDE.x + 24.0, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 225.0); //TODO check pos and angle
+            WINGNOTE_BLUE_SOURCE_SIDE.x + 24.0, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 225.0);
+
+        public static final TrcPose2D CLNOTE3_BLUE_SCORE        = new TrcPose2D(
+            WINGNOTE_BLUE_SW_SIDE.x, WINGNOTE_BLUE_SOURCE_SIDE.y - 36.0, 180.0);
 
         public static final TrcPose2D CLNOTE5_BLUE_SCORE        = new TrcPose2D(
-            -(Field.WIDTH / 2.0 + 85.0), WINGNOTE_BLUE_SW_SIDE.y - 36.0, 160.0); //TODO: check pos and angle
+            -(Field.WIDTH / 2.0 + 85.0), WINGNOTE_BLUE_SW_SIDE.y - 36.0, 160.0);
 
         public static final TrcPose2D[] centerlineNotePickupPoses =
         {
-            CLNOTE1_BLUE_PICKUP, CLNOTE5_BLUE_PICKUP
+            CLNOTE1_BLUE_PICKUP, CLNOTE3_BLUE_PICKUP, CLNOTE5_BLUE_PICKUP
         };
 
         public static final TrcPose2D[] centerlineNoteScorePoses =
         {
-            CLNOTE1_BLUE_SCORE, CLNOTE5_BLUE_SCORE
+            CLNOTE1_BLUE_SCORE, CLNOTE3_BLUE_SCORE, CLNOTE5_BLUE_SCORE
         };
 
         public static final TrcPose2D AMP_BLUE_SCORE            = new TrcPose2D(
             -Field.WIDTH + Robot.LENGTH / 2.0 - 16.0, 72.44, -90.0);
+
+        public static final TrcPose2D AMP_BLUE_PRESCORE         = new TrcPose2D(
+            -Field.WIDTH + 36.0, 72.44, -90.0);
+
         public static final double PROXIMITY_THRESHOLD          = 20.0;
 
     }   //class Game
@@ -264,6 +278,7 @@ public class RobotParams
         public static final int CANID_TILT_MOTOR                = 7;
         public static final int CANID_INTAKE_MOTOR              = 8;
         public static final int CANID_CLIMBER_MOTOR             = 9;
+        public static final int CANID_PIGEON_IMU                = 10;
         public static final int CANID_SHOOTER_MOTOR             = 17;
 
         public static final int CANID_PCM                       = 30;
@@ -292,6 +307,7 @@ public class RobotParams
         //
         // Analog Input ports (not used).
         //
+        public static final int AIN_ULTRASONIC                  = 0;
         public static final int AIN_PRESSURE_SENSOR             = 0;
         public static final int AIN_LFSTEER_ENCODER             = 0;
         public static final int AIN_RFSTEER_ENCODER             = 1;
@@ -306,6 +322,7 @@ public class RobotParams
         //
         // PWM channels.
         //
+        public static final int PWM_CHANNEL_DEFLECTOR           = 1;
         public static final int NUM_LEDS                        = 30;
         public static final int PWM_CHANNEL_LED                 = 9;
         //
@@ -400,7 +417,7 @@ public class RobotParams
             HOMOGRAPHY_WORLD_BOTTOMRIGHT_X, HOMOGRAPHY_WORLD_BOTTOMRIGHT_Y);
 
         public static final double ONTARGET_THRESHOLD           = 5.0;
-        public static final double GUIDANCE_ERROR_THRESHOLD     = 10.0;
+        public static final double GUIDANCE_ERROR_THRESHOLD     = 12.0;
     }   //class Vision
 
     //
@@ -679,6 +696,11 @@ public class RobotParams
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
 
+    public static class Sonar
+    {
+        public static final double[] thresholds                 = new double[] {16.0};
+    }   //class Sonar
+
     //
     // Other subsystems.
     //
@@ -723,8 +745,8 @@ public class RobotParams
         public static final boolean tiltMotorInverted           = true;
         public static final double tiltGearRatio                = 59.0/18.0;
         public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
-        public static final double tiltPosOffset                = -5.0;    // in degrees
-        public static final double tiltZeroOffset               = 0.150;   // in raw encoder unit
+        public static final double tiltPosOffset                = -15.0;    // in degrees
+        public static final double tiltZeroOffset               = 0.029;    // in raw encoder unit
         public static final double tiltPowerLimit               = 0.5;
         public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.023, 0.0, 0.001, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
@@ -734,7 +756,7 @@ public class RobotParams
         public static final double tiltAngleMaxInc              = 10.0;     // in degrees.
         public static final double tiltTurtleAngle              = 35.0;     // in degrees.
         public static final double tiltSpeakerFarAngle          = 52.0;     // in degrees.
-        public static final double tiltAmpAngle                 = 58.0;     // in degrees.
+        public static final double tiltAmpAngle                 = 57.0;     // in degrees.
         public static final double tiltDumpAngle                = 39.0;     // in degrees.
         public static final double tiltSpeakerCloseAngle        = 64.0;     // in degrees.
         public static final double tiltSourcePickupAngle        = 88.0;     // in degrees.
@@ -750,16 +772,24 @@ public class RobotParams
 
         public static final String SPEAKER_UPCLOSE_ENTRY        = "Speaker0ft";
         public static final String WING_NOTE_ENTRY              = "Speaker5ft";
+        // public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
+        //     .add(SPEAKER_UPCLOSE_ENTRY, 55.0, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
+        //     .add("Speaker1ft",          66.9, 90.0, 60.0)   // 57.0
+        //     .add("Speaker2ft",          78.2, 90.0, 55.0)   // 52.0
+        //     .add("Speaker3ft",          90.3, 90.0, 50.0)   // 47.0
+        //     .add("Speaker4ft",          102.0, 90.0, 47.0)  // 44.0
+        //     .add("Speaker5ft",          114.0, 90.0, 44.0)  // 41.0
+        //     .add("Speaker6ft",          125.3, 90.0, 41.0)  // 38.0
+        //     .add("Speaker7ft",          137.3, 90.0, 40.0);
         public static final ShootParamTable speakerShootParamTable = new ShootParamTable()
             .add(SPEAKER_UPCLOSE_ENTRY, 55.0, shooterSpeakerCloseVelocity, tiltSpeakerCloseAngle)
-            .add("Speaker1ft",          66.9, 90.0, 57.0)
-            .add("Speaker2ft",          78.2, 90.0, 52.0)
-            .add("Speaker3ft",          90.3, 90.0, 47.0)
-            .add("Speaker4ft",          102.0, 90.0, 44.0)
-            .add("Speaker5ft",          114.0, 90.0, 41.0)
-            .add("Speaker6ft",          125.3, 90.0, 38.0)
-            .add("Speaker7ft",          137.3, 90.0, 37.0); //TODO: distance might be off
-            //.add("Speaker7ft",          139.0, 90.0, 36.0);
+            .add("Speaker1ft",          66.9, 90.0, 59.0)   // 57.0
+            .add("Speaker2ft",          78.2, 90.0, 54.0)   // 52.0
+            .add("Speaker3ft",          90.3, 90.0, 49.0)   // 47.0
+            .add("Speaker4ft",          102.0, 90.0, 47.0)  // 44.0
+            .add("Speaker5ft",          114.0, 90.0, 44.0)  // 41.0
+            .add("Speaker6ft",          125.3, 90.0, 42.0)  // 38.0
+            .add("Speaker7ft",          137.3, 90.0, 41.0);
         public static final ShootParamTable.Params wingNotePresetParams = speakerShootParamTable.get(WING_NOTE_ENTRY);
     }   //class Shooter
 
@@ -778,5 +808,12 @@ public class RobotParams
         public static final double climbPowerComp               = 0.3;
         public static final double calPower                     = -0.3;
     }   //class Climber
+
+    public static class Deflector
+    {
+        public static final boolean inverted                    = true;
+        public static final double retractPos                   = 0.38;
+        public static final double extendPos                    = 0.7;
+    }   //class Deflector
 
 }   //class RobotParams

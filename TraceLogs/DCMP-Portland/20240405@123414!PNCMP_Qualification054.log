@@ -1,0 +1,79 @@
+Robot.robotStartMode_INFO [0.024686532] Fri Apr 05 12:34:14 PDT 2024: ***** AUTO_MODE *****
+TaskAutoScoreNote.autoAssistCancel_INFO [0.03073489] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [0.033894894] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [0.035308563] Canceling auto-assist.
+FrcAuto.startMode_INFO [0.1222707] <Info name="MatchInfo" date="Fri Apr 05 12:34:14 PDT 2024" event="PNCMP" type="Qualification" match=54 replay=1 alliance="Blue" location=3 gameMsg="" />
+FrcAuto.startMode_INFO [0.135817496] <Info name="AutoChoices" alliance="Blue" strategy="CRESCENDO_AUTO" startPos="SW_AMP_SIDE" scoreWingNotes="SCORE_NONE" endAction="JUST_STOP" relocalize="false" startDelay=0 sec pathFile="DrivePath.csv" xDistance=6.0 ft yDistance=6.0 ft turnDegrees=90 deg driveTime=4 sec drivePower=4.0 />
+CmdAuto.cmdPeriodic_INFO [0.202881322] <Event name="StateInfo" time="0.202584812" tag="vvvvv" CmdAuto.state="START" />
+Climber.motor.pidCtrlTask_INFO [0.215625606] Zero calibration done, event=null
+CmdAuto.cmdPeriodic_INFO [0.229027181] ***** Shoot Preload from SW_AMP_SIDE at (x=-262.0,y=34.2,angle=116.5).
+Shooter.aimShooter_DEBUG [0.241193144] owner=null, currOwner=null, vel=90.0, tiltAngle=64.0, panAngle=0.0, event=(CmdAuto=CLEARED), timeout=0.0, aimOnly=false, shootOffDelay=null
+CmdAuto.cmdPeriodic_INFO [0.276867241] <Event name="StateInfo" time="0.276604088" tag="^^^^^" CmdAuto.state="START" />
+Shooter.onTarget_DEBUG [0.296069466] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=false
+Shooter.onTarget_DEBUG [1.061509275] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=SIGNALED), panEvent=null, aimOnly=false
+Shooter.tiltMotor.pidCtrlTask_INFO [1.064826003] controlMode: Position onTarget=true(64.5111173610364/64.0), stalled=false, expired=false, event=(Shooter.tiltOnTarget=SIGNALED)
+Intake: pwr=0.0, current=0.0, isActive=false, hasObject=true.shoot_DEBUG [1.087496634] owner=null, power=1.0, event=(Shooter.shootCompletionEvent=CLEARED)
+Intake.performAction_INFO [1.100424131] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0), hasObject=true
+Intake.exitTriggerCallback_INFO [1.145846174] active=true, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0)
+Intake.entryTriggerCallback_INFO [1.174125767] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0)
+Intake.exitTriggerCallback_INFO [1.466208776] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0)
+Intake.finish_INFO [1.468695696] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+Shooter.shootCompleted_INFO [1.473592894] Shoot completed, keeping shooter motor running.
+CmdAuto.cmdPeriodic_INFO [1.479549714] <Event name="StateInfo" time="1.479235363" tag="vvvvv" CmdAuto.state="DO_DELAY" />
+CmdAuto.cmdPeriodic_INFO [1.481069745] ***** Set shooter to Wing Note preset.
+Shooter.aimShooter_DEBUG [1.482751852] owner=null, currOwner=null, vel=90.0, tiltAngle=44.0, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+CmdAuto.cmdPeriodic_INFO [1.485935501] <Event name="StateInfo" time="1.485619081" tag="^^^^^" CmdAuto.state="DO_DELAY" />
+Shooter.onTarget_DEBUG [1.489137608] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+CmdAuto.cmdPeriodic_INFO [1.505239075] <Event name="StateInfo" time="1.504779685" tag="vvvvv" CmdAuto.state="DRIVE_TO_WING_NOTE" />
+CmdAuto.cmdPeriodic_INFO [1.507979358] ***** No Scoring Wing Note.
+CmdAuto.cmdPeriodic_INFO [1.510297183] <Event name="StateInfo" time="1.509957646" tag="^^^^^" CmdAuto.state="DRIVE_TO_WING_NOTE" />
+CmdAuto.cmdPeriodic_INFO [1.515260504] <Event name="StateInfo" time="1.514866908" tag="vvvvv" CmdAuto.state="DRIVE_TO_CENTERLINE" />
+CmdAuto.cmdPeriodic_INFO [1.520305163] ***** EndAction=JUST_STOP: we are done.
+CmdAuto.cmdPeriodic_INFO [1.522630371] <Event name="StateInfo" time="1.521587605" tag="^^^^^" CmdAuto.state="DRIVE_TO_CENTERLINE" />
+CmdAuto.cmdPeriodic_INFO [1.525891484] <Event name="StateInfo" time="1.52566365" tag="vvvvv" CmdAuto.state="DONE" />
+CmdAuto.cmdPeriodic_INFO [1.528798913] <Event name="StateInfo" time="1.528436176" tag="^^^^^" CmdAuto.state="DONE" />
+Shooter.tiltMotor.pidCtrlTask_INFO [2.664613919] controlMode: Position onTarget=true(43.6155053232484/44.0), stalled=false, expired=false, event=(Shooter.tiltOnTarget=SIGNALED)
+Shooter.onTarget_DEBUG [2.667689538] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=SIGNALED), panEvent=null, aimOnly=true
+FrcRobotBase.startCompetition_INFO [15.299142885] *** Transitioning from AUTO_MODE to DISABLED_MODE ***
+TaskAutoScoreNote.autoAssistCancel_INFO [15.306680679] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [15.307913979] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [15.321675069] Canceling auto-assist.
+pidDrive.printPerformanceMetrics_INFO [15.362110182] [pidDrive] Loop Performance Metrics:
+Average Loop Interval = NaNs (freq=NaNHz, min=0.000000s, max=0.000000s)
+
+FrcRobotBase.printPerformanceMetrics_INFO [15.377715211] [FrcRobotBase] Loop Performance Metrics:
+Average Loop Interval = 0.000674s (freq=1484.703Hz, min=0.000000s, max=0.402059s)
+[03]                StartTask=0.000000s
+[04]          PrePeriodicTask=0.000069s
+[07]               UpdateTask=0.000471s
+[02]                StartMode=0.000001s
+[06]         PostPeriodicTask=0.000036s
+[08]                 StopTask=0.000000s
+[09]                 StopMode=0.000000s
+[00]                RobotInit=9.491268s
+[01]           RobotStartMode=0.000001s
+[05]                 Periodic=0.000049s
+[10]            RobotStopMode=0.000000s
+
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.386286548] TrcWatchdogMgr: STANDALONE_TASK=0.000140/0.991162
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.389737372] LED: OUTPUT_TASK=0.000022/0.010570
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.393402054] lfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000009/0.010570
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.398298497] TrcMotor.odometryTask: STANDALONE_TASK=0.001368/0.001562
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.403335193] lfDriveMotor.odometryCleanupTask: STOP_TASK=0.002069/7.656949
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.406741079] rfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010570
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.408971932] lbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010570
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.412581742] rbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010570
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.417468532] lfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000028/0.010571
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.422736221] rfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000019/0.010570
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.426043384] lbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000019/0.010570
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.428855111] rbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000018/0.010570
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.432598146] TrcDriveBase.odometryTask: INPUT_TASK=0.003011/0.010967
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.435683046] TrcDriveBase.stopTask: STOP_TASK=0.004382/7.658920
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.440896488] Intake.motor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010570
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.444210385] Intake.entryTrigger.triggerTask: PRE_PERIODIC_TASK=0.000012/0.000673
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.44790374] Intake.exitTrigger.triggerTask: PRE_PERIODIC_TASK=0.000006/0.000673
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.451686157] Shooter.shooterMotor.pidCtrlTask: OUTPUT_TASK=0.000017/0.010570
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.454917593] Shooter.tiltMotor.pidCtrlTask: OUTPUT_TASK=0.000022/0.010570
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.459291563] Shooter.tiltMotor.converterTask: INPUT_TASK=0.000101/0.010570
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.463295035] Climber.motor.pidCtrlTask: OUTPUT_TASK=0.000006/0.010570
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [15.465398875] Deflector.servo.stopTask: STOP_TASK=0.000195/7.655228

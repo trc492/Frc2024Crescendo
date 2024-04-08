@@ -188,6 +188,10 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         {
             robot.intake.cancel(currOwner);
         }
+        if (robot.ledIndicator != null)
+        {
+            robot.ledIndicator.setIntakeActive(false);
+        }
         robot.robotDrive.cancel(driveOwner);
         taskParams = null;
     }   //stopSubsystems
@@ -236,7 +240,9 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     notePose = object.getObjectPose();
                     notePose.x = -notePose.x;
                     notePose.y = -notePose.y;
-                    tracer.traceInfo(moduleName, "***** Vision found Note at %s from robot back.", notePose);
+                    tracer.traceInfo(
+                        moduleName, "***** Vision found Note: notePose=" + notePose +
+                        ", robotPose=" + robot.robotDrive.driveBase.getFieldPosition());
                     sm.setState(State.DRIVE_TO_NOTE);
                 }
                 else if (visionExpiredTime == null)
@@ -259,7 +265,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     // We are in auto and vision did not see any Note, quit.
                     tracer.traceInfo(
                         moduleName,
-                        "***** Either Vision doesn't see Note or Note is too far away, notePose=" + notePose + ".");
+                        "***** Either Vision doesn't see Note or Note is too far away: notePose=" + notePose);
                     if (robot.ledIndicator != null)
                     {
                         robot.ledIndicator.setPhotonDetectedObject(null, null);
@@ -272,6 +278,10 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     // manually move forward to pick up the Note.
                     robot.intake.autoIntakeForward(
                         currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
+                    if (robot.ledIndicator != null)
+                    {
+                        robot.ledIndicator.setIntakeActive(true);
+                    }
                     sm.addEvent(intakeEvent);
                     // Register entry trigger to release drive ownership early.
                     robot.intake.registerEntryTriggerNotifyEvent(TriggerMode.OnActive, gotNoteEvent);

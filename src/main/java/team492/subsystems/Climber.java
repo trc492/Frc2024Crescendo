@@ -64,6 +64,7 @@ public class Climber
 
     public void zeroCalibrate()
     {
+        climberMotor.motor.clearFaults();
         climberMotor.zeroCalibrate(RobotParams.Climber.calPower);
     }
 

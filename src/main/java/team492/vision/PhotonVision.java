@@ -60,7 +60,6 @@ public class PhotonVision extends FrcPhotonVision
     }   //enum PipelineType
 
     private final Transform3d robotToCam;
-    private final TrcPose2D robotToCamPose;
     private final LEDIndicator ledIndicator;
     private final AprilTagFieldLayout aprilTagFieldLayout;
     private PipelineType currPipeline = PipelineType.APRILTAG;
@@ -70,14 +69,12 @@ public class PhotonVision extends FrcPhotonVision
      *
      * @param cameraName specifies the network table name that PhotonVision is broadcasting information over.
      * @param robotToCam specifies the 3D transform location of the camera from robot center.
-     * @param robotToCamPose specifies the 2D camera pose from robot center.
      * @param ledIndicator specifies the LEDIndicator object, can be null if none provided.
      */
-    public PhotonVision(String cameraName, Transform3d robotToCam, TrcPose2D robotToCamPose, LEDIndicator ledIndicator)
+    public PhotonVision(String cameraName, Transform3d robotToCam, LEDIndicator ledIndicator)
     {
         super(cameraName, robotToCam);
         this.robotToCam = robotToCam;
-        this.robotToCamPose = robotToCamPose;
         this.ledIndicator = ledIndicator;
 
         double startTime = TrcTimer.getCurrentTime();
@@ -142,18 +139,18 @@ public class PhotonVision extends FrcPhotonVision
     /**
      * This method returns the robot's field position.
      *
-     * @param aprilTagInfo specifies the detected AprilTag info.
+     * @param aprilTagObj specifies the detected AprilTag object.
      * @param usePoseEstimator specifies true to use PhotonVision Lib pose estimator, false to use the AprilTag field
      *        pose to calculate it ourselves.
      * @return robot's field location.
      */
-    public TrcPose2D getRobotFieldPose(DetectedObject aprilTagInfo, boolean usePoseEstimator)
+    public TrcPose2D getRobotFieldPose(DetectedObject aprilTagObj, boolean usePoseEstimator)
     {
         return usePoseEstimator? getRobotEstimatedPose(robotToCam):
                                  getRobotPoseFromAprilTagFieldPose(
-                                    getAprilTagFieldPose(aprilTagInfo.target.getFiducialId()).toPose2D(),
-                                    aprilTagInfo.targetPose,
-                                    robotToCamPose);
+                                    getAprilTagFieldPose3d(aprilTagObj.target.getFiducialId()),
+                                    aprilTagObj.target.getBestCameraToTarget(),
+                                    robotToCam);
     }   //getRobotFieldPose
 
     /**

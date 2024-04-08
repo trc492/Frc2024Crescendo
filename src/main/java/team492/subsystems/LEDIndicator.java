@@ -32,8 +32,12 @@ import team492.vision.PhotonVision;
 
 public class LEDIndicator
 {
+    private static final TrcAddressableLED.Pattern aprilTagLockedPattern =  // Magenta
+        new TrcAddressableLED.Pattern("AprilTagLocked", new FrcColor(63, 0, 63), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern aprilTagPattern =        // Green
         new TrcAddressableLED.Pattern("AprilTag", new FrcColor(0, 63, 0), RobotParams.HWConfig.NUM_LEDS);
+    private static final TrcAddressableLED.Pattern intakeActivePattern =    // Yellow
+        new TrcAddressableLED.Pattern("IntakeActive", new FrcColor(63, 63, 0), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern notePattern =            // Orange
         new TrcAddressableLED.Pattern("Note", new FrcColor(80, 15, 0), RobotParams.HWConfig.NUM_LEDS);
     private static final TrcAddressableLED.Pattern seeNothingPattern =      // Red
@@ -52,10 +56,12 @@ public class LEDIndicator
     private static final TrcAddressableLED.Pattern[] priorities =
         new TrcAddressableLED.Pattern[]
         {
-            // Highest priority.
-            aprilTagPattern,
+            // Highest priority.  
+            aprilTagLockedPattern,                     
             intakeHasNotePattern,
-            notePattern,
+            intakeActivePattern,
+            aprilTagPattern,
+            notePattern,    
             seeNothingPattern,
             fieldOrientedPattern,
             robotOrientedPattern,
@@ -65,6 +71,7 @@ public class LEDIndicator
         };
 
     private FrcAddressableLED led;
+    private Boolean shooterVelOnTarget = null;
 
     /**
      * Constructor: Create an instance of the object.
@@ -116,6 +123,11 @@ public class LEDIndicator
         }
     }   //setDriveOrientation
 
+    public void setShooterVelOnTarget(Boolean onTarget)
+    {
+        this.shooterVelOnTarget = onTarget;
+    }   //setShooterVelOnTarget
+
     /**
      * This method sets the LED to indicate the type of Photon Vision detected object.
      *
@@ -133,15 +145,16 @@ public class LEDIndicator
             switch (pipelineType)
             {
                 case APRILTAG:
-                    led.setPatternState(aprilTagPattern, true, 0.5);
-                    // if (Math.abs(objPose.angle) < RobotParams.Vision.ONTARGET_THRESHOLD)
-                    // {
-                    //     led.setPatternState(aprilTagPattern, true, 0.1, 0.1);
-                    // }
-                    // else
-                    // {
-                    //     led.setPatternState(aprilTagPattern, true, 0.5);
-                    // }
+                    // led.setPatternState(aprilTagPattern, true, 0.5);
+                    if (Math.abs(objPose.angle) < RobotParams.Vision.ONTARGET_THRESHOLD &&
+                        (shooterVelOnTarget == null || shooterVelOnTarget))
+                    {
+                        led.setPatternState(aprilTagLockedPattern, true, 0.5);
+                    }
+                    else
+                    {
+                        led.setPatternState(aprilTagPattern, true, 0.5);
+                    }
                     break;
 
                 case NOTE:
@@ -175,5 +188,22 @@ public class LEDIndicator
             led.setPatternState(intakeHasNotePattern, false);
         }
     }   //setIntakeDetectedObject
+
+    /**
+     * This method sets the LED to indicate Intake is in active state.
+     *
+     * @param hasObject specifies true if Intake is active, false otherwise.
+     */
+    public void setIntakeActive(boolean active)
+    {
+        if (active)
+        {
+            led.setPatternState(intakeActivePattern, true, 0.25, 0.25);
+        }
+        else
+        {
+            led.setPatternState(intakeActivePattern, false);
+        }
+    }   //setIntakeActive
 
 }   //class LEDIndicator

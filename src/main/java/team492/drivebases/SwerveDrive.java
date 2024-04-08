@@ -180,15 +180,16 @@ public class SwerveDrive extends RobotDrive
             yPosPidCoeff, driveBaseParams.DRIVE_TOLERANCE, driveBase::getYPosition,
             turnPidCoeff, driveBaseParams.TURN_TOLERANCE, driveBase::getHeading);
 
-        TrcPidController xPidCtrl = pidDrive.getXPidCtrl();
+        TrcPidController xPidCtrl, yPidCtrl, turnPidCtrl;
+        xPidCtrl = pidDrive.getXPidCtrl();
         xPidCtrl.setOutputLimit(driveBaseParams.DRIVE_MAX_XPID_POWER);
         xPidCtrl.setRampRate(driveBaseParams.DRIVE_MAX_XPID_RAMP_RATE);
 
-        TrcPidController yPidCtrl = pidDrive.getYPidCtrl();
+        yPidCtrl = pidDrive.getYPidCtrl();
         yPidCtrl.setOutputLimit(driveBaseParams.DRIVE_MAX_YPID_POWER);
         yPidCtrl.setRampRate(driveBaseParams.DRIVE_MAX_YPID_RAMP_RATE);
 
-        TrcPidController turnPidCtrl = pidDrive.getTurnPidCtrl();
+        turnPidCtrl = pidDrive.getTurnPidCtrl();
         turnPidCtrl.setOutputLimit(driveBaseParams.DRIVE_MAX_TURNPID_POWER);
         turnPidCtrl.setRampRate(driveBaseParams.DRIVE_MAX_TURNPID_RAMP_RATE);
         turnPidCtrl.setAbsoluteSetPoint(true);
@@ -202,7 +203,7 @@ public class SwerveDrive extends RobotDrive
             "purePursuitDrive", driveBase,
             driveBaseParams.PPD_FOLLOWING_DISTANCE, driveBaseParams.PPD_POS_TOLERANCE,
             driveBaseParams.PPD_TURN_TOLERANCE, xPosPidCoeff, yPosPidCoeff, turnPidCoeff, velPidCoeff);
-        purePursuitDrive.setStallDetectionEnabled(0.2, 0.2, 1.0);
+        purePursuitDrive.setStallDetectionEnabled(0.1, 0.1, 1.0);
         purePursuitDrive.setMoveOutputLimit(driveBaseParams.PPD_MOVE_DEF_OUTPUT_LIMIT);
         purePursuitDrive.setRotOutputLimit(driveBaseParams.PPD_ROT_DEF_OUTPUT_LIMIT);
         // purePursuitDrive.setFastModeEnabled(true);

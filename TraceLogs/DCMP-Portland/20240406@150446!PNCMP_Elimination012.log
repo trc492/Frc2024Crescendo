@@ -1,0 +1,637 @@
+Robot.robotStartMode_INFO [0.033097154] Sat Apr 06 15:04:46 PDT 2024: ***** AUTO_MODE *****
+TaskAutoScoreNote.autoAssistCancel_INFO [0.03970129] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [0.04063639] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [0.041329826] Canceling auto-assist.
+FrcAuto.startMode_INFO [0.080626617] <Info name="MatchInfo" date="Sat Apr 06 15:04:46 PDT 2024" event="PNCMP" type="Elimination" match=12 replay=1 alliance="Blue" location=1 gameMsg="" />
+FrcAuto.startMode_INFO [0.092776691] <Info name="AutoChoices" alliance="Blue" strategy="CRESCENDO_AUTO" startPos="SW_SOURCE_SIDE" scoreWingNotes="SCORE_NONE" endAction="SCORE_TWO_NOTES" relocalize="false" startDelay=0 sec pathFile="DrivePath.csv" xDistance=6.0 ft yDistance=6.0 ft turnDegrees=90 deg driveTime=4 sec drivePower=4.0 />
+CmdAuto.cmdPeriodic_INFO [0.134013464] <Event name="StateInfo" time="0.133445342" tag="vvvvv" CmdAuto.state="START" />
+CmdAuto.cmdPeriodic_INFO [0.179341381] ***** Shoot Preload from SW_SOURCE_SIDE at (x=-175.3,y=34.2,angle=243.5).
+Shooter.aimShooter_DEBUG [0.186652242] owner=null, currOwner=null, vel=90.0, tiltAngle=64.0, panAngle=0.0, event=(CmdAuto=CLEARED), timeout=0.0, aimOnly=false, shootOffDelay=null
+Climber.motor.pidCtrlTask_INFO [0.188377921] Zero calibration done, event=null
+CmdAuto.cmdPeriodic_INFO [0.210522225] <Event name="StateInfo" time="0.21026981" tag="^^^^^" CmdAuto.state="START" />
+Shooter.onTarget_DEBUG [0.234513814] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=false
+Shooter.onTarget_DEBUG [1.112222812] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=SIGNALED), panEvent=null, aimOnly=false
+Intake: pwr=0.0, current=0.0, isActive=false, hasObject=true.shoot_DEBUG [1.119515041] owner=null, power=1.0, event=(Shooter.shootCompletionEvent=CLEARED)
+Intake.performAction_INFO [1.129821913] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0), hasObject=true
+Shooter.tiltMotor.pidCtrlTask_INFO [1.131311997] controlMode: Position onTarget=true(63.243568841966535/64.0), stalled=false, expired=false, event=(Shooter.tiltOnTarget=SIGNALED)
+Intake.exitTriggerCallback_INFO [1.194537097] active=true, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0)
+Intake.entryTriggerCallback_INFO [1.229337483] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0)
+Intake.exitTriggerCallback_INFO [1.500628063] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0)
+Intake.finish_INFO [1.505869889] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+Shooter.shootCompleted_INFO [1.512647568] Shoot completed, keeping shooter motor running.
+CmdAuto.cmdPeriodic_INFO [1.515916599] <Event name="StateInfo" time="1.515564092" tag="vvvvv" CmdAuto.state="DO_DELAY" />
+CmdAuto.cmdPeriodic_INFO [1.519056251] ***** Set shooter to Wing Note preset.
+Shooter.aimShooter_DEBUG [1.523172223] owner=null, currOwner=null, vel=90.0, tiltAngle=44.0, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+CmdAuto.cmdPeriodic_INFO [1.52925201] <Event name="StateInfo" time="1.526977024" tag="^^^^^" CmdAuto.state="DO_DELAY" />
+Shooter.onTarget_DEBUG [1.532379147] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+CmdAuto.cmdPeriodic_INFO [1.535149867] <Event name="StateInfo" time="1.534654186" tag="vvvvv" CmdAuto.state="DRIVE_TO_WING_NOTE" />
+CmdAuto.cmdPeriodic_INFO [1.538267956] ***** No Scoring Wing Note.
+CmdAuto.cmdPeriodic_INFO [1.540586739] <Event name="StateInfo" time="1.539907687" tag="^^^^^" CmdAuto.state="DRIVE_TO_WING_NOTE" />
+CmdAuto.cmdPeriodic_INFO [1.554947804] <Event name="StateInfo" time="1.55444838" tag="vvvvv" CmdAuto.state="DRIVE_TO_CENTERLINE" />
+CmdAuto.cmdPeriodic_INFO [1.559865942] ***** EndAction=SCORE_TWO_NOTES: drive to Centerline Source.
+purePursuitDrive.start_INFO [1.669041565] Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=-175.2,y=34.2,angle=243.5),vel=0.000000), TrcWaypoint(index=1,pose=(x=-62.6,y=145.6,angle=180.0),vel=0.000000), TrcWaypoint(index=2,pose=(x=-62.6,y=265.6,angle=180.0),vel=0.000000)])
+CmdAuto.cmdPeriodic_INFO [1.683443437] <Event name="StateInfo" time="1.681437928" tag="^^^^^" CmdAuto.state="DRIVE_TO_CENTERLINE" RobotPose=(x=-175.2,y=34.2,angle=243.5) TargetPose=(x=-62.6,y=265.6,angle=180.0) vel=(x=0.0,y=0.0,angle=0.0) Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=0.0,y=0.0,angle=0.0),vel=0.000000), TrcWaypoint(simple=false,index=-1,timestep=0.506,pose=(x=24.6,y=-74.8,angle=-31.6),vel=157.480000,encPos=0.000000,accel=0.000000,jerk=0.000000), TrcWaypoint(index=1,pose=(x=49.5,y=-150.5,angle=-63.5),vel=157.480000), TrcWaypoint(simple=false,index=-1,timestep=1.000,pose=(x=86.4,y=-168.9,angle=-63.5),vel=157.480000,encPos=0.000000,accel=-157.480000,jerk=0.000000), TrcWaypoint(index=2,pose=(x=156.9,y=-204.0,angle=-63.5),vel=0.000000)]) />
+Robot.relocalize_INFO [1.752576449] Relocalize Robot: aprilTagId=7, error=4.685462714637281 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.808606709] Relocalize Robot: aprilTagId=7, error=5.578749561289288 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.843672187] Relocalize Robot: aprilTagId=7, error=6.09486707920077 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.894169521] Relocalize Robot: aprilTagId=7, error=7.4845058826415425 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.956674703] Relocalize Robot: aprilTagId=7, error=9.172855781724808 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.001973312] Relocalize Robot: aprilTagId=7, error=9.765898296560502 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.045977684] Relocalize Robot: aprilTagId=7, error=10.95835519100217 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.080785464] Relocalize Robot: aprilTagId=7, error=11.9204491159352 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.115941145] Relocalize Robot: AprilTagId=7, error=13.031265079894668, robotPose=(x=-162.3,y=46.0,angle=238.8), relocalizePose=(x=-168.4,y=34.5,angle=-124.2)
+Robot.relocalize_INFO [2.159264381] Relocalize Robot: aprilTagId=7, error=1.0748617244471192 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.199615528] Relocalize Robot: aprilTagId=7, error=2.108923180318397 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.214797299] Relocalize Robot: aprilTagId=7, error=1.176171211402375 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.245119167] Relocalize Robot: aprilTagId=7, error=1.4685237729292868 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.271983957] Relocalize Robot: aprilTagId=7, error=2.2919966212103726 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.298418809] Relocalize Robot: aprilTagId=7, error=2.800675512110476 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.403128231] Relocalize Robot: aprilTagId=7, error=2.333999540486429 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.435058983] Relocalize Robot: aprilTagId=7, error=2.4329959641763157 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.465229515] Relocalize Robot: aprilTagId=7, error=1.7848046008644969 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.496606211] Relocalize Robot: aprilTagId=7, error=3.633659522179714 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.528097248] Relocalize Robot: aprilTagId=7, error=4.647525148027996 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.57592402] Relocalize Robot: aprilTagId=7, error=6.242380042314314 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.610765725] Relocalize Robot: aprilTagId=7, error=7.633050005763056 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.655366747] Relocalize Robot: AprilTagId=7, error=12.099438668962293, robotPose=(x=-145.2,y=62.8,angle=-126.2), relocalizePose=(x=-153.2,y=53.8,angle=-127.9)
+Robot.relocalize_INFO [2.696866853] Relocalize Robot: aprilTagId=7, error=1.1228990667997596 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.731169338] Relocalize Robot: aprilTagId=7, error=1.4710070153434684 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.76619576] Relocalize Robot: aprilTagId=7, error=2.562967235508656 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.804467679] Relocalize Robot: aprilTagId=7, error=1.4365804199135175 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.833980173] Relocalize Robot: aprilTagId=7, error=5.363979074507151 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.872825692] Relocalize Robot: aprilTagId=7, error=7.697678086933711 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.897018002] Relocalize Robot: aprilTagId=7, error=5.300795061382568 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.924226631] Relocalize Robot: aprilTagId=8, robotEstimatedPoseFromAprilTag=(x=-136.6,y=73.3,angle=-129.2)
+Robot.relocalize_INFO [2.930497529] Relocalize Robot: aprilTagId=8, error=5.759124336664994 (error too large or small to relocalize).
+Robot.relocalize_INFO [3.00788149] Relocalize Robot: aprilTagId=8, robotEstimatedPoseFromAprilTag=(x=-129.6,y=79.1,angle=-130.0)
+Robot.relocalize_INFO [3.018960322] Relocalize Robot: aprilTagId=8, error=10.094494363440846 (error too large or small to relocalize).
+Robot.relocalize_INFO [3.052261335] Relocalize Robot: aprilTagId=7, error=11.46230007016023 (error too large or small to relocalize).
+Robot.relocalize_INFO [3.118216163] Relocalize Robot: aprilTagId=7, error=11.764177265347815 (error too large or small to relocalize).
+Robot.relocalize_INFO [3.20060645] Relocalize Robot: AprilTagId=7, error=15.148621857692584, robotPose=(x=-103.7,y=104.5,angle=-134.7), relocalizePose=(x=-114.6,y=94.1,angle=-133.3)
+Robot.relocalize_INFO [3.222368245] Relocalize Robot: aprilTagId=7, error=1.5733794312532547 (error too large or small to relocalize).
+Robot.relocalize_INFO [3.247287169] Relocalize Robot: aprilTagId=8, robotEstimatedPoseFromAprilTag=(x=-110.8,y=95.8,angle=-133.7)
+Robot.relocalize_INFO [3.248714449] Relocalize Robot: aprilTagId=8, error=3.2845033748689834 (error too large or small to relocalize).
+CmdAuto.waypointHandler_INFO [3.6838825] ***** [DRIVE_TO_CENTERLINE] Waypoint 1: TrcWaypoint(index=1,pose=(x=49.5,y=-150.5,angle=-63.5),vel=157.480000), robotPose=(x=-68.3,y=138.5,angle=-148.9)
+CmdAuto.waypointHandler_INFO [3.698488554] ***** Turn on full Note Vision.
+purePursuitDrive.xPosPid.isStalled_INFO [4.809431241] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [4.813213611] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [4.829049042] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [4.840201489] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [4.866229714] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [4.871751339] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [4.899130904] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [4.903105301] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [4.923024956] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [4.928423329] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [4.956092835] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [4.962898469] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [4.968118365] PID stalled.
+purePursuitDrive.driveTask_INFO [4.976151733] Done: index=4/5, stalled=true, timeout=false, posOnTarget=false,headingOnTarget=true,robotPose=(x=-61.2,y=219.5,angle=-178.8)
+purePursuitDrive.driveTask_INFO [4.982424525] Signal completion event (CmdAuto=CLEARED).
+CmdAuto.cmdPeriodic_INFO [4.991907055] <Event name="StateInfo" time="4.99164284" tag="vvvvv" CmdAuto.state="PERFORM_END_ACTION" />
+CmdAuto.cmdPeriodic_INFO [4.995061506] ***** Turn off Vision and cancel PurePursuitDrive.
+CmdAuto.cmdPeriodic_INFO [4.99780697] <Event name="StateInfo" time="4.997454948" tag="^^^^^" CmdAuto.state="PERFORM_END_ACTION" />
+CmdAuto.cmdPeriodic_INFO [5.006938968] <Event name="StateInfo" time="5.006014407" tag="vvvvv" CmdAuto.state="PICKUP_CENTERLINE_NOTE" />
+CmdAuto.cmdPeriodic_INFO [5.010268938] ***** Pickup Centerline Note.
+TaskAutoPickupFromGround.autoAssistPickup_INFO [5.013695674] useVision=true, inAuto=true, event=(CmdAuto=SIGNALED)
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [5.028339547] Successfully acquired subsystem ownerships for AutoPickupGround.
+CmdAuto.cmdPeriodic_INFO [5.030688646] <Event name="StateInfo" time="5.030473087" tag="^^^^^" CmdAuto.state="PICKUP_CENTERLINE_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.034902012] <Event name="StateInfo" time="5.034677243" tag="vvvvv" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [5.041567555] ***** Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [5.04846081] <Event name="StateInfo" time="5.046452299" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.056762279] <Event name="StateInfo" time="5.056511876" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.063879943] <Event name="StateInfo" time="5.060759278" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.065492083] <Event name="StateInfo" time="5.065305054" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.068591404] <Event name="StateInfo" time="5.066791791" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.074672814] <Event name="StateInfo" time="5.072990927" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.079588647] <Event name="StateInfo" time="5.079051781" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.085285158] <Event name="StateInfo" time="5.084433552" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.091233655] <Event name="StateInfo" time="5.089855803" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.095703634] <Event name="StateInfo" time="5.095491329" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.101035426] <Event name="StateInfo" time="5.100503939" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.10742849] <Event name="StateInfo" time="5.107003478" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.112506646] <Event name="StateInfo" time="5.11171324" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.117429651] <Event name="StateInfo" time="5.116562217" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.122586397] <Event name="StateInfo" time="5.121983695" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.128451293] <Event name="StateInfo" time="5.127870985" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.133180532] <Event name="StateInfo" time="5.132269172" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.14390616] <Event name="StateInfo" time="5.136542187" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.146536754] <Event name="StateInfo" time="5.146182364" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.148803353] <Event name="StateInfo" time="5.148173861" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.154622689] <Event name="StateInfo" time="5.153695329" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.159092509] <Event name="StateInfo" time="5.158905" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.163798983] <Event name="StateInfo" time="5.163433179" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.169768155] <Event name="StateInfo" time="5.16926442" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.174600709] <Event name="StateInfo" time="5.174285209" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.179186809] <Event name="StateInfo" time="5.178988678" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.184949853] <Event name="StateInfo" time="5.184757616" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.190600443] <Event name="StateInfo" time="5.190402448" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.195651098] <Event name="StateInfo" time="5.194761732" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.201184914] <Event name="StateInfo" time="5.200957595" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.206638134] <Event name="StateInfo" time="5.206444134" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.213421571] <Event name="StateInfo" time="5.212533585" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.217933015] <Event name="StateInfo" time="5.217723695" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.222832576] <Event name="StateInfo" time="5.222639696" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.228539229] <Event name="StateInfo" time="5.22766408" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.233816413] <Event name="StateInfo" time="5.232964026" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.239097311] <Event name="StateInfo" time="5.238224134" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.244682441] <Event name="StateInfo" time="5.244216959" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.250069846] <Event name="StateInfo" time="5.249421982" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.256042041] <Event name="StateInfo" time="5.25585686" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.261837792] <Event name="StateInfo" time="5.26132211" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.266578692] <Event name="StateInfo" time="5.266387377" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.271462837] <Event name="StateInfo" time="5.271271135" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.276204028] <Event name="StateInfo" time="5.276013895" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.281654714] <Event name="StateInfo" time="5.280611381" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.286136417] <Event name="StateInfo" time="5.285896631" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.291450783] <Event name="StateInfo" time="5.290878362" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.297184374] <Event name="StateInfo" time="5.296195936" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.302409749] <Event name="StateInfo" time="5.301634812" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.306868596] <Event name="StateInfo" time="5.306487353" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.311158596] <Event name="StateInfo" time="5.310335063" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.316453716] <Event name="StateInfo" time="5.31624304" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.319475558] <Event name="StateInfo" time="5.319284327" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.325389615] <Event name="StateInfo" time="5.324640178" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.330266623] <Event name="StateInfo" time="5.330080445" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.335376004] <Event name="StateInfo" time="5.334390769" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.340662415] <Event name="StateInfo" time="5.339823836" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.344746818] <Event name="StateInfo" time="5.344237605" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.349071902] <Event name="StateInfo" time="5.348880329" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.35512751] <Event name="StateInfo" time="5.354330149" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.36173216] <Event name="StateInfo" time="5.360768129" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.367750154] <Event name="StateInfo" time="5.367217111" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.371414861] <Event name="StateInfo" time="5.371003891" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.375930904] <Event name="StateInfo" time="5.375746889" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.381318397] <Event name="StateInfo" time="5.381132173" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.387283036] <Event name="StateInfo" time="5.386093448" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.392464276] <Event name="StateInfo" time="5.392129389" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.396764645] <Event name="StateInfo" time="5.39657981" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.402876563] <Event name="StateInfo" time="5.402293333" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.407734397] <Event name="StateInfo" time="5.407535035" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.41205418] <Event name="StateInfo" time="5.411860657" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.417811951] <Event name="StateInfo" time="5.417620876" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.42381586] <Event name="StateInfo" time="5.423268011" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.429285536] <Event name="StateInfo" time="5.428760112" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.434535167] <Event name="StateInfo" time="5.433112313" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.439538763] <Event name="StateInfo" time="5.438906619" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.455070754] <Event name="StateInfo" time="5.454767209" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.457325387] <Event name="StateInfo" time="5.457018721" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.459169028] <Event name="StateInfo" time="5.458986781" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.460850526] <Event name="StateInfo" time="5.460649482" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.473845952] <Event name="StateInfo" time="5.465904405" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.481524918] <Event name="StateInfo" time="5.481319409" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.491143765] <Event name="StateInfo" time="5.490252693" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.496440122] <Event name="StateInfo" time="5.496249883" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.505402474] <Event name="StateInfo" time="5.502290517" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.512251359] <Event name="StateInfo" time="5.511556617" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.521424517] <Event name="StateInfo" time="5.519452917" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.530206699] <Event name="StateInfo" time="5.530010063" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.53863486] <Event name="StateInfo" time="5.536182297" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.546518008] <Event name="StateInfo" time="5.545915107" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.555434927] <Event name="StateInfo" time="5.553521358" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.562613036] <Event name="StateInfo" time="5.558460217" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.568687856] <Event name="StateInfo" time="5.568503306" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.575939006] <Event name="StateInfo" time="5.575746787" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.584572644] <Event name="StateInfo" time="5.583695449" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.589678942] <Event name="StateInfo" time="5.589473931" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.596158843] <Event name="StateInfo" time="5.595971454" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.602210348] <Event name="StateInfo" time="5.602025338" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.608154775] <Event name="StateInfo" time="5.607958932" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.613478873] <Event name="StateInfo" time="5.612993911" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.619781466] <Event name="StateInfo" time="5.61888947" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.62543016] <Event name="StateInfo" time="5.624921743" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.630832666] <Event name="StateInfo" time="5.630628922" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.63774471] <Event name="StateInfo" time="5.637197284" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.643216869] <Event name="StateInfo" time="5.642117549" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.648493514] <Event name="StateInfo" time="5.645959077" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.652944501] <Event name="StateInfo" time="5.652744429" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.6595699] <Event name="StateInfo" time="5.658157703" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.664202008] <Event name="StateInfo" time="5.664010913" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.670515963] <Event name="StateInfo" time="5.669493957" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.675863952] <Event name="StateInfo" time="5.674958864" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.681810896] <Event name="StateInfo" time="5.680901118" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.68721133] <Event name="StateInfo" time="5.686959916" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.693573479] <Event name="StateInfo" time="5.693381336" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.698659229] <Event name="StateInfo" time="5.69844177" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.70527662] <Event name="StateInfo" time="5.704456223" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.710007576] <Event name="StateInfo" time="5.709815345" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.719957847] <Event name="StateInfo" time="5.719582598" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.722571458] <Event name="StateInfo" time="5.722199331" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.726483366] <Event name="StateInfo" time="5.726294498" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.731971885] <Event name="StateInfo" time="5.731758324" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.737799364] <Event name="StateInfo" time="5.73674056" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.743912903] <Event name="StateInfo" time="5.743048293" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.748158551] <Event name="StateInfo" time="5.747952682" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.754996477] <Event name="StateInfo" time="5.75390614" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.760895007] <Event name="StateInfo" time="5.759962257" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.765821792] <Event name="StateInfo" time="5.764774139" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.771798748] <Event name="StateInfo" time="5.771304274" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.777153383] <Event name="StateInfo" time="5.776050602" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.782364692] <Event name="StateInfo" time="5.781420936" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.787303856] <Event name="StateInfo" time="5.787089681" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.794431219] <Event name="StateInfo" time="5.793389418" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.800864717] <Event name="StateInfo" time="5.800667838" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.806373728] <Event name="StateInfo" time="5.806165211" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.813139358] <Event name="StateInfo" time="5.81222637" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.818858355] <Event name="StateInfo" time="5.818265942" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.824611441] <Event name="StateInfo" time="5.823742659" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.830250137] <Event name="StateInfo" time="5.829209709" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.835535994] <Event name="StateInfo" time="5.835342185" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.840945751] <Event name="StateInfo" time="5.839972242" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.846320138] <Event name="StateInfo" time="5.845360886" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.851717586] <Event name="StateInfo" time="5.851314031" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.858071856] <Event name="StateInfo" time="5.857858565" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.864447325] <Event name="StateInfo" time="5.863667011" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.868583457] <Event name="StateInfo" time="5.868390301" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.874237675] <Event name="StateInfo" time="5.873354749" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.879757996] <Event name="StateInfo" time="5.87953714" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.884693635] <Event name="StateInfo" time="5.884492222" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.890108298] <Event name="StateInfo" time="5.889886155" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.895720241] <Event name="StateInfo" time="5.895502268" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.902573474] <Event name="StateInfo" time="5.902363502" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.907905882] <Event name="StateInfo" time="5.906828958" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.913523975] <Event name="StateInfo" time="5.912568509" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.918626936] <Event name="StateInfo" time="5.917968154" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.923882677] <Event name="StateInfo" time="5.922856961" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.929490711] <Event name="StateInfo" time="5.92878522" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.935312119] <Event name="StateInfo" time="5.934631712" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.940705921] <Event name="StateInfo" time="5.939653177" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.946140488] <Event name="StateInfo" time="5.945525545" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.951705079] <Event name="StateInfo" time="5.951003852" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.956138029] <Event name="StateInfo" time="5.95595382" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.963242918] <Event name="StateInfo" time="5.962723512" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.967745133] <Event name="StateInfo" time="5.967549365" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.973942995] <Event name="StateInfo" time="5.972955234" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.978809041] <Event name="StateInfo" time="5.977820168" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.983864051] <Event name="StateInfo" time="5.983657332" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.989619943] <Event name="StateInfo" time="5.98866391" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [5.995650352] <Event name="StateInfo" time="5.994906472" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.001092103] <Event name="StateInfo" time="6.000898785" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.012571125] <Event name="StateInfo" time="6.01219441" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.014766306] <Event name="StateInfo" time="6.014471122" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.018839821] <Event name="StateInfo" time="6.018281773" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.024655024] <Event name="StateInfo" time="6.023956488" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.030102643] <Event name="StateInfo" time="6.028976291" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.03491573] <Event name="StateInfo" time="6.034697965" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.040304307] <Event name="StateInfo" time="6.039348565" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.046554966] <Event name="StateInfo" time="6.045163257" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [6.050597476] <Event name="StateInfo" time="6.050414478" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.runTaskState_INFO [6.052654451] ***** No Note Found.
+TaskAutoPickupFromGround.autoTask_INFO [6.055425071] <Event name="StateInfo" time="6.055240262" tag="vvvvv" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+TaskAutoPickupFromGround.runTaskState_INFO [6.060500358] ***** Either Vision doesn't see Note or Note is too far away: notePose=null
+TaskAutoPickupFromGround.autoTask_INFO [6.063358329] <Event name="StateInfo" time="6.063166878" tag="vvvvv" TaskAutoPickupFromGround.state="DONE" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [6.068705026] Stopping subsystems.
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [6.07268991] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=AutoPickupGround).
+CmdAuto.cmdPeriodic_INFO [6.078783182] <Event name="StateInfo" time="6.077920237" tag="vvvvv" CmdAuto.state="DRIVE_TO_SPEAKER" />
+CmdAuto.cmdPeriodic_INFO [6.080665858] ***** Drive to Speaker to score Centerline Note.
+purePursuitDrive.start_INFO [6.095222003] Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=-61.2,y=325.6,angle=-178.8),vel=0.000000), TrcWaypoint(index=1,pose=(x=-62.6,y=265.6,angle=225.0),vel=0.000000), TrcWaypoint(index=2,pose=(x=-131.6,y=84.0,angle=225.0),vel=0.000000), TrcWaypoint(index=3,pose=(x=-137.6,y=78.0,angle=225.0),vel=0.000000)])
+CmdAuto.cmdPeriodic_INFO [6.105135656] <Event name="StateInfo" time="6.104804167" tag="^^^^^" CmdAuto.state="DRIVE_TO_SPEAKER" RobotPose=(x=-61.2,y=325.6,angle=-178.8) TargetPose=(x=-137.6,y=78.0,angle=225.0) vel=(x=0.0,y=0.0,angle=0.0) Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=0.0,y=0.0,angle=0.0),vel=0.000000), TrcWaypoint(index=1,pose=(x=0.2,y=60.0,angle=403.8),vel=137.489115), TrcWaypoint(simple=false,index=-1,timestep=0.669,pose=(x=6.5,y=77.7,angle=403.8),vel=157.480000,encPos=0.000000,accel=0.000000,jerk=0.000000), TrcWaypoint(simple=false,index=-1,timestep=0.672,pose=(x=41.9,y=176.8,angle=403.8),vel=157.480000,encPos=0.000000,accel=-157.480000,jerk=0.000000), TrcWaypoint(index=2,pose=(x=65.5,y=243.0,angle=403.8),vel=51.696462), TrcWaypoint(index=3,pose=(x=71.4,y=249.1,angle=403.8),vel=0.000000)]) />
+purePursuitDrive.xPosPid.isStalled_INFO [6.311781537] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.314735866] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.31648052] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.336667869] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.338584472] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.340328379] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.365468733] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.368310333] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.369853457] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.391919113] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.394991477] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.397390033] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.418581163] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.42168545] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.423779688] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.446890089] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.44830773] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.449910106] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.471028562] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.472709063] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.475477445] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.499057662] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.501098135] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.503155503] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.526783005] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.52903981] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.53070029] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.555151289] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.556660047] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.557867665] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.5833407] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.585684734] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.587490233] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.609568597] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.611029826] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.61305339] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.634809818] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.636525799] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.638194328] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.662441134] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.663425627] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.666278482] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.701935973] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.709397663] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.711829548] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.754464734] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.761739418] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.763848271] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.796645058] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.798114444] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.798974794] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.82819167] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.83126721] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.832878399] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.883173199] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.884217386] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.887787721] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.908596545] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.911813768] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.917703883] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.935953114] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.93690635] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.938679975] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.953082703] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.957660413] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.958842477] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.972811821] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.974030566] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.975541408] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [6.995105345] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [6.996086206] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [6.997911439] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.024573935] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.027884269] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.030020366] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.047340305] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.049257631] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.053649859] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.066307145] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.068521005] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.069883522] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.08861672] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.089647545] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.09156131] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.124762488] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.129345985] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.130123094] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.172686792] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.174452419] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.177979764] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.216662507] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.21793337] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.218915434] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.242122269] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.248256966] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.249349735] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.261812762] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.26293566] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.264072191] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.275918737] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.280803219] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.28197897] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.293123945] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.294061491] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.294824673] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.309112886] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.312864928] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.314014773] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.328944686] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.333214277] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.334616103] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.350266677] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.355600012] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.356849754] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.379754508] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.38121065] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.382499097] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.411457082] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.412602907] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.413637247] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.432678423] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.43408392] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.43523187] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.453065694] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.454115512] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.455532686] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.472776423] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.473813237] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.47491568] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.4895609] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.494020086] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.495137039] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.509268837] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.510437487] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.511459816] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.532918419] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.534863859] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.538505744] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.568053787] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.571725204] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.573369912] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.602353307] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.60677438] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.609430577] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.637541056] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.640012645] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.643095835] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.656644541] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.659085441] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.660872723] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.678051063] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.681304263] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.684467116] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.709051868] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.710631603] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.713461771] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.73146634] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.737339798] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.740165951] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.767633083] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.770647437] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.773202212] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.801082759] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.802987754] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.806205012] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.821855244] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.825255667] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.828015573] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.844018111] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.846396243] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.849592333] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.870916829] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.873586836] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.876294262] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.896193016] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.89848449] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.902134061] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.918787428] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.922074782] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.92674191] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.950629247] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.953554777] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.957381698] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [7.973992589] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [7.979524086] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [7.982311283] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.00224743] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.009967768] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.010528069] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.036083611] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.038484313] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.042666449] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.063535202] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.064649134] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.06553487] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.082648592] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.085264444] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.086587304] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.107254461] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.109747879] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.112219996] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.140525763] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.143195355] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.144344941] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.173005709] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.183731092] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.188430922] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.22607706] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.230685529] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.238335748] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.266117075] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.268384111] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.269602688] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.299477288] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.30122657] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.302915171] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.321222112] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.322973582] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.324865869] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.345239174] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.346994898] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.348634848] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.368434743] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.369960063] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.374780645] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.394003014] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.39562246] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.397286004] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.416142458] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.41781982] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.4194008] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.438235652] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.439857634] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.441506556] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.46081952] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.463071332] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.464563467] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.482905068] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.484950739] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.486796675] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.5066128] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.508293432] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.509889111] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.528131855] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.529060132] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.531040923] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.539943047] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.541022184] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.541883798] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.5521943] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.55335001] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.554471251] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.564587861] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.565767355] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.566869855] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.592437189] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.593553355] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.594613084] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.604678142] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.605840035] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.606771833] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.617375827] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.618458779] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.619832469] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.630407786] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.631634615] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.634424017] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.650833092] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.651866777] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.663461505] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.682936499] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.684838607] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.686893407] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.720655636] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.722448895] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.725728442] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.775336037] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.778405171] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.780636139] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.81094598] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.814180192] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.818861406] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.845249026] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.847617655] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.849716974] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.878034817] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.881255696] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.885938204] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.917667896] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.91818376] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.919660097] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [8.955769215] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [8.956148791] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [8.960384237] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.00039845] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.002211881] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [9.002460064] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.041850863] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.046486572] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [9.052293632] PID stalled.
+purePursuitDrive.xPosPid.isStalled_INFO [9.082968368] PID stalled.
+purePursuitDrive.yPosPid.isStalled_INFO [9.086297205] PID stalled.
+purePursuitDrive.turnPid.isStalled_INFO [9.08973001] PID stalled.
+FrcRobotBase.startCompetition_INFO [9.115060656] *** Transitioning from AUTO_MODE to DISABLED_MODE ***
+TaskAutoScoreNote.autoAssistCancel_INFO [9.124711377] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [9.12740867] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [9.129261385] Canceling auto-assist.
+CmdAuto.waypointHandler_INFO [9.135860376] ***** [null] Waypoint -1: null, robotPose=(x=-61.2,y=325.6,angle=-178.8)
+pidDrive.printPerformanceMetrics_INFO [9.166941425] [pidDrive] Loop Performance Metrics:
+Average Loop Interval = NaNs (freq=NaNHz, min=0.000000s, max=0.000000s)
+
+FrcRobotBase.printPerformanceMetrics_INFO [9.190251755] [FrcRobotBase] Loop Performance Metrics:
+Average Loop Interval = 0.000605s (freq=1652.863Hz, min=0.000000s, max=0.410370s)
+[03]                StartTask=0.000000s
+[04]          PrePeriodicTask=0.000064s
+[07]               UpdateTask=0.000443s
+[02]                StartMode=0.000000s
+[06]         PostPeriodicTask=0.000038s
+[08]                 StopTask=0.000000s
+[09]                 StopMode=0.000000s
+[00]                RobotInit=8.947479s
+[01]           RobotStartMode=0.000000s
+[05]                 Periodic=0.000023s
+[10]            RobotStopMode=0.000000s
+
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.201814648] TrcWatchdogMgr: STANDALONE_TASK=0.000178/0.998003
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.207160475] LED: OUTPUT_TASK=0.000015/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.210036785] lfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000009/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.213855774] TrcMotor.odometryTask: STANDALONE_TASK=0.001209/0.001741
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.219245345] lfDriveMotor.odometryCleanupTask: STOP_TASK=0.001143/4.565637
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.22362886] rfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000005/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.226245638] lbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.22767613] rbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.228388879] lfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000010/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.230131676] rfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000008/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.231522142] lbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000009/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.232987508] rbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000008/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.234406628] TrcDriveBase.odometryTask: INPUT_TASK=0.004025/0.011579
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.234912578] TrcDriveBase.stopTask: STOP_TASK=0.005092/4.566754
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.235451023] purePursuitDrive.driveTask: POST_PERIODIC_TASK=0.019512/0.028749
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.235961763] Intake.motor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.238873944] Intake.entryTrigger.triggerTask: PRE_PERIODIC_TASK=0.000012/0.000605
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.242002847] Intake.exitTrigger.triggerTask: PRE_PERIODIC_TASK=0.000005/0.000605
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.242650065] Shooter.shooterMotor.pidCtrlTask: OUTPUT_TASK=0.000005/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.244504561] Shooter.tiltMotor.pidCtrlTask: OUTPUT_TASK=0.000020/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.245047407] Shooter.tiltMotor.converterTask: INPUT_TASK=0.000093/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.245528927] Climber.motor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010501
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.247826344] Deflector.servo.stopTask: STOP_TASK=0.000238/4.563086
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [9.256503641] TaskAutoPickupFromGround: POST_PERIODIC_TASK=0.002653/0.005686
