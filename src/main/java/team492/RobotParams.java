@@ -347,9 +347,9 @@ public class RobotParams
         public static final int FRONTCAM_IMAGE_WIDTH            = 1280;     // in pixels
         public static final int FRONTCAM_IMAGE_HEIGHT           = 800;      // in pixels
         // Camera location on robot.
-        public static final double FRONTCAM_X_OFFSET            = -3.5;   // Inches to the right from robot center
-        public static final double FRONTCAM_Y_OFFSET            = -2.375;     // Inches forward from robot center
-        public static final double FRONTCAM_Z_OFFSET            = 23.125;     // Inches up from the floor
+        public static final double FRONTCAM_X_OFFSET            = -3.5;     // Inches to the right from robot center
+        public static final double FRONTCAM_Y_OFFSET            = -2.375;   // Inches forward from robot center
+        public static final double FRONTCAM_Z_OFFSET            = 23.125;   // Inches up from the floor
         public static final double FRONTCAM_PITCH               = 33.0;     // degrees up from horizontal
         public static final double FRONTCAM_YAW                 = 0.0;      // degrees clockwise from robot front
         public static final double FRONTCAM_ROLL                = 0.0;
@@ -364,9 +364,9 @@ public class RobotParams
         public static final int BACKCAM_IMAGE_WIDTH             = 1280;     // in pixels
         public static final int BACKCAM_IMAGE_HEIGHT            = 800;      // in pixels
         // Camera location on robot.
-        public static final double BACKCAM_X_OFFSET             = -0.5;      // Inches to the right from robot center
-        public static final double BACKCAM_Y_OFFSET             = -5.375;    // Inches forward from robot center
-        public static final double BACKCAM_Z_OFFSET             = 20.0;    // Inches up from the floor
+        public static final double BACKCAM_X_OFFSET             = -0.5;     // Inches to the right from robot center
+        public static final double BACKCAM_Y_OFFSET             = -5.375;   // Inches forward from robot center
+        public static final double BACKCAM_Z_OFFSET             = 20.0;     // Inches up from the floor
         public static final double BACKCAM_PITCH                = -17.5;    // degrees up from horizontal
         public static final double BACKCAM_YAW                  = 180.0;    // degrees clockwise from robot front
         public static final double BACKCAM_ROLL                 = 0.0;
@@ -556,7 +556,6 @@ public class RobotParams
         public final double PPD_TURN_TOLERANCE                  = 2.0;
         public final double PPD_MOVE_DEF_OUTPUT_LIMIT           = 1.0;
         public final double PPD_ROT_DEF_OUTPUT_LIMIT            = 0.5;
-
         //
         // Command-based constants.
         //
@@ -694,7 +693,7 @@ public class RobotParams
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
-    }
+    }   //class AutoConstants
 
     public static class Sonar
     {
