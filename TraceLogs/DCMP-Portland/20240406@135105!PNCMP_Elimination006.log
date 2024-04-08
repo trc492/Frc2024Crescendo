@@ -1,0 +1,943 @@
+Robot.robotStartMode_INFO [0.013786669] Sat Apr 06 13:50:47 PDT 2024: ***** TELEOP_MODE *****
+TaskAutoScoreNote.autoAssistCancel_INFO [0.016115899] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [0.017506385] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [0.021407525] Canceling auto-assist.
+Climber.motor.pidCtrlTask_INFO [0.080234353] Zero calibration done, event=null
+FrcTeleOp.driverControllerButtonEvent_INFO [4.718652703] ##### button=BUTTON_A, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [4.763277694] ##### button=BUTTON_A, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [4.813820599] ##### button=BUTTON_A, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [4.918445373] ##### button=BUTTON_A, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [5.327347143] ##### button=BUTTON_B, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [5.429413925] ##### button=BUTTON_B, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [7.001464221] ##### button=BUTTON_X, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [7.011412178] useVision=false, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [7.020380142] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.autoTask_INFO [7.043943329] <Event name="StateInfo" time="7.038355591" tag="vvvvv" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [7.046382673] ***** Not using Note Vision.
+FrcTeleOp.driverControllerButtonEvent_INFO [7.055130475] ##### button=BUTTON_X, pressed=false
+TaskAutoPickupFromGround.autoTask_INFO [7.07578766] <Event name="StateInfo" time="7.070907186" tag="vvvvv" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+Intake.performAction_INFO [7.077512792] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+TaskAutoPickupFromGround.runTaskState_INFO [7.079634976] ***** Did not see Note, release drive ownership.
+Intake.entryTriggerCallback_INFO [9.226513194] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.autoTask_INFO [9.227545633] <Event name="StateInfo" time="9.227289626" tag="vvvvv" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+TaskAutoPickupFromGround.runTaskState_INFO [9.242765097] **** Check Intake: intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CANCELED), gotNote=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [9.660316728] ##### button=BUTTON_X, pressed=true
+Shooter.aimShooter_DEBUG [9.66123045] owner=null, currOwner=null, vel=17.5, tiltAngle=57.0, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Shooter.onTarget_DEBUG [9.666410575] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [9.714403362] ##### button=BUTTON_X, pressed=false
+Intake.exitTriggerCallback_INFO [9.762292451] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+Intake.finish_INFO [9.765175465] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+TaskAutoPickupFromGround.autoTask_INFO [9.772043614] <Event name="StateInfo" time="9.771729673" tag="vvvvv" TaskAutoPickupFromGround.state="DONE" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [9.779888736] Stopping subsystems.
+Intake.cancel_INFO [9.781737119] owner=AutoPickupGround
+Intake.finish_INFO [9.785978762] Finishing inactive intake: completed=false, delayFinishPending=false
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [9.7942806] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+Intake.entryTriggerCallback_INFO [9.803979934] active=false, actionParams=null
+FrcTeleOp.driverControllerButtonEvent_INFO [10.114606875] ##### button=RIGHT_BUMPER, pressed=true
+Shooter.tiltMotor.pidCtrlTask_INFO [10.772397165] controlMode: Position onTarget=true(57.02429097515042/57.0), stalled=false, expired=false, event=(Shooter.tiltOnTarget=SIGNALED)
+Shooter.onTarget_DEBUG [10.772380397] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=SIGNALED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [10.790192106] ##### button=BUTTON_B, pressed=true
+Intake.performAction_INFO [10.802022968] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Intake.exitTriggerCallback_INFO [11.182248371] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Intake.finish_INFO [11.198954787] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+FrcTeleOp.driverControllerButtonEvent_INFO [11.363668373] ##### button=RIGHT_BUMPER, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [11.365427294] ##### button=BUTTON_B, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [11.820197221] ##### button=BUTTON_B, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [11.92545991] ##### button=BUTTON_B, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [16.435314735] ##### button=BUTTON_X, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [16.437021896] useVision=false, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [16.437959782] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.autoTask_INFO [16.475856232] <Event name="StateInfo" time="16.474426252" tag="vvvvv" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [16.477575832] ***** Not using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [16.485156976] <Event name="StateInfo" time="16.48494446" tag="vvvvv" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+Intake.performAction_INFO [16.48938359] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+TaskAutoPickupFromGround.runTaskState_INFO [16.491887783] ***** Did not see Note, release drive ownership.
+FrcTeleOp.driverControllerButtonEvent_INFO [16.500320686] ##### button=BUTTON_X, pressed=false
+Intake.entryTriggerCallback_INFO [17.657846656] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.autoTask_INFO [17.674587088] <Event name="StateInfo" time="17.67352074" tag="vvvvv" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+TaskAutoPickupFromGround.runTaskState_INFO [17.677402267] **** Check Intake: intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CANCELED), gotNote=true
+Intake.exitTriggerCallback_INFO [18.173062661] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+Intake.finish_INFO [18.185727983] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+TaskAutoPickupFromGround.autoTask_INFO [18.191524622] <Event name="StateInfo" time="18.19096875" tag="vvvvv" TaskAutoPickupFromGround.state="DONE" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [18.197650724] Stopping subsystems.
+Intake.cancel_INFO [18.200122165] owner=AutoPickupGround
+Intake.finish_INFO [18.201927439] Finishing inactive intake: completed=false, delayFinishPending=false
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [18.216396356] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+Intake.entryTriggerCallback_INFO [18.220166158] active=false, actionParams=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [22.468707342] ##### button=BUTTON_Y, pressed=true
+Shooter.aimShooter_DEBUG [23.396764715] owner=null, currOwner=null, vel=90.0, tiltAngle=43.108471951579375, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [23.420984475] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=43.108471951579375
+Shooter.onTarget_DEBUG [23.477893657] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [23.494398517] owner=null, currOwner=null, vel=90.0, tiltAngle=44.751900661763784, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [23.50140471] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=44.751900661763784
+Shooter.onTarget_DEBUG [23.531944085] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [23.542097996] owner=null, currOwner=null, vel=90.0, tiltAngle=45.36800134027168, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [23.548802717] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=45.36800134027168
+Shooter.onTarget_DEBUG [23.599465871] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [23.610068758] owner=null, currOwner=null, vel=90.0, tiltAngle=46.712030796962665, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [23.615453635] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=46.712030796962665
+Shooter.onTarget_DEBUG [23.647494681] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [23.662114125] owner=null, currOwner=null, vel=90.0, tiltAngle=47.08951613607336, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [23.671767573] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.08951613607336
+Shooter.onTarget_DEBUG [23.719435589] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [23.732648506] owner=null, currOwner=null, vel=90.0, tiltAngle=47.43213937134255, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [23.736662672] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.43213937134255
+Shooter.onTarget_DEBUG [23.761185559] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [23.778729093] owner=null, currOwner=null, vel=90.0, tiltAngle=47.50113041235019, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [23.783791826] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.50113041235019
+Shooter.onTarget_DEBUG [23.816696145] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [23.827020984] owner=null, currOwner=null, vel=90.0, tiltAngle=47.475167683768994, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [23.834976537] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.475167683768994
+Shooter.onTarget_DEBUG [23.862059425] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [23.879983641] owner=null, currOwner=null, vel=90.0, tiltAngle=47.46261601618202, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [23.884319596] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.46261601618202
+Shooter.onTarget_DEBUG [23.904461844] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [23.934014443] owner=null, currOwner=null, vel=90.0, tiltAngle=47.53606538584373, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [23.93619922] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.53606538584373
+Shooter.onTarget_DEBUG [23.962936358] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [23.982988788] owner=null, currOwner=null, vel=90.0, tiltAngle=47.50061751920857, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [23.987438843] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.50061751920857
+Shooter.onTarget_DEBUG [24.018064376] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.032590496] owner=null, currOwner=null, vel=90.0, tiltAngle=47.52828579951509, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.036652466] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.52828579951509
+Shooter.onTarget_DEBUG [24.07721825] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.089736458] owner=null, currOwner=null, vel=90.0, tiltAngle=47.52886105136144, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.093397386] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.52886105136144
+Shooter.onTarget_DEBUG [24.118496102] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.135340036] owner=null, currOwner=null, vel=90.0, tiltAngle=47.55033471808812, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.139060973] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.55033471808812
+Shooter.onTarget_DEBUG [24.172744741] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [24.179455085] ##### button=BUTTON_B, pressed=true
+Intake.performAction_INFO [24.192914791] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Shooter.aimShooter_DEBUG [24.201564959] owner=null, currOwner=null, vel=90.0, tiltAngle=47.498094185749984, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.20574214] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.498094185749984
+Shooter.onTarget_DEBUG [24.219670855] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.238078497] owner=null, currOwner=null, vel=90.0, tiltAngle=47.53393654787042, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.242558506] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.53393654787042
+Shooter.onTarget_DEBUG [24.260118967] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.290918006] owner=null, currOwner=null, vel=90.0, tiltAngle=47.40277260309919, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.295905596] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.40277260309919
+Shooter.onTarget_DEBUG [24.3253301] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.344869075] owner=null, currOwner=null, vel=90.0, tiltAngle=47.581786933167336, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.349991095] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.581786933167336
+Shooter.onTarget_DEBUG [24.363429355] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.395731662] owner=null, currOwner=null, vel=90.0, tiltAngle=47.483273124746106, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.403265562] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.483273124746106
+Shooter.onTarget_DEBUG [24.428709061] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.445847318] owner=null, currOwner=null, vel=90.0, tiltAngle=47.57827567753502, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.450942776] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.57827567753502
+Shooter.onTarget_DEBUG [24.464368513] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.490183354] owner=null, currOwner=null, vel=90.0, tiltAngle=47.57234484517255, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.50285195] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.57234484517255
+Shooter.onTarget_DEBUG [24.521112796] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Intake.exitTriggerCallback_INFO [24.528122825] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Intake.finish_INFO [24.529795002] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+Shooter.aimShooter_DEBUG [24.545438922] owner=null, currOwner=null, vel=90.0, tiltAngle=47.607398313464124, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.55057462] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.607398313464124
+Shooter.onTarget_DEBUG [24.571747561] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.597491881] owner=null, currOwner=null, vel=90.0, tiltAngle=47.524035235395004, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.60458564] Aim at AprilTag: aprilTagId=8, shooterVel=90.0, tiltAngle=47.524035235395004
+Shooter.onTarget_DEBUG [24.622115656] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.65187747] owner=null, currOwner=null, vel=90.0, tiltAngle=47.551965459241934, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.661465844] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.551965459241934
+Shooter.onTarget_DEBUG [24.687321663] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.705601614] owner=null, currOwner=null, vel=90.0, tiltAngle=47.46341358577169, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.709993679] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.46341358577169
+Shooter.onTarget_DEBUG [24.72977939] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.757148979] owner=null, currOwner=null, vel=90.0, tiltAngle=47.594186421179955, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.766196268] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.594186421179955
+FrcTeleOp.operatorControllerButtonEvent_INFO [24.811421867] ##### button=BUTTON_B, pressed=false
+Shooter.onTarget_DEBUG [24.81646519] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [24.82662352] owner=null, currOwner=null, vel=90.0, tiltAngle=47.59383706722785, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [24.832349634] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.59383706722785
+Shooter.onTarget_DEBUG [24.858001783] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [24.864735627] ##### button=BUTTON_Y, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [25.359748947] ##### button=BUTTON_B, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [25.415310932] ##### button=BUTTON_B, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [33.461154538] ##### button=BUTTON_X, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [33.470723724] useVision=false, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [33.479598132] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.autoTask_INFO [33.492267647] <Event name="StateInfo" time="33.492019589" tag="vvvvv" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [33.494676472] ***** Not using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [33.498323357] <Event name="StateInfo" time="33.49813078" tag="vvvvv" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+Intake.performAction_INFO [33.499669377] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+TaskAutoPickupFromGround.runTaskState_INFO [33.511598584] ***** Did not see Note, release drive ownership.
+FrcTeleOp.driverControllerButtonEvent_INFO [33.563528516] ##### button=BUTTON_X, pressed=false
+Intake.entryTriggerCallback_INFO [34.555909165] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.autoTask_INFO [34.57066892] <Event name="StateInfo" time="34.567863115" tag="vvvvv" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+TaskAutoPickupFromGround.runTaskState_INFO [34.572804401] **** Check Intake: intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CANCELED), gotNote=true
+Intake.exitTriggerCallback_INFO [35.057991493] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+Intake.finish_INFO [35.066144494] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+TaskAutoPickupFromGround.autoTask_INFO [35.069030549] <Event name="StateInfo" time="35.068746182" tag="vvvvv" TaskAutoPickupFromGround.state="DONE" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [35.072714342] Stopping subsystems.
+Intake.cancel_INFO [35.074145319] owner=AutoPickupGround
+Intake.finish_INFO [35.075252346] Finishing inactive intake: completed=false, delayFinishPending=false
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [35.080837167] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+Intake.entryTriggerCallback_INFO [35.082886089] active=false, actionParams=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [40.302183972] ##### button=BUTTON_Y, pressed=true
+Shooter.aimShooter_DEBUG [41.228662263] owner=null, currOwner=null, vel=90.0, tiltAngle=51.52292091114313, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.244763474] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.52292091114313
+Shooter.onTarget_DEBUG [41.272412441] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [41.28707688] owner=null, currOwner=null, vel=90.0, tiltAngle=51.7219445389846, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.292710128] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.7219445389846
+Shooter.onTarget_DEBUG [41.320620416] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [41.336925042] owner=null, currOwner=null, vel=90.0, tiltAngle=51.58527056488136, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.342340472] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.58527056488136
+Shooter.onTarget_DEBUG [41.370276728] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [41.390562779] owner=null, currOwner=null, vel=90.0, tiltAngle=51.542322037554456, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.397093126] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.542322037554456
+Shooter.onTarget_DEBUG [41.431526243] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [41.444441234] owner=null, currOwner=null, vel=90.0, tiltAngle=51.54006286051732, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.450586903] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.54006286051732
+Shooter.onTarget_DEBUG [41.478004254] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [41.48930905] owner=null, currOwner=null, vel=90.0, tiltAngle=51.49397744891826, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.493290369] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.49397744891826
+Shooter.onTarget_DEBUG [41.518917525] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [41.549771564] owner=null, currOwner=null, vel=90.0, tiltAngle=51.449464892301435, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.561574272] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.449464892301435
+Shooter.onTarget_DEBUG [41.605423058] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [41.616567345] owner=null, currOwner=null, vel=90.0, tiltAngle=51.431330063770496, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.625404249] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.431330063770496
+Shooter.onTarget_DEBUG [41.668183147] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [41.675652399] owner=null, currOwner=null, vel=90.0, tiltAngle=51.38739910840134, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.681181263] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.38739910840134
+Shooter.onTarget_DEBUG [41.738323893] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [41.747395893] owner=null, currOwner=null, vel=90.0, tiltAngle=51.39101450188839, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.754757605] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.39101450188839
+Shooter.onTarget_DEBUG [41.783949814] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [41.794483541] owner=null, currOwner=null, vel=90.0, tiltAngle=51.423187844493185, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.802173358] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.423187844493185
+Shooter.onTarget_DEBUG [41.853260108] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [41.866478313] owner=null, currOwner=null, vel=90.0, tiltAngle=51.419474196136065, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.869045282] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.419474196136065
+Shooter.onTarget_DEBUG [41.894433627] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [41.910107494] owner=null, currOwner=null, vel=90.0, tiltAngle=51.39699383195323, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.91765417] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.39699383195323
+Shooter.onTarget_DEBUG [41.944419718] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [41.950459929] ##### button=BUTTON_B, pressed=true
+Intake.performAction_INFO [41.968164711] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Shooter.aimShooter_DEBUG [41.979502611] owner=null, currOwner=null, vel=90.0, tiltAngle=51.42199405851453, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [41.985252058] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.42199405851453
+Shooter.onTarget_DEBUG [41.998703362] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [42.011600032] owner=null, currOwner=null, vel=90.0, tiltAngle=51.38862243302518, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [42.016761957] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.38862243302518
+Shooter.onTarget_DEBUG [42.028522312] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [42.059599084] owner=null, currOwner=null, vel=90.0, tiltAngle=51.38960453636304, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [42.064665738] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.38960453636304
+Shooter.onTarget_DEBUG [42.087868055] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [42.12021898] owner=null, currOwner=null, vel=90.0, tiltAngle=51.28401404012573, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [42.126575159] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.28401404012573
+Shooter.onTarget_DEBUG [42.157833874] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [42.169012716] owner=null, currOwner=null, vel=90.0, tiltAngle=51.2775770590536, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [42.17187788] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.2775770590536
+Shooter.onTarget_DEBUG [42.187916418] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [42.21976884] owner=null, currOwner=null, vel=90.0, tiltAngle=51.46331298850347, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [42.222666143] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.46331298850347
+Shooter.onTarget_DEBUG [42.234207432] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [42.272744833] owner=null, currOwner=null, vel=90.0, tiltAngle=51.86727826373219, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [42.276202331] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=51.86727826373219
+Intake.exitTriggerCallback_INFO [42.312067403] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Intake.finish_INFO [42.31448391] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+Shooter.onTarget_DEBUG [42.319292573] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [42.341345165] owner=null, currOwner=null, vel=90.0, tiltAngle=52.13649348658271, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [42.343132442] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=52.13649348658271
+Shooter.onTarget_DEBUG [42.357546704] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [42.378199997] owner=null, currOwner=null, vel=90.0, tiltAngle=51.87388044605962, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [42.381525169] Aim at AprilTag: aprilTagId=8, shooterVel=90.0, tiltAngle=51.87388044605962
+Shooter.onTarget_DEBUG [42.410726768] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [42.477826673] owner=null, currOwner=null, vel=90.0, tiltAngle=52.14777929413512, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [42.487539114] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=52.14777929413512
+Shooter.onTarget_DEBUG [42.505606076] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [42.537286753] owner=null, currOwner=null, vel=90.0, tiltAngle=52.13395008052812, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [42.540297396] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=52.13395008052812
+Shooter.onTarget_DEBUG [42.581426841] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [42.594078607] owner=null, currOwner=null, vel=90.0, tiltAngle=52.14626039291754, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [42.596807202] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=52.14626039291754
+Shooter.onTarget_DEBUG [42.615143696] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [42.636646891] ##### button=BUTTON_B, pressed=false
+Shooter.aimShooter_DEBUG [42.642484081] owner=null, currOwner=null, vel=90.0, tiltAngle=52.14089345988725, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [42.644591336] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=52.14089345988725
+Shooter.onTarget_DEBUG [42.665534134] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [42.687084532] ##### button=BUTTON_Y, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [43.251539398] ##### button=BUTTON_B, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [43.302049153] ##### button=BUTTON_B, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [49.349522149] ##### button=BUTTON_X, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [49.355980748] useVision=false, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [49.363557315] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.autoTask_INFO [49.380781788] <Event name="StateInfo" time="49.380531472" tag="vvvvv" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [49.383550137] ***** Not using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [49.390059433] <Event name="StateInfo" time="49.389869683" tag="vvvvv" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+Intake.performAction_INFO [49.393112099] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+TaskAutoPickupFromGround.runTaskState_INFO [49.395930807] ***** Did not see Note, release drive ownership.
+FrcTeleOp.driverControllerButtonEvent_INFO [49.452121761] ##### button=BUTTON_X, pressed=false
+Intake.entryTriggerCallback_INFO [51.118639343] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.autoTask_INFO [51.119502049] <Event name="StateInfo" time="51.119173863" tag="vvvvv" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+TaskAutoPickupFromGround.runTaskState_INFO [51.120107036] **** Check Intake: intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CANCELED), gotNote=true
+Intake.exitTriggerCallback_INFO [51.703417134] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+Intake.finish_INFO [51.705572261] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+TaskAutoPickupFromGround.autoTask_INFO [51.707464361] <Event name="StateInfo" time="51.707175498" tag="vvvvv" TaskAutoPickupFromGround.state="DONE" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [51.708817813] Stopping subsystems.
+Intake.cancel_INFO [51.711456973] owner=AutoPickupGround
+Intake.finish_INFO [51.712613402] Finishing inactive intake: completed=false, delayFinishPending=false
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [51.719128654] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+Intake.exitTriggerCallback_INFO [53.384264838] active=false, actionParams=null
+FrcTeleOp.driverControllerButtonEvent_INFO [56.395448735] ##### button=RIGHT_BUMPER, pressed=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [56.44567783] ##### button=BUTTON_X, pressed=true
+Shooter.cancel_INFO [56.453128462] owner=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [56.546519723] ##### button=BUTTON_X, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [56.853230595] ##### button=BUTTON_X, pressed=true
+Shooter.aimShooter_DEBUG [56.862102022] owner=null, currOwner=null, vel=17.5, tiltAngle=57.0, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Shooter.onTarget_DEBUG [56.870683894] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [57.00449222] ##### button=BUTTON_X, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [57.57432099] ##### button=BUTTON_B, pressed=true
+Intake.performAction_INFO [57.594263098] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Intake.exitTriggerCallback_INFO [57.644981905] active=true, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Intake.entryTriggerCallback_INFO [57.684524338] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Intake.exitTriggerCallback_INFO [58.024472634] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Intake.finish_INFO [58.036389789] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+Shooter.tiltMotor.pidCtrlTask_INFO [58.170120062] controlMode: Position onTarget=true(56.598787519164006/57.0), stalled=false, expired=false, event=(Shooter.tiltOnTarget=SIGNALED)
+Shooter.onTarget_DEBUG [58.185679832] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=SIGNALED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [58.203581271] ##### button=BUTTON_B, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [58.507440631] ##### button=RIGHT_BUMPER, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [58.557653245] ##### button=BUTTON_B, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [58.708433961] ##### button=BUTTON_B, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [60.751922602] ##### button=BUTTON_X, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [60.759031296] useVision=false, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [60.77179643] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.autoTask_INFO [60.785422133] <Event name="StateInfo" time="60.784605939" tag="vvvvv" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [60.791220074] ***** Not using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [60.79620888] <Event name="StateInfo" time="60.795192988" tag="vvvvv" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+Intake.performAction_INFO [60.800094672] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+TaskAutoPickupFromGround.runTaskState_INFO [60.801811216] ***** Did not see Note, release drive ownership.
+FrcTeleOp.driverControllerButtonEvent_INFO [60.805458081] ##### button=BUTTON_X, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [61.16129622] ##### button=RIGHT_BUMPER, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [61.673118443] ##### button=RIGHT_BUMPER, pressed=false
+Intake.entryTriggerCallback_INFO [61.921051096] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.autoTask_INFO [61.93423818] <Event name="StateInfo" time="61.9339728" tag="vvvvv" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+TaskAutoPickupFromGround.runTaskState_INFO [61.936436811] **** Check Intake: intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CANCELED), gotNote=true
+FrcTeleOp.driverControllerButtonEvent_INFO [62.400133912] ##### button=RIGHT_BUMPER, pressed=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [62.503380612] ##### button=BUTTON_X, pressed=true
+Shooter.aimShooter_DEBUG [62.505686006] owner=null, currOwner=null, vel=17.5, tiltAngle=57.0, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Shooter.onTarget_DEBUG [62.527008998] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [62.553410436] ##### button=BUTTON_X, pressed=false
+Intake.exitTriggerCallback_INFO [62.554849183] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+Intake.finish_INFO [62.55531854] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+TaskAutoPickupFromGround.autoTask_INFO [62.587223176] <Event name="StateInfo" time="62.586292428" tag="vvvvv" TaskAutoPickupFromGround.state="DONE" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [62.591305396] Stopping subsystems.
+Intake.cancel_INFO [62.591747668] owner=AutoPickupGround
+Intake.finish_INFO [62.594093832] Finishing inactive intake: completed=false, delayFinishPending=false
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [62.598282162] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+Intake.entryTriggerCallback_INFO [62.602052047] active=false, actionParams=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [63.218007881] ##### button=BUTTON_B, pressed=true
+Intake.performAction_INFO [63.227498254] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+FrcTeleOp.driverControllerButtonEvent_INFO [63.475231121] ##### button=RIGHT_BUMPER, pressed=false
+Intake.exitTriggerCallback_INFO [63.617597536] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Intake.finish_INFO [63.619205568] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+FrcTeleOp.operatorControllerButtonEvent_INFO [63.880462597] ##### button=BUTTON_B, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [64.239762066] ##### button=BUTTON_B, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [64.340458635] ##### button=BUTTON_B, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [70.254379402] ##### button=BUTTON_X, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [70.255112853] useVision=false, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [70.255617202] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.autoTask_INFO [70.290258145] <Event name="StateInfo" time="70.289361811" tag="vvvvv" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [70.291546245] ***** Not using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [70.296724721] <Event name="StateInfo" time="70.295849803" tag="vvvvv" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+Intake.performAction_INFO [70.29811829] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+TaskAutoPickupFromGround.runTaskState_INFO [70.308162283] ***** Did not see Note, release drive ownership.
+FrcTeleOp.driverControllerButtonEvent_INFO [70.309504617] ##### button=BUTTON_X, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [70.619020865] ##### button=RIGHT_BUMPER, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [71.177437127] ##### button=RIGHT_BUMPER, pressed=false
+Intake.entryTriggerCallback_INFO [71.35269746] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.autoTask_INFO [71.353428692] <Event name="StateInfo" time="71.353173468" tag="vvvvv" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+TaskAutoPickupFromGround.runTaskState_INFO [71.354079761] **** Check Intake: intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CANCELED), gotNote=true
+Intake.exitTriggerCallback_INFO [71.897288601] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+Intake.finish_INFO [71.897845955] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+TaskAutoPickupFromGround.autoTask_INFO [71.899228669] <Event name="StateInfo" time="71.898789637" tag="vvvvv" TaskAutoPickupFromGround.state="DONE" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [71.913495584] Stopping subsystems.
+Intake.cancel_INFO [71.91568738] owner=AutoPickupGround
+Intake.finish_INFO [71.91608872] Finishing inactive intake: completed=false, delayFinishPending=false
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [71.920375334] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+Intake.entryTriggerCallback_INFO [71.950936222] active=false, actionParams=null
+Intake.entryTriggerCallback_INFO [73.851075517] active=true, actionParams=null
+Intake.entryTriggerCallback_INFO [73.891167091] active=false, actionParams=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [77.126047257] ##### button=BUTTON_Y, pressed=true
+Shooter.aimShooter_DEBUG [77.840078929] owner=null, currOwner=null, vel=90.0, tiltAngle=39.25648038647168, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [77.841452809] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=39.25648038647168
+Shooter.onTarget_DEBUG [77.888672452] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [77.949683128] owner=null, currOwner=null, vel=90.0, tiltAngle=40.664676366484805, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [77.96789656] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=40.664676366484805
+Shooter.onTarget_DEBUG [77.992457978] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.048458586] owner=null, currOwner=null, vel=90.0, tiltAngle=41.690168891563815, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.059138056] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=41.690168891563815
+Shooter.onTarget_DEBUG [78.087475943] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.102997055] owner=null, currOwner=null, vel=90.0, tiltAngle=42.599476470981344, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.106316488] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=42.599476470981344
+Shooter.onTarget_DEBUG [78.132586065] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.155754343] owner=null, currOwner=null, vel=90.0, tiltAngle=44.26325043709754, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.15953951] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=44.26325043709754
+Shooter.onTarget_DEBUG [78.207809181] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.222023266] owner=null, currOwner=null, vel=90.0, tiltAngle=46.06732397238022, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.231731103] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=46.06732397238022
+Shooter.onTarget_DEBUG [78.266115128] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.277847964] owner=null, currOwner=null, vel=90.0, tiltAngle=47.39379687090571, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.291005568] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.39379687090571
+Shooter.onTarget_DEBUG [78.343563946] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.354758038] owner=null, currOwner=null, vel=90.0, tiltAngle=48.18537068040585, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.361889901] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=48.18537068040585
+Shooter.onTarget_DEBUG [78.395372422] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.403580923] owner=null, currOwner=null, vel=90.0, tiltAngle=48.73901512902172, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.411890743] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=48.73901512902172
+Shooter.onTarget_DEBUG [78.465621579] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.475229931] owner=null, currOwner=null, vel=90.0, tiltAngle=49.04176121501631, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.480396473] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=49.04176121501631
+Shooter.onTarget_DEBUG [78.509645565] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.527065868] owner=null, currOwner=null, vel=90.0, tiltAngle=49.3197346501036, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.536235597] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=49.3197346501036
+Shooter.onTarget_DEBUG [78.576317633] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.594811271] owner=null, currOwner=null, vel=90.0, tiltAngle=49.5916851403918, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.596879596] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=49.5916851403918
+Shooter.onTarget_DEBUG [78.63365938] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.643652313] owner=null, currOwner=null, vel=90.0, tiltAngle=49.64939829159817, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.648835037] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=49.64939829159817
+Shooter.onTarget_DEBUG [78.69124946] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.702655807] owner=null, currOwner=null, vel=90.0, tiltAngle=49.88054834515317, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.712720994] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=49.88054834515317
+Shooter.onTarget_DEBUG [78.760802509] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.771257925] owner=null, currOwner=null, vel=90.0, tiltAngle=49.981042260944015, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.776590713] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=49.981042260944015
+Shooter.onTarget_DEBUG [78.818913604] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.828334315] owner=null, currOwner=null, vel=90.0, tiltAngle=50.016642170931775, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.840163091] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.016642170931775
+Shooter.onTarget_DEBUG [78.863490799] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.880923949] owner=null, currOwner=null, vel=90.0, tiltAngle=50.03784300904268, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.891989389] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.03784300904268
+Shooter.onTarget_DEBUG [78.931438686] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.938272848] owner=null, currOwner=null, vel=90.0, tiltAngle=50.033223833536354, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [78.944853279] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.033223833536354
+Shooter.onTarget_DEBUG [78.972329462] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [78.994482958] owner=null, currOwner=null, vel=90.0, tiltAngle=50.063686661040165, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.003364656] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.063686661040165
+Shooter.onTarget_DEBUG [79.04568118] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.057328524] owner=null, currOwner=null, vel=90.0, tiltAngle=50.052085377401724, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.059512805] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.052085377401724
+Shooter.onTarget_DEBUG [79.101140481] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.121256122] owner=null, currOwner=null, vel=90.0, tiltAngle=50.049807625466535, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.123665932] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.049807625466535
+FrcTeleOp.operatorControllerButtonEvent_INFO [79.160215369] ##### button=BUTTON_B, pressed=true
+Intake.performAction_INFO [79.188577688] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Shooter.onTarget_DEBUG [79.193778057] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.204689069] owner=null, currOwner=null, vel=90.0, tiltAngle=50.039606598467216, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.213525199] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.039606598467216
+Shooter.onTarget_DEBUG [79.227864251] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.243419164] owner=null, currOwner=null, vel=90.0, tiltAngle=50.040935374260044, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.246653651] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.040935374260044
+Shooter.onTarget_DEBUG [79.276292668] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.289704415] owner=null, currOwner=null, vel=90.0, tiltAngle=50.0715222991751, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.297266264] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.0715222991751
+Shooter.onTarget_DEBUG [79.320707429] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.333177529] owner=null, currOwner=null, vel=90.0, tiltAngle=50.05606874104335, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.337205549] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.05606874104335
+Shooter.onTarget_DEBUG [79.351815519] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.382360578] owner=null, currOwner=null, vel=90.0, tiltAngle=50.094320562847585, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.392447363] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.094320562847585
+Shooter.onTarget_DEBUG [79.41334198] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.438485696] owner=null, currOwner=null, vel=90.0, tiltAngle=50.094244054230714, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.446148296] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.094244054230714
+Shooter.onTarget_DEBUG [79.458867075] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.488813789] owner=null, currOwner=null, vel=90.0, tiltAngle=50.079257835519044, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.499721939] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.079257835519044
+Intake.exitTriggerCallback_INFO [79.526976215] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Intake.finish_INFO [79.532710304] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+Shooter.onTarget_DEBUG [79.534242984] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.54957489] owner=null, currOwner=null, vel=90.0, tiltAngle=50.07173212034734, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.555845513] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.07173212034734
+Shooter.onTarget_DEBUG [79.569700884] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.592459852] owner=null, currOwner=null, vel=90.0, tiltAngle=49.98691057516841, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.600551526] Aim at AprilTag: aprilTagId=8, shooterVel=90.0, tiltAngle=49.98691057516841
+Shooter.onTarget_DEBUG [79.621113014] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.644379572] owner=null, currOwner=null, vel=90.0, tiltAngle=49.98691057516841, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.651762994] Aim at AprilTag: aprilTagId=8, shooterVel=90.0, tiltAngle=49.98691057516841
+Shooter.onTarget_DEBUG [79.664673524] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.712098335] owner=null, currOwner=null, vel=90.0, tiltAngle=50.05442027220594, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.718330065] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.05442027220594
+Shooter.onTarget_DEBUG [79.743962965] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.761957194] owner=null, currOwner=null, vel=90.0, tiltAngle=50.07166765708115, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.765389697] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.07166765708115
+Shooter.onTarget_DEBUG [79.781450315] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [79.814268709] owner=null, currOwner=null, vel=90.0, tiltAngle=50.09257715365443, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [79.81678292] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.09257715365443
+Shooter.onTarget_DEBUG [79.8471209] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [79.856764578] ##### button=BUTTON_B, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [79.864057963] ##### button=BUTTON_Y, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [80.547655775] ##### button=BUTTON_B, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [80.601177996] ##### button=BUTTON_B, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [83.129549811] ##### button=BUTTON_X, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [83.13715207] useVision=false, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [83.14374598] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.autoTask_INFO [83.155231051] <Event name="StateInfo" time="83.154704447" tag="vvvvv" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [83.157762197] ***** Not using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [83.167634932] <Event name="StateInfo" time="83.165346301" tag="vvvvv" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+Intake.performAction_INFO [83.170466281] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+TaskAutoPickupFromGround.runTaskState_INFO [83.174312196] ***** Did not see Note, release drive ownership.
+FrcTeleOp.driverControllerButtonEvent_INFO [83.232606641] ##### button=BUTTON_X, pressed=false
+Intake.entryTriggerCallback_INFO [91.309653892] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.autoTask_INFO [91.310611718] <Event name="StateInfo" time="91.31027497" tag="vvvvv" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+TaskAutoPickupFromGround.runTaskState_INFO [91.32165629] **** Check Intake: intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CANCELED), gotNote=true
+TaskAutoPickupFromGround.autoTask_INFO [92.328341798] <Event name="StateInfo" time="92.328054042" tag="vvvvv" TaskAutoPickupFromGround.state="DONE" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [92.348471067] Stopping subsystems.
+Intake.cancel_INFO [92.351382301] owner=AutoPickupGround
+Intake.finish_INFO [92.351880237] Finishing intake: completed=false, power=0.0, finishDelay=0.0
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [92.360998972] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+FrcTeleOp.operatorControllerButtonEvent_INFO [96.234778783] ##### button=BUTTON_Y, pressed=true
+Shooter.aimShooter_DEBUG [96.950474989] owner=null, currOwner=null, vel=90.0, tiltAngle=39.239217862322015, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [96.972993144] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=39.239217862322015
+Shooter.onTarget_DEBUG [96.998511396] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.007369835] owner=null, currOwner=null, vel=90.0, tiltAngle=39.77614576709948, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.011728833] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=39.77614576709948
+Shooter.onTarget_DEBUG [97.042322386] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.060830736] owner=null, currOwner=null, vel=90.0, tiltAngle=40.46698708308567, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.064128971] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=40.46698708308567
+Shooter.onTarget_DEBUG [97.112800136] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.173658618] owner=null, currOwner=null, vel=90.0, tiltAngle=41.47928855644628, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.18249608] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=41.47928855644628
+Shooter.onTarget_DEBUG [97.217398681] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.234853996] owner=null, currOwner=null, vel=90.0, tiltAngle=42.434681438094195, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.236647833] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=42.434681438094195
+Shooter.onTarget_DEBUG [97.266700536] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.33227642] owner=null, currOwner=null, vel=90.0, tiltAngle=44.46539001882287, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.335894326] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=44.46539001882287
+Shooter.onTarget_DEBUG [97.384759695] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.392825569] owner=null, currOwner=null, vel=90.0, tiltAngle=45.804105100590014, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.398996793] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=45.804105100590014
+Shooter.onTarget_DEBUG [97.420897135] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.440421438] owner=null, currOwner=null, vel=90.0, tiltAngle=46.84324735592965, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.444864015] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=46.84324735592965
+Shooter.onTarget_DEBUG [97.471073654] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.489610362] owner=null, currOwner=null, vel=90.0, tiltAngle=47.13754735518495, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.496255996] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.13754735518495
+Shooter.onTarget_DEBUG [97.521996064] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.543145337] owner=null, currOwner=null, vel=90.0, tiltAngle=47.43326806380658, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.548218882] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.43326806380658
+Shooter.onTarget_DEBUG [97.589076328] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.593792707] owner=null, currOwner=null, vel=90.0, tiltAngle=47.538507613369454, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.600498261] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.538507613369454
+Shooter.onTarget_DEBUG [97.614541429] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.650973361] owner=null, currOwner=null, vel=90.0, tiltAngle=47.665863894453764, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.655042653] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.665863894453764
+Shooter.onTarget_DEBUG [97.695016936] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.700435767] owner=null, currOwner=null, vel=90.0, tiltAngle=47.681624062287504, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.709395978] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.681624062287504
+Shooter.onTarget_DEBUG [97.741008499] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.764883229] owner=null, currOwner=null, vel=90.0, tiltAngle=47.69260025893165, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.773913928] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.69260025893165
+Shooter.onTarget_DEBUG [97.818720826] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.836541706] owner=null, currOwner=null, vel=90.0, tiltAngle=47.75621209777674, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.840193562] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.75621209777674
+Shooter.onTarget_DEBUG [97.879169886] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.892071725] owner=null, currOwner=null, vel=90.0, tiltAngle=47.77404821517287, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.901466592] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.77404821517287
+Shooter.onTarget_DEBUG [97.949016335] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [97.971976336] owner=null, currOwner=null, vel=90.0, tiltAngle=47.78375381636141, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [97.974483739] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.78375381636141
+Shooter.onTarget_DEBUG [98.024764693] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.037557491] owner=null, currOwner=null, vel=90.0, tiltAngle=47.767522993912095, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.044487475] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.767522993912095
+Shooter.onTarget_DEBUG [98.097602137] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.115861561] owner=null, currOwner=null, vel=90.0, tiltAngle=47.77526691392459, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.118636331] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.77526691392459
+Shooter.onTarget_DEBUG [98.159733678] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.183780949] owner=null, currOwner=null, vel=90.0, tiltAngle=47.78805410690616, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.19050019] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.78805410690616
+Shooter.onTarget_DEBUG [98.2408369] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.254041132] owner=null, currOwner=null, vel=90.0, tiltAngle=47.80054008524373, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.267320713] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.80054008524373
+FrcTeleOp.operatorControllerButtonEvent_INFO [98.311280316] ##### button=BUTTON_B, pressed=true
+Intake.performAction_INFO [98.332223504] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Shooter.onTarget_DEBUG [98.336603268] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.344722072] owner=null, currOwner=null, vel=90.0, tiltAngle=47.78156216932912, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.356243346] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.78156216932912
+Shooter.onTarget_DEBUG [98.398165289] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.413389329] owner=null, currOwner=null, vel=90.0, tiltAngle=47.77909837219391, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.421340644] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.77909837219391
+Shooter.onTarget_DEBUG [98.451980743] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.461345735] owner=null, currOwner=null, vel=90.0, tiltAngle=47.7511624337355, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.46613884] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.7511624337355
+Shooter.onTarget_DEBUG [98.497492152] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.508297481] owner=null, currOwner=null, vel=90.0, tiltAngle=47.77028414861011, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.512725112] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.77028414861011
+Shooter.onTarget_DEBUG [98.523467789] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.568313366] owner=null, currOwner=null, vel=90.0, tiltAngle=47.77492820152581, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.57472804] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.77492820152581
+Shooter.onTarget_DEBUG [98.616458998] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.629099653] owner=null, currOwner=null, vel=90.0, tiltAngle=47.77864517795888, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.639250531] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.77864517795888
+Shooter.onTarget_DEBUG [98.65620367] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.674777275] owner=null, currOwner=null, vel=90.0, tiltAngle=47.78062528389172, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.684352373] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.78062528389172
+Intake.exitTriggerCallback_INFO [98.701694921] active=true, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Shooter.onTarget_DEBUG [98.7026738] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.720896138] owner=null, currOwner=null, vel=90.0, tiltAngle=47.78941377471191, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.731525198] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.78941377471191
+Shooter.onTarget_DEBUG [98.737885761] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.771709603] owner=null, currOwner=null, vel=90.0, tiltAngle=47.78965281515971, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.77513351] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.78965281515971
+Intake.entryTriggerCallback_INFO [98.794431938] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Shooter.onTarget_DEBUG [98.795678888] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.825331117] owner=null, currOwner=null, vel=90.0, tiltAngle=47.803899651807, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.828948713] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.803899651807
+Shooter.onTarget_DEBUG [98.849710262] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.87471869] owner=null, currOwner=null, vel=90.0, tiltAngle=47.78305917312725, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.88269974] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.78305917312725
+Shooter.onTarget_DEBUG [98.903236372] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.929251943] owner=null, currOwner=null, vel=90.0, tiltAngle=47.77570757215892, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.937764175] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.77570757215892
+Shooter.onTarget_DEBUG [98.966655251] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [98.991506213] owner=null, currOwner=null, vel=90.0, tiltAngle=47.78573629432634, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [98.998033052] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.78573629432634
+Shooter.onTarget_DEBUG [99.017601448] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [99.035783339] owner=null, currOwner=null, vel=90.0, tiltAngle=47.78916895785547, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [99.040040955] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.78916895785547
+Shooter.onTarget_DEBUG [99.047793063] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Intake.exitTriggerCallback_INFO [99.059217548] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Intake.finish_INFO [99.061502533] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+Shooter.aimShooter_DEBUG [99.08791055] owner=null, currOwner=null, vel=90.0, tiltAngle=47.7704486119254, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [99.090978523] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.7704486119254
+Shooter.onTarget_DEBUG [99.11285313] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [99.134952593] owner=null, currOwner=null, vel=90.0, tiltAngle=47.79925885781242, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [99.141686444] Aim at AprilTag: aprilTagId=8, shooterVel=90.0, tiltAngle=47.79925885781242
+Shooter.onTarget_DEBUG [99.151882009] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [99.19689896] owner=null, currOwner=null, vel=90.0, tiltAngle=47.86839593380108, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [99.201203427] Aim at AprilTag: aprilTagId=8, shooterVel=90.0, tiltAngle=47.86839593380108
+Shooter.onTarget_DEBUG [99.237155841] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [99.247664153] owner=null, currOwner=null, vel=90.0, tiltAngle=47.643139171451416, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [99.257056791] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.643139171451416
+Shooter.onTarget_DEBUG [99.271494434] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [99.29196892] owner=null, currOwner=null, vel=90.0, tiltAngle=47.77786059191503, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [99.29495008] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.77786059191503
+Shooter.onTarget_DEBUG [99.317243932] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [99.340652759] owner=null, currOwner=null, vel=90.0, tiltAngle=47.795218015961325, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [99.34888404] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.795218015961325
+Shooter.onTarget_DEBUG [99.375808006] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [99.402510838] owner=null, currOwner=null, vel=90.0, tiltAngle=47.775746632323845, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [99.408682254] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.775746632323845
+Shooter.onTarget_DEBUG [99.428613273] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [99.451159986] owner=null, currOwner=null, vel=90.0, tiltAngle=47.79040244104647, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [99.459835402] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.79040244104647
+Shooter.onTarget_DEBUG [99.491054827] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [99.510299559] owner=null, currOwner=null, vel=90.0, tiltAngle=47.791825032497925, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [99.515144617] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.791825032497925
+Shooter.onTarget_DEBUG [99.535045639] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [99.557486452] owner=null, currOwner=null, vel=90.0, tiltAngle=47.79327046695672, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [99.565152465] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.79327046695672
+Shooter.onTarget_DEBUG [99.597399142] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [99.601613129] ##### button=BUTTON_B, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [99.608430934] ##### button=BUTTON_Y, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [101.310111602] ##### button=BUTTON_X, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [101.324074366] useVision=false, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [101.335869536] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.autoTask_INFO [101.358168871] <Event name="StateInfo" time="101.35792498" tag="vvvvv" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [101.360055527] ***** Not using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [101.375964331] <Event name="StateInfo" time="101.375784444" tag="vvvvv" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+Intake.performAction_INFO [101.377291725] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CANCELED), timeout=0.0), hasObject=false
+TaskAutoPickupFromGround.runTaskState_INFO [101.377837012] ***** Did not see Note, release drive ownership.
+FrcTeleOp.driverControllerButtonEvent_INFO [101.416172706] ##### button=BUTTON_X, pressed=false
+Intake.entryTriggerCallback_INFO [102.926825087] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.autoTask_INFO [102.938600833] <Event name="StateInfo" time="102.937620758" tag="vvvvv" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+TaskAutoPickupFromGround.runTaskState_INFO [102.942601845] **** Check Intake: intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CANCELED), gotNote=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [103.158333213] ##### button=BUTTON_Y, pressed=true
+Intake.exitTriggerCallback_INFO [103.495481021] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+Intake.finish_INFO [103.512168332] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+TaskAutoPickupFromGround.autoTask_INFO [103.515789441] <Event name="StateInfo" time="103.513634899" tag="vvvvv" TaskAutoPickupFromGround.state="DONE" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [103.520953094] Stopping subsystems.
+Intake.cancel_INFO [103.522355359] owner=AutoPickupGround
+Intake.finish_INFO [103.52432991] Finishing inactive intake: completed=false, delayFinishPending=false
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [103.533142034] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+Intake.entryTriggerCallback_INFO [103.540541126] active=false, actionParams=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [103.690762189] ##### button=BUTTON_Y, pressed=false
+FrcTeleOp.operatorControllerButtonEvent_INFO [104.615608121] ##### button=BUTTON_Y, pressed=true
+Shooter.aimShooter_DEBUG [104.771717231] owner=null, currOwner=null, vel=90.0, tiltAngle=59.52441889761986, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [104.780164788] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=59.52441889761986
+Shooter.onTarget_DEBUG [104.821948464] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [104.840303694] owner=null, currOwner=null, vel=90.0, tiltAngle=59.25530180958797, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [104.846167845] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=59.25530180958797
+Shooter.onTarget_DEBUG [104.888800075] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [104.992181263] owner=null, currOwner=null, vel=90.0, tiltAngle=58.84696059768329, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.01078052] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.84696059768329
+Shooter.onTarget_DEBUG [105.037178344] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.049962187] owner=null, currOwner=null, vel=90.0, tiltAngle=58.821243117714936, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.055794411] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.821243117714936
+Shooter.onTarget_DEBUG [105.092264627] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.105539514] owner=null, currOwner=null, vel=90.0, tiltAngle=58.765560519618994, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.109605862] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.765560519618994
+Shooter.onTarget_DEBUG [105.135627073] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.151215743] owner=null, currOwner=null, vel=90.0, tiltAngle=58.81681660008064, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.154399677] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.81681660008064
+Shooter.onTarget_DEBUG [105.175392445] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.200335966] owner=null, currOwner=null, vel=90.0, tiltAngle=58.74625833663053, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.206023671] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.74625833663053
+Shooter.onTarget_DEBUG [105.239523996] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.2522995] owner=null, currOwner=null, vel=90.0, tiltAngle=58.80811307130858, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.256902502] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.80811307130858
+Shooter.onTarget_DEBUG [105.28478534] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.307012694] owner=null, currOwner=null, vel=90.0, tiltAngle=58.79592833610702, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.311689461] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.79592833610702
+Shooter.onTarget_DEBUG [105.336973754] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.357005242] owner=null, currOwner=null, vel=90.0, tiltAngle=58.813798710061114, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.360420592] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.813798710061114
+Shooter.onTarget_DEBUG [105.381768479] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.406960377] owner=null, currOwner=null, vel=90.0, tiltAngle=58.74590724558036, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.410797636] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.74590724558036
+Shooter.onTarget_DEBUG [105.438701465] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.508936254] owner=null, currOwner=null, vel=90.0, tiltAngle=58.6996716906818, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.510794168] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.6996716906818
+Shooter.onTarget_DEBUG [105.532801564] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.560106007] owner=null, currOwner=null, vel=90.0, tiltAngle=58.80106448666281, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.562547554] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.80106448666281
+Shooter.onTarget_DEBUG [105.592438193] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.611813509] owner=null, currOwner=null, vel=90.0, tiltAngle=58.80091940450866, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.616154925] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.80091940450866
+Shooter.onTarget_DEBUG [105.644865502] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [105.657615812] ##### button=BUTTON_B, pressed=true
+Intake.performAction_INFO [105.681087443] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Shooter.aimShooter_DEBUG [105.710298247] owner=null, currOwner=null, vel=90.0, tiltAngle=58.807482009549446, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.721799075] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.807482009549446
+Shooter.onTarget_DEBUG [105.757364593] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.76611031] owner=null, currOwner=null, vel=90.0, tiltAngle=58.79241949186479, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.769897677] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.79241949186479
+Shooter.onTarget_DEBUG [105.780874571] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.814236314] owner=null, currOwner=null, vel=90.0, tiltAngle=58.723102340524214, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.818369951] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.723102340524214
+Shooter.onTarget_DEBUG [105.830559787] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.867348956] owner=null, currOwner=null, vel=90.0, tiltAngle=58.73208903522625, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.870868727] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.73208903522625
+Shooter.onTarget_DEBUG [105.892668271] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.919941302] owner=null, currOwner=null, vel=90.0, tiltAngle=58.66435630006305, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.923295586] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.66435630006305
+Shooter.onTarget_DEBUG [105.93622631] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [105.975341548] owner=null, currOwner=null, vel=90.0, tiltAngle=58.70370219172948, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [105.980735657] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.70370219172948
+Shooter.onTarget_DEBUG [105.990597432] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Intake.exitTriggerCallback_INFO [106.003684399] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Intake.finish_INFO [106.007979052] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+Shooter.aimShooter_DEBUG [106.024608126] owner=null, currOwner=null, vel=90.0, tiltAngle=58.67616486308804, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [106.030706438] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.67616486308804
+Shooter.onTarget_DEBUG [106.042092839] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [106.072383087] owner=null, currOwner=null, vel=90.0, tiltAngle=58.64220897447985, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [106.079952955] Aim at AprilTag: aprilTagId=8, shooterVel=90.0, tiltAngle=58.64220897447985
+Shooter.onTarget_DEBUG [106.101776066] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [106.130964518] owner=null, currOwner=null, vel=90.0, tiltAngle=58.54655874956471, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [106.141719947] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.54655874956471
+Shooter.onTarget_DEBUG [106.145890651] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [106.179583326] owner=null, currOwner=null, vel=90.0, tiltAngle=58.60225490241345, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [106.185568982] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.60225490241345
+Shooter.onTarget_DEBUG [106.205165548] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [106.230992504] owner=null, currOwner=null, vel=90.0, tiltAngle=58.53091120961554, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [106.23542469] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.53091120961554
+Shooter.onTarget_DEBUG [106.246852108] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [106.281969774] owner=null, currOwner=null, vel=90.0, tiltAngle=58.60283969958772, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [106.28409971] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.60283969958772
+Shooter.onTarget_DEBUG [106.297176075] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [106.325515984] ##### button=BUTTON_B, pressed=false
+Shooter.aimShooter_DEBUG [106.333769061] owner=null, currOwner=null, vel=90.0, tiltAngle=58.57202888647192, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [106.339183788] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.57202888647192
+FrcTeleOp.operatorControllerButtonEvent_INFO [106.376418956] ##### button=BUTTON_Y, pressed=false
+Shooter.onTarget_DEBUG [106.377616358] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.driverControllerButtonEvent_INFO [107.151510917] ##### button=BUTTON_B, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [107.253393406] ##### button=BUTTON_B, pressed=false
+FrcTeleOp.driverControllerButtonEvent_INFO [111.547465365] ##### button=BUTTON_X, pressed=true
+TaskAutoPickupFromGround.autoAssistPickup_INFO [111.549357712] useVision=false, inAuto=false, event=null
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [111.550203795] Successfully acquired subsystem ownerships for AutoPickupGround.
+TaskAutoPickupFromGround.autoTask_INFO [111.573683565] <Event name="StateInfo" time="111.573440007" tag="vvvvv" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [111.575321422] ***** Not using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [111.581298742] <Event name="StateInfo" time="111.581126157" tag="vvvvv" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+Intake.performAction_INFO [111.582887457] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=SIGNALED), timeout=0.0), hasObject=false
+TaskAutoPickupFromGround.runTaskState_INFO [111.584696263] ***** Did not see Note, release drive ownership.
+FrcTeleOp.driverControllerButtonEvent_INFO [111.703351204] ##### button=BUTTON_X, pressed=false
+Intake.entryTriggerCallback_INFO [113.305549059] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.autoTask_INFO [113.320583686] <Event name="StateInfo" time="113.320333701" tag="vvvvv" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+TaskAutoPickupFromGround.runTaskState_INFO [113.322312476] **** Check Intake: intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CANCELED), gotNote=true
+Intake.exitTriggerCallback_INFO [113.865136683] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+Intake.finish_INFO [113.866495284] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+TaskAutoPickupFromGround.autoTask_INFO [113.867939435] <Event name="StateInfo" time="113.867701452" tag="vvvvv" TaskAutoPickupFromGround.state="DONE" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [113.868870513] Stopping subsystems.
+Intake.cancel_INFO [113.869608527] owner=AutoPickupGround
+Intake.finish_INFO [113.870232234] Finishing inactive intake: completed=false, delayFinishPending=false
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [113.871496418] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+Intake.entryTriggerCallback_INFO [113.894475366] active=false, actionParams=null
+FrcTeleOp.operatorControllerButtonEvent_INFO [118.441279456] ##### button=BUTTON_Y, pressed=true
+Shooter.aimShooter_DEBUG [118.451961013] owner=null, currOwner=null, vel=90.0, tiltAngle=38.87559868401317, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [118.466505004] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=38.87559868401317
+Shooter.onTarget_DEBUG [118.485571004] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [118.500760272] owner=null, currOwner=null, vel=90.0, tiltAngle=39.518622665133, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [118.504941116] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=39.518622665133
+Shooter.onTarget_DEBUG [118.536088466] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [118.550921083] owner=null, currOwner=null, vel=90.0, tiltAngle=40.0159089190858, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [118.555404798] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=40.0159089190858
+Shooter.onTarget_DEBUG [118.573442801] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [118.600140316] owner=null, currOwner=null, vel=90.0, tiltAngle=40.475150089142765, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [118.604578018] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=40.475150089142765
+Shooter.onTarget_DEBUG [118.624340163] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [118.652824081] owner=null, currOwner=null, vel=90.0, tiltAngle=41.435877865196474, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [118.656690437] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=41.435877865196474
+Shooter.onTarget_DEBUG [118.683498934] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [118.703263603] owner=null, currOwner=null, vel=90.0, tiltAngle=41.55311967122154, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [118.708486333] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=41.55311967122154
+Shooter.onTarget_DEBUG [118.734127064] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [118.760841965] owner=null, currOwner=null, vel=90.0, tiltAngle=43.50601614129717, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [118.76329534] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=43.50601614129717
+Shooter.onTarget_DEBUG [118.7962601] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [118.859268766] owner=null, currOwner=null, vel=90.0, tiltAngle=45.60391065005554, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [118.863101229] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=45.60391065005554
+Shooter.onTarget_DEBUG [118.880270068] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [118.907907195] owner=null, currOwner=null, vel=90.0, tiltAngle=47.43262262112649, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [118.912586678] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=47.43262262112649
+Shooter.onTarget_DEBUG [118.939033458] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [118.96163981] owner=null, currOwner=null, vel=90.0, tiltAngle=48.84451018004072, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [118.964791677] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=48.84451018004072
+Shooter.onTarget_DEBUG [119.001545149] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.007227712] owner=null, currOwner=null, vel=90.0, tiltAngle=50.35476875836144, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.011342424] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=50.35476875836144
+Shooter.onTarget_DEBUG [119.056188989] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.064792214] owner=null, currOwner=null, vel=90.0, tiltAngle=52.979828145646714, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.071671262] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=52.979828145646714
+Shooter.onTarget_DEBUG [119.09357409] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.113023418] owner=null, currOwner=null, vel=90.0, tiltAngle=54.25619889340844, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.116005593] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=54.25619889340844
+Shooter.onTarget_DEBUG [119.142095389] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.166210841] owner=null, currOwner=null, vel=90.0, tiltAngle=56.01024156149535, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.168912463] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=56.01024156149535
+Shooter.onTarget_DEBUG [119.201113871] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.216161303] owner=null, currOwner=null, vel=90.0, tiltAngle=56.76910147341809, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.220444673] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=56.76910147341809
+Shooter.onTarget_DEBUG [119.245232467] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.267325958] owner=null, currOwner=null, vel=90.0, tiltAngle=57.298997255738655, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.27036338] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.298997255738655
+Shooter.onTarget_DEBUG [119.298605163] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.317195178] owner=null, currOwner=null, vel=90.0, tiltAngle=57.71380545326871, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.320560532] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.71380545326871
+Shooter.onTarget_DEBUG [119.342362264] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.367703927] owner=null, currOwner=null, vel=90.0, tiltAngle=57.89926619697345, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.377278083] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.89926619697345
+Shooter.onTarget_DEBUG [119.410496957] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.423997959] owner=null, currOwner=null, vel=90.0, tiltAngle=57.92450952576856, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.431094034] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.92450952576856
+Shooter.onTarget_DEBUG [119.451330479] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.473436842] owner=null, currOwner=null, vel=90.0, tiltAngle=57.93006565617287, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.477889057] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.93006565617287
+Shooter.onTarget_DEBUG [119.501412367] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.53189845] owner=null, currOwner=null, vel=90.0, tiltAngle=57.93183303660583, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.537853303] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.93183303660583
+Shooter.onTarget_DEBUG [119.572155668] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.584301724] owner=null, currOwner=null, vel=90.0, tiltAngle=57.818112373451804, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.586499875] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.818112373451804
+Shooter.onTarget_DEBUG [119.608070743] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.629703441] owner=null, currOwner=null, vel=90.0, tiltAngle=57.949476996256415, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.635904058] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.949476996256415
+Shooter.onTarget_DEBUG [119.662036182] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.690659699] owner=null, currOwner=null, vel=90.0, tiltAngle=57.887344320696165, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.693565841] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.887344320696165
+Shooter.onTarget_DEBUG [119.727993154] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.737128163] owner=null, currOwner=null, vel=90.0, tiltAngle=57.91594107983078, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.741573217] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.91594107983078
+Shooter.onTarget_DEBUG [119.767498955] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.operatorControllerButtonEvent_INFO [119.787978194] ##### button=BUTTON_B, pressed=true
+Intake.performAction_INFO [119.801442518] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0), hasObject=true
+Shooter.aimShooter_DEBUG [119.819461212] owner=null, currOwner=null, vel=90.0, tiltAngle=57.89107861719566, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.821013897] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.89107861719566
+Shooter.onTarget_DEBUG [119.829089657] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.846167428] owner=null, currOwner=null, vel=90.0, tiltAngle=57.87975985348086, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.849597729] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.87975985348086
+Shooter.onTarget_DEBUG [119.862936777] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.89971399] owner=null, currOwner=null, vel=90.0, tiltAngle=57.88010573580589, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.903048924] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.88010573580589
+Shooter.onTarget_DEBUG [119.914232876] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.944739939] owner=null, currOwner=null, vel=90.0, tiltAngle=58.016266936838925, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [119.94978274] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.016266936838925
+Shooter.onTarget_DEBUG [119.96733635] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [119.997516556] owner=null, currOwner=null, vel=90.0, tiltAngle=57.99086404051127, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [120.000895303] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.99086404051127
+Shooter.onTarget_DEBUG [120.011465654] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [120.047831583] owner=null, currOwner=null, vel=90.0, tiltAngle=57.99233905212456, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [120.051099935] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.99233905212456
+Shooter.onTarget_DEBUG [120.069189649] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [120.09693113] owner=null, currOwner=null, vel=90.0, tiltAngle=57.994239757884436, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [120.104901228] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.994239757884436
+Shooter.onTarget_DEBUG [120.115466637] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [120.152615192] owner=null, currOwner=null, vel=90.0, tiltAngle=57.994239757884436, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [120.155423359] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.994239757884436
+Intake.exitTriggerCallback_INFO [120.165665474] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=null, timeout=0.0)
+Intake.finish_INFO [120.168414118] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+Shooter.onTarget_DEBUG [120.17076012] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [120.203042154] owner=null, currOwner=null, vel=90.0, tiltAngle=57.97334556302046, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [120.207086246] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.97334556302046
+Shooter.onTarget_DEBUG [120.235741271] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [120.270530021] owner=null, currOwner=null, vel=90.0, tiltAngle=58.15428354293549, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [120.274884217] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.15428354293549
+Shooter.onTarget_DEBUG [120.291651743] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [120.318178554] owner=null, currOwner=null, vel=90.0, tiltAngle=57.88094747303621, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [120.324560479] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=57.88094747303621
+Shooter.onTarget_DEBUG [120.36936611] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [120.3837606] owner=null, currOwner=null, vel=90.0, tiltAngle=58.009888436052556, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [120.388642472] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.009888436052556
+Shooter.onTarget_DEBUG [120.409452618] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [120.441345829] owner=null, currOwner=null, vel=90.0, tiltAngle=58.23615699506639, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [120.455870216] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.23615699506639
+FrcTeleOp.operatorControllerButtonEvent_INFO [120.491001479] ##### button=BUTTON_B, pressed=false
+Shooter.onTarget_DEBUG [120.494984528] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.aimShooter_DEBUG [120.509577625] owner=null, currOwner=null, vel=90.0, tiltAngle=58.25045681139165, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+Robot.aimShooterAtAprilTag_INFO [120.516751659] Aim at AprilTag: aprilTagId=7, shooterVel=90.0, tiltAngle=58.25045681139165
+FrcTeleOp.operatorControllerButtonEvent_INFO [120.539259014] ##### button=BUTTON_Y, pressed=false
+Shooter.onTarget_DEBUG [120.540827721] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+FrcTeleOp.driverControllerButtonEvent_INFO [123.329315872] ##### button=RIGHT_BUMPER, pressed=true
+FrcTeleOp.driverControllerButtonEvent_INFO [129.595030117] ##### button=RIGHT_BUMPER, pressed=false
+FrcRobotBase.startCompetition_INFO [135.42945733] *** Transitioning from TELEOP_MODE to DISABLED_MODE ***
+TaskAutoScoreNote.autoAssistCancel_INFO [135.444612133] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [135.445562106] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [135.446292543] Canceling auto-assist.
+TaskAutoScoreNote.autoAssistCancel_INFO [135.447535127] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [135.448291333] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [135.449058885] Canceling auto-assist.
+pidDrive.printPerformanceMetrics_INFO [135.451152391] [pidDrive] Loop Performance Metrics:
+Average Loop Interval = NaNs (freq=NaNHz, min=0.000000s, max=0.000000s)
+
+FrcRobotBase.printPerformanceMetrics_INFO [135.455181661] [FrcRobotBase] Loop Performance Metrics:
+Average Loop Interval = 0.000689s (freq=1452.202Hz, min=0.000000s, max=0.241915s)
+[03]                StartTask=0.000000s
+[04]          PrePeriodicTask=0.000071s
+[07]               UpdateTask=0.000477s
+[02]                StartMode=0.000000s
+[06]         PostPeriodicTask=0.000043s
+[08]                 StopTask=0.000000s
+[09]                 StopMode=0.000000s
+[00]                RobotInit=9.048606s
+[01]           RobotStartMode=0.000000s
+[05]                 Periodic=0.000058s
+[10]            RobotStopMode=0.000000s
+
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.460949175] TrcWatchdogMgr: STANDALONE_TASK=0.000095/0.998972
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.462109375] DriverController.buttonEvent: PRE_PERIODIC_TASK=0.000012/0.001854
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.464299815] OperatorController.buttonEvent: PRE_PERIODIC_TASK=0.000009/0.001854
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.467028025] LED: OUTPUT_TASK=0.000016/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.468588523] lfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000010/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.469575555] TrcMotor.odometryTask: STANDALONE_TASK=0.000593/0.000649
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.471632967] lfDriveMotor.odometryCleanupTask: STOP_TASK=0.001123/38.390825
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.473214969] rfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000005/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.475949245] lbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000005/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.478480026] rbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000005/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.479327817] lfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000043/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.480978715] rfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000034/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.481804779] lbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000034/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.482424611] rbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000033/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.48559154] TrcDriveBase.odometryTask: INPUT_TASK=0.002868/0.011153
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.487587205] TrcDriveBase.stopTask: STOP_TASK=0.002584/38.391826
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.489525994] purePursuitDrive.driveTask: POST_PERIODIC_TASK=0.014107/0.021160
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.491222804] Intake.motor.pidCtrlTask: OUTPUT_TASK=0.000005/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.493226213] Intake.entryTrigger.triggerTask: PRE_PERIODIC_TASK=0.000013/0.000689
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.494381861] Intake.exitTrigger.triggerTask: PRE_PERIODIC_TASK=0.000006/0.000689
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.495686667] Shooter.shooterMotor.pidCtrlTask: OUTPUT_TASK=0.000009/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.497214621] Shooter.tiltMotor.pidCtrlTask: OUTPUT_TASK=0.000092/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.50244402] Shooter.tiltMotor.converterTask: INPUT_TASK=0.000096/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.504689446] Climber.motor.pidCtrlTask: OUTPUT_TASK=0.000010/0.010560
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.510068132] Deflector.servo.stopTask: STOP_TASK=0.000118/38.389690
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.513047905] TaskAutoScoreNote: POST_PERIODIC_TASK=0.001566/0.006169
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [135.515628111] TaskAutoPickupFromGround: POST_PERIODIC_TASK=0.000042/0.008793

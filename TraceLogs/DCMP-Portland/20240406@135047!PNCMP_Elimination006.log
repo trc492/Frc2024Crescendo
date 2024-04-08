@@ -1,0 +1,404 @@
+Robot.robotStartMode_INFO [0.027177755] Sat Apr 06 13:50:47 PDT 2024: ***** AUTO_MODE *****
+TaskAutoScoreNote.autoAssistCancel_INFO [0.028218593] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [0.030057557] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [0.031503425] Canceling auto-assist.
+FrcAuto.startMode_INFO [0.075842307] <Info name="MatchInfo" date="Sat Apr 06 13:50:47 PDT 2024" event="PNCMP" type="Elimination" match=6 replay=1 alliance="Blue" location=1 gameMsg="" />
+FrcAuto.startMode_INFO [0.087391418] <Info name="AutoChoices" alliance="Blue" strategy="CRESCENDO_AUTO" startPos="SW_SOURCE_SIDE" scoreWingNotes="SCORE_NONE" endAction="SCORE_TWO_NOTES" relocalize="false" startDelay=0 sec pathFile="DrivePath.csv" xDistance=6.0 ft yDistance=6.0 ft turnDegrees=90 deg driveTime=4 sec drivePower=4.0 />
+CmdAuto.cmdPeriodic_INFO [0.121983411] <Event name="StateInfo" time="0.121691476" tag="vvvvv" CmdAuto.state="START" />
+CmdAuto.cmdPeriodic_INFO [0.159015176] ***** Shoot Preload from SW_SOURCE_SIDE at (x=-175.3,y=34.2,angle=243.5).
+Shooter.aimShooter_DEBUG [0.168714688] owner=null, currOwner=null, vel=90.0, tiltAngle=64.0, panAngle=0.0, event=(CmdAuto=CLEARED), timeout=0.0, aimOnly=false, shootOffDelay=null
+Climber.motor.pidCtrlTask_INFO [0.183632429] Zero calibration done, event=null
+CmdAuto.cmdPeriodic_INFO [0.207957071] <Event name="StateInfo" time="0.207700621" tag="^^^^^" CmdAuto.state="START" />
+Shooter.onTarget_DEBUG [0.22894316] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=false
+Shooter.onTarget_DEBUG [0.878473033] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=SIGNALED), panEvent=null, aimOnly=false
+Intake: pwr=0.0, current=0.0, isActive=false, hasObject=true.shoot_DEBUG [0.893560592] owner=null, power=1.0, event=(Shooter.shootCompletionEvent=CLEARED)
+Shooter.tiltMotor.pidCtrlTask_INFO [0.879670174] controlMode: Position onTarget=true(63.240230173660535/64.0), stalled=false, expired=false, event=(Shooter.tiltOnTarget=SIGNALED)
+Intake.performAction_INFO [0.903716995] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0), hasObject=true
+Intake.exitTriggerCallback_INFO [0.941231311] active=true, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0)
+Intake.entryTriggerCallback_INFO [0.971964945] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0)
+Intake.exitTriggerCallback_INFO [1.259638199] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(Shooter.shootCompletionEvent=CLEARED), timeout=0.0)
+Intake.finish_INFO [1.262896317] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+Shooter.shootCompleted_INFO [1.266580407] Shoot completed, keeping shooter motor running.
+CmdAuto.cmdPeriodic_INFO [1.269297786] <Event name="StateInfo" time="1.268970773" tag="vvvvv" CmdAuto.state="DO_DELAY" />
+CmdAuto.cmdPeriodic_INFO [1.271120208] ***** Set shooter to Wing Note preset.
+Shooter.aimShooter_DEBUG [1.274079883] owner=null, currOwner=null, vel=90.0, tiltAngle=44.0, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+CmdAuto.cmdPeriodic_INFO [1.277432741] <Event name="StateInfo" time="1.277184955" tag="^^^^^" CmdAuto.state="DO_DELAY" />
+Shooter.onTarget_DEBUG [1.279335584] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+CmdAuto.cmdPeriodic_INFO [1.28084712] <Event name="StateInfo" time="1.280608853" tag="vvvvv" CmdAuto.state="DRIVE_TO_WING_NOTE" />
+CmdAuto.cmdPeriodic_INFO [1.282623371] ***** No Scoring Wing Note.
+CmdAuto.cmdPeriodic_INFO [1.284327671] <Event name="StateInfo" time="1.283350391" tag="^^^^^" CmdAuto.state="DRIVE_TO_WING_NOTE" />
+CmdAuto.cmdPeriodic_INFO [1.288536748] <Event name="StateInfo" time="1.288310928" tag="vvvvv" CmdAuto.state="DRIVE_TO_CENTERLINE" />
+CmdAuto.cmdPeriodic_INFO [1.300365628] ***** EndAction=SCORE_TWO_NOTES: drive to Centerline Source.
+purePursuitDrive.start_INFO [1.409980202] Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=-175.1,y=34.6,angle=243.4),vel=0.000000), TrcWaypoint(index=1,pose=(x=-62.6,y=145.6,angle=180.0),vel=0.000000), TrcWaypoint(index=2,pose=(x=-62.6,y=265.6,angle=180.0),vel=0.000000)])
+CmdAuto.cmdPeriodic_INFO [1.421488851] <Event name="StateInfo" time="1.41909522" tag="^^^^^" CmdAuto.state="DRIVE_TO_CENTERLINE" RobotPose=(x=-175.1,y=34.6,angle=243.4) TargetPose=(x=-62.6,y=265.6,angle=180.0) vel=(x=0.0,y=0.0,angle=0.0) Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=0.0,y=0.0,angle=0.0),vel=0.000000), TrcWaypoint(simple=false,index=-1,timestep=0.504,pose=(x=24.3,y=-74.9,angle=-31.6),vel=157.480000,encPos=0.000000,accel=0.000000,jerk=0.000000), TrcWaypoint(index=1,pose=(x=48.8,y=-150.3,angle=-63.4),vel=157.480000), TrcWaypoint(simple=false,index=-1,timestep=1.000,pose=(x=85.7,y=-168.8,angle=-63.4),vel=157.480000,encPos=0.000000,accel=-157.480000,jerk=0.000000), TrcWaypoint(index=2,pose=(x=156.1,y=-204.1,angle=-63.4),vel=0.000000)]) />
+Robot.relocalize_INFO [1.496361834] Relocalize Robot: aprilTagId=7, error=4.950706417568658 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.54458549] Relocalize Robot: aprilTagId=7, error=5.3938192708190655 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.5849499] Relocalize Robot: aprilTagId=7, error=6.766761227797878 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.628788121] Relocalize Robot: aprilTagId=7, error=7.364031847000313 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.677366004] Relocalize Robot: aprilTagId=7, error=8.334071102397097 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.732368273] Relocalize Robot: aprilTagId=7, error=10.379397944171416 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.814108725] Relocalize Robot: aprilTagId=7, error=11.139155784025364 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.867974458] Relocalize Robot: AprilTagId=7, error=12.69881737519925, robotPose=(x=-162.7,y=45.8,angle=238.8), relocalizePose=(x=-169.3,y=35.0,angle=-125.9)
+Robot.relocalize_INFO [1.904618868] Relocalize Robot: aprilTagId=7, error=1.668234065451789 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.927723615] Relocalize Robot: aprilTagId=7, error=0.8588665667679021 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.96572457] Relocalize Robot: aprilTagId=7, error=0.584437658261082 (error too large or small to relocalize).
+Robot.relocalize_INFO [1.991329226] Relocalize Robot: aprilTagId=7, error=0.9974452962275527 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.0324147] Relocalize Robot: aprilTagId=7, error=2.008183427404972 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.064516277] Relocalize Robot: aprilTagId=7, error=1.982560874285339 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.106293952] Relocalize Robot: aprilTagId=8, robotEstimatedPoseFromAprilTag=(x=-159.4,y=45.5,angle=-129.3)
+Robot.relocalize_INFO [2.117536974] Relocalize Robot: aprilTagId=8, error=1.9101076666820185 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.140604505] Relocalize Robot: aprilTagId=7, error=1.3103952097982188 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.210316962] Relocalize Robot: aprilTagId=8, robotEstimatedPoseFromAprilTag=(x=-156.3,y=50.9,angle=-137.4)
+Robot.relocalize_INFO [2.213804476] Relocalize Robot: aprilTagId=8, error=2.623613583004099 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.249282417] Relocalize Robot: aprilTagId=8, robotEstimatedPoseFromAprilTag=(x=-152.8,y=53.8,angle=-142.2)
+Robot.relocalize_INFO [2.262074196] Relocalize Robot: aprilTagId=8, error=0.5926233025784415 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.28608627] Relocalize Robot: aprilTagId=8, robotEstimatedPoseFromAprilTag=(x=-152.8,y=54.6,angle=-145.3)
+Robot.relocalize_INFO [2.288803582] Relocalize Robot: aprilTagId=8, error=2.693796089182499 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.34974641] Relocalize Robot: aprilTagId=8, robotEstimatedPoseFromAprilTag=(x=-149.2,y=58.3,angle=-150.9)
+Robot.relocalize_INFO [2.355305867] Relocalize Robot: aprilTagId=8, error=2.764212118048953 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.411176815] Relocalize Robot: aprilTagId=7, error=6.138372570688213 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.448511472] Relocalize Robot: aprilTagId=7, error=8.105749985446938 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.493829124] Relocalize Robot: aprilTagId=7, error=10.393413901632018 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.518541251] Relocalize Robot: AprilTagId=7, error=12.693632569743093, robotPose=(x=-137.3,y=72.8,angle=-156.3), relocalizePose=(x=-145.5,y=63.1,angle=-156.6)
+Robot.relocalize_INFO [2.558932799] Relocalize Robot: aprilTagId=7, error=1.566708053289748 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.583632035] Relocalize Robot: aprilTagId=7, error=2.3354603560887424 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.68258832] Relocalize Robot: aprilTagId=7, error=3.983950674360932 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.754012799] Relocalize Robot: aprilTagId=7, error=3.6892394768186763 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.777547483] Relocalize Robot: aprilTagId=7, error=5.8271576108692225 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.817404263] Relocalize Robot: aprilTagId=7, error=7.294705908606895 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.851655788] Relocalize Robot: aprilTagId=7, error=9.52921583549699 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.904609638] Relocalize Robot: AprilTagId=7, error=13.929606614868067, robotPose=(x=-114.9,y=92.0,angle=-156.2), relocalizePose=(x=-126.7,y=84.7,angle=-157.1)
+Robot.relocalize_INFO [2.946163716] Relocalize Robot: aprilTagId=7, error=1.8794065492474712 (error too large or small to relocalize).
+Robot.relocalize_INFO [2.970484244] Relocalize Robot: aprilTagId=7, error=1.172586681912133 (error too large or small to relocalize).
+Robot.relocalize_INFO [3.013309381] Relocalize Robot: aprilTagId=7, error=3.076354550664014 (error too large or small to relocalize).
+Robot.relocalize_INFO [3.045140554] Relocalize Robot: aprilTagId=7, error=3.948163007617081 (error too large or small to relocalize).
+Robot.relocalize_INFO [3.145035317] Relocalize Robot: aprilTagId=8, robotEstimatedPoseFromAprilTag=(x=-104.9,y=104.2,angle=-158.2)
+Robot.relocalize_INFO [3.165275484] Relocalize Robot: aprilTagId=8, error=6.938168674966677 (error too large or small to relocalize).
+Robot.relocalize_INFO [3.212728387] Relocalize Robot: aprilTagId=8, robotEstimatedPoseFromAprilTag=(x=-301.7,y=112.7,angle=115.9)
+Robot.relocalize_INFO [3.225807743] Relocalize Robot: aprilTagId=8, error=208.4067567367161 (error too large or small to relocalize).
+Robot.relocalize_INFO [3.269608448] Relocalize Robot: aprilTagId=7, error=9.955315956572827 (error too large or small to relocalize).
+CmdAuto.waypointHandler_INFO [3.467112699] ***** [DRIVE_TO_CENTERLINE] Waypoint 1: TrcWaypoint(index=1,pose=(x=48.8,y=-150.3,angle=-63.4),vel=157.480000), robotPose=(x=-68.9,y=140.5,angle=-162.6)
+CmdAuto.waypointHandler_INFO [3.469312816] ***** Turn on full Note Vision.
+CmdAuto.cmdPeriodic_INFO [4.194163607] ***** Vision found note too far or not turn enough: notePose=(x=5.3,y=110.4,angle=2.7), robotPose=(x=-62.4,y=235.5,angle=-178.0)
+CmdAuto.cmdPeriodic_INFO [4.298762885] ***** Vision found note too far or not turn enough: notePose=(x=7.6,y=103.6,angle=4.2), robotPose=(x=-62.8,y=245.0,angle=-178.4)
+CmdAuto.cmdPeriodic_INFO [4.352916188] ***** Vision found note too far or not turn enough: notePose=(x=6.7,y=96.9,angle=3.9), robotPose=(x=-62.8,y=247.6,angle=-177.4)
+CmdAuto.cmdPeriodic_INFO [4.390989335] ***** Vision found note too far or not turn enough: notePose=(x=6.7,y=96.9,angle=3.9), robotPose=(x=-62.8,y=248.8,angle=-177.2)
+CmdAuto.cmdPeriodic_INFO [4.406131053] ***** Vision found note: notePose=(x=6.2,y=93.8,angle=3.8), robotPose=(x=-62.8,y=250.3,angle=-176.8)
+CmdAuto.cmdPeriodic_INFO [4.426558955] ***** Vision found note: notePose=(x=5.7,y=90.9,angle=3.6), robotPose=(x=-62.8,y=252.0,angle=-176.7)
+CmdAuto.cmdPeriodic_INFO [4.428230675] <Event name="StateInfo" time="4.427980964" tag="vvvvv" CmdAuto.state="PERFORM_END_ACTION" />
+CmdAuto.cmdPeriodic_INFO [4.431324841] ***** Turn off Vision and cancel PurePursuitDrive.
+CmdAuto.waypointHandler_INFO [4.439966738] ***** [PERFORM_END_ACTION] Waypoint -1: null, robotPose=(x=-62.8,y=252.3,angle=-176.5)
+CmdAuto.cmdPeriodic_INFO [4.444709514] <Event name="StateInfo" time="4.443269477" tag="^^^^^" CmdAuto.state="PERFORM_END_ACTION" />
+CmdAuto.cmdPeriodic_INFO [4.451847952] <Event name="StateInfo" time="4.450030808" tag="vvvvv" CmdAuto.state="PICKUP_CENTERLINE_NOTE" />
+CmdAuto.cmdPeriodic_INFO [4.45378265] ***** Pickup Centerline Note.
+TaskAutoPickupFromGround.autoAssistPickup_INFO [4.457468445] useVision=true, inAuto=true, event=(CmdAuto=CANCELED)
+TaskAutoPickupFromGround.acquireSubsystemsOwnership_INFO [4.468456167] Successfully acquired subsystem ownerships for AutoPickupGround.
+CmdAuto.cmdPeriodic_INFO [4.471106148] <Event name="StateInfo" time="4.470903823" tag="^^^^^" CmdAuto.state="PICKUP_CENTERLINE_NOTE" />
+TaskAutoPickupFromGround.autoTask_INFO [4.472406297] <Event name="StateInfo" time="4.472150994" tag="vvvvv" TaskAutoPickupFromGround.state="START" />
+TaskAutoPickupFromGround.runTaskState_INFO [4.480977463] ***** Using Note Vision.
+TaskAutoPickupFromGround.autoTask_INFO [4.487647036] <Event name="StateInfo" time="4.487401158" tag="vvvvv" TaskAutoPickupFromGround.state="DETECT_NOTE" />
+TaskAutoPickupFromGround.runTaskState_INFO [4.491039346] ***** Vision found Note: notePose=(x=-5.2,y=-85.5,angle=3.5), robotPose=(x=-62.8,y=254.3,angle=-176.2)
+TaskAutoPickupFromGround.autoTask_INFO [4.498546073] <Event name="StateInfo" time="4.497149284" tag="vvvvv" TaskAutoPickupFromGround.state="DRIVE_TO_NOTE" />
+Intake.performAction_INFO [4.501437168] Action: (op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0), hasObject=false
+TaskAutoPickupFromGround.runTaskState_INFO [4.506176478] ***** Approach Note.
+purePursuitDrive.start_INFO [4.511195379] Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=-62.8,y=254.7,angle=-176.1),vel=0.000000), TrcWaypoint(index=1,pose=(x=-52.1,y=333.7,angle=-172.6),vel=0.000000), TrcWaypoint(index=2,pose=(x=-48.8,y=359.4,angle=-172.6),vel=0.000000)])
+Intake.entryTriggerCallback_INFO [5.871592693] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+TaskAutoPickupFromGround.autoTask_INFO [5.886366158] <Event name="StateInfo" time="5.885565345" tag="vvvvv" TaskAutoPickupFromGround.state="CHECK_INTAKE_COMPLETION" />
+TaskAutoPickupFromGround.runTaskState_INFO [5.888646227] **** Check Intake: intakeEvent=(TaskAutoPickupFromGround.intakeEvent=CLEARED), gotNoteEvent=(TaskAutoPickupFromGround.gotNoteEvent=SIGNALED), driveEvent=(TaskAutoPickupFromGround.driveEvent=CLEARED), gotNote=true
+Intake.exitTriggerCallback_INFO [6.2879783] active=true, actionParams=(op=IntakeForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoPickupFromGround.intakeEvent=CLEARED), timeout=0.0)
+Intake.finish_INFO [6.293798088] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+TaskAutoPickupFromGround.autoTask_INFO [6.304533593] <Event name="StateInfo" time="6.296714967" tag="vvvvv" TaskAutoPickupFromGround.state="DONE" />
+TaskAutoPickupFromGround.stopSubsystems_INFO [6.307300956] Stopping subsystems.
+TaskAutoPickupFromGround.releaseSubsystemsOwnership_INFO [6.311283053] Releasing subsystem ownership (currOwner=AutoPickupGround, intake=AutoPickupGround, robotDrive=null).
+Intake.entryTriggerCallback_INFO [6.320829415] active=false, actionParams=null
+CmdAuto.cmdPeriodic_INFO [6.322390274] <Event name="StateInfo" time="6.322161367" tag="vvvvv" CmdAuto.state="DRIVE_TO_SPEAKER" />
+CmdAuto.cmdPeriodic_INFO [6.328498172] ***** Drive to Speaker to score Centerline Note.
+purePursuitDrive.start_INFO [6.349319416] Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=-48.4,y=325.6,angle=-171.8),vel=0.000000), TrcWaypoint(index=1,pose=(x=-62.6,y=265.6,angle=225.0),vel=0.000000), TrcWaypoint(index=2,pose=(x=-131.6,y=84.0,angle=225.0),vel=0.000000), TrcWaypoint(index=3,pose=(x=-137.6,y=78.0,angle=225.0),vel=0.000000)])
+CmdAuto.cmdPeriodic_INFO [6.358543279] <Event name="StateInfo" time="6.357602271" tag="^^^^^" CmdAuto.state="DRIVE_TO_SPEAKER" RobotPose=(x=-48.4,y=325.6,angle=-171.8) TargetPose=(x=-137.6,y=78.0,angle=225.0) vel=(x=0.0,y=-0.0,angle=0.9) Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=0.0,y=0.0,angle=0.0),vel=0.000000), TrcWaypoint(index=1,pose=(x=5.6,y=61.4,angle=396.8),vel=139.360286), TrcWaypoint(simple=false,index=-1,timestep=0.679,pose=(x=9.3,y=78.1,angle=396.8),vel=157.480000,encPos=0.000000,accel=0.000000,jerk=0.000000), TrcWaypoint(simple=false,index=-1,timestep=0.672,pose=(x=32.7,y=182.4,angle=396.8),vel=157.480000,encPos=0.000000,accel=-157.480000,jerk=0.000000), TrcWaypoint(index=2,pose=(x=48.1,y=251.0,angle=396.8),vel=51.696462), TrcWaypoint(index=3,pose=(x=53.2,y=257.8,angle=396.8),vel=0.000000)]) />
+CmdAuto.waypointHandler_INFO [7.196962836] ***** [DRIVE_TO_SPEAKER] Waypoint 1: TrcWaypoint(index=1,pose=(x=5.6,y=61.4,angle=396.8),vel=139.360286), robotPose=(x=-59.5,y=273.9,angle=-149.0)
+Shooter.aimShooter_DEBUG [7.198892319] owner=null, currOwner=null, vel=90.0, tiltAngle=44.0, panAngle=0.0, event=null, timeout=0.0, aimOnly=true, shootOffDelay=null
+CmdAuto.waypointHandler_INFO [7.205138293] ***** Turn on AprilTag Vision Tracking.
+Shooter.onTarget_DEBUG [7.240767254] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.onTarget_DEBUG [8.682034517] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=SIGNALED), panEvent=null, aimOnly=true
+Shooter.tiltMotor.pidCtrlTask_INFO [8.682299488] controlMode: Position onTarget=true(43.63974648944402/44.0), stalled=false, expired=false, event=(Shooter.tiltOnTarget=SIGNALED)
+CmdAuto.waypointHandler_INFO [9.208565278] ***** [DRIVE_TO_SPEAKER] Waypoint 2: TrcWaypoint(index=2,pose=(x=48.1,y=251.0,angle=396.8),vel=51.696462), robotPose=(x=-127.6,y=91.3,angle=-135.2)
+CmdAuto.waypointHandler_INFO [9.226066965] ***** Cancel Pursuit and turn off Vision Guidance and Vision Tracking.
+CmdAuto.waypointHandler_INFO [9.232094399] ***** [DRIVE_TO_SPEAKER] Waypoint -1: null, robotPose=(x=-128.1,y=89.9,angle=-135.2)
+CmdAuto.cmdPeriodic_INFO [9.246818955] <Event name="StateInfo" time="9.245703071" tag="vvvvv" CmdAuto.state="SCORE_NOTE_TO_SPEAKER" />
+TaskAutoScoreNote.autoAssistScore_INFO [9.260199761] targetType=Speaker, useVision=true, inAuto=true, relocalize=false, event=(CmdAuto=CANCELED)
+TaskAutoScoreNote.acquireSubsystemsOwnership_INFO [9.274585592] Successfully acquired subsystem ownerships for AutoScoreNote.
+CmdAuto.cmdPeriodic_INFO [9.28297103] ***** AutoScore Wing Note 0 or Centerline Note 1 to Speaker.
+CmdAuto.cmdPeriodic_INFO [9.290756767] <Event name="StateInfo" time="9.29051034" tag="^^^^^" CmdAuto.state="SCORE_NOTE_TO_SPEAKER" />
+TaskAutoScoreNote.autoTask_INFO [9.294372503] <Event name="StateInfo" time="9.293346344" tag="vvvvv" TaskAutoScoreNote.state="START" />
+TaskAutoScoreNote.runTaskState_INFO [9.303568417] ***** Using AprilTag Vision.
+TaskAutoScoreNote.autoTask_INFO [9.31433254] <Event name="StateInfo" time="9.3136416" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.322863208] <Event name="StateInfo" time="9.322672563" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.328576671] <Event name="StateInfo" time="9.328375044" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.333673104] <Event name="StateInfo" time="9.333481736" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.34181509] <Event name="StateInfo" time="9.341629268" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.358870824] <Event name="StateInfo" time="9.358537727" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.363753456] <Event name="StateInfo" time="9.363514388" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.369014978] <Event name="StateInfo" time="9.368809374" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.374838368] <Event name="StateInfo" time="9.372378631" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.381165558] <Event name="StateInfo" time="9.379757503" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.386863264] <Event name="StateInfo" time="9.386661103" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.392297473] <Event name="StateInfo" time="9.392096099" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.398015702] <Event name="StateInfo" time="9.397113341" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.405006489] <Event name="StateInfo" time="9.403923669" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.411377176] <Event name="StateInfo" time="9.410470114" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.416287066] <Event name="StateInfo" time="9.415918096" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.421537848] <Event name="StateInfo" time="9.421032274" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.424385582] <Event name="StateInfo" time="9.424197272" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.427554796] <Event name="StateInfo" time="9.427281233" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.430309998] <Event name="StateInfo" time="9.430033948" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.43263552] <Event name="StateInfo" time="9.432451876" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.435174593] <Event name="StateInfo" time="9.4348881" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.437756449] <Event name="StateInfo" time="9.437538383" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.440399668] <Event name="StateInfo" time="9.439923462" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.442592689] <Event name="StateInfo" time="9.442397398" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.444729753] <Event name="StateInfo" time="9.44454619" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.447518749] <Event name="StateInfo" time="9.447320885" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.451812866] <Event name="StateInfo" time="9.451168588" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.454019096] <Event name="StateInfo" time="9.453826044" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.456584334] <Event name="StateInfo" time="9.4562136" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.463004645] <Event name="StateInfo" time="9.461071009" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.468985731] <Event name="StateInfo" time="9.468767793" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.474611124] <Event name="StateInfo" time="9.474395484" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.481472267] <Event name="StateInfo" time="9.481261062" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.487840515] <Event name="StateInfo" time="9.486270809" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.494477618] <Event name="StateInfo" time="9.49428437" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.49821923] <Event name="StateInfo" time="9.497787804" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.50519972] <Event name="StateInfo" time="9.504785946" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.511410659] <Event name="StateInfo" time="9.510628208" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.51659285] <Event name="StateInfo" time="9.516384195" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.521992947] <Event name="StateInfo" time="9.521794063" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.530600395] <Event name="StateInfo" time="9.528761769" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.534947658] <Event name="StateInfo" time="9.534749531" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.542228806] <Event name="StateInfo" time="9.541332295" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.547852119] <Event name="StateInfo" time="9.547262529" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.553717417] <Event name="StateInfo" time="9.552719848" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.559289684] <Event name="StateInfo" time="9.559090202" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.564019507] <Event name="StateInfo" time="9.563839207" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.571684798] <Event name="StateInfo" time="9.57148356" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.576853937] <Event name="StateInfo" time="9.576067468" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.582846215] <Event name="StateInfo" time="9.582005484" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.588111584] <Event name="StateInfo" time="9.587297216" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.593241024] <Event name="StateInfo" time="9.593033341" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.598043795] <Event name="StateInfo" time="9.597852559" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.603351185] <Event name="StateInfo" time="9.603159495" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.609707507] <Event name="StateInfo" time="9.608359069" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.617971598] <Event name="StateInfo" time="9.617019481" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.623366498] <Event name="StateInfo" time="9.622267813" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.628041652] <Event name="StateInfo" time="9.62779687" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.630798467] <Event name="StateInfo" time="9.63051833" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.633038745] <Event name="StateInfo" time="9.632792547" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.635182204] <Event name="StateInfo" time="9.634924587" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.638370565] <Event name="StateInfo" time="9.638115754" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.653244101] <Event name="StateInfo" time="9.652744167" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.661615802] <Event name="StateInfo" time="9.655308484" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.665242204] <Event name="StateInfo" time="9.665043923" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.66974978] <Event name="StateInfo" time="9.66954171" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.674351871] <Event name="StateInfo" time="9.674101731" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.680908855] <Event name="StateInfo" time="9.679355093" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.686055907] <Event name="StateInfo" time="9.685703979" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.690877978] <Event name="StateInfo" time="9.689200186" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.69459585] <Event name="StateInfo" time="9.694399166" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.697345826] <Event name="StateInfo" time="9.69714045" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.699505205] <Event name="StateInfo" time="9.699297439" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.701481508] <Event name="StateInfo" time="9.701183213" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.703352675] <Event name="StateInfo" time="9.70315942" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.705448463] <Event name="StateInfo" time="9.705177986" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.708320673] <Event name="StateInfo" time="9.708060347" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.710522945] <Event name="StateInfo" time="9.710270188" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.712726431] <Event name="StateInfo" time="9.712485644" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.715665649] <Event name="StateInfo" time="9.715459849" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.718031613] <Event name="StateInfo" time="9.717832641" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.723753308] <Event name="StateInfo" time="9.723493879" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.727061103] <Event name="StateInfo" time="9.726845195" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.730343011] <Event name="StateInfo" time="9.730144695" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.736648965] <Event name="StateInfo" time="9.736238989" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.739047222] <Event name="StateInfo" time="9.738860244" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.741089964] <Event name="StateInfo" time="9.74089393" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.747852716] <Event name="StateInfo" time="9.747595157" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.749889315] <Event name="StateInfo" time="9.749678316" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.75176531] <Event name="StateInfo" time="9.751576843" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.757522568] <Event name="StateInfo" time="9.757304877" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.760843577] <Event name="StateInfo" time="9.760574932" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.763118274] <Event name="StateInfo" time="9.762857475" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.768343402] <Event name="StateInfo" time="9.76808795" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.770579215] <Event name="StateInfo" time="9.770326536" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.772766944] <Event name="StateInfo" time="9.772434119" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.778099965] <Event name="StateInfo" time="9.777900304" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.780095076] <Event name="StateInfo" time="9.779906026" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.783567653] <Event name="StateInfo" time="9.783319476" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.788974375] <Event name="StateInfo" time="9.788314989" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.79140185] <Event name="StateInfo" time="9.791207439" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.794091433] <Event name="StateInfo" time="9.793749343" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.802600825] <Event name="StateInfo" time="9.802370901" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.809767158] <Event name="StateInfo" time="9.804929822" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.812650597] <Event name="StateInfo" time="9.812396049" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.822613346] <Event name="StateInfo" time="9.821327829" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.830397196] <Event name="StateInfo" time="9.830102426" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.83528995] <Event name="StateInfo" time="9.834448535" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.841677882] <Event name="StateInfo" time="9.841476993" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.845753971] <Event name="StateInfo" time="9.845544109" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.851714481] <Event name="StateInfo" time="9.851496428" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.861237045] <Event name="StateInfo" time="9.85877566" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.867495675] <Event name="StateInfo" time="9.867103732" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.875020877] <Event name="StateInfo" time="9.873483991" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.883081877] <Event name="StateInfo" time="9.878865564" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.886703394] <Event name="StateInfo" time="9.886477416" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.895409976] <Event name="StateInfo" time="9.895133614" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.898951441] <Event name="StateInfo" time="9.898568722" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.908589018] <Event name="StateInfo" time="9.904738451" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.914497476] <Event name="StateInfo" time="9.914288046" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.933193599] <Event name="StateInfo" time="9.918751483" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.935322371] <Event name="StateInfo" time="9.935122934" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.944956915] <Event name="StateInfo" time="9.940487326" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.94987506] <Event name="StateInfo" time="9.949671492" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.957378056] <Event name="StateInfo" time="9.956973614" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.966667161] <Event name="StateInfo" time="9.960579063" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.969161525] <Event name="StateInfo" time="9.968910924" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.971179646] <Event name="StateInfo" time="9.97093038" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.973126736] <Event name="StateInfo" time="9.972939753" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.978034337] <Event name="StateInfo" time="9.977800231" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.980481162] <Event name="StateInfo" time="9.980212844" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.984288991] <Event name="StateInfo" time="9.984036658" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.989145352] <Event name="StateInfo" time="9.988948817" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.991277539] <Event name="StateInfo" time="9.991063815" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [9.993741781] <Event name="StateInfo" time="9.993397349" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.000173158] <Event name="StateInfo" time="9.998966233" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.002470129] <Event name="StateInfo" time="10.002272456" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.010085707] <Event name="StateInfo" time="10.009885877" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.013966288] <Event name="StateInfo" time="10.013645473" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.020777036] <Event name="StateInfo" time="10.020580374" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.031340378] <Event name="StateInfo" time="10.030127951" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.034557633] <Event name="StateInfo" time="10.034362728" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.037825681] <Event name="StateInfo" time="10.037563832" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.040385754] <Event name="StateInfo" time="10.040192388" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.048512683] <Event name="StateInfo" time="10.048132483" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.05331119] <Event name="StateInfo" time="10.053110323" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.0552709] <Event name="StateInfo" time="10.055013685" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.057640416] <Event name="StateInfo" time="10.057438495" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.061954995] <Event name="StateInfo" time="10.061741517" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.063638655] <Event name="StateInfo" time="10.063308138" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.065469477] <Event name="StateInfo" time="10.065150706" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.073195379] <Event name="StateInfo" time="10.069572725" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.079144552] <Event name="StateInfo" time="10.074827647" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.089665592] <Event name="StateInfo" time="10.089368938" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.096864337] <Event name="StateInfo" time="10.095333194" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.100219426] <Event name="StateInfo" time="10.10003005" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.106646891] <Event name="StateInfo" time="10.106362856" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.109928464] <Event name="StateInfo" time="10.109617279" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.118060846] <Event name="StateInfo" time="10.117527015" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.120528496] <Event name="StateInfo" time="10.120245589" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.126450146] <Event name="StateInfo" time="10.126166376" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.128680177] <Event name="StateInfo" time="10.128486825" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.131399968] <Event name="StateInfo" time="10.131109411" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.13661623] <Event name="StateInfo" time="10.136418061" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.140958294] <Event name="StateInfo" time="10.138354522" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.146023699] <Event name="StateInfo" time="10.14276346" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.148766142] <Event name="StateInfo" time="10.148454943" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.151418378] <Event name="StateInfo" time="10.15120793" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.153822088] <Event name="StateInfo" time="10.153493443" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.162278962] <Event name="StateInfo" time="10.162044911" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.164467275] <Event name="StateInfo" time="10.164260053" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.169847172] <Event name="StateInfo" time="10.169655415" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.172277343] <Event name="StateInfo" time="10.172018981" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.174991979] <Event name="StateInfo" time="10.174605551" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.18160115] <Event name="StateInfo" time="10.181242047" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.183745035] <Event name="StateInfo" time="10.183409192" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.186038464] <Event name="StateInfo" time="10.185669115" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.191133839] <Event name="StateInfo" time="10.19093769" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.193540098] <Event name="StateInfo" time="10.193289233" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.1958627] <Event name="StateInfo" time="10.195670947" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.202235835] <Event name="StateInfo" time="10.201689972" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.204688176] <Event name="StateInfo" time="10.204443508" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.225759133] <Event name="StateInfo" time="10.225186597" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.235229746] <Event name="StateInfo" time="10.232483137" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.239622189] <Event name="StateInfo" time="10.239291709" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.248680523] <Event name="StateInfo" time="10.248266117" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.26078934] <Event name="StateInfo" time="10.26059491" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.270352113] <Event name="StateInfo" time="10.270159887" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.281902214] <Event name="StateInfo" time="10.280018321" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.288174372] <Event name="StateInfo" time="10.287877552" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.291633379] <Event name="StateInfo" time="10.291429019" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.300355065] <Event name="StateInfo" time="10.300158639" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.309551249] <Event name="StateInfo" time="10.30935677" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.312849834] <Event name="StateInfo" time="10.312639689" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.318310887] <Event name="StateInfo" time="10.315610208" tag="vvvvv" TaskAutoScoreNote.state="FIND_APRILTAG" />
+TaskAutoScoreNote.runTaskState_INFO [10.321106557] ***** No AprilTag found.
+TaskAutoScoreNote.autoTask_INFO [10.331917329] <Event name="StateInfo" time="10.327005759" tag="vvvvv" TaskAutoScoreNote.state="DRIVE_TO_APRILTAG" />
+TaskAutoScoreNote.autoTask_INFO [10.334389039] <Event name="StateInfo" time="10.334072128" tag="vvvvv" TaskAutoScoreNote.state="AIM_IN_PLACE" />
+TaskAutoScoreNote.runTaskState_INFO [10.336769192] ***** In auto but vision see nothing: get rid of the Note.
+Shooter.aimShooter_DEBUG [10.343211379] owner=AutoScoreNote, currOwner=AutoScoreNote, vel=90.0, tiltAngle=39.0, panAngle=0.0, event=(TaskAutoScoreNote.event=CLEARED), timeout=0.0, aimOnly=true, shootOffDelay=null
+TaskAutoScoreNote.runTaskState_INFO [10.346957836] ***** Align to AprilTagPose null or align blind to field.
+purePursuitDrive.start_INFO [10.353227331] Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=-129.5,y=84.4,angle=-133.6),vel=0.000000), TrcWaypoint(index=1,pose=(x=-129.5,y=84.4,angle=46.4),vel=0.000000)])
+Shooter.onTarget_DEBUG [10.355740614] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=CLEARED), panEvent=null, aimOnly=true
+Shooter.tiltMotor.pidCtrlTask_INFO [10.887211032] controlMode: Position onTarget=true(39.24109682115458/39.0), stalled=false, expired=false, event=(Shooter.tiltOnTarget=SIGNALED)
+Shooter.onTarget_DEBUG [10.889482198] shooterEvent=(Shooter.shooterOnTarget=SIGNALED), tiltEvent=(Shooter.tiltOnTarget=SIGNALED), panEvent=null, aimOnly=true
+purePursuitDrive.driveTask_INFO [11.362115956] Done: index=1/2, stalled=false, timeout=true, posOnTarget=true,headingOnTarget=false,robotPose=(x=-129.7,y=83.9,angle=35.9)
+purePursuitDrive.driveTask_INFO [11.363802268] Signal completion event (TaskAutoScoreNote.driveEvent=CLEARED).
+TaskAutoScoreNote.autoTask_INFO [11.365759535] <Event name="StateInfo" time="11.364719633" tag="vvvvv" TaskAutoScoreNote.state="SCORE_NOTE" />
+Intake: pwr=0.0, current=0.0, isActive=false, hasObject=true.shoot_DEBUG [11.368944889] owner=AutoScoreNote, power=1.0, event=(TaskAutoScoreNote.event=SIGNALED)
+Intake.performAction_INFO [11.371743337] Action: (op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoScoreNote.event=SIGNALED), timeout=0.0), hasObject=true
+Intake.exitTriggerCallback_INFO [11.696109209] active=false, actionParams=(op=EjectForward, intakePower=1.0, retainPower=0.0, finishDelay=0.0, event=(TaskAutoScoreNote.event=CLEARED), timeout=0.0)
+Intake.finish_INFO [11.697314104] Finishing intake: completed=true, power=0.0, finishDelay=0.0
+TaskAutoScoreNote.autoTask_INFO [11.699808846] <Event name="StateInfo" time="11.699323204" tag="vvvvv" TaskAutoScoreNote.state="DONE" />
+TaskAutoScoreNote.stopSubsystems_INFO [11.702944737] Stopping subsystems.
+Intake.cancel_INFO [11.704407241] owner=AutoScoreNote
+Intake.finish_INFO [11.70572033] Finishing inactive intake: completed=false, delayFinishPending=false
+TaskAutoScoreNote.releaseSubsystemsOwnership_INFO [11.707665055] Releasing subsystem ownership (currOwner=AutoScoreNote, intake=AutoScoreNote, shooter=AutoScoreNote, robotDrive=AutoScoreNote).
+CmdAuto.cmdPeriodic_INFO [11.710082942] <Event name="StateInfo" time="11.709640628" tag="vvvvv" CmdAuto.state="DRIVE_TO_CENTERLINE" />
+CmdAuto.cmdPeriodic_INFO [11.714940387] ***** EndAction=SCORE_TWO_NOTES: drive to Centerline Source.
+purePursuitDrive.start_INFO [11.72365325] Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=-129.7,y=84.1,angle=37.3),vel=0.000000), TrcWaypoint(index=1,pose=(x=-62.7,y=145.6,angle=180.0),vel=0.000000), TrcWaypoint(index=2,pose=(x=-62.7,y=265.6,angle=180.0),vel=0.000000)])
+CmdAuto.cmdPeriodic_INFO [11.734475471] <Event name="StateInfo" time="11.734048361" tag="^^^^^" CmdAuto.state="DRIVE_TO_CENTERLINE" RobotPose=(x=-129.7,y=84.1,angle=37.3) TargetPose=(x=-62.7,y=265.6,angle=180.0) vel=(x=-0.0,y=-0.0,angle=0.7) Path=TrcPath(degrees=true, [TrcWaypoint(index=0,pose=(x=0.0,y=0.0,angle=0.0),vel=0.000000), TrcWaypoint(simple=false,index=-1,timestep=0.078,pose=(x=13.9,y=77.5,angle=123.4),vel=157.480000,encPos=0.000000,accel=0.000000,jerk=0.000000), TrcWaypoint(index=1,pose=(x=16.0,y=89.6,angle=142.7),vel=157.480000), TrcWaypoint(simple=false,index=-1,timestep=1.000,pose=(x=-9.0,y=122.4,angle=142.7),vel=157.480000,encPos=0.000000,accel=-157.480000,jerk=0.000000), TrcWaypoint(index=2,pose=(x=-56.7,y=185.0,angle=142.7),vel=0.000000)]) />
+CmdAuto.waypointHandler_INFO [12.735064349] ***** [DRIVE_TO_CENTERLINE] Waypoint 1: TrcWaypoint(index=1,pose=(x=16.0,y=89.6,angle=142.7),vel=157.480000), robotPose=(x=-67.6,y=138.8,angle=107.5)
+CmdAuto.waypointHandler_INFO [12.737262091] ***** Turn on full Note Vision.
+FrcRobotBase.startCompetition_INFO [14.703801152] *** Transitioning from AUTO_MODE to DISABLED_MODE ***
+TaskAutoScoreNote.autoAssistCancel_INFO [14.708768621] Canceling auto-assist.
+TaskAutoPickupFromGround.autoAssistCancel_INFO [14.71057833] Canceling auto-assist.
+TaskAutoPickupFromSource.autoAssistCancel_INFO [14.711903003] Canceling auto-assist.
+CmdAuto.waypointHandler_INFO [14.714704853] ***** [null] Waypoint -1: null, robotPose=(x=-62.3,y=263.8,angle=179.8)
+pidDrive.printPerformanceMetrics_INFO [14.740380741] [pidDrive] Loop Performance Metrics:
+Average Loop Interval = NaNs (freq=NaNHz, min=0.000000s, max=0.000000s)
+
+FrcRobotBase.printPerformanceMetrics_INFO [14.750547524] [FrcRobotBase] Loop Performance Metrics:
+Average Loop Interval = 0.000605s (freq=1652.448Hz, min=0.000000s, max=0.241915s)
+[03]                StartTask=0.000000s
+[04]          PrePeriodicTask=0.000064s
+[07]               UpdateTask=0.000443s
+[02]                StartMode=0.000000s
+[06]         PostPeriodicTask=0.000040s
+[08]                 StopTask=0.000000s
+[09]                 StopMode=0.000000s
+[00]                RobotInit=9.048606s
+[01]           RobotStartMode=0.000000s
+[05]                 Periodic=0.000022s
+[10]            RobotStopMode=0.000000s
+
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.756204915] TrcWatchdogMgr: STANDALONE_TASK=0.000090/0.998666
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.761088948] LED: OUTPUT_TASK=0.000015/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.765580257] lfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000009/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.768822512] TrcMotor.odometryTask: STANDALONE_TASK=0.001680/0.002306
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.772278535] lfDriveMotor.odometryCleanupTask: STOP_TASK=0.000147/7.360153
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.775037014] rfDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000005/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.77840447] lbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000005/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.781205533] rbDriveMotor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.784454524] lfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000010/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.787331656] rfSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000009/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.789936025] lbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000008/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.793833764] rbSteerMotor.pidCtrlTask: OUTPUT_TASK=0.000009/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.796739266] TrcDriveBase.odometryTask: INPUT_TASK=0.004017/0.011415
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.806491851] TrcDriveBase.stopTask: STOP_TASK=0.004789/7.360127
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.809471619] purePursuitDrive.driveTask: POST_PERIODIC_TASK=0.014107/0.021160
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.81201324] Intake.motor.pidCtrlTask: OUTPUT_TASK=0.000004/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.814462906] Intake.entryTrigger.triggerTask: PRE_PERIODIC_TASK=0.000012/0.000605
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.816850579] Intake.exitTrigger.triggerTask: PRE_PERIODIC_TASK=0.000005/0.000605
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.819500979] Shooter.shooterMotor.pidCtrlTask: OUTPUT_TASK=0.000005/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.821700478] Shooter.tiltMotor.pidCtrlTask: OUTPUT_TASK=0.000018/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.8247747] Shooter.tiltMotor.converterTask: INPUT_TASK=0.000091/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.82863103] Climber.motor.pidCtrlTask: OUTPUT_TASK=0.000005/0.010499
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.83079655] Deflector.servo.stopTask: STOP_TASK=0.000142/7.356168
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.832952666] TaskAutoScoreNote: POST_PERIODIC_TASK=0.001566/0.006169
+TrcTaskMgr.printTaskPerformanceMetrics_INFO [14.835627194] TaskAutoPickupFromGround: POST_PERIODIC_TASK=0.000277/0.006022
