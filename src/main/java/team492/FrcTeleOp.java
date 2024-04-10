@@ -734,10 +734,10 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 break;
 
             case DPAD_RIGHT:
-                if(pressed){
+                if (pressed)
+                {
                     Shooter.clearTilterFaults();    
                 }
-                
                 break;
 
             case BACK:

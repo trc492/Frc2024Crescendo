@@ -166,6 +166,7 @@ public class Robot extends FrcRobotBase
     @Override
     public void robotInit()
     {
+        setSysActiveMonitorEnabled(this::sysActiveCallback);
         if (RobotParams.Preferences.useDriverXboxController)
         {
             driverController = new FrcXboxController("DriverController", RobotParams.HWConfig.XBOX_DRIVER_CONTROLLER);
@@ -417,6 +418,27 @@ public class Robot extends FrcRobotBase
             CommandScheduler.getInstance().run();
         }
     }   //robotPeriodic
+
+    /**
+     * This method is called when SysActive changes state. This is an indication of losing or regaining comm.
+     *
+     * @param context specifies true for comm connected, false for comm disconnected.
+     */
+    private void sysActiveCallback(Object context)
+    {
+        Boolean sysActive = (Boolean) context;
+
+        if (!sysActive)
+        {
+            // We lost comm, do emergency shutdown to prevent damage.
+            if (robotDrive != null)
+            {
+                autoAssistCancel();
+                robotDrive.setXModeEnabled(null, true);
+                globalTracer.traceInfo(moduleName, "Putting robot in X-Mode.");
+            }
+        }
+    }   //sysActiveCallback
 
     /**
      * This method is called periodically to update various hardware/subsystem status of the robot to the dashboard
