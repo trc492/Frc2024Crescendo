@@ -166,7 +166,11 @@ public class Robot extends FrcRobotBase
     @Override
     public void robotInit()
     {
-        setCommStatusMonitorEnabled(this::commStatusCallback);
+        if (RobotParams.Preferences.useCommStatusMonitor)
+        {
+            setCommStatusMonitorEnabled(this::commStatusCallback);
+        }
+
         if (RobotParams.Preferences.useDriverXboxController)
         {
             driverController = new FrcXboxController("DriverController", RobotParams.HWConfig.XBOX_DRIVER_CONTROLLER);
@@ -435,7 +439,7 @@ public class Robot extends FrcRobotBase
             {
                 autoAssistCancel();
                 robotDrive.setXModeEnabled(null, true);
-                globalTracer.traceInfo(moduleName, "Putting robot in X-Mode.");
+                globalTracer.traceInfo(moduleName, "***** Putting robot in X-Mode. *****");
             }
         }
     }   //commStatusCallback
