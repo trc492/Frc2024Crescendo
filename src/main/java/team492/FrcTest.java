@@ -195,12 +195,12 @@ public class FrcTest extends FrcTeleOp
             return String.format(
                 Locale.US,
                 "Test=\"%s\" " +
-                "xDistance=%.1f ft " +
-                "yDistance=%.1f ft " +
-                "turnDegrees=%.0f deg " +
-                "driveTime=%.0f sec " +
-                "drivePower=%.1f " +
-                "tunePidCoeff=%s ",
+                "xDistance=\"%.1f ft\" " +
+                "yDistance=\"%.1f ft\" " +
+                "turnDegrees=\"%.0f deg\" " +
+                "driveTime=\"%.0f sec\" " +
+                "drivePower=\"%.1f\" " +
+                "tunePidCoeff=\"%s\" ",
                 getTest(), getXDriveDistance(), getYDriveDistance(), getTurnAngle(), getDriveTime(), getDrivePower(),
                 getTunePidCoefficients());
         }   //toString
@@ -345,6 +345,8 @@ public class FrcTest extends FrcTeleOp
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(testChoices.getDrivePower());
                     robot.robotDrive.purePursuitDrive.start(
                         null, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                         new TrcPose2D(
                             testChoices.getXDriveDistance()*12.0, testChoices.getYDriveDistance()*12.0,
                             testChoices.getTurnAngle()));
