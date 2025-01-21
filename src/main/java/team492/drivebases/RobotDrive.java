@@ -28,25 +28,26 @@ import java.io.FileReader;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-import TrcCommonLib.trclib.TrcDriveBase;
-import TrcCommonLib.trclib.TrcGyro;
-import TrcCommonLib.trclib.TrcMotor;
-import TrcCommonLib.trclib.TrcPidController;
-import TrcCommonLib.trclib.TrcPidDrive;
-import TrcCommonLib.trclib.TrcPose2D;
-import TrcCommonLib.trclib.TrcPurePursuitDrive;
-import TrcCommonLib.trclib.TrcUtil;
-import TrcCommonLib.trclib.TrcRobot.RunMode;
-import TrcFrcLib.frclib.FrcAHRSGyro;
-import TrcFrcLib.frclib.FrcCANTalonFX;
-import TrcFrcLib.frclib.FrcCANSparkMax;
-import TrcFrcLib.frclib.FrcCANTalonSRX;
-import edu.wpi.first.wpilibj.SPI;
+import com.studica.frc.AHRS.NavXComType;
+
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frclib.motor.FrcCANSparkMax;
+import frclib.motor.FrcCANTalonFX;
+import frclib.motor.FrcCANTalonSRX;
+import frclib.sensor.FrcAHRSGyro;
 import team492.FrcAuto;
 import team492.Robot;
 import team492.RobotParams;
+import trclib.dataprocessor.TrcUtil;
+import trclib.drivebase.TrcDriveBase;
+import trclib.motor.TrcMotor;
+import trclib.pathdrive.TrcPidDrive;
+import trclib.pathdrive.TrcPose2D;
+import trclib.pathdrive.TrcPurePursuitDrive;
+import trclib.robotcore.TrcPidController;
+import trclib.robotcore.TrcRobot.RunMode;
+import trclib.sensor.TrcGyro;
 
 /**
  * This class is intended to be extended by subclasses implementing different robot drive bases.
@@ -116,7 +117,7 @@ public class RobotDrive extends SubsystemBase
     {
         super();
         this.robot = robot;
-        gyro = RobotParams.Preferences.useNavX ? new FrcAHRSGyro("NavX", SPI.Port.kMXP) : null;
+        gyro = RobotParams.Preferences.useNavX ? new FrcAHRSGyro("NavX", NavXComType.kMXP_SPI) : null;
     }   //RobotDrive
 
     /**
@@ -256,15 +257,15 @@ public class RobotDrive extends SubsystemBase
             case HolonomicMode:
                 if (RobotParams.Preferences.useDriverXboxController)
                 {
-                    x = robot.driverController.getRightXWithDeadband(doExp);
-                    y = robot.driverController.getLeftYWithDeadband(doExp);
-                    rot = robot.driverController.getTriggerWithDeadband(doExp);
+                    x = robot.driverController.getRightStickX(doExp);
+                    y = robot.driverController.getLeftStickY(doExp);
+                    rot = robot.driverController.getTrigger(doExp);
                 }
                 else
                 {
-                    x = robot.rightDriveStick.getXWithDeadband(doExp);
-                    y = robot.leftDriveStick.getYWithDeadband(doExp);
-                    rot = robot.leftDriveStick.getTwistWithDeadband(doExp);
+                    x = robot.rightDriveStick.getX(doExp);
+                    y = robot.leftDriveStick.getY(doExp);
+                    rot = robot.leftDriveStick.getTwist(doExp);
                 }
                 robot.globalTracer.traceDebug(moduleName, driveMode + ":x=" + x + ",y=" + y + ",rot=" + rot);
                 break;
@@ -272,21 +273,21 @@ public class RobotDrive extends SubsystemBase
             case ArcadeMode:
                 if (RobotParams.Preferences.useDriverXboxController)
                 {
-                    x = robot.driverController.getLeftXWithDeadband(doExp);
-                    y = robot.driverController.getLeftYWithDeadband(doExp);
-                    rot = robot.driverController.getRightXWithDeadband(doExp);
+                    x = robot.driverController.getLeftStickX(doExp);
+                    y = robot.driverController.getLeftStickY(doExp);
+                    rot = robot.driverController.getRightStickX(doExp);
                 }
                 else
                 {
-                    x = robot.leftDriveStick.getXWithDeadband(doExp);
-                    y = robot.leftDriveStick.getYWithDeadband(doExp);
+                    x = robot.leftDriveStick.getX(doExp);
+                    y = robot.leftDriveStick.getY(doExp);
                     if (RobotParams.Preferences.doOneStickDrive)
                     {
-                        rot = robot.leftDriveStick.getTwistWithDeadband(doExp);
+                        rot = robot.leftDriveStick.getTwist(doExp);
                     }
                     else
                     {
-                        rot = robot.rightDriveStick.getXWithDeadband(doExp);
+                        rot = robot.rightDriveStick.getX(doExp);
                     }
                 }
                 robot.globalTracer.traceDebug(moduleName, driveMode + ":x=" + x + ",y=" + y + ",rot=" + rot);
@@ -296,13 +297,13 @@ public class RobotDrive extends SubsystemBase
                 double leftPower, rightPower;
                 if (RobotParams.Preferences.useDriverXboxController)
                 {
-                    leftPower = robot.driverController.getLeftYWithDeadband(doExp);
-                    rightPower = robot.driverController.getRightYWithDeadband(doExp);
+                    leftPower = robot.driverController.getLeftStickY(doExp);
+                    rightPower = robot.driverController.getRightStickY(doExp);
                 }
                 else
                 {
-                    leftPower = robot.leftDriveStick.getYWithDeadband(false);
-                    rightPower = robot.rightDriveStick.getYWithDeadband(false);
+                    leftPower = robot.leftDriveStick.getY(false);
+                    rightPower = robot.rightDriveStick.getY(false);
                 }
                 x = 0.0;
                 y = (leftPower + rightPower)/2.0;

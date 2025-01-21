@@ -32,26 +32,6 @@ import java.util.Scanner;
 import com.ctre.phoenix6.StatusCode;
 import com.reduxrobotics.canand.CanandEventLoop;
 
-import TrcCommonLib.trclib.TrcWatchdogMgr;
-import TrcCommonLib.trclib.TrcDbgTrace.MsgLevel;
-import TrcCommonLib.trclib.TrcDbgTrace;
-import TrcCommonLib.trclib.TrcEncoder;
-import TrcCommonLib.trclib.TrcMotor;
-import TrcCommonLib.trclib.TrcPidController;
-import TrcCommonLib.trclib.TrcPidDrive;
-import TrcCommonLib.trclib.TrcPurePursuitDrive;
-import TrcCommonLib.trclib.TrcSwerveDriveBase;
-import TrcCommonLib.trclib.TrcSwerveModule;
-import TrcCommonLib.trclib.TrcTimer;
-import TrcCommonLib.trclib.TrcUtil;
-import TrcCommonLib.trclib.TrcRobot.RunMode;
-import TrcCommonLib.trclib.TrcWatchdogMgr.Watchdog;
-import TrcFrcLib.frclib.FrcAHRSGyro;
-import TrcFrcLib.frclib.FrcAnalogEncoder;
-import TrcFrcLib.frclib.FrcCANCoder;
-import TrcFrcLib.frclib.FrcCANTalonFX;
-import TrcFrcLib.frclib.FrcCanandcoder;
-import TrcFrcLib.frclib.FrcPdp;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -59,9 +39,29 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frclib.motor.FrcCANTalonFX;
+import frclib.sensor.FrcAHRSGyro;
+import frclib.sensor.FrcAnalogEncoder;
+import frclib.sensor.FrcCANCoder;
+import frclib.sensor.FrcCanandmag;
+import frclib.sensor.FrcPdp;
 import team492.Robot;
 import team492.RobotParams;
 import team492.RobotParams.SteerEncoderType;
+import trclib.dataprocessor.TrcUtil;
+import trclib.drivebase.TrcSwerveDriveBase;
+import trclib.drivebase.TrcSwerveModule;
+import trclib.motor.TrcMotor;
+import trclib.pathdrive.TrcPidDrive;
+import trclib.pathdrive.TrcPurePursuitDrive;
+import trclib.robotcore.TrcDbgTrace;
+import trclib.robotcore.TrcDbgTrace.MsgLevel;
+import trclib.robotcore.TrcPidController;
+import trclib.robotcore.TrcRobot.RunMode;
+import trclib.robotcore.TrcWatchdogMgr;
+import trclib.robotcore.TrcWatchdogMgr.Watchdog;
+import trclib.sensor.TrcEncoder;
+import trclib.timer.TrcTimer;
 
 /**
  * This class creates the RobotDrive subsystem that consists of wheel motors and related objects for driving the
@@ -250,10 +250,10 @@ public class SwerveDrive extends RobotDrive
         else if (driveBaseParams.steerEncoderType.equals(SteerEncoderType.Canandcoder))
         {
             CanandEventLoop.getInstance();
-            encoders = new FrcCanandcoder[names.length];
+            encoders = new FrcCanandmag[names.length];
             for (int i = 0; i < names.length; i++)
             {
-                try (FrcCanandcoder canandcoder = new FrcCanandcoder(names[i], encoderIds[i]))
+                try (FrcCanandmag canandcoder = new FrcCanandmag(names[i], encoderIds[i]))
                 {
                     canandcoder.resetFactoryDefaults(false);
                     // Configure the sensor direction to match the steering motor direction.
@@ -666,8 +666,7 @@ public class SwerveDrive extends RobotDrive
         for (int i = 0; i < desiredStates.length; i++)
         {
             // Set steer angle.
-            desiredStates[i] = SwerveModuleState.optimize(
-                desiredStates[i], Rotation2d.fromRotations(steerMotors[i].getMotorPosition()));
+            desiredStates[i].optimize(Rotation2d.fromRotations(steerMotors[i].getMotorPosition()));
             steerMotors[i].setMotorPosition(desiredStates[i].angle.getRotations(), null, 0.0, 0.0);
             // Set drive wheel speed.
             if (isOpenLoop)

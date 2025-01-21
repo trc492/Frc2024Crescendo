@@ -22,18 +22,18 @@
 
 package team492.autotasks;
 
-import TrcCommonLib.trclib.TrcAutoTask;
-import TrcCommonLib.trclib.TrcEvent;
-import TrcCommonLib.trclib.TrcOwnershipMgr;
-import TrcCommonLib.trclib.TrcPose2D;
-import TrcCommonLib.trclib.TrcRobot;
-import TrcCommonLib.trclib.TrcTaskMgr;
-import TrcCommonLib.trclib.TrcTimer;
-import TrcCommonLib.trclib.TrcTrigger.TriggerMode;
-import TrcFrcLib.frclib.FrcPhotonVision;
 import edu.wpi.first.math.geometry.Pose3d;
+import frclib.vision.FrcPhotonVision;
 import team492.Robot;
 import team492.RobotParams;
+import trclib.pathdrive.TrcPose2D;
+import trclib.robotcore.TrcAutoTask;
+import trclib.robotcore.TrcEvent;
+import trclib.robotcore.TrcOwnershipMgr;
+import trclib.robotcore.TrcRobot;
+import trclib.robotcore.TrcTaskMgr;
+import trclib.sensor.TrcTrigger.TriggerMode;
+import trclib.timer.TrcTimer;
 
 /**
  * This class implements auto-assist task.
@@ -213,7 +213,7 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                 aprilTagPose = null;
                 // Shooter takes time to spin up and aim, so start it the first thing.
                 robot.shooter.aimShooter(
-                    currOwner, RobotParams.Shooter.shooterSourcePickupVelocity,
+                    currOwner, RobotParams.Shooter.shooterSourcePickupVelocity, 0.0,
                     RobotParams.Shooter.tiltSourcePickupAngle, 0.0, null, 0.0);
                 robot.intake.autoIntakeReverse(
                     currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
@@ -273,9 +273,10 @@ public class TaskAutoPickupFromSource extends TrcAutoTask<TaskAutoPickupFromSour
                         "\n\taprilTagPose=" + aprilTagPose +
                         "\n\ttargetPose=" + targetPose);
                     robot.robotDrive.purePursuitDrive.start(
-                        currOwner, driveEvent, 3.0, robotPose, false,
+                        currOwner, driveEvent, 3.0, false,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                         targetPose);
                     sm.addEvent(driveEvent);
                 }

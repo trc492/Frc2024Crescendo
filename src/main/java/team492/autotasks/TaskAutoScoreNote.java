@@ -22,21 +22,21 @@
 
 package team492.autotasks;
 
-import TrcCommonLib.trclib.TrcAutoTask;
-import TrcCommonLib.trclib.TrcEvent;
-import TrcCommonLib.trclib.TrcOwnershipMgr;
-import TrcCommonLib.trclib.TrcPose2D;
-import TrcCommonLib.trclib.TrcRobot;
-import TrcCommonLib.trclib.TrcTaskMgr;
-import TrcCommonLib.trclib.TrcTimer;
-import TrcCommonLib.trclib.TrcTriggerThresholdZones;
-import TrcCommonLib.trclib.TrcUtil;
-import TrcCommonLib.trclib.TrcTrigger.TriggerMode;
-import TrcFrcLib.frclib.FrcPhotonVision;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frclib.vision.FrcPhotonVision;
 import team492.FrcAuto;
 import team492.Robot;
 import team492.RobotParams;
+import trclib.dataprocessor.TrcUtil;
+import trclib.pathdrive.TrcPose2D;
+import trclib.robotcore.TrcAutoTask;
+import trclib.robotcore.TrcEvent;
+import trclib.robotcore.TrcOwnershipMgr;
+import trclib.robotcore.TrcRobot;
+import trclib.robotcore.TrcTaskMgr;
+import trclib.sensor.TrcTrigger.TriggerMode;
+import trclib.sensor.TrcTriggerThresholdZones;
+import trclib.timer.TrcTimer;
 
 /**
  * This class implements auto-assist task.
@@ -321,7 +321,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 {
                     tracer.traceInfo(moduleName, "***** Prep shooter to score to Amp.");
                     robot.shooter.aimShooter(
-                        currOwner, RobotParams.Shooter.shooterAmpVelocity, RobotParams.Shooter.tiltAmpAngle, 0.0,
+                        currOwner, RobotParams.Shooter.shooterAmpVelocity, 0.0, RobotParams.Shooter.tiltAmpAngle, 0.0,
                         event, 0.0);
                     sm.addEvent(event);
 
@@ -350,9 +350,10 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                             "\n\tintermediatePose=" + intermediatePose +
                             "\n\ttargetPose=" + targetPose);
                         robot.robotDrive.purePursuitDrive.start(
-                            currOwner, driveEvent, 2.0, robotPose, true,
+                            currOwner, driveEvent, 2.0, true,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                             intermediatePose, targetPose);
                     }
                     else
@@ -368,9 +369,10 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                             "\n\tintermediatePose=" + intermediatePose +
                             "\n\ttargetPose=" + targetPose);
                         robot.robotDrive.purePursuitDrive.start(
-                            currOwner, driveEvent, 2.0, robotPose, false,
+                            currOwner, driveEvent, 2.0, false,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                             intermediatePose, targetPose);
                     }
                     sm.addEvent(driveEvent);
@@ -417,7 +419,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
 
                 if (shooterVel != null && tiltAngle != null)
                 {
-                    robot.shooter.aimShooter(currOwner, shooterVel, tiltAngle, 0.0, event, 0.0);
+                    robot.shooter.aimShooter(currOwner, shooterVel, 0.0, tiltAngle, 0.0, event, 0.0);
                     sm.addEvent(event);
                     numEventsToWait++;
                 }
@@ -429,9 +431,10 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     tracer.traceInfo(
                         moduleName, "***** Align to AprilTagPose " + aprilTagPose + " or align blind to field.");
                     robot.robotDrive.purePursuitDrive.start(
-                        currOwner, driveEvent, 1.0, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        currOwner, driveEvent, 1.0, true,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                         new TrcPose2D(0.0, 0.0,
                             aprilTagPose != null? aprilTagPose.angle:
                             FrcAuto.autoChoices.getAlliance() == Alliance.Red? 0.0: 180.0));

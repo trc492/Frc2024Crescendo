@@ -22,11 +22,11 @@
 
 package team492.subsystems;
 
-import TrcCommonLib.trclib.TrcDbgTrace;
-import TrcCommonLib.trclib.TrcEvent;
-import TrcCommonLib.trclib.TrcUtil;
-import TrcFrcLib.frclib.FrcCANSparkMax;
+import frclib.motor.FrcCANSparkMax;
 import team492.RobotParams;
+import trclib.dataprocessor.TrcUtil;
+import trclib.robotcore.TrcDbgTrace;
+import trclib.robotcore.TrcEvent;
 
 public class Climber
 {

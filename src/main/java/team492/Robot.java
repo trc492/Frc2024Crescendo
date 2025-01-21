@@ -23,30 +23,6 @@
 package team492;
 
 import java.util.Locale;
-import TrcCommonLib.trclib.TrcDbgTrace;
-import TrcCommonLib.trclib.TrcDiscreteValue;
-import TrcCommonLib.trclib.TrcEvent;
-import TrcCommonLib.trclib.TrcIntake;
-import TrcCommonLib.trclib.TrcOpenCvDetector;
-import TrcCommonLib.trclib.TrcPidController;
-import TrcCommonLib.trclib.TrcPose2D;
-import TrcCommonLib.trclib.TrcRobotBattery;
-import TrcCommonLib.trclib.TrcShooter;
-import TrcCommonLib.trclib.TrcTimer;
-import TrcCommonLib.trclib.TrcTriggerThresholdZones;
-import TrcCommonLib.trclib.TrcUtil;
-import TrcCommonLib.trclib.TrcVisionTargetInfo;
-import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
-import TrcCommonLib.trclib.TrcRobot.RunMode;
-import TrcFrcLib.frclib.FrcDashboard;
-import TrcFrcLib.frclib.FrcJoystick;
-import TrcFrcLib.frclib.FrcMatchInfo;
-import TrcFrcLib.frclib.FrcPdp;
-import TrcFrcLib.frclib.FrcPhotonVision;
-import TrcFrcLib.frclib.FrcPhotonVisionRaw;
-import TrcFrcLib.frclib.FrcRobotBase;
-import TrcFrcLib.frclib.FrcRobotBattery;
-import TrcFrcLib.frclib.FrcXboxController;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -55,6 +31,15 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frclib.driverio.FrcButtonPanel;
+import frclib.driverio.FrcDashboard;
+import frclib.driverio.FrcJoystick;
+import frclib.driverio.FrcMatchInfo;
+import frclib.driverio.FrcXboxController;
+import frclib.robotcore.FrcRobotBase;
+import frclib.sensor.FrcPdp;
+import frclib.sensor.FrcRobotBattery;
+import frclib.vision.FrcPhotonVision;
 import team492.RobotParams.RobotType;
 import team492.autotasks.ShootParamTable;
 import team492.autotasks.TaskAutoPickupFromGround;
@@ -69,7 +54,21 @@ import team492.subsystems.LEDIndicator;
 import team492.subsystems.Shooter;
 import team492.vision.OpenCvVision;
 import team492.vision.PhotonVision;
-import team492.vision.PhotonVisionRaw;
+import trclib.dataprocessor.TrcDiscreteValue;
+import trclib.dataprocessor.TrcUtil;
+import trclib.drivebase.TrcDriveBase.DriveOrientation;
+import trclib.pathdrive.TrcPose2D;
+import trclib.robotcore.TrcDbgTrace;
+import trclib.robotcore.TrcEvent;
+import trclib.robotcore.TrcPidController;
+import trclib.robotcore.TrcRobot.RunMode;
+import trclib.sensor.TrcRobotBattery;
+import trclib.sensor.TrcTriggerThresholdZones;
+import trclib.subsystem.TrcIntake;
+import trclib.subsystem.TrcShooter;
+import trclib.timer.TrcTimer;
+import trclib.vision.TrcOpenCvDetector;
+import trclib.vision.TrcVisionTargetInfo;
 
 /**
  * The Main class is configured to instantiate and automatically run this class,
@@ -94,8 +93,8 @@ public class Robot extends FrcRobotBase
     public FrcXboxController operatorController;
     public FrcJoystick leftDriveStick, rightDriveStick;
     public FrcJoystick operatorStick;
-    public FrcJoystick buttonPanel;
-    public FrcJoystick switchPanel;
+    public FrcButtonPanel buttonPanel;
+    public FrcButtonPanel switchPanel;
     //
     // Sensors.
     //
@@ -113,7 +112,6 @@ public class Robot extends FrcRobotBase
     //
     public PhotonVision photonVisionFront;
     public PhotonVision photonVisionBack;
-    public PhotonVisionRaw photonVisionRaw;
     public OpenCvVision openCvVision;
     public Transform3d aprilTag3To4Transform;
     public Transform3d aprilTag8To7Transform;
@@ -169,34 +167,34 @@ public class Robot extends FrcRobotBase
         if (RobotParams.Preferences.useDriverXboxController)
         {
             driverController = new FrcXboxController("DriverController", RobotParams.HWConfig.XBOX_DRIVER_CONTROLLER);
-            driverController.setLeftYInverted(true);
-            driverController.setRightYInverted(true);
+            driverController.setLeftStickInverted(false, true);
+            driverController.setRightStickInverted(false, true);
         }
         else
         {
             leftDriveStick = new FrcJoystick("DriverLeftStick", RobotParams.HWConfig.JSPORT_DRIVER_LEFTSTICK);
-            leftDriveStick.setYInverted(true);
+            leftDriveStick.setInverted(false, true);
             rightDriveStick = new FrcJoystick("DriverRightStick", RobotParams.HWConfig.JSPORT_DRIVER_RIGHTSTICK);
-            rightDriveStick.setYInverted(true);
+            rightDriveStick.setInverted(false, true);
         }
 
         if (RobotParams.Preferences.useOperatorXboxController)
         {
             operatorController = new FrcXboxController(
                 "OperatorController", RobotParams.HWConfig.XBOX_OPERATOR_CONTROLLER);
-            operatorController.setLeftYInverted(true);
-            operatorController.setRightYInverted(true);
+            operatorController.setLeftStickInverted(false, true);
+            operatorController.setRightStickInverted(false, true);
         }
         else
         {
             operatorStick = new FrcJoystick("operatorStick", RobotParams.HWConfig.JSPORT_OPERATORSTICK);
-            operatorStick.setYInverted(false);
+            operatorStick.setInverted(false, false);
         }
 
         if (RobotParams.Preferences.useButtonPanels)
         {
-            buttonPanel = new FrcJoystick("buttonPanel", RobotParams.HWConfig.JSPORT_BUTTON_PANEL);
-            switchPanel = new FrcJoystick("switchPanel", RobotParams.HWConfig.JSPORT_SWITCH_PANEL);
+            buttonPanel = new FrcButtonPanel("buttonPanel", RobotParams.HWConfig.JSPORT_BUTTON_PANEL);
+            switchPanel = new FrcButtonPanel("switchPanel", RobotParams.HWConfig.JSPORT_SWITCH_PANEL);
         }
         //
         // Create and initialize sensors.
@@ -234,11 +232,6 @@ public class Robot extends FrcRobotBase
                 photonVisionBack = new PhotonVision("OV9782", RobotParams.Vision.robotToBackCam, ledIndicator);
                 aprilTag3To4Transform = photonVisionFront.getMultiTagTransform(3, 4);
                 aprilTag8To7Transform = photonVisionFront.getMultiTagTransform(8, 7);
-            }
-
-            if (RobotParams.Preferences.usePhotonVisionRaw)
-            {
-                photonVisionRaw = new PhotonVisionRaw("photonvision", "OV9782", ledIndicator);
             }
 
             if (RobotParams.Preferences.useOpenCvVision)
@@ -585,12 +578,6 @@ public class Robot extends FrcRobotBase
                     }
                 }
 
-                if (photonVisionRaw != null)
-                {
-                    FrcPhotonVisionRaw.DetectedObject object = photonVisionRaw.getDetectedObject();
-                    dashboard.displayPrintf(lineNum++, "PhotonRaw: obj=%s", object);
-                }
-
                 if (openCvVision != null)
                 {
                     TrcVisionTargetInfo<TrcOpenCvDetector.DetectedObject<?>> object =
@@ -605,7 +592,7 @@ public class Robot extends FrcRobotBase
                 {
                     dashboard.displayPrintf(
                         lineNum++, "Shooter: power=%.3f, vel=%.3f",
-                        shooter.shooterMotor.getPower(), shooter.getShooterVelocity());
+                        shooter.getShooterMotor1Power(), shooter.getShooterMotor1Velocity());
                     dashboard.displayPrintf(
                         lineNum++, "Tilt: power=%.3f, pos=%.1f, limitSw=%s/%s",
                         shooter.getTiltPower(), shooter.getTiltAngle(),
@@ -872,7 +859,7 @@ public class Robot extends FrcRobotBase
             tiltAngle = shootParams.tiltAngle;
         }
 
-        shooter.aimShooter(shooterVel, tiltAngle, 0.0);
+        shooter.aimShooter(shooterVel, 0.0, tiltAngle, 0.0);
         globalTracer.traceInfo(
             moduleName,
             "Aim at AprilTag: aprilTagId=" + aprilTagObj.target.getFiducialId() +

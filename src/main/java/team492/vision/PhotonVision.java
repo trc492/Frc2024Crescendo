@@ -27,18 +27,18 @@ import java.util.Optional;
 
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import TrcCommonLib.trclib.TrcEvent;
-import TrcCommonLib.trclib.TrcPose2D;
-import TrcCommonLib.trclib.TrcPose3D;
-import TrcCommonLib.trclib.TrcTimer;
-import TrcCommonLib.trclib.TrcUtil;
-import TrcFrcLib.frclib.FrcPhotonVision;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import frclib.vision.FrcPhotonVision;
 import team492.subsystems.LEDIndicator;
+import trclib.dataprocessor.TrcUtil;
+import trclib.pathdrive.TrcPose2D;
+import trclib.pathdrive.TrcPose3D;
+import trclib.robotcore.TrcEvent;
+import trclib.timer.TrcTimer;
 
 /**
  * This class is a thin wrapper extending FrcPhotonVision that provides additional game specific functionalities.

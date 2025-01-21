@@ -24,25 +24,25 @@ package team492;
 
 import java.util.Locale;
 
-import TrcCommonLib.command.CmdDriveMotorsTest;
-import TrcCommonLib.command.CmdPidDrive;
-import TrcCommonLib.command.CmdTimedDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frclib.driverio.FrcChoiceMenu;
+import frclib.driverio.FrcUserChoices;
+import frclib.driverio.FrcXboxController;
+import frclib.vision.FrcPhotonVision;
 import team492.drivebases.RobotDrive;
 import team492.drivebases.SwerveDrive;
 import team492.vision.PhotonVision.PipelineType;
-import TrcFrcLib.frclib.FrcChoiceMenu;
-import TrcFrcLib.frclib.FrcPhotonVision;
-import TrcFrcLib.frclib.FrcUserChoices;
-import TrcFrcLib.frclib.FrcXboxController;
-import TrcCommonLib.trclib.TrcMotor;
-import TrcCommonLib.trclib.TrcPidController;
-import TrcCommonLib.trclib.TrcPose2D;
-import TrcCommonLib.trclib.TrcRobot;
-import TrcCommonLib.trclib.TrcTimer;
-import TrcCommonLib.trclib.TrcUtil;
-import TrcCommonLib.trclib.TrcRobot.RunMode;
+import trclib.command.CmdDriveMotorsTest;
+import trclib.command.CmdPidDrive;
+import trclib.command.CmdTimedDrive;
+import trclib.dataprocessor.TrcUtil;
+import trclib.motor.TrcMotor;
+import trclib.pathdrive.TrcPose2D;
+import trclib.robotcore.TrcPidController;
+import trclib.robotcore.TrcRobot;
+import trclib.robotcore.TrcRobot.RunMode;
+import trclib.timer.TrcTimer;
 
 /**
  * This class implements the code to run in Test Mode.
@@ -344,7 +344,7 @@ public class FrcTest extends FrcTeleOp
                 {
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(testChoices.getDrivePower());
                     robot.robotDrive.purePursuitDrive.start(
-                        null, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        null, true,
                         new TrcPose2D(
                             testChoices.getXDriveDistance()*12.0, testChoices.getYDriveDistance()*12.0,
                             testChoices.getTurnAngle()));
@@ -354,10 +354,12 @@ public class FrcTest extends FrcTeleOp
             case PID_DRIVE:
                 if (robot.robotDrive != null)
                 {
-                    testCommand = new CmdPidDrive(
-                        robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 0.0, testChoices.getDrivePower(), null,
+                    testCommand = new CmdPidDrive(robot.robotDrive.driveBase, robot.robotDrive.pidDrive);
+                    ((CmdPidDrive) testCommand).start(
+                        0.0, testChoices.getDrivePower(), null,
                         new TrcPose2D(
-                            testChoices.getXDriveDistance()*12.0, testChoices.getYDriveDistance()*12.0,
+                            testChoices.getXDriveDistance()*12.0,
+                            testChoices.getYDriveDistance()*12.0,
                             testChoices.getTurnAngle()));
                 }
                 break;
@@ -365,29 +367,30 @@ public class FrcTest extends FrcTeleOp
             case TUNE_X_PID:
                 if (robot.robotDrive != null && robot.robotDrive.driveBase.supportsHolonomicDrive())
                 {
-                    testCommand = new CmdPidDrive(
-                        robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 0.0, testChoices.getDrivePower(),
-                        testChoices.getTunePidCoefficients(), new TrcPose2D(testChoices.getXDriveDistance()*12.0,
-                        0.0, 0.0));
+                    testCommand = new CmdPidDrive(robot.robotDrive.driveBase, robot.robotDrive.pidDrive);
+                    ((CmdPidDrive) testCommand).start(
+                        0.0, testChoices.getDrivePower(), testChoices.getTunePidCoefficients(),
+                        new TrcPose2D(testChoices.getXDriveDistance()*12.0, 0.0, 0.0));
                 }
                 break;
 
             case TUNE_Y_PID:
                 if (robot.robotDrive != null)
                 {
-                    testCommand = new CmdPidDrive(
-                        robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 0.0, testChoices.getDrivePower(),
-                        testChoices.getTunePidCoefficients(), new TrcPose2D(0.0, testChoices.getYDriveDistance()*12.0,
-                        0.0));
+                    testCommand = new CmdPidDrive(robot.robotDrive.driveBase, robot.robotDrive.pidDrive);
+                    ((CmdPidDrive) testCommand).start(
+                        0.0, testChoices.getDrivePower(), testChoices.getTunePidCoefficients(),
+                        new TrcPose2D(0.0, testChoices.getYDriveDistance()*12.0, 0.0));
                 }
                 break;
 
             case TUNE_TURN_PID:
                 if (robot.robotDrive != null)
                 {
-                    testCommand = new CmdPidDrive(
-                        robot.robotDrive.driveBase, robot.robotDrive.pidDrive, 0.0, testChoices.getDrivePower(),
-                        testChoices.getTunePidCoefficients(), new TrcPose2D(0.0, 0.0, testChoices.getTurnAngle()));
+                    testCommand = new CmdPidDrive(robot.robotDrive.driveBase, robot.robotDrive.pidDrive);
+                    ((CmdPidDrive) testCommand).start(
+                        0.0, testChoices.getDrivePower(), testChoices.getTunePidCoefficients(),
+                        new TrcPose2D(0.0, 0.0, testChoices.getTurnAngle()));
                 }
                 break;
 
@@ -601,15 +604,14 @@ public class FrcTest extends FrcTeleOp
     /**
      * This method is called when an operator controller button event is detected.
      *
-     * @param buttonValue specifies the button enum value that generates the event.
+     * @param button specifies the button that generates the event.
      * @param pressed specifies true if the button is pressed, false otherwise.
      */
     @Override
-    protected void operatorControllerButtonEvent(int buttonValue, boolean pressed)
+    protected void operatorControllerButtonEvent(FrcXboxController.ButtonType button, boolean pressed)
     {
         if (allowTeleOp())
         {
-            FrcXboxController.Button button = FrcXboxController.Button.values()[buttonValue];
             boolean processed = false;
             //
             // In addition to or instead of the button controls handled by FrcTeleOp, we can add to or override the
@@ -620,7 +622,7 @@ public class FrcTest extends FrcTeleOp
 
             switch (button)
             {
-                case BUTTON_A:
+                case A:
                     // Intake from ground with no Vision (manual pickup), hold AltFunc for ReverseIntake.
                     if (robot.intake != null && pressed)
                     {
@@ -644,7 +646,7 @@ public class FrcTest extends FrcTeleOp
                     processed = true;
                     break;
 
-                case BUTTON_B:
+                case B:
                     if (robot.intake != null && pressed)
                     {
                         robot.intake.autoEjectForward(RobotParams.Intake.ejectForwardPower, 0.0);
@@ -652,12 +654,12 @@ public class FrcTest extends FrcTeleOp
                     processed = true;
                     break;
 
-                case DPAD_UP:
+                case DpadUp:
                     if (robot.shooter != null && pressed)
                     {
                         if (operatorAltFunc)
                         {
-                            robot.shooter.setShooterVelocity(robot.shooterVelocity.upValue());
+                            robot.shooter.setShooterMotorVelocity(robot.shooterVelocity.upValue(), 0.0);
                         }
                         else
                         {
@@ -667,12 +669,12 @@ public class FrcTest extends FrcTeleOp
                     processed = true;
                     break;
 
-                case DPAD_DOWN:
+                case DpadDown:
                     if (robot.shooter != null && pressed)
                     {
                         if (operatorAltFunc)
                         {
-                            robot.shooter.setShooterVelocity(robot.shooterVelocity.downValue());
+                            robot.shooter.setShooterMotorVelocity(robot.shooterVelocity.downValue(), 0.0);
                         }
                         else
                         {
@@ -682,7 +684,7 @@ public class FrcTest extends FrcTeleOp
                     processed = true;
                     break;
 
-                case DPAD_LEFT:
+                case DpadLeft:
                     if (robot.shooter != null && pressed)
                     {
                         if (operatorAltFunc)
@@ -697,7 +699,7 @@ public class FrcTest extends FrcTeleOp
                     processed = true;
                     break;
 
-                case DPAD_RIGHT:
+                case DpadRight:
                     if (robot.shooter != null && pressed)
                     {
                         if (operatorAltFunc)
@@ -720,7 +722,7 @@ public class FrcTest extends FrcTeleOp
             //
             if (!processed)
             {
-                super.operatorControllerButtonEvent(buttonValue, pressed);
+                super.operatorControllerButtonEvent(button, pressed);
             }
         }
     }   //operatorControllerButtonEvent

@@ -22,18 +22,18 @@
 
 package team492.autotasks;
 
-import TrcCommonLib.trclib.TrcAutoTask;
-import TrcCommonLib.trclib.TrcEvent;
-import TrcCommonLib.trclib.TrcOwnershipMgr;
-import TrcCommonLib.trclib.TrcPose2D;
-import TrcCommonLib.trclib.TrcRobot;
-import TrcCommonLib.trclib.TrcTaskMgr;
-import TrcCommonLib.trclib.TrcTimer;
-import TrcCommonLib.trclib.TrcTrigger.TriggerMode;
-import TrcFrcLib.frclib.FrcPhotonVision;
+import frclib.vision.FrcPhotonVision;
 import team492.Robot;
 import team492.RobotParams;
 import team492.vision.PhotonVision.PipelineType;
+import trclib.pathdrive.TrcPose2D;
+import trclib.robotcore.TrcAutoTask;
+import trclib.robotcore.TrcEvent;
+import trclib.robotcore.TrcOwnershipMgr;
+import trclib.robotcore.TrcRobot;
+import trclib.robotcore.TrcTaskMgr;
+import trclib.sensor.TrcTrigger.TriggerMode;
+import trclib.timer.TrcTimer;
 
 /**
  * This class implements auto-assist task.
@@ -293,9 +293,10 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                         // run to it.
                         notePose.y += 6;
                         robot.robotDrive.purePursuitDrive.start(
-                            currOwner, driveEvent, 0.0, robot.robotDrive.driveBase.getFieldPosition(), true,
+                            currOwner, driveEvent, 0.0, true,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                             notePose, new TrcPose2D(0.0, -26.0, 0.0));
                         sm.addEvent(driveEvent);
                     }

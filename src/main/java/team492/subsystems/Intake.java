@@ -22,13 +22,13 @@
 
 package team492.subsystems;
 
-import TrcCommonLib.trclib.TrcIntake;
-import TrcCommonLib.trclib.TrcTriggerDigitalInput;
-import TrcCommonLib.trclib.TrcUtil;
-import TrcFrcLib.frclib.FrcCANSparkMax;
-import TrcFrcLib.frclib.FrcDigitalInput;
+import frclib.motor.FrcCANSparkMax;
+import frclib.sensor.FrcDigitalInput;
 import team492.Robot;
 import team492.RobotParams;
+import trclib.dataprocessor.TrcUtil;
+import trclib.sensor.TrcTriggerDigitalInput;
+import trclib.subsystem.TrcIntake;
 
 public class Intake
 {
@@ -58,8 +58,8 @@ public class Intake
         exitTrigger = new TrcTriggerDigitalInput(moduleName + ".exitTrigger", exitSensor);
 
         intake = new TrcIntake(
-            moduleName, intakeMotor, new TrcIntake.Trigger(entryTrigger, this::checkNote),
-            new TrcIntake.Trigger(exitTrigger, this::checkNote));
+            moduleName, intakeMotor, new TrcIntake.TriggerParams(entryTrigger, this::checkNote),
+            new TrcIntake.TriggerParams(exitTrigger, this::checkNote));
     }   //Intake
 
     /**

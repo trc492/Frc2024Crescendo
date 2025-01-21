@@ -24,18 +24,18 @@ package team492;
 
 import java.util.Locale;
 
-import TrcCommonLib.command.CmdPidDrive;
-import TrcCommonLib.command.CmdPurePursuitDrive;
-import TrcCommonLib.command.CmdTimedDrive;
-import TrcCommonLib.trclib.TrcPose2D;
-import TrcCommonLib.trclib.TrcRobot;
-import TrcCommonLib.trclib.TrcRobot.RunMode;
-import TrcFrcLib.frclib.FrcChoiceMenu;
-import TrcFrcLib.frclib.FrcMatchInfo;
-import TrcFrcLib.frclib.FrcUserChoices;
 import edu.wpi.first.wpilibj.DriverStation;
+import frclib.driverio.FrcChoiceMenu;
+import frclib.driverio.FrcMatchInfo;
+import frclib.driverio.FrcUserChoices;
 import team492.autocommands.CmdAuto;
 import team492.commandbased.exampleAuto;
+import trclib.command.CmdPidDrive;
+import trclib.command.CmdPurePursuitDrive;
+import trclib.command.CmdTimedDrive;
+import trclib.pathdrive.TrcPose2D;
+import trclib.robotcore.TrcRobot;
+import trclib.robotcore.TrcRobot.RunMode;
 
 /**
  * This class implements the code to run in Autonomous Mode.
@@ -378,8 +378,7 @@ public class FrcAuto implements TrcRobot.RobotMode
                         robot.robotDrive.driveBase, robot.robotDrive.xPosPidCoeff, robot.robotDrive.yPosPidCoeff,
                         robot.robotDrive.turnPidCoeff, robot.robotDrive.velPidCoeff);
                     ((CmdPurePursuitDrive) autoCommand).start(
-                        0.0, robot.robotDrive.driveBase.getFieldPosition(), false,
-                        RobotParams.TEAM_FOLDER_PATH + "/" + autoChoices.getPathFile(), false);
+                        0.0, false, RobotParams.TEAM_FOLDER_PATH + "/" + autoChoices.getPathFile(), false);
                 }
                 break;
 
@@ -387,11 +386,13 @@ public class FrcAuto implements TrcRobot.RobotMode
                 if (robot.robotDrive != null)
                 {
                     autoCommand = new CmdPidDrive(
-                        robot.robotDrive.driveBase, robot.robotDrive.pidDrive, autoChoices.getStartDelay(),
-                        autoChoices.getDrivePower(), null,
-                        new TrcPose2D(autoChoices.getXDriveDistance()*12.0,
-                                      autoChoices.getYDriveDistance()*12.0,
-                                      autoChoices.getTurnAngle()));
+                        robot.robotDrive.driveBase, robot.robotDrive.pidDrive);
+                    ((CmdPidDrive) autoCommand).start(
+                        autoChoices.getStartDelay(), autoChoices.getDrivePower(), null,
+                        new TrcPose2D(
+                            autoChoices.getXDriveDistance()*12.0,
+                            autoChoices.getYDriveDistance()*12.0,
+                            autoChoices.getTurnAngle()));
                 }
                 break;
 

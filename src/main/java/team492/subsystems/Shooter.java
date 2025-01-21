@@ -24,11 +24,11 @@ package team492.subsystems;
 
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
-import TrcCommonLib.trclib.TrcShooter;
-import TrcCommonLib.trclib.TrcUtil;
-import TrcFrcLib.frclib.FrcCANTalonFX;
-import TrcFrcLib.frclib.FrcCANSparkMax;
+import frclib.motor.FrcCANSparkMax;
+import frclib.motor.FrcCANTalonFX;
 import team492.RobotParams;
+import trclib.dataprocessor.TrcUtil;
+import trclib.subsystem.TrcShooter;
 
 public class Shooter
 {
@@ -93,7 +93,7 @@ public class Shooter
 
         TrcShooter.PanTiltParams tiltParams = new TrcShooter.PanTiltParams(
             RobotParams.Shooter.tiltPowerLimit, RobotParams.Shooter.tiltMinAngle, RobotParams.Shooter.tiltMaxAngle);
-        shooter = new TrcShooter(moduleName, shooterMotor, tiltMotor, tiltParams, null, null);
+        shooter = new TrcShooter(moduleName, shooterMotor, null, tiltMotor, tiltParams, null, null);
         instance = this;
     }   //Shooter
 

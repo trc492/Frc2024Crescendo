@@ -22,15 +22,8 @@
 
 package team492.autocommands;
 
-import TrcCommonLib.trclib.TrcDbgTrace;
-import TrcCommonLib.trclib.TrcEvent;
-import TrcCommonLib.trclib.TrcPose2D;
-import TrcCommonLib.trclib.TrcRobot;
-import TrcCommonLib.trclib.TrcStateMachine;
-import TrcCommonLib.trclib.TrcTimer;
-import TrcCommonLib.trclib.TrcWaypoint;
-import TrcFrcLib.frclib.FrcPhotonVision.DetectedObject;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frclib.vision.FrcPhotonVision.DetectedObject;
 import team492.FrcAuto;
 import team492.Robot;
 import team492.RobotParams;
@@ -39,6 +32,13 @@ import team492.FrcAuto.AutoStartPos;
 import team492.FrcAuto.EndAction;
 import team492.FrcAuto.ScoreWingNotes;
 import team492.autotasks.TaskAutoScoreNote.TargetType;
+import trclib.pathdrive.TrcPose2D;
+import trclib.pathdrive.TrcWaypoint;
+import trclib.robotcore.TrcDbgTrace;
+import trclib.robotcore.TrcEvent;
+import trclib.robotcore.TrcRobot;
+import trclib.robotcore.TrcStateMachine;
+import trclib.timer.TrcTimer;
 
 /**
  * This class implements an autonomous strategy.
@@ -238,7 +238,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     {
                         // Don't turn off shooter after shooting.
                         robot.shooter.aimShooter(
-                            null, RobotParams.Shooter.shooterSpeakerCloseVelocity,
+                            null, RobotParams.Shooter.shooterSpeakerCloseVelocity, 0.0,
                             RobotParams.Shooter.tiltSpeakerCloseAngle, 0.0, event, 0.0, robot::shoot, null);
                     }
                     sm.waitForSingleEvent(event, State.DO_DELAY);
@@ -249,7 +249,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     {
                         robot.globalTracer.traceInfo(moduleName, "***** Set shooter to Wing Note preset.");
                         robot.shooter.aimShooter(
-                            RobotParams.Shooter.wingNotePresetParams.shooterVelocity,
+                            RobotParams.Shooter.wingNotePresetParams.shooterVelocity, 0.0,
                             RobotParams.Shooter.wingNotePresetParams.tiltAngle, 0.0);
                     }
                     // Do delay if there is one.
@@ -292,9 +292,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             
                             robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
                             robot.robotDrive.purePursuitDrive.start(
-                                event, robotPose, false,
+                                event, false,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                                 robot.adjustPoseByAlliance(intermediatePose, alliance),
                                 robot.adjustPoseByAlliance(targetPose, alliance));
                             sm.addEvent(event);
@@ -319,9 +320,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                             robot.robotDrive.purePursuitDrive.setMoveOutputLimit(0.3);
                             robot.robotDrive.purePursuitDrive.start(
-                                event, robotPose, false,
+                                event, false,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                                 intermediatePose, targetPose);
                             sm.addEvent(event);
                             sm.waitForEvents(State.PICKUP_WING_NOTE, false);
@@ -378,9 +380,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.globalTracer.traceInfo(
                         moduleName, "***** Too close to stage post, move a bit forward to clear it.");
                     robot.robotDrive.purePursuitDrive.start(
-                        event, 0.5, robot.robotDrive.driveBase.getFieldPosition(), true,
+                        event, 0.5, true,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                         new TrcPose2D(0.0, 24.0, 0.0));
                     sm.waitForSingleEvent(event, State.TURN_TO_SPEAKER);
                     break;
@@ -434,9 +437,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         }
 
                         robot.robotDrive.purePursuitDrive.start(
-                            event, robotPose, false,
+                            event, false,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                             targetPose);
                         sm.addEvent(event);
                         enableAprilTagVision(performingEndAction);
@@ -456,9 +460,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         moduleName, "***** We missed picking up a Note, turn towards centerline to look for Note.");
                     robotPose = robot.robotDrive.driveBase.getFieldPosition();
                     robot.robotDrive.purePursuitDrive.start(
-                        event, robotPose, false,
+                        event, false,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                         new TrcPose2D(robotPose.x, robotPose.y, alliance == Alliance.Red? 0.0: 180.0));
                     sm.waitForSingleEvent(event, State.DRIVE_TO_CENTERLINE);
                     break;
@@ -506,9 +511,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             targetPose.angle =
                                 startPos == AutoStartPos.SW_SOURCE_SIDE? 90.0: -90.0;
                             robot.robotDrive.purePursuitDrive.start(
-                                event, robotPose, false,
+                                event, false,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                                 targetPose);
                             sm.addEvent(event);
                             enableNoteVision();
@@ -554,9 +560,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             intermediatePose = targetPose.clone();
                             intermediatePose.y -= 120.0;
                             robot.robotDrive.purePursuitDrive.start(
-                                event, robotPose, false,
+                                event, false,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                                 robot.adjustPoseByAlliance(intermediatePose, alliance),
                                 robot.adjustPoseByAlliance(targetPose, alliance));
                         }
@@ -582,9 +589,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                             targetPose.angle = 200.0;
 
                             robot.robotDrive.purePursuitDrive.start(
-                                event, robotPose, false,
+                                event, false,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                                 RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                                RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                                 robot.adjustPoseByAlliance(intermediatePose, alliance),
                                 robot.adjustPoseByAlliance(intermediatePose2, alliance),
                                 robot.adjustPoseByAlliance(targetPose, alliance));
@@ -630,9 +638,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     intermediatePose2.x += 6.0;
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                     robot.robotDrive.purePursuitDrive.start(
-                        event, robotPose, false,
+                        event, false,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                         robot.adjustPoseByAlliance(intermediatePose, alliance),
                         robot.adjustPoseByAlliance(intermediatePose2, alliance),
                         robot.adjustPoseByAlliance(targetPose, alliance));
@@ -661,9 +670,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     sm.addEvent(aprilTagEvent);
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(this::waypointHandler);
                     robot.robotDrive.purePursuitDrive.start(
-                        event, robotPose, false,
+                        event, false,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                        RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                         robot.adjustPoseByAlliance(intermediatePose, alliance),
                         robot.adjustPoseByAlliance(intermediatePose2, alliance),
                         robot.adjustPoseByAlliance(intermediatePose3, alliance),
@@ -693,9 +703,10 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     if (robotSafeY != 0.0)
                     {
                         robot.robotDrive.purePursuitDrive.start(
-                            event, robotPose, false,
+                            event, false,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
+                            RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
                             new TrcPose2D(robotPose.x, robotSafeY, robotPose.angle));
                         sm.waitForSingleEvent(event, State.DONE);
                     }
@@ -765,7 +776,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
             {
                 // Prep the shooter in case Vision Tracking doesn't see AprilTag.
                 robot.shooter.aimShooter(
-                    RobotParams.Shooter.wingNotePresetParams.shooterVelocity,
+                    RobotParams.Shooter.wingNotePresetParams.shooterVelocity, 0.0,
                     RobotParams.Shooter.wingNotePresetParams.tiltAngle, 0.0);
                 robot.globalTracer.traceInfo(moduleName, "***** Turn on AprilTag Vision Tracking.");
                 robot.enableAprilTagTracking(4, 7, 3, 8);

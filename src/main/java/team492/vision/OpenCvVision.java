@@ -26,17 +26,17 @@ import java.util.Comparator;
 
 import org.opencv.imgproc.Imgproc;
 
-import TrcCommonLib.trclib.TrcHomographyMapper;
-import TrcCommonLib.trclib.TrcOpenCvColorBlobPipeline;
-import TrcCommonLib.trclib.TrcOpenCvDetector;
-import TrcCommonLib.trclib.TrcOpenCvPipeline;
-import TrcCommonLib.trclib.TrcVisionTargetInfo;
-import TrcFrcLib.frclib.FrcOpenCvAprilTagPipeline;
-import TrcFrcLib.frclib.FrcOpenCvDetector;
 import edu.wpi.first.apriltag.AprilTagPoseEstimator;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
+import frclib.vision.FrcOpenCvAprilTagPipeline;
+import frclib.vision.FrcOpenCvDetector;
 import team492.RobotParams;
+import trclib.vision.TrcHomographyMapper;
+import trclib.vision.TrcOpenCvColorBlobPipeline;
+import trclib.vision.TrcOpenCvDetector;
+import trclib.vision.TrcOpenCvPipeline;
+import trclib.vision.TrcVisionTargetInfo;
 
 public class OpenCvVision extends FrcOpenCvDetector
 {

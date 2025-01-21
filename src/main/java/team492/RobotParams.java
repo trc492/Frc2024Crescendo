@@ -22,9 +22,6 @@
 
 package team492;
 
-import TrcCommonLib.trclib.TrcHomographyMapper;
-import TrcCommonLib.trclib.TrcPose2D;
-import TrcCommonLib.trclib.TrcPidController.PidCoefficients;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -34,6 +31,9 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import team492.autotasks.ShootParamTable;
 import team492.drivebases.RobotDrive.DriveMode;
+import trclib.pathdrive.TrcPose2D;
+import trclib.robotcore.TrcPidController.PidCoefficients;
+import trclib.vision.TrcHomographyMapper;
 
 /**
  * This class contains parameters and preferences related to all robot operations.
@@ -499,9 +499,11 @@ public class RobotParams
 
         public static final double ROBOT_MAX_VELOCITY           = 171.0;    // inches per second
         public static final double ROBOT_MAX_ACCELERATION       = 23000.0;  // inches per second square
+        public static final double ROBOT_MAX_DECELERATION       = 23000.0;  // inches per second square
         public static final double ROBOT_MAX_TURN_RATE          = 1450.0;   // degrees per second
         public static final double PROFILED_MAX_VELOCITY        = 157.48;   // inches per second
         public static final double PROFILED_MAX_ACCELERATION    = 157.48;   // inches per second square
+        public static final double PROFILED_MAX_DECELERATION    = 157.48;   // inches per second square
         public static final double PROFILED_MAX_TURN_RATE       = 180.0;    // degrees per second
         public final double ROBOT_VEL_KP                        = 0.0;
         public final double ROBOT_VEL_KI                        = 0.0;
