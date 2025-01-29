@@ -96,6 +96,7 @@ public class RobotParams
         public static final boolean useAntiTipping              = false;
         // Subsystems
         public static final boolean useSubsystems               = true;
+        public static final boolean useLEDs                     = false;
         public static final boolean useIntake                   = true;
         public static final boolean useShooter                  = true;
         public static final boolean useClimber                  = true;

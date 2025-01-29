@@ -220,7 +220,10 @@ public class Robot extends FrcRobotBase
         //
         // Create and initialize miscellaneous hardware.
         //
-        ledIndicator = new LEDIndicator();
+        if (RobotParams.Preferences.useLEDs)
+        {
+            ledIndicator = new LEDIndicator();
+        }
         //
         // Create and initialize Vision subsystem.
         //
@@ -347,7 +350,10 @@ public class Robot extends FrcRobotBase
             climber.zeroCalibrate();
         }
 
-        ledIndicator.reset();
+        if (ledIndicator != null)
+        {
+            ledIndicator.reset();
+        }
     }   //robotStartMode
 
     /**
@@ -367,7 +373,11 @@ public class Robot extends FrcRobotBase
         {
             robotDrive.stopMode(runMode, nextMode);
         }
-        ledIndicator.reset();
+
+        if (ledIndicator != null)
+        {
+            ledIndicator.reset();
+        }
         //
         // Performance status report.
         //
