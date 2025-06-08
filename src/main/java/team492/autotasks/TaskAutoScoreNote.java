@@ -78,14 +78,11 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
 
     }   //class TaskParams
 
-    private final String ownerName;
     private final Robot robot;
     private final TrcEvent event;
     private final TrcEvent driveEvent;
     private final TrcTimer shooterOffTimer;
 
-    private String currOwner = null;
-    private String driveOwner = null;
     private Double visionExpiredTime = null;
     private int aprilTagId = -1;
     private TrcPose2D aprilTagPose = null;
@@ -93,13 +90,11 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     /**
      * Constructor: Create an instance of the object.
      *
-     * @param ownerName specifies the owner name to take subsystem ownership, can be null if no ownership required.
      * @param robot specifies the robot object that contains all the necessary subsystems.
      */
-    public TaskAutoScoreNote(String ownerName, Robot robot)
+    public TaskAutoScoreNote(Robot robot)
     {
-        super(moduleName, ownerName, TrcTaskMgr.TaskType.POST_PERIODIC_TASK);
-        this.ownerName = ownerName;
+        super(moduleName, TrcTaskMgr.TaskType.POST_PERIODIC_TASK);
         this.robot = robot;
         this.event = new TrcEvent(moduleName + ".event");
         this.driveEvent = new TrcEvent(moduleName + ".driveEvent");
@@ -109,6 +104,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
     /**
      * This method starts the auto-assist operation.
      *
+     * @param owner specifies the owner to take subsystem ownership, can be null if no ownership required.
      * @param targetType specifies the score target type.
      * @param useVision specifies true to use Vision to detect the target, false otherwise.
      * @param inAuto specifies true if called by Autonomous, false otherwise.
@@ -116,7 +112,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
      * @param completionEvent specifies the event to signal when done, can be null if none provided.
      */
     public void autoAssistScore(
-        TargetType targetType, boolean useVision, boolean inAuto, boolean relocalize,
+        String owner, TargetType targetType, boolean useVision, boolean inAuto, boolean relocalize,
         TrcEvent completionEvent)
     {
         tracer.traceInfo(
@@ -127,28 +123,20 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
             ", relocalize=" + relocalize +
             ", event=" + completionEvent);
         startAutoTask(
-            State.START, new TaskParams(targetType, useVision, inAuto, relocalize), completionEvent);
+            owner, State.START, new TaskParams(targetType, useVision, inAuto, relocalize), completionEvent);
     }   //autoAssistScore
 
     /**
      * This method starts the auto-assist operation.
      *
+     * @param owner specifies the owner to take subsystem ownership, can be null if no ownership required.
      * @param targetType specifies the score target type.
      * @param useVision specifies true to use Vision to detect the target, false otherwise.
      */
-    public void autoAssistScore(TargetType targetType, boolean useVision)
+    public void autoAssistScore(String owner, TargetType targetType, boolean useVision)
     {
-        autoAssistScore(targetType, useVision, false, false, null);
+        autoAssistScore(owner, targetType, useVision, false, false, null);
     }   //autoAsistScore
-
-    /**
-     * This method cancels an in progress auto-assist operation if any.
-     */
-    public void autoAssistCancel()
-    {
-        tracer.traceInfo(moduleName, "Canceling auto-assist.");
-        stopAutoTask(false);
-    }   //autoAssistCancel
 
     //
     // Implement TrcAutoTask abstract methods.
@@ -158,84 +146,65 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
      * This method is called by the super class to acquire ownership of all subsystems involved in the auto-assist
      * operation. This is typically done before starting an auto-assist operation.
      *
+     * @param owner specifies the owner to take subsystem ownership, can be null if no ownership required.
      * @return true if acquired all subsystems ownership, false otherwise. It releases all ownership if any acquire
      *         failed.
      */
     @Override
-    protected boolean acquireSubsystemsOwnership()
+    protected boolean acquireSubsystemsOwnership(String owner)
     {
-        boolean success = ownerName == null ||
-                          robot.intake.acquireExclusiveAccess(ownerName) &&
-                          robot.shooter.acquireExclusiveAccess(ownerName) &&
-                          robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName);
-
-        if (success)
-        {
-            currOwner = ownerName;
-            driveOwner = ownerName;
-            tracer.traceInfo(moduleName, "Successfully acquired subsystem ownerships for " + ownerName + ".");
-        }
-        else
-        {
-            TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
-            tracer.traceWarn(
-                moduleName,
-                "Failed to acquire subsystem ownership (currOwner=" + currOwner +
-                ", intake=" + ownershipMgr.getOwner(robot.intake) +
-                ", shooter=" + ownershipMgr.getOwner(robot.shooter) +
-                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
-            releaseSubsystemsOwnership();
-        }
-
-        return success;
+        return owner == null ||
+               robot.intake.acquireExclusiveAccess(owner) &&
+               robot.shooter.acquireExclusiveAccess(owner);
+            //    robot.robotDrive.driveBase.acquireExclusiveAccess(owner);
     }   //acquireSubsystemsOwnership
 
     /**
      * This method is called by the super class to release ownership of all subsystems involved in the auto-assist
      * operation. This is typically done if the auto-assist operation is completed or canceled.
+     *
+     * @param owner specifies the owner to take subsystem ownership, can be null if no ownership required.
      */
     @Override
-    protected void releaseSubsystemsOwnership()
+    protected void releaseSubsystemsOwnership(String owner)
     {
-        if (currOwner != null)
+        if (owner != null)
         {
             TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
             tracer.traceInfo(
                 moduleName,
-                "Releasing subsystem ownership (currOwner=" + currOwner +
+                "Releasing subsystem ownership on behalf of " + owner +
                 ", intake=" + ownershipMgr.getOwner(robot.intake) +
-                ", shooter=" + ownershipMgr.getOwner(robot.shooter) +
-                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
-            robot.intake.releaseExclusiveAccess(currOwner);
-            robot.shooter.releaseExclusiveAccess(currOwner);
-            if (driveOwner != null)
-            {
-                robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
-                driveOwner = null;
-            }
-            currOwner = null;
+                ", shooter=" + ownershipMgr.getOwner(robot.shooter));
+                // ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase));
+            robot.intake.releaseExclusiveAccess(owner);
+            robot.shooter.releaseExclusiveAccess(owner);
+            // robot.robotDrive.driveBase.releaseExclusiveAccess(owner);
         }
     }   //releaseSubsystemsOwnership
 
     /**
      * This method is called by the super class to stop all the subsystems.
+     *
+     * @param owner specifies the owner to take subsystem ownership, can be null if no ownership required.
      */
     @Override
-    protected void stopSubsystems()
+    protected void stopSubsystems(String owner)
     {
         tracer.traceInfo(moduleName, "Stopping subsystems.");
         if (robot.sonarTrigger != null)
         {
             robot.sonarTrigger.disableTrigger();
         }
-        robot.intake.cancel(currOwner);
-        // robot.shooter.cancel(currOwner);
-        robot.robotDrive.cancel(driveOwner);
+        robot.intake.cancel(owner);
+        // robot.shooter.cancel(owner);
+        // robot.robotDrive.cancel(owner);
     }   //stopSubsystems
 
     /**
      * This methods is called periodically to run the auto-assist task.
      *
+     * @param owner specifies the owner to take subsystem ownership, can be null if no ownership required.
      * @param params specifies the task parameters.
      * @param state specifies the current state of the task.
      * @param taskType specifies the type of task being run.
@@ -245,7 +214,8 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
      */
     @Override
     protected void runTaskState(
-        Object params, State state, TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
+        String owner, Object params, State state, TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode,
+        boolean slowPeriodicLoop)
     {
         TaskParams taskParams = (TaskParams) params;
 
@@ -321,7 +291,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                 {
                     tracer.traceInfo(moduleName, "***** Prep shooter to score to Amp.");
                     robot.shooter.aimShooter(
-                        currOwner, RobotParams.Shooter.shooterAmpVelocity, 0.0, RobotParams.Shooter.tiltAmpAngle, 0.0,
+                        owner, RobotParams.Shooter.shooterAmpVelocity, 0.0, RobotParams.Shooter.tiltAmpAngle, 0.0,
                         event, 0.0);
                     sm.addEvent(event);
 
@@ -350,7 +320,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                             "\n\tintermediatePose=" + intermediatePose +
                             "\n\ttargetPose=" + targetPose);
                         robot.robotDrive.purePursuitDrive.start(
-                            currOwner, driveEvent, 2.0, true,
+                            owner, driveEvent, 2.0, true,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
@@ -369,7 +339,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                             "\n\tintermediatePose=" + intermediatePose +
                             "\n\ttargetPose=" + targetPose);
                         robot.robotDrive.purePursuitDrive.start(
-                            currOwner, driveEvent, 2.0, false,
+                            owner, driveEvent, 2.0, false,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
@@ -419,7 +389,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
 
                 if (shooterVel != null && tiltAngle != null)
                 {
-                    robot.shooter.aimShooter(currOwner, shooterVel, 0.0, tiltAngle, 0.0, event, 0.0);
+                    robot.shooter.aimShooter(owner, shooterVel, 0.0, tiltAngle, 0.0, event, 0.0);
                     sm.addEvent(event);
                     numEventsToWait++;
                 }
@@ -431,7 +401,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     tracer.traceInfo(
                         moduleName, "***** Align to AprilTagPose " + aprilTagPose + " or align blind to field.");
                     robot.robotDrive.purePursuitDrive.start(
-                        currOwner, driveEvent, 1.0, true,
+                        owner, driveEvent, 1.0, true,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                         RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
@@ -479,7 +449,7 @@ public class TaskAutoScoreNote extends TrcAutoTask<TaskAutoScoreNote.State>
                     robot.deflector.extend(1.0);
                 }
 
-                robot.shoot(currOwner, event);
+                robot.shoot(owner, event);
                 sm.waitForSingleEvent(event, State.DONE);
                 break;
 

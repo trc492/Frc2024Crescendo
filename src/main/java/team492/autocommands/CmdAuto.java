@@ -232,7 +232,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                         " at " + robot.robotDrive.driveBase.getFieldPosition() + ".");
                     if (startPos == AutoStartPos.AMP)
                     {
-                        robot.autoScoreNote.autoAssistScore(TargetType.Amp, false, true, relocalize, event);
+                        robot.autoScoreNote.autoAssistScore(null, TargetType.Amp, false, true, relocalize, event);
                     }
                     else
                     {
@@ -343,7 +343,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(null);
                     disableNoteVision();
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
-                    robot.autoPickupFromGround.autoAssistPickup(true, true, event);
+                    robot.autoPickupFromGround.autoAssistPickup(null, true, true, event);
                     sm.waitForSingleEvent(
                         event,
                         startPos == AutoStartPos.AMP && numWingNotesScored == 0? State.SCORE_NOTE_TO_AMP:
@@ -359,7 +359,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.robotDrive.purePursuitDrive.setMoveOutputLimit(1.0);
                     robot.robotDrive.purePursuitDrive.setWaypointEventHandler(null);
                     disableAprilTagVision();
-                    robot.autoScoreNote.autoAssistScore(TargetType.Amp, true, true, relocalize, event);
+                    robot.autoScoreNote.autoAssistScore(null, TargetType.Amp, true, true, relocalize, event);
                     if (performingEndAction)
                     {
                         numCenterlineNotesScored++;
@@ -474,7 +474,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
                     robot.robotDrive.purePursuitDrive.disableFixedHeading();
                     robot.disableAprilTagTracking();
                     disableAprilTagVision();
-                    robot.autoScoreNote.autoAssistScore(TargetType.Speaker, true, true, relocalize, event);
+                    robot.autoScoreNote.autoAssistScore(null, TargetType.Speaker, true, true, relocalize, event);
                     if (performingEndAction)
                     {
                         numCenterlineNotesScored++;
@@ -615,7 +615,7 @@ public class CmdAuto implements TrcRobot.RobotCommand
 
                 case PICKUP_CENTERLINE_NOTE:
                     robot.globalTracer.traceInfo(moduleName, "***** Pickup Centerline Note.");
-                    robot.autoPickupFromGround.autoAssistPickup(true, true, event);
+                    robot.autoPickupFromGround.autoAssistPickup(null, true, true, event);
                     sm.waitForSingleEvent(
                         event,
                         endAction == EndAction.HOARD_ONE_NOTE? State.PARK:

@@ -39,13 +39,13 @@ import frclib.sensor.FrcAHRSGyro;
 import team492.FrcAuto;
 import team492.Robot;
 import team492.RobotParams;
+import trclib.controller.TrcPidController;
 import trclib.dataprocessor.TrcUtil;
 import trclib.drivebase.TrcDriveBase;
 import trclib.motor.TrcMotor;
 import trclib.pathdrive.TrcPidDrive;
 import trclib.pathdrive.TrcPose2D;
 import trclib.pathdrive.TrcPurePursuitDrive;
-import trclib.robotcore.TrcPidController;
 import trclib.robotcore.TrcRobot.RunMode;
 import trclib.sensor.TrcGyro;
 

@@ -48,6 +48,7 @@ import frclib.sensor.FrcPdp;
 import team492.Robot;
 import team492.RobotParams;
 import team492.RobotParams.SteerEncoderType;
+import trclib.controller.TrcPidController;
 import trclib.dataprocessor.TrcUtil;
 import trclib.drivebase.TrcSwerveDriveBase;
 import trclib.drivebase.TrcSwerveModule;
@@ -56,7 +57,6 @@ import trclib.pathdrive.TrcPidDrive;
 import trclib.pathdrive.TrcPurePursuitDrive;
 import trclib.robotcore.TrcDbgTrace;
 import trclib.robotcore.TrcDbgTrace.MsgLevel;
-import trclib.robotcore.TrcPidController;
 import trclib.robotcore.TrcRobot.RunMode;
 import trclib.robotcore.TrcWatchdogMgr;
 import trclib.robotcore.TrcWatchdogMgr.Watchdog;
@@ -167,6 +167,7 @@ public class SwerveDrive extends RobotDrive
         xPosPidCoeff = yPosPidCoeff = new TrcPidController.PidCoefficients(
             driveBaseParams.DRIVE_KP, driveBaseParams.DRIVE_KI, driveBaseParams.DRIVE_KD, driveBaseParams.DRIVE_KF,
             driveBaseParams.DRIVE_IZONE);
+
         turnPidCoeff = new TrcPidController.PidCoefficients(
             driveBaseParams.TURN_KP, driveBaseParams.TURN_KI, driveBaseParams.TURN_KD, driveBaseParams.TURN_KF,
             driveBaseParams.TURN_IZONE);
@@ -360,7 +361,7 @@ public class SwerveDrive extends RobotDrive
             steerMotors[i].setBrakeModeEnabled(false);
             steerMotors[i].setPositionSensorScaleAndOffset(driveBaseParams.STEER_DEGREES_PER_COUNT, 0.0);
             steerMotors[i].setPositionPidParameters(
-                driveBaseParams.steerPosCoeffs, driveBaseParams.steerPosTolerance);
+                driveBaseParams.steerPosCoeffs, driveBaseParams.steerPosTolerance, false);
             steerMotors[i].setVoltageCompensationEnabled(TrcUtil.BATTERY_NOMINAL_VOLTAGE);
             syncSteerEncoder(i);
 

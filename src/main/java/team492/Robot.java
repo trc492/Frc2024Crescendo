@@ -54,13 +54,13 @@ import team492.subsystems.LEDIndicator;
 import team492.subsystems.Shooter;
 import team492.vision.OpenCvVision;
 import team492.vision.PhotonVision;
+import trclib.controller.TrcPidController;
 import trclib.dataprocessor.TrcDiscreteValue;
 import trclib.dataprocessor.TrcUtil;
 import trclib.drivebase.TrcDriveBase.DriveOrientation;
 import trclib.pathdrive.TrcPose2D;
 import trclib.robotcore.TrcDbgTrace;
 import trclib.robotcore.TrcEvent;
-import trclib.robotcore.TrcPidController;
 import trclib.robotcore.TrcRobot.RunMode;
 import trclib.sensor.TrcRobotBattery;
 import trclib.sensor.TrcTriggerThresholdZones;
@@ -304,9 +304,9 @@ public class Robot extends FrcRobotBase
         //
         // Create Auto-Assists.
         //
-        autoScoreNote = new TaskAutoScoreNote("AutoScoreNote", this);
-        autoPickupFromGround = new TaskAutoPickupFromGround("AutoPickupGround", this);
-        autoPickupFromSource = new TaskAutoPickupFromSource("AutoPickupSource", this);
+        autoScoreNote = new TaskAutoScoreNote(this);
+        autoPickupFromGround = new TaskAutoPickupFromGround(this);
+        autoPickupFromSource = new TaskAutoPickupFromSource(this);
         //
         // Create Robot Modes.
         //
@@ -714,9 +714,9 @@ public class Robot extends FrcRobotBase
      */
     public void autoAssistCancel()
     {
-        if (autoScoreNote != null) autoScoreNote.autoAssistCancel();
-        if (autoPickupFromGround != null) autoPickupFromGround.autoAssistCancel();
-        if (autoPickupFromSource != null) autoPickupFromSource.autoAssistCancel();
+        if (autoScoreNote != null) autoScoreNote.cancel();
+        if (autoPickupFromGround != null) autoPickupFromGround.cancel();
+        if (autoPickupFromSource != null) autoPickupFromSource.cancel();
     }   //autoAssistCancel
 
     /**

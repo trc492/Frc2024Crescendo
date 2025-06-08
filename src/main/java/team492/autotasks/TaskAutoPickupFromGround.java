@@ -63,28 +63,23 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
         }
     }   //class TaskParams
 
-    private final String ownerName;
     private final Robot robot;
     private final TrcEvent intakeEvent;
     private final TrcEvent driveEvent;
     private final TrcEvent gotNoteEvent;
 
     private TaskParams taskParams = null;
-    private String currOwner = null;
-    private String driveOwner = null;
     private Double visionExpiredTime = null;
     private TrcPose2D notePose = null;
 
     /**
      * Constructor: Create an instance of the object.
      *
-     * @param ownerName specifies the owner name to take subsystem ownership, can be null if no ownership required.
      * @param robot specifies the robot object that contains all the necessary subsystems.
      */
-    public TaskAutoPickupFromGround(String ownerName, Robot robot)
+    public TaskAutoPickupFromGround(Robot robot)
     {
-        super(moduleName, ownerName, TrcTaskMgr.TaskType.POST_PERIODIC_TASK);
-        this.ownerName = ownerName;
+        super(moduleName, TrcTaskMgr.TaskType.POST_PERIODIC_TASK);
         this.robot = robot;
         this.intakeEvent = new TrcEvent(moduleName + ".intakeEvent");
         this.driveEvent = new TrcEvent(moduleName + ".driveEvent");
@@ -94,24 +89,16 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
     /**
      * This method starts the auto-assist operation.
      *
+     * @param owner specifies the owner to take subsystem ownership, can be null if no ownership required.
      * @param useVision specifies true to use Vision to detect the target, false otherwise.
      * @param inAuto specifies true if called by Autonomous, false otherwise.
      */
-    public void autoAssistPickup(boolean useVision, boolean inAuto, TrcEvent completionEvent)
+    public void autoAssistPickup(String owner, boolean useVision, boolean inAuto, TrcEvent completionEvent)
     {
         tracer.traceInfo(moduleName, "useVision=" + useVision + ", inAuto=" + inAuto + ", event=" + completionEvent);
         taskParams = new TaskParams(useVision, inAuto);
-        startAutoTask(State.START, taskParams, completionEvent);
+        startAutoTask(owner, State.START, taskParams, completionEvent);
     }   //autoAssistPickup
-
-    /**
-     * This method cancels an in progress auto-assist operation if any.
-     */
-    public void autoAssistCancel()
-    {
-        tracer.traceInfo(moduleName, "Canceling auto-assist.");
-        stopAutoTask(false);
-    }   //autoAssistCancel
 
     //
     // Implement TrcAutoTask abstract methods.
@@ -121,84 +108,66 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
      * This method is called by the super class to acquire ownership of all subsystems involved in the auto-assist
      * operation. This is typically done before starting an auto-assist operation.
      *
+     * @param owner specifies the owner to take subsystem ownership, can be null if no ownership required.
      * @return true if acquired all subsystems ownership, false otherwise. It releases all ownership if any acquire
      *         failed.
      */
     @Override
-    protected boolean acquireSubsystemsOwnership()
+    protected boolean acquireSubsystemsOwnership(String owner)
     {
-        boolean success = ownerName == null ||
-                          robot.intake.acquireExclusiveAccess(ownerName) &&
-                          robot.robotDrive.driveBase.acquireExclusiveAccess(ownerName);
-
-        if (success)
-        {
-            currOwner = ownerName;
-            driveOwner = ownerName;
-            tracer.traceInfo(moduleName, "Successfully acquired subsystem ownerships for " + ownerName + ".");
-        }
-        else
-        {
-            TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
-            tracer.traceWarn(
-                moduleName,
-                "Failed to acquire subsystem ownership (currOwner=" + currOwner +
-                ", intake=" + ownershipMgr.getOwner(robot.intake) +
-                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
-            releaseSubsystemsOwnership();
-        }
-
-        return success;
+        return owner == null ||
+               robot.intake.acquireExclusiveAccess(owner);
+            //    robot.robotDrive.driveBase.acquireExclusiveAccess(owner);
     }   //acquireSubsystemsOwnership
 
     /**
      * This method is called by the super class to release ownership of all subsystems involved in the auto-assist
      * operation. This is typically done if the auto-assist operation is completed or canceled.
+     *
+     * @param owner specifies the owner to take subsystem ownership, can be null if no ownership required.
      */
     @Override
-    protected void releaseSubsystemsOwnership()
+    protected void releaseSubsystemsOwnership(String owner)
     {
-        if (currOwner != null)
+        if (owner != null)
         {
             TrcOwnershipMgr ownershipMgr = TrcOwnershipMgr.getInstance();
             tracer.traceInfo(
                 moduleName,
-                "Releasing subsystem ownership (currOwner=" + currOwner +
-                ", intake=" + ownershipMgr.getOwner(robot.intake) +
-                ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase) + ").");
-            robot.intake.releaseExclusiveAccess(currOwner);
-            if (driveOwner != null)
-            {
-                robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
-                driveOwner = null;
-            }
-            currOwner = null;
+                "Releasing subsystem ownership on behalf of " + owner +
+                ", intake=" + ownershipMgr.getOwner(robot.intake));
+                // ", robotDrive=" + ownershipMgr.getOwner(robot.robotDrive.driveBase));
+            robot.intake.releaseExclusiveAccess(owner);
+            // robot.robotDrive.driveBase.releaseExclusiveAccess(owner);
         }
     }   //releaseSubsystemsOwnership
 
     /**
      * This method is called by the super class to stop all the subsystems.
+     *
+     * @param owner specifies the owner to take subsystem ownership, can be null if no ownership required.
      */
     @Override
-    protected void stopSubsystems()
+    protected void stopSubsystems(String owner)
     {
         tracer.traceInfo(moduleName, "Stopping subsystems.");
         robot.intake.unregisterEntryTriggerNotifyEvent();
         if (!taskParams.inAuto)
         {
-            robot.intake.cancel(currOwner);
+            robot.intake.cancel(owner);
         }
         if (robot.ledIndicator != null)
         {
             robot.ledIndicator.setIntakeActive(false);
         }
-        robot.robotDrive.cancel(driveOwner);
+        // robot.robotDrive.cancel(owner);
         taskParams = null;
     }   //stopSubsystems
 
     /**
      * This methods is called periodically to run the auto-assist task.
      *
+     * @param owner specifies the owner to take subsystem ownership, can be null if no ownership required.
      * @param params specifies the task parameters.
      * @param state specifies the current state of the task.
      * @param taskType specifies the type of task being run.
@@ -208,7 +177,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
      */
     @Override
     protected void runTaskState(
-        Object params, State state, TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode, boolean slowPeriodicLoop)
+        String owner, Object params, State state, TrcTaskMgr.TaskType taskType, TrcRobot.RunMode runMode,
+        boolean slowPeriodicLoop)
     {
         TaskParams taskParams = (TaskParams) params;
 
@@ -277,7 +247,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     // Even if Vision did not see the Note, turn on Intake regardless, so that driver can just
                     // manually move forward to pick up the Note.
                     robot.intake.autoIntakeForward(
-                        currOwner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
+                        owner, 0.0, RobotParams.Intake.intakePower, 0.0, 0.0, intakeEvent, 0.0);
                     if (robot.ledIndicator != null)
                     {
                         robot.ledIndicator.setIntakeActive(true);
@@ -293,7 +263,7 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                         // run to it.
                         notePose.y += 6;
                         robot.robotDrive.purePursuitDrive.start(
-                            currOwner, driveEvent, 0.0, true,
+                            owner, driveEvent, 0.0, true,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_VELOCITY,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_ACCELERATION,
                             RobotParams.SwerveDriveBase.PROFILED_MAX_DECELERATION,
@@ -303,9 +273,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                     else
                     {
                         // Did not detect Note, release drive ownership to let driver to drive manually.
-                        tracer.traceInfo(moduleName, "***** Did not see Note, release drive ownership.");
-                        robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
-                        driveOwner = null;
+                        // tracer.traceInfo(moduleName, "***** Did not see Note, release drive ownership.");
+                        // robot.robotDrive.driveBase.releaseExclusiveAccess(owner);
                         if (robot.ledIndicator != null)
                         {
                             robot.ledIndicator.setPhotonDetectedObject(null, null);
@@ -326,9 +295,8 @@ public class TaskAutoPickupFromGround extends TrcAutoTask<TaskAutoPickupFromGrou
                 if (gotNote)
                 {
                     // Got the Note. Release drive ownership early so drivers can drive away.
-                    robot.robotDrive.purePursuitDrive.cancel(driveOwner);
-                    robot.robotDrive.driveBase.releaseExclusiveAccess(driveOwner);
-                    driveOwner = null;
+                    robot.robotDrive.purePursuitDrive.cancel(owner);
+                    // robot.robotDrive.driveBase.releaseExclusiveAccess(owner);
                     // Entry trigger caused early drive ownership release doesn't mean we are done.
                     // Keep waiting for Intake to complete the operation.
                     sm.waitForSingleEvent(intakeEvent, State.DONE, 1.0);

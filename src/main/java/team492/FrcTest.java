@@ -36,10 +36,10 @@ import team492.vision.PhotonVision.PipelineType;
 import trclib.command.CmdDriveMotorsTest;
 import trclib.command.CmdPidDrive;
 import trclib.command.CmdTimedDrive;
+import trclib.controller.TrcPidController;
 import trclib.dataprocessor.TrcUtil;
 import trclib.motor.TrcMotor;
 import trclib.pathdrive.TrcPose2D;
-import trclib.robotcore.TrcPidController;
 import trclib.robotcore.TrcRobot;
 import trclib.robotcore.TrcRobot.RunMode;
 import trclib.timer.TrcTimer;
@@ -302,7 +302,7 @@ public class FrcTest extends FrcTeleOp
                     // rightWheel. For 4-motor drive base, it is lfWheel, rfWheel, lbWheel, rbWheel.
                     //
                     testCommand = new CmdDriveMotorsTest(
-                        new TrcMotor[] {
+                        robot.robotDrive.driveBase, new TrcMotor[] {
                             robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_FRONT],
                             robot.robotDrive.driveMotors[RobotDrive.INDEX_RIGHT_FRONT],
                             robot.robotDrive.driveMotors[RobotDrive.INDEX_LEFT_BACK],
@@ -635,7 +635,7 @@ public class FrcTest extends FrcTeleOp
                             boolean active = !robot.autoPickupFromGround.isActive();
                             if (active)
                             {
-                                robot.autoPickupFromGround.autoAssistPickup(false, false, null);
+                                robot.autoPickupFromGround.autoAssistPickup(moduleName, false, false, null);
                             }
                             else
                             {

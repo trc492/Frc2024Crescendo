@@ -25,11 +25,11 @@ package team492.drivebases;
 import frclib.sensor.FrcPdp;
 import team492.Robot;
 import team492.RobotParams;
+import trclib.controller.TrcPidController;
 import trclib.drivebase.TrcMecanumDriveBase;
 import trclib.pathdrive.TrcPidDrive;
 import trclib.pathdrive.TrcPurePursuitDrive;
 import trclib.robotcore.TrcDbgTrace.MsgLevel;
-import trclib.robotcore.TrcPidController;
 
 /**
  * This class creates the RobotDrive subsystem that consists of wheel motors and related objects for driving the

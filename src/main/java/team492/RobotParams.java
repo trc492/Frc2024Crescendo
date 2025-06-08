@@ -31,8 +31,8 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import team492.autotasks.ShootParamTable;
 import team492.drivebases.RobotDrive.DriveMode;
+import trclib.controller.TrcPidController.PidCoefficients;
 import trclib.pathdrive.TrcPose2D;
-import trclib.robotcore.TrcPidController.PidCoefficients;
 import trclib.vision.TrcHomographyMapper;
 
 /**

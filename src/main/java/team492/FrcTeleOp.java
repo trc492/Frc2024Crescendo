@@ -30,9 +30,9 @@ import frclib.driverio.FrcXboxController;
 import frclib.motor.FrcCANSparkMax;
 import frclib.vision.FrcPhotonVision;
 import team492.subsystems.Shooter;
+import trclib.controller.TrcPidController;
 import trclib.drivebase.TrcDriveBase.DriveOrientation;
 import trclib.pathdrive.TrcPose2D;
-import trclib.robotcore.TrcPidController;
 import trclib.robotcore.TrcRobot;
 import trclib.robotcore.TrcRobot.RunMode;
 
@@ -201,7 +201,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             if (aprilTagObj != null)
                             {
                                 TrcPose2D aprilTagPose = robot.aimShooterAtAprilTag(aprilTagObj);
-                                rotPower = trackingPidCtrl.getOutput(aprilTagPose.angle, 0.0);
+                                rotPower = trackingPidCtrl.calculate(aprilTagPose.angle, 0.0);
                                 // robot.globalTracer.traceInfo(moduleName, "aprilTagAngle=" + aprilTagPose.angle + ", rotPower=" + rotPower);
 
                             }
@@ -474,7 +474,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     if (active)
                     {
                         // Press and hold altFunc for manual intake (no vision).
-                        robot.autoPickupFromGround.autoAssistPickup(driverAltFunc, false, null);
+                        robot.autoPickupFromGround.autoAssistPickup(moduleName, driverAltFunc, false, null);
                     }
                     else
                     {
@@ -691,7 +691,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                     boolean active = !robot.autoPickupFromGround.isActive();
                     if (active)
                     {
-                        robot.autoPickupFromGround.autoAssistPickup(true, false, null);
+                        robot.autoPickupFromGround.autoAssistPickup(moduleName, true, false, null);
                     }
                     else
                     {
@@ -713,7 +713,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                         boolean active = !robot.autoPickupFromGround.isActive();
                         if (active)
                         {
-                            robot.autoPickupFromGround.autoAssistPickup(false, false, null);
+                            robot.autoPickupFromGround.autoAssistPickup(moduleName, false, false, null);
                         }
                         else
                         {

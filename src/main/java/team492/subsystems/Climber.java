@@ -48,8 +48,7 @@ public class Climber
         climberMotor.setPositionSensorScaleAndOffset(RobotParams.Climber.posScale, 0.0);
         // We are using software position PID control for Climber. So we just enable software PID before setting
         // PID coefficients.
-        climberMotor.setSoftwarePidEnabled(true);
-        climberMotor.setPositionPidParameters(RobotParams.Climber.posPidCoeff, RobotParams.Climber.posPidTolerance);
+        climberMotor.setPositionPidParameters(RobotParams.Climber.posPidCoeff, RobotParams.Climber.posPidTolerance, true);
         climberMotor.setPositionPidPowerComp(this::getClimbPowerComp);
     }   //Climber
 
