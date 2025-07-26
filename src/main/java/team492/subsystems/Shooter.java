@@ -75,7 +75,7 @@ public class Shooter
         // We are using software position PID control for Tilt. So we just enable software PID before setting
         // PID coefficients.
         tiltMotor.setPositionPidParameters(
-            RobotParams.Shooter.tiltPosPidCoeff, RobotParams.Shooter.tiltPosPidTolerance, false);
+            RobotParams.Shooter.tiltPosPidCoeff, RobotParams.Shooter.tiltPosPidTolerance, true);
         // Tilt is heavily geared down, so don't really need gravity compensation.
         // tiltMotor.setPositionPidPowerComp(this::getTiltGravityComp);
         tiltMotor.setPresets(

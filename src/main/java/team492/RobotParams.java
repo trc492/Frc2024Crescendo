@@ -427,10 +427,10 @@ public class RobotParams
     public static final DriveMode ROBOT_DRIVE_MODE              = DriveMode.ArcadeMode;
     public static final double DRIVE_RAMP_RATE                  = 0.25;
 
-    public static final double DRIVE_SLOW_SCALE                 = 0.3;
-    public static final double TURN_SLOW_SCALE                  = 0.3;
-    public static final double DRIVE_NORMAL_SCALE               = 1.0;
-    public static final double TURN_NORMAL_SCALE                = 0.6;
+    public static final double DRIVE_SLOW_SCALE                 = 0.1;
+    public static final double TURN_SLOW_SCALE                  = 0.1;
+    public static final double DRIVE_NORMAL_SCALE               = 0.3;
+    public static final double TURN_NORMAL_SCALE                = 0.3;
 
     public static class SwerveDriveBase
     {
@@ -749,9 +749,9 @@ public class RobotParams
         public static final double tiltGearRatio                = 59.0/18.0;
         public static final double tiltPosScale                 = 360.0 / tiltGearRatio;
         public static final double tiltPosOffset                = -15.0;    // in degrees
-        public static final double tiltZeroOffset               = 0.029;    // in raw encoder unit
+        public static final double tiltZeroOffset               = 0.030;    // in raw encoder unit
         public static final double tiltPowerLimit               = 0.5;
-        public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.023, 0.0, 0.001, 0.0);
+        public static final PidCoefficients tiltPosPidCoeff     = new PidCoefficients(0.02, 0.0, 0.002, 0.0);
         public static final double tiltPosPidTolerance          = 1.0;
         public static final double tiltMinAngle                 = 0.0;
         public static final double tiltMaxAngle                 = 87.0;     // in degrees.
