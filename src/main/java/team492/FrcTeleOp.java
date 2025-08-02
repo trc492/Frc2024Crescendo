@@ -24,12 +24,16 @@ package team492;
 
 import java.util.Locale;
 
+import com.ctre.phoenix6.StatusSignal;
+
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
+import TrcCommonLib.trclib.TrcTimer;
 import TrcCommonLib.trclib.TrcDriveBase.DriveOrientation;
 import TrcCommonLib.trclib.TrcRobot.RunMode;
 import TrcFrcLib.frclib.FrcCANSparkMax;
+import TrcFrcLib.frclib.FrcCANTalonFX;
 import TrcFrcLib.frclib.FrcLogitechJoystick;
 import TrcFrcLib.frclib.FrcPanelButtons;
 import TrcFrcLib.frclib.FrcPhotonVision;
@@ -154,6 +158,17 @@ public class FrcTeleOp implements TrcRobot.RobotMode
     public void periodic(double elapsedTime, boolean slowPeriodicLoop)
     {
         int lineNum = 1;
+
+        Boolean brownOutFault = ((FrcCANTalonFX) robot.robotDrive.driveMotors[1]).motor.getFault_BridgeBrownout().getValue();
+       
+        robot.dashboard.displayPrintf(
+            13, "Undervolt: time=%.3f, current=%.3f, Fault=%s",
+            TrcTimer.getModeElapsedTime(),robot.robotDrive.driveMotors[0].getCurrent(), brownOutFault);
+        if(brownOutFault){
+            robot.globalTracer.traceInfo(moduleName, "Brownout: time=" + TrcTimer.getModeElapsedTime() + ", current=" + robot.robotDrive.driveMotors[0].getCurrent() + ", voltage=" + robot.robotDrive.driveMotors[0].getBusVoltage());
+        }
+        
+        
 
         if (slowPeriodicLoop)
         {
