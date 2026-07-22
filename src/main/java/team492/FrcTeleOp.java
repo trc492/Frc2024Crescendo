@@ -24,6 +24,8 @@ package team492;
 
 import java.util.Locale;
 
+import com.ctre.phoenix6.StatusSignal;
+
 import TrcCommonLib.trclib.TrcPidController;
 import TrcCommonLib.trclib.TrcPose2D;
 import TrcCommonLib.trclib.TrcRobot;
