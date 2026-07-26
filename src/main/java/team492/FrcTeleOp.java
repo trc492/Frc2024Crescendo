@@ -333,7 +333,7 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.dashboard.displayPrintf(lineNum++, msg);
                         }
 
-                        double tiltPower = robot.operatorController.getLeftYWithDeadband(true);
+                        double tiltPower = -robot.driverController.getRightYWithDeadband(true); // invert controls
                         // Only set tilt power if it is different from previous value.
                         if (prevTiltPower != tiltPower)
                         {
