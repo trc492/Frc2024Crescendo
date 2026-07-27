@@ -221,12 +221,14 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             }
                             else
                             {
-                                robot.shooter.setShooterVelocity(90);
+                                // robot.shooter.setShooterVelocity(90);
+                                robot.shooter.setShooterVelocity(robot.shooterVelocity.getValue());
                             }
                         }
                         else if (prevTrackingModeOn)
                         {
-                            robot.turtle();
+                            // robot.turtle();
+                            robot.shooter.stopShooter();
                         }
                         prevTrackingModeOn = trackingModeOn;
                     }
@@ -333,7 +335,8 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                             robot.dashboard.displayPrintf(lineNum++, msg);
                         }
 
-                        double tiltPower = -robot.driverController.getRightYWithDeadband(true); // invert controls
+                        // double tiltPower = -robot.operatorController.getRightYWithDeadband(true); // invert controls
+                        double tiltPower = robot.driverController.getTriggerWithDeadband(true);
                         // Only set tilt power if it is different from previous value.
                         if (prevTiltPower != tiltPower)
                         {
@@ -514,6 +517,34 @@ public class FrcTeleOp implements TrcRobot.RobotMode
                 {
                     driveSpeedScale = RobotParams.DRIVE_NORMAL_SCALE;
                     turnSpeedScale = RobotParams.TURN_NORMAL_SCALE;
+                }
+                break;
+
+            case DPAD_UP:
+                if (robot.shooter != null && pressed)
+                {
+                    if (driverAltFunc)
+                    {
+                        robot.shooter.setTiltAngle(robot.shooterTiltAngle.upValue());
+                    }
+                    else
+                    {
+                        robot.shooter.setShooterVelocity(robot.shooterVelocity.upValue());
+                    }
+                }
+                break;
+
+            case DPAD_DOWN:
+                if (robot.shooter != null && pressed)
+                {
+                    if (driverAltFunc)
+                    {
+                        robot.shooter.setTiltAngle(robot.shooterTiltAngle.downValue());
+                    }
+                    else
+                    {
+                        robot.shooter.setShooterVelocity(robot.shooterVelocity.downValue());
+                    }
                 }
                 break;
 

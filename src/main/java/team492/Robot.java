@@ -275,11 +275,16 @@ public class Robot extends FrcRobotBase
                 if (RobotParams.Preferences.useShooter)
                 {
                     shooter = new Shooter(this::shoot).getShooter();
+                    // shooterVelocity = new TrcDiscreteValue(
+                    //     "ShooterVelocity",
+                    //     -RobotParams.Shooter.shooterMaxVelocity, RobotParams.Shooter.shooterMaxVelocity,
+                    //     RobotParams.Shooter.shooterVelMinInc, RobotParams.Shooter.shooterVelMaxInc,
+                    //     0.0, 10.0);
                     shooterVelocity = new TrcDiscreteValue(
                         "ShooterVelocity",
-                        -RobotParams.Shooter.shooterMaxVelocity, RobotParams.Shooter.shooterMaxVelocity,
+                        0, RobotParams.Shooter.shooterMaxVelocity,
                         RobotParams.Shooter.shooterVelMinInc, RobotParams.Shooter.shooterVelMaxInc,
-                        0.0, 10.0);
+                        90.0, 10.0);
                     shooterTiltAngle = new TrcDiscreteValue(
                         "ShooterTiltAngle",
                         RobotParams.Shooter.tiltMinAngle, RobotParams.Shooter.tiltMaxAngle,
